@@ -14,9 +14,20 @@ export default function ChallengeScene({ scene, onComplete, isLast }: Props) {
   const [dndOrder, setDndOrder] = useState<DragAndDropItem[]>(
     scene.task.type === 'drag_and_drop' ? scene.task.items : []
   )
+  const [allocation, setAllocation] = useState<Record<string, number>>(
+    scene.task.type === 'resource_allocation'
+      ? Object.fromEntries(scene.task.items.map((item) => [item.id, item.min]))
+      : {}
+  )
 
-  const canSubmit =
-    scene.task.type === 'multiple_choice' ? mcSelected.size > 0 : true
+  function computeCanSubmit(): boolean {
+    if (scene.task.type === 'multiple_choice') return mcSelected.size > 0
+    if (scene.task.type === 'resource_allocation') {
+      const spent = Object.values(allocation).reduce((s, v) => s + v, 0)
+      return spent === scene.task.totalResource
+    }
+    return true
+  }
 
   function toggleMc(id: string) {
     setMcSelected((prev) => {
@@ -24,6 +35,10 @@ export default function ChallengeScene({ scene, onComplete, isLast }: Props) {
       next.has(id) ? next.delete(id) : next.add(id)
       return next
     })
+  }
+
+  function updateAllocation(id: string, value: number) {
+    setAllocation((prev) => ({ ...prev, [id]: value }))
   }
 
   return (
@@ -36,6 +51,8 @@ export default function ChallengeScene({ scene, onComplete, isLast }: Props) {
         onMcChange={toggleMc}
         dndOrder={dndOrder}
         onDndReorder={setDndOrder}
+        allocation={allocation}
+        onAllocationChange={updateAllocation}
         disabled={submitted}
       />
 
@@ -43,7 +60,7 @@ export default function ChallengeScene({ scene, onComplete, isLast }: Props) {
         <button
           type="button"
           className="submit-btn"
-          disabled={!canSubmit}
+          disabled={!computeCanSubmit()}
           onClick={() => setSubmitted(true)}
         >
           Submit

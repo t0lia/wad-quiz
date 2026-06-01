@@ -30,6 +30,21 @@ const scenes: ChallengeSceneData[] = [
       ],
     },
   },
+  {
+    id: 'scene_003',
+    text: "The crisis is over. You have 10 developer-hours before the next deploy window. Allocate your team's time.",
+    task: {
+      type: 'resource_allocation',
+      totalResource: 10,
+      unit: 'h',
+      items: [
+        { id: 'r1', label: 'Root cause fix', min: 2, max: 6 },
+        { id: 'r2', label: 'Test coverage', min: 1, max: 5 },
+        { id: 'r3', label: 'Monitoring alerts', min: 0, max: 4 },
+        { id: 'r4', label: 'Documentation', min: 0, max: 3 },
+      ],
+    },
+  },
 ]
 
 export default function App() {

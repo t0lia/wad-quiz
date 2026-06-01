@@ -18,7 +18,21 @@ export type DragAndDropTask = {
   items: DragAndDropItem[]
 }
 
-export type Task = MultipleChoiceTask | DragAndDropTask
+export type ResourceAllocationItem = {
+  id: string
+  label: string
+  min: number
+  max: number
+}
+
+export type ResourceAllocationTask = {
+  type: 'resource_allocation'
+  totalResource: number
+  unit: string
+  items: ResourceAllocationItem[]
+}
+
+export type Task = MultipleChoiceTask | DragAndDropTask | ResourceAllocationTask
 
 export type ChallengeSceneData = {
   id: string

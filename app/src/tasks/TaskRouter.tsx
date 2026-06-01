@@ -1,6 +1,7 @@
 import type { Task, DragAndDropItem } from '../types/story'
 import MultipleChoice from './MultipleChoice'
 import DragAndDrop from './DragAndDrop'
+import ResourceAllocation from './ResourceAllocation'
 
 type Props = {
   task: Task
@@ -8,6 +9,8 @@ type Props = {
   onMcChange: (id: string) => void
   dndOrder: DragAndDropItem[]
   onDndReorder: (items: DragAndDropItem[]) => void
+  allocation: Record<string, number>
+  onAllocationChange: (id: string, value: number) => void
   disabled: boolean
 }
 
@@ -17,6 +20,8 @@ export default function TaskRouter({
   onMcChange,
   dndOrder,
   onDndReorder,
+  allocation,
+  onAllocationChange,
   disabled,
 }: Props) {
   if (task.type === 'multiple_choice') {
@@ -29,10 +34,20 @@ export default function TaskRouter({
       />
     )
   }
+  if (task.type === 'drag_and_drop') {
+    return (
+      <DragAndDrop
+        items={dndOrder}
+        onReorder={onDndReorder}
+        disabled={disabled}
+      />
+    )
+  }
   return (
-    <DragAndDrop
-      items={dndOrder}
-      onReorder={onDndReorder}
+    <ResourceAllocation
+      task={task}
+      allocation={allocation}
+      onChange={onAllocationChange}
       disabled={disabled}
     />
   )
