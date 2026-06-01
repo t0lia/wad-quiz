@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import type { DragAndDropItem } from '../types/story'
 
 type Props = {
@@ -8,42 +8,47 @@ type Props = {
 }
 
 export default function DragAndDrop({ items, onReorder, disabled }: Props) {
+  const listRef = useRef<HTMLUListElement>(null)
   const [draggedId, setDraggedId] = useState<string | null>(null)
   const [overId, setOverId] = useState<string | null>(null)
 
-  function handleDragStart(id: string) {
+  function startDrag(e: React.PointerEvent<HTMLLIElement>, id: string) {
+    if (disabled) return
+    e.currentTarget.setPointerCapture(e.pointerId)
     setDraggedId(id)
-  }
-
-  function handleDragOver(e: React.DragEvent, id: string) {
-    e.preventDefault()
     setOverId(id)
   }
 
-  function handleDrop(targetId: string) {
-    if (!draggedId || draggedId === targetId) {
-      reset()
-      return
+  function moveDrag(e: React.PointerEvent<HTMLLIElement>) {
+    if (!draggedId || !listRef.current) return
+    const children = Array.from(listRef.current.children) as HTMLElement[]
+    for (const child of children) {
+      const rect = child.getBoundingClientRect()
+      if (e.clientY >= rect.top && e.clientY < rect.bottom) {
+        setOverId(child.dataset.id ?? null)
+        break
+      }
     }
-    const next = [...items]
-    const from = next.findIndex((x) => x.id === draggedId)
-    const to = next.findIndex((x) => x.id === targetId)
-    next.splice(to, 0, next.splice(from, 1)[0])
-    onReorder(next)
-    reset()
   }
 
-  function reset() {
+  function endDrag() {
+    if (draggedId && overId && draggedId !== overId) {
+      const next = [...items]
+      const from = next.findIndex((x) => x.id === draggedId)
+      const to = next.findIndex((x) => x.id === overId)
+      next.splice(to, 0, next.splice(from, 1)[0])
+      onReorder(next)
+    }
     setDraggedId(null)
     setOverId(null)
   }
 
   return (
-    <ul className="dnd-list">
+    <ul className="dnd-list" ref={listRef}>
       {items.map((item) => (
         <li
           key={item.id}
-          draggable={!disabled}
+          data-id={item.id}
           className={[
             'dnd-item',
             draggedId === item.id ? 'dragging' : '',
@@ -51,10 +56,10 @@ export default function DragAndDrop({ items, onReorder, disabled }: Props) {
           ]
             .filter(Boolean)
             .join(' ')}
-          onDragStart={() => handleDragStart(item.id)}
-          onDragOver={(e) => handleDragOver(e, item.id)}
-          onDrop={() => handleDrop(item.id)}
-          onDragEnd={reset}
+          onPointerDown={(e) => startDrag(e, item.id)}
+          onPointerMove={moveDrag}
+          onPointerUp={endDrag}
+          onPointerCancel={endDrag}
         >
           <span className="dnd-handle" aria-hidden="true">⠿</span>
           {item.content}
