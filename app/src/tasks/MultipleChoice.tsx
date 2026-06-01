@@ -1,27 +1,41 @@
-import type { Option } from '../types/story'
+import { useState } from 'react'
+import type { MultipleChoiceTask } from '../types/story'
 
-type Props = {
-  options: Option[]
-  selected: Set<string>
-  onChange: (id: string) => void
-  disabled: boolean
-}
+type Props = { task: MultipleChoiceTask; submitted: boolean; onSubmit: () => void }
 
-export default function MultipleChoice({ options, selected, onChange, disabled }: Props) {
+export default function MultipleChoice({ task, submitted, onSubmit }: Props) {
+  const [selected, setSelected] = useState<Set<string>>(new Set())
+
+  function toggle(id: string) {
+    if (submitted) return
+    setSelected((prev) => {
+      const next = new Set(prev)
+      next.has(id) ? next.delete(id) : next.add(id)
+      return next
+    })
+  }
+
   return (
-    <ul className="option-list">
-      {options.map((opt) => (
-        <li key={opt.id}>
-          <button
-            type="button"
-            className={`option${selected.has(opt.id) ? ' selected' : ''}`}
-            onClick={() => onChange(opt.id)}
-            disabled={disabled}
-          >
-            {opt.content}
-          </button>
-        </li>
-      ))}
-    </ul>
+    <>
+      <ul className="option-list">
+        {task.options.map((opt) => (
+          <li key={opt.id}>
+            <button
+              type="button"
+              className={`option${selected.has(opt.id) ? ' selected' : ''}`}
+              onClick={() => toggle(opt.id)}
+              disabled={submitted}
+            >
+              {opt.content}
+            </button>
+          </li>
+        ))}
+      </ul>
+      {!submitted && (
+        <button type="button" className="submit-btn" disabled={selected.size === 0} onClick={onSubmit}>
+          Submit
+        </button>
+      )}
+    </>
   )
 }

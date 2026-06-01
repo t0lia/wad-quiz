@@ -45,6 +45,87 @@ const scenes: ChallengeSceneData[] = [
       ],
     },
   },
+  {
+    id: 'scene_004',
+    text: 'The logs are streaming in. Click the line that reveals the root cause.',
+    task: {
+      type: 'click_on_line',
+      lines: [
+        { id: 'l1', content: '03:12:01 [INFO]  Connection pool: 8/10 active' },
+        { id: 'l2', content: '03:12:03 [INFO]  Migration step 4/7 complete' },
+        { id: 'l3', content: '03:12:05 [ERROR] Deadlock on table user_sessions' },
+        { id: 'l4', content: '03:12:05 [INFO]  Health check passed' },
+        { id: 'l5', content: '03:12:07 [INFO]  Migration step 5/7 complete' },
+      ],
+    },
+  },
+  {
+    id: 'scene_005',
+    text: 'The monitoring dashboard is lit up. Match each HTTP status code to its meaning.',
+    task: {
+      type: 'mapping',
+      left: [
+        { id: 'c1', content: '503' },
+        { id: 'c2', content: '429' },
+        { id: 'c3', content: '504' },
+      ],
+      right: [
+        { id: 'm1', content: 'Service Unavailable' },
+        { id: 'm2', content: 'Too Many Requests' },
+        { id: 'm3', content: 'Gateway Timeout' },
+      ],
+    },
+  },
+  {
+    id: 'scene_006',
+    text: 'The ticket queue is exploding. Sort each issue into the right bucket.',
+    task: {
+      type: 'card_filter',
+      cards: [
+        { id: 'k1', content: 'Users cannot log in', meta: { severity: 'critical' } },
+        { id: 'k2', content: 'Dark mode theme glitch', meta: { severity: 'low' } },
+        { id: 'k3', content: 'Payment processing fails', meta: { severity: 'critical' } },
+        { id: 'k4', content: 'Export button text misaligned', meta: { severity: 'low' } },
+      ],
+      buckets: [
+        { id: 'b1', label: 'Fix now' },
+        { id: 'b2', label: 'Fix later' },
+      ],
+    },
+  },
+  {
+    id: 'scene_007',
+    text: 'Alerts are flooding in. Triage each one — wake someone up or keep watching?',
+    task: {
+      type: 'swipe_cards',
+      cards: [
+        { id: 'a1', content: 'CPU spike: 95%', meta: { source: 'prod-db-01' } },
+        { id: 'a2', content: 'Memory usage: 60%', meta: { source: 'app-server-02' } },
+        { id: 'a3', content: 'Error rate: 0.1%', meta: { source: 'api-gateway' } },
+        { id: 'a4', content: 'Latency: 4200ms p99', meta: { source: 'payment-service' } },
+      ],
+      options: [
+        { id: 'o1', label: 'Wake someone up' },
+        { id: 'o2', label: 'Monitor' },
+      ],
+    },
+  },
+  {
+    id: 'scene_008',
+    text: 'You need to roll back the bad commit. Build the git command from the blocks.',
+    task: {
+      type: 'block_builder',
+      slots: 4,
+      availableBlocks: [
+        { id: 'b1', content: 'git' },
+        { id: 'b2', content: 'revert' },
+        { id: 'b3', content: 'HEAD~1' },
+        { id: 'b4', content: '--no-edit' },
+        { id: 'b5', content: 'push' },
+        { id: 'b6', content: 'origin' },
+      ],
+    },
+  },
 ]
 
 export default function App() {
