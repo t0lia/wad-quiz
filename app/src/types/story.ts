@@ -41,6 +41,8 @@ export type BlockBuilderTask = {
   slots: number
 }
 
+export type OneTapForwardTask = { type: 'one_tap_forward' }
+
 export type Task =
   | MultipleChoiceTask
   | DragAndDropTask
@@ -50,5 +52,6 @@ export type Task =
   | CardFilterTask
   | SwipeCardsTask
   | BlockBuilderTask
+  | OneTapForwardTask
 
 export type ChallengeSceneData = { id: string; text: string; task: Task }

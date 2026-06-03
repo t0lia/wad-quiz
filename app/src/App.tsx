@@ -6,19 +6,6 @@ import './App.css'
 const scenes: ChallengeSceneData[] = [
   {
     id: 'scene_001',
-    text: 'The migration script has been running for 20 minutes. The database CPU is at 90%. What should you check first? (Select all that apply)',
-    task: {
-      type: 'multiple_choice',
-      options: [
-        { id: 'a', content: 'Query execution plan' },
-        { id: 'b', content: 'Disk space' },
-        { id: 'c', content: 'Slow query log' },
-        { id: 'd', content: 'Network latency' },
-      ],
-    },
-  },
-  {
-    id: 'scene_002',
     text: "It's 3am. You found the bug. Put the deployment steps in the correct order.",
     task: {
       type: 'drag_and_drop',
@@ -31,7 +18,7 @@ const scenes: ChallengeSceneData[] = [
     },
   },
   {
-    id: 'scene_003',
+    id: 'scene_002',
     text: "The crisis is over. You have 10 developer-hours before the next deploy window. Allocate your team's time.",
     task: {
       type: 'resource_allocation',
@@ -46,21 +33,7 @@ const scenes: ChallengeSceneData[] = [
     },
   },
   {
-    id: 'scene_004',
-    text: 'The logs are streaming in. Click the line that reveals the root cause.',
-    task: {
-      type: 'click_on_line',
-      lines: [
-        { id: 'l1', content: '03:12:01 [INFO]  Connection pool: 8/10 active' },
-        { id: 'l2', content: '03:12:03 [INFO]  Migration step 4/7 complete' },
-        { id: 'l3', content: '03:12:05 [ERROR] Deadlock on table user_sessions' },
-        { id: 'l4', content: '03:12:05 [INFO]  Health check passed' },
-        { id: 'l5', content: '03:12:07 [INFO]  Migration step 5/7 complete' },
-      ],
-    },
-  },
-  {
-    id: 'scene_005',
+    id: 'scene_003',
     text: 'The monitoring dashboard is lit up. Match each HTTP status code to its meaning.',
     task: {
       type: 'mapping',
@@ -77,7 +50,7 @@ const scenes: ChallengeSceneData[] = [
     },
   },
   {
-    id: 'scene_006',
+    id: 'scene_004',
     text: 'The ticket queue is exploding. Sort each issue into the right bucket.',
     task: {
       type: 'card_filter',
@@ -94,7 +67,21 @@ const scenes: ChallengeSceneData[] = [
     },
   },
   {
-    id: 'scene_007',
+    id: 'scene_005',
+    text: 'The logs are streaming in. Click the line that reveals the root cause.',
+    task: {
+      type: 'click_on_line',
+      lines: [
+        { id: 'l1', content: '03:12:01 [INFO]  Connection pool: 8/10 active' },
+        { id: 'l2', content: '03:12:03 [INFO]  Migration step 4/7 complete' },
+        { id: 'l3', content: '03:12:05 [ERROR] Deadlock on table user_sessions' },
+        { id: 'l4', content: '03:12:05 [INFO]  Health check passed' },
+        { id: 'l5', content: '03:12:07 [INFO]  Migration step 5/7 complete' },
+      ],
+    },
+  },
+  {
+    id: 'scene_006',
     text: 'Alerts are flooding in. Triage each one — wake someone up or keep watching?',
     task: {
       type: 'swipe_cards',
@@ -111,7 +98,7 @@ const scenes: ChallengeSceneData[] = [
     },
   },
   {
-    id: 'scene_008',
+    id: 'scene_007',
     text: 'You need to roll back the bad commit. Build the git command from the blocks.',
     task: {
       type: 'block_builder',
@@ -125,6 +112,24 @@ const scenes: ChallengeSceneData[] = [
         { id: 'b6', content: 'origin' },
       ],
     },
+  },
+  {
+    id: 'scene_008',
+    text: 'The migration script has been running for 20 minutes. The database CPU is at 90%. What should you check first? (Select all that apply)',
+    task: {
+      type: 'multiple_choice',
+      options: [
+        { id: 'a', content: 'Query execution plan' },
+        { id: 'b', content: 'Disk space' },
+        { id: 'c', content: 'Slow query log' },
+        { id: 'd', content: 'Network latency' },
+      ],
+    },
+  },
+  {
+    id: 'scene_009',
+    text: 'The archive is secure. One last step.',
+    task: { type: 'one_tap_forward' },
   },
 ]
 

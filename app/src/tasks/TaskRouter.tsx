@@ -7,6 +7,7 @@ import Mapping from './Mapping'
 import CardFilter from './CardFilter'
 import SwipeCards from './SwipeCards'
 import BlockBuilder from './BlockBuilder'
+import OneTapForward from './OneTapForward'
 
 type Props = { task: Task; submitted: boolean; onSubmit: () => void }
 
@@ -21,5 +22,6 @@ export default function TaskRouter({ task, submitted, onSubmit }: Props) {
     case 'card_filter':        return <CardFilter        task={task} {...p} />
     case 'swipe_cards':        return <SwipeCards        task={task} {...p} />
     case 'block_builder':      return <BlockBuilder      task={task} {...p} />
+    case 'one_tap_forward':    return <OneTapForward     onSubmit={onSubmit} />
   }
 }

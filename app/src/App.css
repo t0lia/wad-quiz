@@ -129,17 +129,41 @@
   cursor: grab;
   user-select: none;
   touch-action: none;
-  transition: opacity 0.15s, border-color 0.15s, background 0.15s;
+  transition: opacity 0.15s, border-color 0.15s, background 0.15s, transform 0.15s, box-shadow 0.15s;
+  position: relative;
 }
 
 .dnd-item.dragging {
-  opacity: 0.4;
+  opacity: 0;
   cursor: grabbing;
 }
 
-.dnd-item.dragover {
-  border-color: var(--accent);
-  background: var(--accent-bg);
+.dnd-ghost {
+  position: fixed;
+  pointer-events: none;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text-h);
+  font-size: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+  transform: scale(1.03);
+  user-select: none;
+}
+
+.dnd-item.settled {
+  animation: dnd-settle 0.35s ease;
+}
+
+@keyframes dnd-settle {
+  0%   { transform: scale(1.04); }
+  55%  { transform: scale(0.97); }
+  100% { transform: scale(1); }
 }
 
 .dnd-handle {
@@ -289,17 +313,23 @@
 
 .mapping-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  grid-template-columns: 1fr 40px 1fr;
+  row-gap: 8px;
+  align-items: center;
 }
 
-.mapping-col {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+.mapping-connector {
   display: flex;
-  flex-direction: column;
-  gap: 8px;
+  align-items: center;
+  height: 44px;
+  padding: 0 4px;
+}
+
+.mapping-line {
+  flex: 1;
+  height: 2px;
+  background: rgba(34, 197, 94, 0.5);
+  border-radius: 1px;
 }
 
 .mapping-item {
@@ -322,10 +352,23 @@
 }
 
 .mapping-item:hover:not(:disabled) { border-color: var(--accent); }
-.mapping-item.active { border-color: var(--accent); background: var(--accent-bg); }
+.mapping-item.active { border-color: var(--accent); background: var(--accent-bg); animation: mapping-select 0.25s ease; }
 .mapping-item.paired { border-color: rgba(34,197,94,0.5); background: rgba(34,197,94,0.08); }
 .mapping-item.available { border-color: var(--accent-border); }
 .mapping-item:disabled:not(.paired):not(.active) { opacity: 0.45; cursor: default; }
+
+.mapping-line { animation: mapping-draw-line 0.4s ease forwards; }
+
+@keyframes mapping-select {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(0.96); }
+  100% { transform: scale(1); }
+}
+
+@keyframes mapping-draw-line {
+  from { transform: scaleX(0); transform-origin: left; }
+  to   { transform: scaleX(1); transform-origin: left; }
+}
 
 .pair-tick { color: #16a34a; font-size: 11px; }
 
