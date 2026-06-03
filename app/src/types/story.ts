@@ -43,6 +43,14 @@ export type BlockBuilderTask = {
 
 export type OneTapForwardTask = { type: 'one_tap_forward' }
 
+export type DecisionMapNode = { id: string; label: string; x: number; y: number }
+export type DecisionMapTask = {
+  type: 'decision_map'
+  nodes: DecisionMapNode[]
+  edges: { from: string; to: string }[]
+  correctNodeIds: string[]
+}
+
 export type Task =
   | MultipleChoiceTask
   | DragAndDropTask
@@ -53,5 +61,6 @@ export type Task =
   | SwipeCardsTask
   | BlockBuilderTask
   | OneTapForwardTask
+  | DecisionMapTask
 
 export type ChallengeSceneData = { id: string; text: string; task: Task }

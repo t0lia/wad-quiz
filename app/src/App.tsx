@@ -115,15 +115,23 @@ const scenes: ChallengeSceneData[] = [
   },
   {
     id: 'scene_008',
-    text: 'The migration script has been running for 20 minutes. The database CPU is at 90%. What should you check first? (Select all that apply)',
+    text: 'The migration pipeline is deadlocked. Tap the task that has no dependencies — the one you can safely run first.',
     task: {
-      type: 'multiple_choice',
-      options: [
-        { id: 'a', content: 'Query execution plan' },
-        { id: 'b', content: 'Disk space' },
-        { id: 'c', content: 'Slow query log' },
-        { id: 'd', content: 'Network latency' },
+      type: 'decision_map',
+      nodes: [
+        { id: 'n1', label: 'Indexing',          x: 200, y: 28  },
+        { id: 'n2', label: 'Migration',          x: 95,  y: 115 },
+        { id: 'n3', label: 'Validation check',   x: 305, y: 115 },
+        { id: 'n4', label: 'Backup',             x: 95,  y: 200 },
+        { id: 'n5', label: 'Data validation',    x: 305, y: 200 },
       ],
+      edges: [
+        { from: 'n5', to: 'n4' },
+        { from: 'n4', to: 'n2' },
+        { from: 'n3', to: 'n2' },
+        { from: 'n2', to: 'n1' },
+      ],
+      correctNodeIds: ['n3', 'n5'],
     },
   },
   {
