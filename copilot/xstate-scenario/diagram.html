@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GreenCore Hydroponic Factory — XState Scenario Graph</title>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs'
+    mermaid.initialize({ startOnLoad: true, theme: 'default', flowchart: { useMaxWidth: false } })
+  </script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, sans-serif;
+      background: #f9f9f9;
+      color: #1a1a1a;
+      padding: 32px 24px;
+    }
+    h1 { font-size: 22px; font-weight: 600; margin-bottom: 8px; }
+    p  { font-size: 14px; color: #555; margin-bottom: 24px; }
+    .legend { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 24px; font-size: 13px; }
+    .legend span { display: flex; align-items: center; gap: 6px; }
+    .dot { width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0; }
+    .mermaid { background: #fff; border-radius: 12px; padding: 24px; box-shadow: 0 2px 12px rgba(0,0,0,.08); overflow-x: auto; }
+  </style>
+</head>
+<body>
+  <h1>🌿 GreenCore Hydroponic Factory — XState Scenario Graph</h1>
+  <p>
+    Interactive state-machine flowchart for the working-day quiz scenario.<br/>
+    The graph is <strong>cyclic</strong> (task&nbsp;5&nbsp;↔&nbsp;git&nbsp;hint) and has
+    <strong>two final states</strong> (Ending A and Ending B).
+  </p>
+  <div class="legend">
+    <span><span class="dot" style="background:#aa3bff22;border:1px solid #aa3bff"></span>Interactive task</span>
+    <span><span class="dot" style="background:#f4f3ec;border:1px solid #e5e4e7"></span>Text page</span>
+    <span><span class="dot" style="background:#fff3cd;border:1px solid #ffc107"></span>Cycle / hint page</span>
+    <span><span class="dot" style="background:#d4edda;border:1px solid #28a745"></span>Ending</span>
+  </div>
+  <div class="mermaid">
+flowchart TD
+    %% ── Shared opening path ──────────────────────────────────────────────
+    intro(["🌿 Intro\nWelcome to GreenCore"])
+    intro --> task_ph
+
+    task_ph["Task 1\npH Check\n(multiple_choice)"]
+    task_ph --> text_to_nutrients
+
+    text_to_nutrients(["Text: Heading to\nNutrient Lab"])
+    text_to_nutrients --> task_nutrients
+
+    task_nutrients["Task 2\nNutrient Allocation\n(resource_allocation)"]
+    task_nutrients --> text_to_sensor
+
+    text_to_sensor(["Text: Heading to\nGreenhouse B"])
+    text_to_sensor --> task_sensor_log
+
+    task_sensor_log["Task 3\nSensor Log\n(click_on_line)"]
+    task_sensor_log --> text_to_plants
+
+    text_to_plants(["Text: Heading to\nSorting Station"])
+    text_to_plants --> task_plant_sort
+
+    task_plant_sort["Task 4\nPlant Sort\n(card_filter)"]
+    task_plant_sort --> text_to_git
+
+    text_to_git(["Text: Colleague mentions\ngit pipeline issue"])
+    text_to_git --> task_git
+
+    %% ── Git branching task ───────────────────────────────────────────────
+    task_git{{"Task 5\nBuild git command\n(block_builder)"}}
+    task_git -->|"first block = 'git'"| text_git_success
+    task_git -->|"first block ≠ 'git'"| text_git_hint
+
+    %% ── Retry cycle (CYCLIC EDGE) ────────────────────────────────────────
+    text_git_hint(["⚠️ Text: Git Hint\n'Put git first!'"])
+    text_git_hint -->|"Try Again"| task_git
+    text_git_hint -->|"Continue Anyway"| text_git_partial
+
+    %% ── Branch A — correct git path ──────────────────────────────────────
+    text_git_success(["✅ Text: Git Success\nPipeline fixed!"])
+    text_git_success --> task_deploy_order
+
+    task_deploy_order["Task 6A\nDeploy Steps Order\n(drag_and_drop)"]
+    task_deploy_order --> task_alert_triage
+
+    task_alert_triage["Task 7A\nAlert Triage\n(swipe_cards)"]
+    task_alert_triage --> text_a_afternoon
+
+    text_a_afternoon(["Text: Afternoon\nshift — Branch A"])
+    text_a_afternoon --> task_http_mapping
+
+    task_http_mapping["Task 8A\nHTTP Status Codes\n(mapping)"]
+    task_http_mapping --> task_dependency_map
+
+    task_dependency_map["Task 9A\nCI Dependency Map\n(decision_map)"]
+    task_dependency_map --> text_a_before_final
+
+    text_a_before_final(["Text: Almost done —\nBranch A"])
+    text_a_before_final --> task_led_choice
+
+    task_led_choice["Task 10A\nLED Spectrum Choice\n(multiple_choice)"]
+    task_led_choice --> ending_success
+
+    ending_success[/"🌿 ENDING A\nFactory thriving!"/]
+
+    %% ── Branch B — wrong git path ────────────────────────────────────────
+    text_git_partial(["Text: Colleague fixes\ngit manually"])
+    text_git_partial --> task_water_temp
+
+    task_water_temp["Task 6B\nWater Temperature\n(multiple_choice)"]
+    task_water_temp --> task_harvest_order
+
+    task_harvest_order["Task 7B\nHarvest Steps Order\n(drag_and_drop)"]
+    task_harvest_order --> text_b_afternoon
+
+    text_b_afternoon(["Text: Afternoon\nshift — Branch B"])
+    text_b_afternoon --> task_co2_mapping
+
+    task_co2_mapping["Task 8B\nCO₂ Zone Mapping\n(mapping)"]
+    task_co2_mapping --> task_alert_swipe
+
+    task_alert_swipe["Task 9B\nPlant Health Alerts\n(swipe_cards)"]
+    task_alert_swipe --> text_b_before_final
+
+    text_b_before_final(["Text: Wrapping up —\nBranch B"])
+    text_b_before_final --> task_growth_log
+
+    task_growth_log["Task 10B\nGrowth Log Review\n(click_on_line)"]
+    task_growth_log --> ending_partial
+
+    ending_partial[/"🌱 ENDING B\nA good day's work"/]
+
+    %% ── Styling ──────────────────────────────────────────────────────────
+    classDef taskNode fill:#aa3bff22,stroke:#aa3bff,color:#08060d
+    classDef textNode fill:#f4f3ec,stroke:#e5e4e7,color:#08060d
+    classDef branchNode fill:#fff3cd,stroke:#ffc107,color:#08060d
+    classDef endingNode fill:#d4edda,stroke:#28a745,color:#08060d
+
+    class task_ph,task_nutrients,task_sensor_log,task_plant_sort,task_git,task_deploy_order,task_alert_triage,task_http_mapping,task_dependency_map,task_led_choice,task_water_temp,task_harvest_order,task_co2_mapping,task_alert_swipe,task_growth_log taskNode
+    class intro,text_to_nutrients,text_to_sensor,text_to_plants,text_to_git,text_git_success,text_a_afternoon,text_a_before_final,text_git_partial,text_b_afternoon,text_b_before_final textNode
+    class text_git_hint branchNode
+    class ending_success,ending_partial endingNode
+  </div>
+</body>
+</html>
