@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react'
 import type { BlockBuilderTask } from '../types/story'
 
-type Props = { task: BlockBuilderTask; submitted: boolean; onSubmit: () => void }
+type Props = { task: BlockBuilderTask; submitted: boolean; onSubmit: (answer?: string) => void }
 
 export default function BlockBuilder({ task, submitted, onSubmit }: Props) {
   const [sequence, setSequence] = useState<(string | null)[]>(Array(task.slots).fill(null))
@@ -191,7 +191,12 @@ export default function BlockBuilder({ task, submitted, onSubmit }: Props) {
       )}
 
       {!submitted && (
-        <button type="button" className="submit-btn" disabled={!allFilled} onClick={onSubmit}>
+        <button
+          type="button"
+          className="submit-btn"
+          disabled={!allFilled}
+          onClick={() => onSubmit(sequence[0] ? getContent(sequence[0]) : undefined)}
+        >
           Submit
         </button>
       )}
