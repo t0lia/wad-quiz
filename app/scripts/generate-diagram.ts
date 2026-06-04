@@ -17,11 +17,10 @@ type DirectedGraphNode = {
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
-const docsOutputDir = join(__dirname, '..', 'docs', 'diagrams')
-const docsOutputMmd = join(docsOutputDir, 'hydroMachine.mmd')
 const publicOutputDir = join(__dirname, '..', 'public', 'diagrams')
 const publicOutputMmd = join(publicOutputDir, 'hydroMachine.mmd')
-const publicGraphHtml = join(__dirname, '..', 'public', 'graph.html')
+const distOutputDir = join(__dirname, '..', 'dist', 'diagrams')
+const distOutputMmd = join(distOutputDir, 'hydroMachine.mmd')
 
 function shortStateId(stateId: string): string {
   const firstDot = stateId.indexOf('.')
@@ -96,6 +95,14 @@ function collectEdges(graph: DirectedGraphNode): Array<{ source: string; target:
   return edges
 }
 
+function escapeMermaidLabel(label: string): string {
+  return label
+    .replaceAll('"', '\\"')
+    .replaceAll('[', '\\[')
+    .replaceAll(']', '\\]')
+    .replaceAll('|', '\\|')
+}
+
 function createMermaid(graph: DirectedGraphNode): string {
   const nodes = collectNodes(graph)
   const edges = collectEdges(graph)
@@ -142,7 +149,7 @@ function createMermaid(graph: DirectedGraphNode): string {
     }
     seen.add(edgeKey)
 
-    const escapedLabel = edge.label.replaceAll('"', '\\"')
+    const escapedLabel = escapeMermaidLabel(edge.label)
     if (escapedLabel) {
       lines.push(`  ${sourceToken} -->|${escapedLabel}| ${targetToken}`)
     } else {
@@ -162,14 +169,12 @@ async function main(): Promise<void> {
   const directedGraph = toDirectedGraph(hydroMachine) as DirectedGraphNode
   const mermaidText = createMermaid(directedGraph)
 
-  await mkdir(docsOutputDir, { recursive: true })
-  await mkdir(publicOutputDir, { recursive: true })
-  await writeFile(docsOutputMmd, mermaidText, 'utf8')
-  await writeFile(publicOutputMmd, mermaidText, 'utf8')
+  await mkdir(distOutputDir, { recursive: true })
+  await writeFile(distOutputMmd, mermaidText, 'utf8')
 
-  console.log(`Mermaid diagram written: ${docsOutputMmd}`)
-  console.log(`Mermaid diagram written: ${publicOutputMmd}`)
+  console.log(`Mermaid diagram written: ${distOutputMmd}`)
 }
+
 
 main().catch((error: unknown) => {
   const message = error instanceof Error ? error.message : String(error)

@@ -53,15 +53,13 @@ npm run generate-diagram
 
 This command writes:
 
-- `docs/diagrams/hydroMachine.mmd` (Mermaid source)
-- `public/diagrams/hydroMachine.mmd` (served Mermaid source)
-- `public/graph.html` (diagram viewer page)
+- `dist/diagrams/hydroMachine.mmd` (output-ready copy)
 
 Notes:
 
 - The graph uses XState's official graph API via `xstate/graph`.
 - Task nodes (`task_*`) are highlighted in the generated diagram.
-- Open `http://localhost:5173/graph.html` in dev mode to view the rendered graph.
+- `public/graph.html` already exists in the repository and is served as a static viewer page at `http://localhost:5173/graph.html`.
 
 You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
