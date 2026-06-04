@@ -59,35 +59,35 @@ flowchart TD
   class S29 textNode
   S30["text_to_sensor"]
   class S30 textNode
-  S4 -->|NEXT| S16
-  S16 -->|NEXT| S28
-  S28 -->|NEXT| S15
-  S15 -->|NEXT| S30
-  S30 -->|NEXT| S18
-  S18 -->|NEXT| S29
-  S29 -->|NEXT| S17
-  S17 -->|NEXT| S27
-  S27 -->|NEXT| S10
-  S10 -->|NEXT \[guard\]| S26
-  S10 -->|NEXT| S24
-  S24 -->|NEXT| S10
-  S24 -->|SKIP| S25
-  S26 -->|NEXT| S9
-  S9 -->|NEXT| S6
-  S6 -->|NEXT| S20
-  S20 -->|NEXT| S13
-  S13 -->|NEXT| S8
-  S8 -->|NEXT| S21
-  S21 -->|NEXT| S14
-  S14 -->|NEXT| S3
-  S25 -->|NEXT| S19
-  S19 -->|NEXT| S12
-  S12 -->|NEXT| S22
-  S22 -->|NEXT| S7
-  S7 -->|NEXT| S5
-  S5 -->|NEXT| S23
-  S23 -->|NEXT| S11
-  S11 -->|NEXT| S2
+  S4 -->|"NEXT"| S16
+  S16 -->|"NEXT"| S28
+  S28 -->|"NEXT"| S15
+  S15 -->|"NEXT"| S30
+  S30 -->|"NEXT"| S18
+  S18 -->|"NEXT"| S29
+  S29 -->|"NEXT"| S17
+  S17 -->|"NEXT"| S27
+  S27 -->|"NEXT"| S10
+  S10 -->|"NEXT [guard]"| S26
+  S10 -->|"NEXT"| S24
+  S24 -->|"NEXT"| S10
+  S24 -->|"SKIP"| S25
+  S26 -->|"NEXT"| S9
+  S9 -->|"NEXT"| S6
+  S6 -->|"NEXT"| S20
+  S20 -->|"NEXT"| S13
+  S13 -->|"NEXT"| S8
+  S8 -->|"NEXT"| S21
+  S21 -->|"NEXT"| S14
+  S14 -->|"NEXT"| S3
+  S25 -->|"NEXT"| S19
+  S19 -->|"NEXT"| S12
+  S12 -->|"NEXT"| S22
+  S22 -->|"NEXT"| S7
+  S7 -->|"NEXT"| S5
+  S5 -->|"NEXT"| S23
+  S23 -->|"NEXT"| S11
+  S11 -->|"NEXT"| S2
 
   classDef taskNode fill:#d9f5ff,stroke:#0b7285,stroke-width:2px,color:#073642
   classDef textNode fill:#fff7db,stroke:#a07800,stroke-width:1px,color:#4d3a00
