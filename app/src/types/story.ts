@@ -51,6 +51,11 @@ export type DecisionMapTask = {
   correctNodeIds: string[]
 }
 
+export type TextSceneTask = {
+  type: 'text_scene'
+  choices?: { label: string; event: 'NEXT' }[]
+}
+
 export type Task =
   | MultipleChoiceTask
   | DragAndDropTask
@@ -62,5 +67,6 @@ export type Task =
   | BlockBuilderTask
   | OneTapForwardTask
   | DecisionMapTask
+  | TextSceneTask
 
 export type ChallengeSceneData = { id: string; text: string; task: Task }

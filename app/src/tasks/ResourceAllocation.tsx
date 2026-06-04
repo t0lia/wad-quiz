@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { ResourceAllocationTask } from '../types/story'
 
-type Props = { task: ResourceAllocationTask; submitted: boolean; onSubmit: () => void }
+type Props = { task: ResourceAllocationTask; submitted: boolean; onSubmit: (answer?: string) => void }
 
 export default function ResourceAllocation({ task, submitted, onSubmit }: Props) {
   const [allocation, setAllocation] = useState<Record<string, number>>(
@@ -56,7 +56,12 @@ export default function ResourceAllocation({ task, submitted, onSubmit }: Props)
         </ul>
       </div>
       {!submitted && (
-        <button type="button" className="submit-btn" disabled={remaining !== 0} onClick={onSubmit}>
+        <button
+          type="button"
+          className="submit-btn"
+          disabled={remaining !== 0}
+          onClick={() => onSubmit(JSON.stringify(allocation))}
+        >
           Submit
         </button>
       )}

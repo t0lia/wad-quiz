@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { MultipleChoiceTask } from '../types/story'
 
-type Props = { task: MultipleChoiceTask; submitted: boolean; onSubmit: () => void }
+type Props = { task: MultipleChoiceTask; submitted: boolean; onSubmit: (answer?: string) => void }
 
 export default function MultipleChoice({ task, submitted, onSubmit }: Props) {
   const [selected, setSelected] = useState<Set<string>>(new Set())
@@ -32,7 +32,12 @@ export default function MultipleChoice({ task, submitted, onSubmit }: Props) {
         ))}
       </ul>
       {!submitted && (
-        <button type="button" className="submit-btn" disabled={selected.size === 0} onClick={onSubmit}>
+        <button
+          type="button"
+          className="submit-btn"
+          disabled={selected.size === 0}
+          onClick={() => onSubmit(Array.from(selected).join(','))}
+        >
           Submit
         </button>
       )}

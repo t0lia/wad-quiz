@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { DecisionMapTask } from '../types/story'
 
-type Props = { task: DecisionMapTask; submitted: boolean; onSubmit: () => void }
+type Props = { task: DecisionMapTask; submitted: boolean; onSubmit: (answer?: string) => void }
 
 const HW = 68  // node half-width
 const HH = 20  // node half-height
@@ -105,7 +105,7 @@ export default function DecisionMap({ task, submitted, onSubmit }: Props) {
           type="button"
           className="submit-btn"
           disabled={selectedId === null}
-          onClick={onSubmit}
+          onClick={() => onSubmit(selectedId ?? undefined)}
         >
           Submit
         </button>

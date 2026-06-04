@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react'
 import type { SwipeCardsTask } from '../types/story'
 
-type Props = { task: SwipeCardsTask; submitted: boolean; onSubmit: () => void }
+type Props = { task: SwipeCardsTask; submitted: boolean; onSubmit: (answer?: string) => void }
 
 const SWIPE_THRESHOLD = 80
 
@@ -29,7 +29,10 @@ export default function SwipeCards({ task, submitted, onSubmit }: Props) {
   function advance() {
     setFlyDir(null)
     setIndex((i) => {
-      if (i === task.cards.length - 1) { onSubmit(); return i }
+      if (i === task.cards.length - 1) {
+        onSubmit(decisions.map((d) => `${d.cardId}:${d.dir}`).join('|'))
+        return i
+      }
       return i + 1
     })
   }

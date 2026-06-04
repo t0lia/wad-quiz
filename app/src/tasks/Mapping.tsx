@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import type { MappingTask } from '../types/story'
 
-type Props = { task: MappingTask; submitted: boolean; onSubmit: () => void }
+type Props = { task: MappingTask; submitted: boolean; onSubmit: (answer?: string) => void }
 
 export default function Mapping({ task, submitted, onSubmit }: Props) {
   const [selectedLeftId, setSelectedLeftId] = useState<string | null>(null)
@@ -115,7 +115,12 @@ export default function Mapping({ task, submitted, onSubmit }: Props) {
         })}
       </div>
       {!submitted && (
-        <button type="button" className="submit-btn" disabled={!canSubmit} onClick={onSubmit}>
+        <button
+          type="button"
+          className="submit-btn"
+          disabled={!canSubmit}
+          onClick={() => onSubmit(JSON.stringify(pairs))}
+        >
           Submit
         </button>
       )}

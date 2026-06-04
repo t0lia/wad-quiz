@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react'
 import type { CardFilterTask } from '../types/story'
 
-type Props = { task: CardFilterTask; submitted: boolean; onSubmit: () => void }
+type Props = { task: CardFilterTask; submitted: boolean; onSubmit: (answer?: string) => void }
 
 export default function CardFilter({ task, submitted, onSubmit }: Props) {
   const [assignments, setAssignments] = useState<Record<string, string>>({})
@@ -165,7 +165,12 @@ export default function CardFilter({ task, submitted, onSubmit }: Props) {
       )}
 
       {!submitted && (
-        <button type="button" className="submit-btn" disabled={!canSubmit} onClick={onSubmit}>
+        <button
+          type="button"
+          className="submit-btn"
+          disabled={!canSubmit}
+          onClick={() => onSubmit(JSON.stringify(assignments))}
+        >
           Submit
         </button>
       )}
