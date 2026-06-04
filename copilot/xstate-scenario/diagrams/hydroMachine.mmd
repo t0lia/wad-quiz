@@ -41,53 +41,108 @@ flowchart TD
   class S20 textNode
   S21["text_a_before_final"]
   class S21 textNode
-  S22["text_b_afternoon"]
+  S22["text_alert_retry"]
   class S22 textNode
-  S23["text_b_before_final"]
+  S23["text_alertswipe_retry"]
   class S23 textNode
-  S24["text_git_hint"]
+  S24["text_b_afternoon"]
   class S24 textNode
-  S25["text_git_partial"]
+  S25["text_b_before_final"]
   class S25 textNode
-  S26["text_git_success"]
+  S26["text_co2_retry"]
   class S26 textNode
-  S27["text_to_git"]
+  S27["text_dep_retry"]
   class S27 textNode
-  S28["text_to_nutrients"]
+  S28["text_deploy_retry"]
   class S28 textNode
-  S29["text_to_plants"]
+  S29["text_git_hint"]
   class S29 textNode
-  S30["text_to_sensor"]
+  S30["text_git_partial"]
   class S30 textNode
+  S31["text_git_success"]
+  class S31 textNode
+  S32["text_growth_retry"]
+  class S32 textNode
+  S33["text_harvest_retry"]
+  class S33 textNode
+  S34["text_http_retry"]
+  class S34 textNode
+  S35["text_led_retry"]
+  class S35 textNode
+  S36["text_nutrients_retry"]
+  class S36 textNode
+  S37["text_ph_retry"]
+  class S37 textNode
+  S38["text_plant_sort_retry"]
+  class S38 textNode
+  S39["text_sensor_retry"]
+  class S39 textNode
+  S40["text_to_git"]
+  class S40 textNode
+  S41["text_to_nutrients"]
+  class S41 textNode
+  S42["text_to_plants"]
+  class S42 textNode
+  S43["text_to_sensor"]
+  class S43 textNode
+  S44["text_water_retry"]
+  class S44 textNode
   S4 -->|"NEXT"| S16
-  S16 -->|"NEXT"| S28
-  S28 -->|"NEXT"| S15
-  S15 -->|"NEXT"| S30
-  S30 -->|"NEXT"| S18
-  S18 -->|"NEXT"| S29
-  S29 -->|"NEXT"| S17
-  S17 -->|"NEXT"| S27
-  S27 -->|"NEXT"| S10
-  S10 -->|"NEXT [guard]"| S26
-  S10 -->|"NEXT"| S24
-  S24 -->|"NEXT"| S10
-  S24 -->|"SKIP"| S25
-  S26 -->|"NEXT"| S9
+  S16 -->|"NEXT"| S41
+  S16 -->|"SKIP"| S36
+  S41 -->|"NEXT"| S15
+  S37 -->|"NEXT"| S15
+  S15 -->|"NEXT"| S43
+  S15 -->|"SKIP"| S42
+  S43 -->|"NEXT"| S18
+  S36 -->|"NEXT"| S18
+  S18 -->|"NEXT"| S42
+  S18 -->|"SKIP"| S40
+  S42 -->|"NEXT"| S17
+  S39 -->|"NEXT"| S17
+  S17 -->|"NEXT"| S40
+  S17 -->|"SKIP"| S29
+  S40 -->|"NEXT"| S10
+  S38 -->|"NEXT"| S10
+  S10 -->|"NEXT"| S31
+  S10 -->|"SKIP"| S29
+  S29 -->|"NEXT"| S10
+  S31 -->|"NEXT"| S9
   S9 -->|"NEXT"| S6
+  S9 -->|"SKIP"| S28
+  S28 -->|"NEXT"| S6
   S6 -->|"NEXT"| S20
+  S6 -->|"SKIP"| S22
   S20 -->|"NEXT"| S13
+  S22 -->|"NEXT"| S6
   S13 -->|"NEXT"| S8
+  S13 -->|"SKIP"| S34
+  S34 -->|"NEXT"| S13
   S8 -->|"NEXT"| S21
+  S8 -->|"SKIP"| S27
+  S27 -->|"NEXT"| S8
   S21 -->|"NEXT"| S14
   S14 -->|"NEXT"| S3
-  S25 -->|"NEXT"| S19
+  S14 -->|"SKIP"| S35
+  S35 -->|"NEXT"| S14
+  S30 -->|"NEXT"| S19
   S19 -->|"NEXT"| S12
-  S12 -->|"NEXT"| S22
-  S22 -->|"NEXT"| S7
+  S19 -->|"SKIP"| S44
+  S44 -->|"NEXT"| S19
+  S12 -->|"NEXT"| S24
+  S12 -->|"SKIP"| S33
+  S33 -->|"NEXT"| S12
+  S24 -->|"NEXT"| S7
   S7 -->|"NEXT"| S5
-  S5 -->|"NEXT"| S23
-  S23 -->|"NEXT"| S11
+  S7 -->|"SKIP"| S26
+  S26 -->|"NEXT"| S7
+  S5 -->|"NEXT"| S25
+  S5 -->|"SKIP"| S23
+  S23 -->|"NEXT"| S5
+  S25 -->|"NEXT"| S11
   S11 -->|"NEXT"| S2
+  S11 -->|"SKIP"| S32
+  S32 -->|"NEXT"| S11
 
   classDef taskNode fill:#d9f5ff,stroke:#0b7285,stroke-width:2px,color:#073642
   classDef textNode fill:#fff7db,stroke:#a07800,stroke-width:1px,color:#4d3a00
