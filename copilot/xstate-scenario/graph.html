@@ -68,7 +68,7 @@
         <h1>Hydro Machine Diagram</h1>
         <p>Generated from src/machine.ts using xstate/graph.</p>
         <div id="status">Loading diagram...</div>
-        <div id="graph" class="mermaid"></div>
+        <div id="graph"></div>
       </section>
     </main>
 
@@ -80,7 +80,7 @@
 
       async function loadDiagram() {
         try {
-          const response = await fetch('diagrams/hydroMachine.mmd', { cache: 'no-store' });
+          const response = await fetch('/diagrams/hydroMachine.mmd', { cache: 'no-store' });
           if (!response.ok) {
             throw new Error('Failed to fetch Mermaid source: ' + response.status);
           }
