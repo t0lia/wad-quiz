@@ -43,6 +43,26 @@ export default defineConfig([
 ])
 ```
 
+## Generate XState Diagram
+
+Generate a diagram from `hydroMachine` in `src/machine.ts`:
+
+```bash
+npm run generate-diagram
+```
+
+This command writes:
+
+- `docs/diagrams/hydroMachine.mmd` (Mermaid source)
+- `public/diagrams/hydroMachine.mmd` (served Mermaid source)
+- `public/graph.html` (diagram viewer page)
+
+Notes:
+
+- The graph uses XState's official graph API via `xstate/graph`.
+- Task nodes (`task_*`) are highlighted in the generated diagram.
+- Open `http://localhost:5173/graph.html` in dev mode to view the rendered graph.
+
 You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
 ```js

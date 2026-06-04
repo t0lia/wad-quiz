@@ -41,7 +41,8 @@ jobs:
 
       # ── 5. Generate the XState scenario diagram ───────────────────────────────
       - name: Generate scenario diagram
-        run: node scripts/generate-diagram.mjs
+        working-directory: app
+        run: node run generate-diagram
 
       # ── 6. Deploy to gh-pages under /{branch-name}/ ───────────────────────────
       # We use peaceiris/actions-gh-pages which lets us control the destination
