@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hydro Machine Graph</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f4f7f7;
+        --card: #ffffff;
+        --text: #1d2b2f;
+        --muted: #52666d;
+        --accent: #0b7285;
+      }
+
+      body {
+        margin: 0;
+        font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+        background:
+          radial-gradient(circle at 20% 10%, #def2f5 0, transparent 35%),
+          radial-gradient(circle at 85% 0%, #e9f5e9 0, transparent 30%),
+          var(--bg);
+        color: var(--text);
+      }
+
+      main {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .panel {
+        background: var(--card);
+        border: 1px solid #d7e2e4;
+        border-radius: 14px;
+        box-shadow: 0 10px 32px rgba(0, 0, 0, 0.08);
+        padding: 16px;
+      }
+
+      h1 {
+        margin: 0 0 6px;
+        font-size: clamp(1.3rem, 2vw, 1.8rem);
+      }
+
+      p {
+        margin: 0 0 12px;
+        color: var(--muted);
+      }
+
+      #status {
+        color: var(--muted);
+        margin-bottom: 10px;
+      }
+
+      #graph {
+        overflow: auto;
+      }
+
+      .error {
+        color: #b42318;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="panel">
+        <h1>Hydro Machine Diagram</h1>
+        <p>Generated from src/machine.ts using xstate/graph.</p>
+        <div id="status">Loading diagram...</div>
+        <div id="graph" class="mermaid"></div>
+      </section>
+    </main>
+
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+      const graphElement = document.getElementById('graph');
+      const statusElement = document.getElementById('status');
+
+      async function loadDiagram() {
+        try {
+          const response = await fetch('diagrams/hydroMachine.mmd', { cache: 'no-store' });
+          if (!response.ok) {
+            throw new Error('Failed to fetch Mermaid source: ' + response.status);
+          }
+
+          const source = await response.text();
+          if (!source.trim()) {
+            throw new Error('Mermaid source is empty.');
+          }
+
+          mermaid.initialize({ startOnLoad: false, securityLevel: 'loose' });
+          const { svg } = await mermaid.render('hydro-machine-graph', source);
+          graphElement.innerHTML = svg;
+
+          statusElement.textContent = 'Loaded from /diagrams/hydroMachine.mmd';
+        } catch (error) {
+          const message = error instanceof Error ? error.message : String(error);
+          statusElement.textContent = message;
+          statusElement.classList.add('error');
+        }
+      }
+
+      loadDiagram();
+    </script>
+  </body>
+</html>
