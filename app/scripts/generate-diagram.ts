@@ -97,10 +97,13 @@ function collectEdges(graph: DirectedGraphNode): Array<{ source: string; target:
 
 function escapeMermaidLabel(label: string): string {
   return label
+    .replaceAll('\\', '\\\\')
     .replaceAll('"', '\\"')
-    .replaceAll('[', '\\[')
-    .replaceAll(']', '\\]')
     .replaceAll('|', '\\|')
+}
+
+function formatMermaidLabel(label: string): string {
+  return `|"${escapeMermaidLabel(label)}"|`
 }
 
 function createMermaid(graph: DirectedGraphNode): string {
@@ -151,7 +154,7 @@ function createMermaid(graph: DirectedGraphNode): string {
 
     const escapedLabel = escapeMermaidLabel(edge.label)
     if (escapedLabel) {
-      lines.push(`  ${sourceToken} -->|${escapedLabel}| ${targetToken}`)
+      lines.push(`  ${sourceToken} -->${formatMermaidLabel(edge.label)} ${targetToken}`)
     } else {
       lines.push(`  ${sourceToken} --> ${targetToken}`)
     }
