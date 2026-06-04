@@ -80,7 +80,7 @@
 
       async function loadDiagram() {
         try {
-          const response = await fetch('/diagrams/hydroMachine.mmd', { cache: 'no-store' });
+          const response = await fetch('./diagrams/hydroMachine.mmd', { cache: 'no-store' });
           if (!response.ok) {
             throw new Error('Failed to fetch Mermaid source: ' + response.status);
           }
