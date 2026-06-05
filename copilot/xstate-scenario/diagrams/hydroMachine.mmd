@@ -88,60 +88,61 @@ flowchart TD
   S44["text_water_retry"]
   class S44 textNode
   S4 -->|"NEXT"| S16
-  S16 -->|"NEXT"| S41
-  S16 -->|"SKIP"| S36
+  S16 -->|"splitCsv(event.answer).includes('ph1')"| S41
+  S16 -->|"NEXT"| S37
   S41 -->|"NEXT"| S15
   S37 -->|"NEXT"| S15
-  S15 -->|"NEXT"| S43
-  S15 -->|"SKIP"| S42
+  S15 -->|"isGoodNutrientPlan(event.answer)"| S43
+  S15 -->|"NEXT"| S36
   S43 -->|"NEXT"| S18
   S36 -->|"NEXT"| S18
-  S18 -->|"NEXT"| S42
-  S18 -->|"SKIP"| S40
+  S18 -->|"normalize(event.answer)==='sl3'"| S42
+  S18 -->|"NEXT"| S39
   S42 -->|"NEXT"| S17
   S39 -->|"NEXT"| S17
-  S17 -->|"NEXT"| S40
-  S17 -->|"SKIP"| S29
+  S17 -->|"isExpectedMapping(event.answer,{ps1:'pb1',ps2:'pb2',ps3:'pb2',ps4:'pb1'})"| S40
+  S17 -->|"NEXT"| S38
   S40 -->|"NEXT"| S10
   S38 -->|"NEXT"| S10
-  S10 -->|"NEXT"| S31
-  S10 -->|"SKIP"| S29
+  S10 -->|"normalize(event.answer)==='git'"| S31
+  S10 -->|"NEXT"| S29
+  S29 -->|"normalize(event.answer).includes('continue anyway')"| S30
   S29 -->|"NEXT"| S10
   S31 -->|"NEXT"| S9
-  S9 -->|"NEXT"| S6
-  S9 -->|"SKIP"| S28
+  S9 -->|"isExactOrder(event.answer,['do1','do2','do3','do4','do5'])"| S6
+  S9 -->|"NEXT"| S28
   S28 -->|"NEXT"| S6
-  S6 -->|"NEXT"| S20
-  S6 -->|"SKIP"| S22
+  S6 -->|"isExpectedSwipe(event.answer,{at1:'left',at2:'right',at3:'left',at4:'right'})"| S20
+  S6 -->|"NEXT"| S22
   S20 -->|"NEXT"| S13
   S22 -->|"NEXT"| S6
-  S13 -->|"NEXT"| S8
-  S13 -->|"SKIP"| S34
+  S13 -->|"isExpectedMapping(event.answer,{hc1:'hm1',hc2:'hm2',hc3:'hm3'})"| S8
+  S13 -->|"NEXT"| S34
   S34 -->|"NEXT"| S13
-  S8 -->|"NEXT"| S21
-  S8 -->|"SKIP"| S27
+  S8 -->|"['dm4','dm5'].includes(normalize(event.answer))"| S21
+  S8 -->|"NEXT"| S27
   S27 -->|"NEXT"| S8
   S21 -->|"NEXT"| S14
-  S14 -->|"NEXT"| S3
-  S14 -->|"SKIP"| S35
+  S14 -->|"splitCsv(event.answer).includes('lc2')"| S3
+  S14 -->|"NEXT"| S35
   S35 -->|"NEXT"| S14
   S30 -->|"NEXT"| S19
-  S19 -->|"NEXT"| S12
-  S19 -->|"SKIP"| S44
+  S19 -->|"splitCsv(event.answer).includes('wt2')"| S12
+  S19 -->|"NEXT"| S44
   S44 -->|"NEXT"| S19
-  S12 -->|"NEXT"| S24
-  S12 -->|"SKIP"| S33
+  S12 -->|"isExactOrder(event.answer,['ho1','ho2','ho3','ho4','ho5'])"| S24
+  S12 -->|"NEXT"| S33
   S33 -->|"NEXT"| S12
   S24 -->|"NEXT"| S7
-  S7 -->|"NEXT"| S5
-  S7 -->|"SKIP"| S26
+  S7 -->|"isExpectedMapping(event.answer,{cm1:'cr1',cm2:'cr2',cm3:'cr3'})"| S5
+  S7 -->|"NEXT"| S26
   S26 -->|"NEXT"| S7
-  S5 -->|"NEXT"| S25
-  S5 -->|"SKIP"| S23
+  S5 -->|"isExpectedSwipe(event.answer,{as1:'left',as2:'right',as3:'left',as4:'right'})"| S25
+  S5 -->|"NEXT"| S23
   S23 -->|"NEXT"| S5
   S25 -->|"NEXT"| S11
-  S11 -->|"NEXT"| S2
-  S11 -->|"SKIP"| S32
+  S11 -->|"normalize(event.answer)==='gl4'"| S2
+  S11 -->|"NEXT"| S32
   S32 -->|"NEXT"| S11
 
   classDef taskNode fill:#d9f5ff,stroke:#0b7285,stroke-width:2px,color:#073642
