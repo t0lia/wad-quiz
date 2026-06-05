@@ -1,38 +1,43 @@
 name: Deploy to GitHub Pages
 
 on:
-  push:
-    branches: [main]
+  push: {}          # runs on every push to every branch
 
+# Allow the job to write to gh-pages
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
-concurrency:
-  group: pages
-  cancel-in-progress: true
-
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
           cache-dependency-path: app/package-lock.json
-      - run: npm ci
+      - name: Install dependencies
         working-directory: app
-      - run: npm run build
+        run: npm ci
+      - name: Build app
         working-directory: app
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
+        env:
+          VITE_BASE: /${{ github.event.repository.name }}/${{ github.ref_name }}/
+        run: npm run build
+      - name: Generate scenario diagram
+        working-directory: app
+        run: npm run generate-diagram
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          path: app/dist
-      - id: deployment
-        uses: actions/deploy-pages@v4
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: app/dist
+          destination_dir: ${{ github.ref_name }}
+          keep_files: true

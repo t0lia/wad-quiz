@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react'
 import type { DragAndDropTask, DragAndDropItem } from '../types/story'
 
-type Props = { task: DragAndDropTask; submitted: boolean; onSubmit: () => void }
+type Props = { task: DragAndDropTask; submitted: boolean; onSubmit: (answer?: string) => void }
 
 export default function DragAndDrop({ task, submitted, onSubmit }: Props) {
   const listRef = useRef<HTMLUListElement>(null)
@@ -108,7 +108,11 @@ export default function DragAndDrop({ task, submitted, onSubmit }: Props) {
         </div>
       )}
       {!submitted && (
-        <button type="button" className="submit-btn" onClick={onSubmit}>
+        <button
+          type="button"
+          className="submit-btn"
+          onClick={() => onSubmit(order.map((item) => item.id).join(','))}
+        >
           Submit
         </button>
       )}

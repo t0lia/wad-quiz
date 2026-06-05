@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { ClickOnLineTask } from '../types/story'
 
-type Props = { task: ClickOnLineTask; submitted: boolean; onSubmit: () => void }
+type Props = { task: ClickOnLineTask; submitted: boolean; onSubmit: (answer?: string) => void }
 
 export default function ClickOnLine({ task, submitted, onSubmit }: Props) {
   const [selectedId, setSelectedId] = useState<string | null>(null)
@@ -24,7 +24,12 @@ export default function ClickOnLine({ task, submitted, onSubmit }: Props) {
         ))}
       </ul>
       {!submitted && (
-        <button type="button" className="submit-btn" disabled={selectedId === null} onClick={onSubmit}>
+        <button
+          type="button"
+          className="submit-btn"
+          disabled={selectedId === null}
+          onClick={() => onSubmit(selectedId ?? undefined)}
+        >
           Submit
         </button>
       )}

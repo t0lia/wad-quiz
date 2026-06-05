@@ -8,9 +8,10 @@ import CardFilter from './CardFilter'
 import SwipeCards from './SwipeCards'
 import BlockBuilder from './BlockBuilder'
 import OneTapForward from './OneTapForward'
+import TextSceneTask from './TextSceneTask'
 import DecisionMap from './DecisionMap'
 
-type Props = { task: Task; submitted: boolean; onSubmit: () => void }
+type Props = { task: Task; submitted: boolean; onSubmit: (answer?: string) => void }
 
 export default function TaskRouter({ task, submitted, onSubmit }: Props) {
   const p = { submitted, onSubmit }
@@ -22,8 +23,9 @@ export default function TaskRouter({ task, submitted, onSubmit }: Props) {
     case 'mapping':            return <Mapping           task={task} {...p} />
     case 'card_filter':        return <CardFilter        task={task} {...p} />
     case 'swipe_cards':        return <SwipeCards        task={task} {...p} />
-    case 'block_builder':      return <BlockBuilder      task={task} {...p} />
-    case 'one_tap_forward':    return <OneTapForward     onSubmit={onSubmit} />
+    case 'block_builder':      return <BlockBuilder      task={task} submitted={submitted} onSubmit={onSubmit} />
+    case 'one_tap_forward':    return <OneTapForward     onSubmit={() => onSubmit()} />
+    case 'text_scene':         return <TextSceneTask     task={task} onSubmit={onSubmit} />
     case 'decision_map':       return <DecisionMap       task={task} {...p} />
   }
 }
