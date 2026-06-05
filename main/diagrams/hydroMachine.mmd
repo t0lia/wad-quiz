@@ -1,0 +1,150 @@
+flowchart TD
+  %% Generated from src/machine.ts (hydroMachine)
+  S1["hydroFactory"]
+  S2["ending_partial"]
+  class S2 endingNode
+  S3["ending_success"]
+  class S3 endingNode
+  S4["intro"]
+  class S4 textNode
+  S5["task_alert_swipe"]
+  class S5 taskNode
+  S6["task_alert_triage"]
+  class S6 taskNode
+  S7["task_co2_mapping"]
+  class S7 taskNode
+  S8["task_dependency_map"]
+  class S8 taskNode
+  S9["task_deploy_order"]
+  class S9 taskNode
+  S10["task_git"]
+  class S10 taskNode
+  S11["task_growth_log"]
+  class S11 taskNode
+  S12["task_harvest_order"]
+  class S12 taskNode
+  S13["task_http_mapping"]
+  class S13 taskNode
+  S14["task_led_choice"]
+  class S14 taskNode
+  S15["task_nutrients"]
+  class S15 taskNode
+  S16["task_ph"]
+  class S16 taskNode
+  S17["task_plant_sort"]
+  class S17 taskNode
+  S18["task_sensor_log"]
+  class S18 taskNode
+  S19["task_water_temp"]
+  class S19 taskNode
+  S20["text_a_afternoon"]
+  class S20 textNode
+  S21["text_a_before_final"]
+  class S21 textNode
+  S22["text_alert_retry"]
+  class S22 textNode
+  S23["text_alertswipe_retry"]
+  class S23 textNode
+  S24["text_b_afternoon"]
+  class S24 textNode
+  S25["text_b_before_final"]
+  class S25 textNode
+  S26["text_co2_retry"]
+  class S26 textNode
+  S27["text_dep_retry"]
+  class S27 textNode
+  S28["text_deploy_retry"]
+  class S28 textNode
+  S29["text_git_hint"]
+  class S29 textNode
+  S30["text_git_partial"]
+  class S30 textNode
+  S31["text_git_success"]
+  class S31 textNode
+  S32["text_growth_retry"]
+  class S32 textNode
+  S33["text_harvest_retry"]
+  class S33 textNode
+  S34["text_http_retry"]
+  class S34 textNode
+  S35["text_led_retry"]
+  class S35 textNode
+  S36["text_nutrients_retry"]
+  class S36 textNode
+  S37["text_ph_retry"]
+  class S37 textNode
+  S38["text_plant_sort_retry"]
+  class S38 textNode
+  S39["text_sensor_retry"]
+  class S39 textNode
+  S40["text_to_git"]
+  class S40 textNode
+  S41["text_to_nutrients"]
+  class S41 textNode
+  S42["text_to_plants"]
+  class S42 textNode
+  S43["text_to_sensor"]
+  class S43 textNode
+  S44["text_water_retry"]
+  class S44 textNode
+  S4 -->|"NEXT"| S16
+  S16 -->|"splitCsv(event.answer).includes('ph1')"| S41
+  S16 -->|"NEXT"| S37
+  S41 -->|"NEXT"| S15
+  S37 -->|"NEXT"| S15
+  S15 -->|"isGoodNutrientPlan(event.answer)"| S43
+  S15 -->|"NEXT"| S36
+  S43 -->|"NEXT"| S18
+  S36 -->|"NEXT"| S18
+  S18 -->|"normalize(event.answer)==='sl3'"| S42
+  S18 -->|"NEXT"| S39
+  S42 -->|"NEXT"| S17
+  S39 -->|"NEXT"| S17
+  S17 -->|"isExpectedMapping(event.answer,{ps1:'pb1',ps2:'pb2',ps3:'pb2',ps4:'pb1'})"| S40
+  S17 -->|"NEXT"| S38
+  S40 -->|"NEXT"| S10
+  S38 -->|"NEXT"| S10
+  S10 -->|"normalize(event.answer)==='git'"| S31
+  S10 -->|"NEXT"| S29
+  S29 -->|"normalize(event.answer).includes('continue anyway')"| S30
+  S29 -->|"NEXT"| S10
+  S31 -->|"NEXT"| S9
+  S9 -->|"isExactOrder(event.answer,['do1','do2','do3','do4','do5'])"| S6
+  S9 -->|"NEXT"| S28
+  S28 -->|"NEXT"| S6
+  S6 -->|"isExpectedSwipe(event.answer,{at1:'left',at2:'right',at3:'left',at4:'right'})"| S20
+  S6 -->|"NEXT"| S22
+  S20 -->|"NEXT"| S13
+  S22 -->|"NEXT"| S6
+  S13 -->|"isExpectedMapping(event.answer,{hc1:'hm1',hc2:'hm2',hc3:'hm3'})"| S8
+  S13 -->|"NEXT"| S34
+  S34 -->|"NEXT"| S13
+  S8 -->|"['dm4','dm5'].includes(normalize(event.answer))"| S21
+  S8 -->|"NEXT"| S27
+  S27 -->|"NEXT"| S8
+  S21 -->|"NEXT"| S14
+  S14 -->|"splitCsv(event.answer).includes('lc2')"| S3
+  S14 -->|"NEXT"| S35
+  S35 -->|"NEXT"| S14
+  S30 -->|"NEXT"| S19
+  S19 -->|"splitCsv(event.answer).includes('wt2')"| S12
+  S19 -->|"NEXT"| S44
+  S44 -->|"NEXT"| S19
+  S12 -->|"isExactOrder(event.answer,['ho1','ho2','ho3','ho4','ho5'])"| S24
+  S12 -->|"NEXT"| S33
+  S33 -->|"NEXT"| S12
+  S24 -->|"NEXT"| S7
+  S7 -->|"isExpectedMapping(event.answer,{cm1:'cr1',cm2:'cr2',cm3:'cr3'})"| S5
+  S7 -->|"NEXT"| S26
+  S26 -->|"NEXT"| S7
+  S5 -->|"isExpectedSwipe(event.answer,{as1:'left',as2:'right',as3:'left',as4:'right'})"| S25
+  S5 -->|"NEXT"| S23
+  S23 -->|"NEXT"| S5
+  S25 -->|"NEXT"| S11
+  S11 -->|"normalize(event.answer)==='gl4'"| S2
+  S11 -->|"NEXT"| S32
+  S32 -->|"NEXT"| S11
+
+  classDef taskNode fill:#d9f5ff,stroke:#0b7285,stroke-width:2px,color:#073642
+  classDef textNode fill:#fff7db,stroke:#a07800,stroke-width:1px,color:#4d3a00
+  classDef endingNode fill:#e9f7ef,stroke:#2f9e44,stroke-width:2px,color:#1b5e20
