@@ -16,8 +16,7 @@ import type { ChallengeSceneData } from './types/story'
  */
 export const hydroMachine = createMachine<
   {},
-  | { type: 'NEXT'; answer?: string }
-  | { type: 'SKIP' },
+  { type: 'NEXT'; answer?: string } ,
   any,
   any,
   any,
@@ -33,7 +32,6 @@ export const hydroMachine = createMachine<
   types: {} as {
     events:
       | { type: 'NEXT'; answer?: string }
-      | { type: 'SKIP' }
   },
   states: {
     // ── Intro text page ────────────────────────────────────
@@ -67,7 +65,7 @@ export const hydroMachine = createMachine<
           ],
         },
       },
-      on: { NEXT: 'text_to_nutrients', SKIP: 'text_nutrients_retry' },
+      on: { NEXT: 'text_to_nutrients' },
     },
     text_to_nutrients: {
       meta: {
@@ -118,7 +116,7 @@ export const hydroMachine = createMachine<
           ],
         },
       },
-      on: { NEXT: 'text_to_sensor', SKIP: 'text_to_plants' },
+      on: { NEXT: 'text_to_sensor' },
     },
     text_to_sensor: {
       meta: {
@@ -168,7 +166,7 @@ export const hydroMachine = createMachine<
           ],
         },
       },
-      on: { NEXT: 'text_to_plants', SKIP: 'text_to_git' },
+      on: { NEXT: 'text_to_plants' },
     },
     text_to_plants: {
       meta: {
@@ -221,7 +219,7 @@ export const hydroMachine = createMachine<
           ],
         },
       },
-      on: { NEXT: 'text_to_git', SKIP: 'text_git_hint' },
+      on: { NEXT: 'text_to_git' },
     },
     text_to_git: {
       meta: {
@@ -275,7 +273,7 @@ export const hydroMachine = createMachine<
           ],
         },
       },
-      on: { NEXT: 'text_git_success', SKIP: 'text_git_hint' },
+      on: { NEXT: 'text_git_success' },
     },
 
     // Hint page loops back to task_git  ← CYCLE in the graph
@@ -330,7 +328,7 @@ export const hydroMachine = createMachine<
           ],
         },
       },
-      on: { NEXT: 'task_alert_triage', SKIP: 'text_deploy_retry' },
+      on: { NEXT: 'task_alert_triage' },
     },
     text_deploy_retry: {
       meta: {
@@ -366,7 +364,7 @@ export const hydroMachine = createMachine<
           ],
         },
       },
-      on: { NEXT: 'text_a_afternoon', SKIP: 'text_alert_retry' },
+      on: { NEXT: 'text_a_afternoon' },
     },
     text_a_afternoon: {
       meta: {
@@ -419,7 +417,7 @@ export const hydroMachine = createMachine<
           ],
         },
       },
-      on: { NEXT: 'task_dependency_map', SKIP: 'text_http_retry' },
+      on: { NEXT: 'task_dependency_map' },
     },
     text_http_retry: {
       meta: {
@@ -459,7 +457,7 @@ export const hydroMachine = createMachine<
           correctNodeIds: ['dm4', 'dm5'],
         },
       },
-      on: { NEXT: 'text_a_before_final', SKIP: 'text_dep_retry' },
+      on: { NEXT: 'text_a_before_final' },
     },
     text_dep_retry: {
       meta: {
@@ -508,7 +506,7 @@ export const hydroMachine = createMachine<
           ],
         },
       },
-      on: { NEXT: 'ending_success', SKIP: 'text_led_retry' },
+      on: { NEXT: 'ending_success' },
     },
     text_led_retry: {
       meta: {
@@ -571,7 +569,7 @@ export const hydroMachine = createMachine<
           ],
         },
       },
-      on: { NEXT: 'task_harvest_order', SKIP: 'text_water_retry' },
+      on: { NEXT: 'task_harvest_order' },
     },
     text_water_retry: { meta: undefined, on: { NEXT: 'task_water_temp' } },
     task_harvest_order: {
@@ -589,7 +587,7 @@ export const hydroMachine = createMachine<
           ],
         },
       },
-      on: { NEXT: 'text_b_afternoon', SKIP: 'text_harvest_retry' },
+      on: { NEXT: 'text_b_afternoon' },
     },
     text_harvest_retry: { meta: undefined, on: { NEXT: 'task_harvest_order' } },
     text_b_afternoon: {
@@ -622,7 +620,7 @@ export const hydroMachine = createMachine<
           ],
         },
       },
-      on: { NEXT: 'task_alert_swipe', SKIP: 'text_co2_retry' },
+      on: { NEXT: 'task_alert_swipe' },
     },
     text_co2_retry: { meta: undefined, on: { NEXT: 'task_co2_mapping' } },
     task_alert_swipe: {
@@ -643,7 +641,7 @@ export const hydroMachine = createMachine<
           ],
         },
       },
-      on: { NEXT: 'text_b_before_final', SKIP: 'text_alertswipe_retry' },
+      on: { NEXT: 'text_b_before_final' },
     },
     text_alertswipe_retry: { meta: undefined, on: { NEXT: 'task_alert_swipe' } },
     text_b_before_final: {
@@ -672,7 +670,7 @@ export const hydroMachine = createMachine<
           ],
         },
       },
-      on: { NEXT: 'ending_partial', SKIP: 'text_growth_retry' },
+      on: { NEXT: 'ending_partial' },
     },
     text_growth_retry: { meta: undefined, on: { NEXT: 'task_growth_log' } },
 
