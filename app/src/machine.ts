@@ -1,6 +1,82 @@
 import { createMachine } from 'xstate'
 import type { ChallengeSceneData } from './types/story'
 
+const normalize = (value?: string) => (value ?? '').toLowerCase().trim()
+
+const parseRecord = (value?: string): Record<string, string> => {
+  if (!value) return {}
+  try {
+    const parsed = JSON.parse(value)
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return {}
+    return Object.fromEntries(
+      Object.entries(parsed).map(([k, v]) => [k, String(v)])
+    )
+  } catch {
+    return {}
+  }
+}
+
+const parseNumberRecord = (value?: string): Record<string, number> => {
+  if (!value) return {}
+  try {
+    const parsed = JSON.parse(value)
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return {}
+    return Object.fromEntries(
+      Object.entries(parsed)
+        .map(([k, v]) => [k, Number(v)] as const)
+        .filter(([, v]) => Number.isFinite(v))
+    )
+  } catch {
+    return {}
+  }
+}
+
+const splitCsv = (value?: string) =>
+  (value ?? '')
+    .split(',')
+    .map((token) => token.trim())
+    .filter(Boolean)
+
+const isExactOrder = (value: string | undefined, expected: string[]) =>
+  splitCsv(value).join(',') === expected.join(',')
+
+const isExpectedMapping = (
+  value: string | undefined,
+  expected: Record<string, string>
+) => {
+  const actual = parseRecord(value)
+  return Object.entries(expected).every(([leftId, rightId]) => actual[leftId] === rightId)
+}
+
+const isExpectedSwipe = (
+  value: string | undefined,
+  expected: Record<string, 'left' | 'right'>
+) => {
+  const actual = Object.fromEntries(
+    (value ?? '')
+      .split('|')
+      .map((entry) => entry.trim())
+      .filter(Boolean)
+      .map((entry) => {
+        const [cardId, dir] = entry.split(':')
+        return [cardId, dir as 'left' | 'right']
+      })
+  )
+  return Object.entries(expected).every(([cardId, dir]) => actual[cardId] === dir)
+}
+
+const isGoodNutrientPlan = (value?: string) => {
+  const allocation = parseNumberRecord(value)
+  const n1 = allocation.n1
+  const n2 = allocation.n2
+  const n3 = allocation.n3
+  const n4 = allocation.n4
+
+  if ([n1, n2, n3, n4].some((x) => typeof x !== 'number')) return false
+  const total = n1 + n2 + n3 + n4
+  return total === 20 && n1 >= n2 && n2 >= n3 && n3 >= n4
+}
+
 /**
  * Hydroponic Factory Working Day — XState routing machine.
  *
@@ -65,7 +141,15 @@ export const hydroMachine = createMachine<
           ],
         },
       },
-      on: { NEXT: 'text_to_nutrients' },
+      on: {
+        NEXT: [
+          {
+            guard: ({ event }: { event: { answer?: string } }) => splitCsv(event.answer).includes('ph1'),
+            target: 'text_to_nutrients',
+          },
+          { target: 'text_ph_retry' },
+        ],
+      },
     },
     text_to_nutrients: {
       meta: {
@@ -116,7 +200,15 @@ export const hydroMachine = createMachine<
           ],
         },
       },
-      on: { NEXT: 'text_to_sensor' },
+      on: {
+        NEXT: [
+          {
+            guard: ({ event }: { event: { answer?: string } }) => isGoodNutrientPlan(event.answer),
+            target: 'text_to_sensor',
+          },
+          { target: 'text_nutrients_retry' },
+        ],
+      },
     },
     text_to_sensor: {
       meta: {
@@ -166,7 +258,15 @@ export const hydroMachine = createMachine<
           ],
         },
       },
-      on: { NEXT: 'text_to_plants' },
+      on: {
+        NEXT: [
+          {
+            guard: ({ event }: { event: { answer?: string } }) => normalize(event.answer) === 'sl3',
+            target: 'text_to_plants',
+          },
+          { target: 'text_sensor_retry' },
+        ],
+      },
     },
     text_to_plants: {
       meta: {
@@ -219,7 +319,21 @@ export const hydroMachine = createMachine<
           ],
         },
       },
-      on: { NEXT: 'text_to_git' },
+      on: {
+        NEXT: [
+          {
+            guard: ({ event }: { event: { answer?: string } }) =>
+              isExpectedMapping(event.answer, {
+                ps1: 'pb1',
+                ps2: 'pb2',
+                ps3: 'pb2',
+                ps4: 'pb1',
+              }),
+            target: 'text_to_git',
+          },
+          { target: 'text_plant_sort_retry' },
+        ],
+      },
     },
     text_to_git: {
       meta: {
@@ -273,7 +387,15 @@ export const hydroMachine = createMachine<
           ],
         },
       },
-      on: { NEXT: 'text_git_success' },
+      on: {
+        NEXT: [
+          {
+            guard: ({ event }: { event: { answer?: string } }) => normalize(event.answer) === 'git',
+            target: 'text_git_success',
+          },
+          { target: 'text_git_hint' },
+        ],
+      },
     },
 
     // Hint page loops back to task_git  ← CYCLE in the graph
@@ -292,7 +414,15 @@ export const hydroMachine = createMachine<
           ],
         },
       },
-      on: { NEXT: 'task_git' },
+      on: {
+        NEXT: [
+          {
+            guard: ({ event }: { event: { answer?: string } }) => normalize(event.answer).includes('continue anyway'),
+            target: 'text_git_partial',
+          },
+          { target: 'task_git' },
+        ],
+      },
     },
 
     // ── Branch A — git command was correct ─────────────────
@@ -328,7 +458,16 @@ export const hydroMachine = createMachine<
           ],
         },
       },
-      on: { NEXT: 'task_alert_triage' },
+      on: {
+        NEXT: [
+          {
+            guard: ({ event }: { event: { answer?: string } }) =>
+              isExactOrder(event.answer, ['do1', 'do2', 'do3', 'do4', 'do5']),
+            target: 'task_alert_triage',
+          },
+          { target: 'text_deploy_retry' },
+        ],
+      },
     },
     text_deploy_retry: {
       meta: {
@@ -364,7 +503,21 @@ export const hydroMachine = createMachine<
           ],
         },
       },
-      on: { NEXT: 'text_a_afternoon' },
+      on: {
+        NEXT: [
+          {
+            guard: ({ event }: { event: { answer?: string } }) =>
+              isExpectedSwipe(event.answer, {
+                at1: 'left',
+                at2: 'right',
+                at3: 'left',
+                at4: 'right',
+              }),
+            target: 'text_a_afternoon',
+          },
+          { target: 'text_alert_retry' },
+        ],
+      },
     },
     text_a_afternoon: {
       meta: {
@@ -417,7 +570,20 @@ export const hydroMachine = createMachine<
           ],
         },
       },
-      on: { NEXT: 'task_dependency_map' },
+      on: {
+        NEXT: [
+          {
+            guard: ({ event }: { event: { answer?: string } }) =>
+              isExpectedMapping(event.answer, {
+                hc1: 'hm1',
+                hc2: 'hm2',
+                hc3: 'hm3',
+              }),
+            target: 'task_dependency_map',
+          },
+          { target: 'text_http_retry' },
+        ],
+      },
     },
     text_http_retry: {
       meta: {
@@ -457,7 +623,15 @@ export const hydroMachine = createMachine<
           correctNodeIds: ['dm4', 'dm5'],
         },
       },
-      on: { NEXT: 'text_a_before_final' },
+      on: {
+        NEXT: [
+          {
+            guard: ({ event }: { event: { answer?: string } }) => ['dm4', 'dm5'].includes(normalize(event.answer)),
+            target: 'text_a_before_final',
+          },
+          { target: 'text_dep_retry' },
+        ],
+      },
     },
     text_dep_retry: {
       meta: {
@@ -506,7 +680,15 @@ export const hydroMachine = createMachine<
           ],
         },
       },
-      on: { NEXT: 'ending_success' },
+      on: {
+        NEXT: [
+          {
+            guard: ({ event }: { event: { answer?: string } }) => splitCsv(event.answer).includes('lc2'),
+            target: 'ending_success',
+          },
+          { target: 'text_led_retry' },
+        ],
+      },
     },
     text_led_retry: {
       meta: {
@@ -569,7 +751,15 @@ export const hydroMachine = createMachine<
           ],
         },
       },
-      on: { NEXT: 'task_harvest_order' },
+      on: {
+        NEXT: [
+          {
+            guard: ({ event }: { event: { answer?: string } }) => splitCsv(event.answer).includes('wt2'),
+            target: 'task_harvest_order',
+          },
+          { target: 'text_water_retry' },
+        ],
+      },
     },
     text_water_retry: { meta: undefined, on: { NEXT: 'task_water_temp' } },
     task_harvest_order: {
@@ -587,7 +777,16 @@ export const hydroMachine = createMachine<
           ],
         },
       },
-      on: { NEXT: 'text_b_afternoon' },
+      on: {
+        NEXT: [
+          {
+            guard: ({ event }: { event: { answer?: string } }) =>
+              isExactOrder(event.answer, ['ho1', 'ho2', 'ho3', 'ho4', 'ho5']),
+            target: 'text_b_afternoon',
+          },
+          { target: 'text_harvest_retry' },
+        ],
+      },
     },
     text_harvest_retry: { meta: undefined, on: { NEXT: 'task_harvest_order' } },
     text_b_afternoon: {
@@ -620,7 +819,20 @@ export const hydroMachine = createMachine<
           ],
         },
       },
-      on: { NEXT: 'task_alert_swipe' },
+      on: {
+        NEXT: [
+          {
+            guard: ({ event }: { event: { answer?: string } }) =>
+              isExpectedMapping(event.answer, {
+                cm1: 'cr1',
+                cm2: 'cr2',
+                cm3: 'cr3',
+              }),
+            target: 'task_alert_swipe',
+          },
+          { target: 'text_co2_retry' },
+        ],
+      },
     },
     text_co2_retry: { meta: undefined, on: { NEXT: 'task_co2_mapping' } },
     task_alert_swipe: {
@@ -641,7 +853,21 @@ export const hydroMachine = createMachine<
           ],
         },
       },
-      on: { NEXT: 'text_b_before_final' },
+      on: {
+        NEXT: [
+          {
+            guard: ({ event }: { event: { answer?: string } }) =>
+              isExpectedSwipe(event.answer, {
+                as1: 'left',
+                as2: 'right',
+                as3: 'left',
+                as4: 'right',
+              }),
+            target: 'text_b_before_final',
+          },
+          { target: 'text_alertswipe_retry' },
+        ],
+      },
     },
     text_alertswipe_retry: { meta: undefined, on: { NEXT: 'task_alert_swipe' } },
     text_b_before_final: {
@@ -670,7 +896,15 @@ export const hydroMachine = createMachine<
           ],
         },
       },
-      on: { NEXT: 'ending_partial' },
+      on: {
+        NEXT: [
+          {
+            guard: ({ event }: { event: { answer?: string } }) => normalize(event.answer) === 'gl4',
+            target: 'ending_partial',
+          },
+          { target: 'text_growth_retry' },
+        ],
+      },
     },
     text_growth_retry: { meta: undefined, on: { NEXT: 'task_growth_log' } },
 

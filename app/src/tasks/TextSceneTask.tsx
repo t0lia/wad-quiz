@@ -9,10 +9,10 @@ export default function TextSceneTask({ task, onSubmit }: Props) {
     <div className="text-scene-actions">
       {choices.map((choice) => (
         <button
-          key={choice.event}
+          key={`${choice.event}:${choice.label}`}
           type="button"
           className="submit-btn"
-          onClick={() => onSubmit(choice.event)}
+          onClick={() => onSubmit(choice.label)}
         >
           {choice.label}
         </button>

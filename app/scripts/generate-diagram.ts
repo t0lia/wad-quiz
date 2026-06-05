@@ -46,29 +46,63 @@ function collectNodes(graph: DirectedGraphNode): Map<string, string> {
 function collectEdges(graph: DirectedGraphNode): Array<{ source: string; target: string; label: string }> {
   const edges: Array<{ source: string; target: string; label: string }> = []
 
-  function readEventLabel(transition: unknown): string {
-    if (!transition || typeof transition !== 'object') {
-      return ''
+function extractGuardSource(guard: unknown): string {
+  if (typeof guard === 'string') {
+    return guard.trim()
+  }
+  if (typeof guard === 'function') {
+    return guard.toString().trim()
+  }
+  if (guard && typeof guard === 'object') {
+    const maybeSource = (guard as { source?: unknown }).source
+    if (typeof maybeSource === 'string') {
+      return maybeSource.trim()
     }
+  }
+  return ''
+}
 
-    const candidate = transition as {
-      eventType?: unknown
-      event?: { type?: unknown }
-      guard?: unknown
+function readEventLabel(transition: unknown): string {
+  if (!transition || typeof transition !== 'object') {
+    return ''
+  }
+
+  const candidate = transition as {
+    eventType?: unknown
+    event?: { type?: unknown }
+    guard?: unknown
+  }
+
+  if (candidate.guard) {
+    const guardSource = extractGuardSource(candidate.guard)
+    if (guardSource) {
+      const arrowIndex = guardSource.indexOf('=>')
+      if (arrowIndex >= 0) {
+        let body = guardSource.slice(arrowIndex + 2).trim()
+        if (body.startsWith('{') && body.endsWith('}')) {
+          body = body.slice(1, -1).trim()
+        }
+        if (body.startsWith('return ')) {
+          body = body.slice(7).trim()
+        }
+        if (body.endsWith(';')) {
+          body = body.slice(0, -1).trim()
+        }
+        body = body.replace(/"([^\"]*)"/g, "'$1'")
+        return body
+      }
+      return guardSource.replace(/"([^\"]*)"/g, "'$1'")
     }
+  }
 
-    let label = ''
-    if (typeof candidate.eventType === 'string') {
-      label = candidate.eventType
-    } else if (candidate.event && typeof candidate.event.type === 'string') {
-      label = candidate.event.type
-    }
+  if (typeof candidate.eventType === 'string') {
+    return candidate.eventType
+  }
+  if (candidate.event && typeof candidate.event.type === 'string') {
+    return candidate.event.type
+  }
 
-    if (candidate.guard) {
-      label = label ? `${label} [guard]` : '[guard]'
-    }
-
-    return label
+  return ''
   }
 
   function visit(node: DirectedGraphNode): void {
@@ -98,12 +132,12 @@ function collectEdges(graph: DirectedGraphNode): Array<{ source: string; target:
 function escapeMermaidLabel(label: string): string {
   return label
     .replaceAll('\\', '\\\\')
-    .replaceAll('"', '\\"')
     .replaceAll('|', '\\|')
 }
 
 function formatMermaidLabel(label: string): string {
-  return `|"${escapeMermaidLabel(label)}"|`
+  const escaped = escapeMermaidLabel(label)
+  return `|"${escaped}"|`
 }
 
 function createMermaid(graph: DirectedGraphNode): string {
@@ -173,9 +207,12 @@ async function main(): Promise<void> {
   const mermaidText = createMermaid(directedGraph)
 
   await mkdir(distOutputDir, { recursive: true })
+  await mkdir(publicOutputDir, { recursive: true })
   await writeFile(distOutputMmd, mermaidText, 'utf8')
+  await writeFile(publicOutputMmd, mermaidText, 'utf8')
 
   console.log(`Mermaid diagram written: ${distOutputMmd}`)
+  console.log(`Mermaid diagram written: ${publicOutputMmd}`)
 }
 
 

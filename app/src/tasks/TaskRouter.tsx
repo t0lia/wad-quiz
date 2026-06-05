@@ -14,7 +14,7 @@ import DecisionMap from './DecisionMap'
 type Props = { task: Task; submitted: boolean; onSubmit: (answer?: string) => void }
 
 export default function TaskRouter({ task, submitted, onSubmit }: Props) {
-  const p = { submitted, onSubmit: () => onSubmit() }
+  const p = { submitted, onSubmit }
   switch (task.type) {
     case 'multiple_choice':    return <MultipleChoice    task={task} {...p} />
     case 'drag_and_drop':      return <DragAndDrop       task={task} {...p} />
