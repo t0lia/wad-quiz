@@ -14,44 +14,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # ── 1. Checkout ──────────────────────────────────────────────────────────
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # ── 2. Node setup ────────────────────────────────────────────────────────
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
           cache-dependency-path: app/package-lock.json
-
-      # ── 3. Install dependencies ───────────────────────────────────────────────
       - name: Install dependencies
         working-directory: app
         run: npm ci
-
-      # ── 4. Build the Vite app ─────────────────────────────────────────────────
-      # The app is served from /{repo-name}/{branch-name}/ on GitHub Pages.
       - name: Build app
         working-directory: app
         env:
           VITE_BASE: /${{ github.event.repository.name }}/${{ github.ref_name }}/
         run: npm run build
-
-      # ── 5. Generate the XState scenario diagram ───────────────────────────────
       - name: Generate scenario diagram
         working-directory: app
         run: npm run generate-diagram
-
-      # ── 6. Deploy to gh-pages under /{branch-name}/ ───────────────────────────
-      # We use peaceiris/actions-gh-pages which lets us control the destination
-      # directory and keeps other branches' deployments intact.
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: app/dist
           destination_dir: ${{ github.ref_name }}
-          # Keep previous branch deployments; only overwrite this branch's folder.
           keep_files: true
