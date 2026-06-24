@@ -1,0 +1,344 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "SectionStoryGraphV2",
+  "title": "SectionStoryGraphV2",
+  "type": "object",
+  "required": ["format", "version", "language", "session", "rules", "state_model", "scoring", "scenario"],
+  "additionalProperties": true,
+  "properties": {
+    "format": { "const": "SectionStoryGraphV2" },
+    "version": { "type": "number" },
+    "language": { "type": "string" },
+    "session": {
+      "type": "object",
+      "required": ["mode", "duration_minutes", "structure", "target_structure", "main_node_sequence", "post_node_exit_sections"],
+      "properties": {
+        "mode": { "type": "string" },
+        "duration_minutes": { "type": "number" },
+        "structure": { "type": "string" },
+        "target_structure": { "type": "string" },
+        "main_node_sequence": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "post_node_exit_sections": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["after_node", "section_id"],
+            "properties": {
+              "after_node": { "type": "string" },
+              "section_id": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "rules": {
+      "type": "object",
+      "required": ["main_node_count", "early_exit_section_count"],
+      "properties": {
+        "main_node_count": { "type": "number" },
+        "early_exit_section_count": { "type": "number" },
+        "note": { "type": "string" },
+        "interaction_patterns": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "problem_node_structure": {
+          "type": "object",
+          "required": ["options_per_problem", "required_outcomes"],
+          "properties": {
+            "options_per_problem": { "type": "number" },
+            "required_outcomes": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          },
+          "additionalProperties": false
+        },
+        "narrative_requirements": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "state_model": {
+      "type": "object",
+      "required": ["flags", "derived"],
+      "properties": {
+        "flags": { "type": "object", "additionalProperties": { "type": "string" } },
+        "derived": { "type": "object", "additionalProperties": true }
+      },
+      "additionalProperties": false
+    },
+    "scoring": {
+      "type": "object",
+      "required": ["outcomes"],
+      "properties": {
+        "outcomes": { "type": "object", "additionalProperties": { "type": "string" } }
+      },
+      "additionalProperties": false
+    },
+    "scenario": { "$ref": "#/$defs/Scenario" }
+  },
+  "$defs": {
+    "DialogueLine": {
+      "type": "object",
+      "required": ["speaker", "text"],
+      "properties": {
+        "speaker": { "type": "string" },
+        "text": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "CastMember": {
+      "type": "object",
+      "required": ["id", "role"],
+      "properties": {
+        "id": { "type": "string" },
+        "role": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "Location": {
+      "type": "object",
+      "required": ["id", "label"],
+      "properties": {
+        "id": { "type": "string" },
+        "label": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "NextWhenEntry": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["if", "value"],
+          "properties": {
+            "if": { "type": "string" },
+            "value": { "type": "string" }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["else"],
+          "properties": {
+            "else": { "type": "string" }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "ConclusionEntry": {
+      "type": "object",
+      "required": ["narrative"],
+      "properties": {
+        "narrative": { "type": "string" },
+        "next_section": { "type": "string" },
+        "next": { "type": "string" },
+        "next_section_when": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/NextWhenEntry" }
+        },
+        "next_if_continue": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "object", "additionalProperties": { "type": "string" } }
+          ]
+        },
+        "next_if_stop": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "Conclusion": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["by_action"],
+          "properties": {
+            "by_action": {
+              "type": "object",
+              "additionalProperties": { "$ref": "#/$defs/ConclusionEntry" }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["by_outcome"],
+          "properties": {
+            "by_outcome": {
+              "type": "object",
+              "additionalProperties": { "$ref": "#/$defs/ConclusionEntry" }
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "BranchAction": {
+      "type": "object",
+      "required": ["id", "text", "description"],
+      "properties": {
+        "id": { "type": "string" },
+        "text": { "type": "string" },
+        "description": { "type": "string" },
+        "sets_flag": { "type": "string" },
+        "next": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "ProblemAction": {
+      "type": "object",
+      "required": ["id", "text", "description", "outcome"],
+      "properties": {
+        "id": { "type": "string" },
+        "text": { "type": "string" },
+        "description": { "type": "string" },
+        "outcome": { "enum": ["solved", "incorrect", "override"] },
+        "sets_flag": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "Modifier": {
+      "type": "object",
+      "required": ["condition", "effect"],
+      "properties": {
+        "condition": { "type": "string" },
+        "effect": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "BranchInteraction": {
+      "type": "object",
+      "required": ["type", "title", "prompt", "actions"],
+      "properties": {
+        "type": { "const": "branch" },
+        "title": { "type": "string" },
+        "prompt": { "type": "string" },
+        "actions": {
+          "type": "array",
+          "minItems": 2,
+          "items": { "$ref": "#/$defs/BranchAction" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "ProblemInteraction": {
+      "type": "object",
+      "required": ["type", "title", "prompt", "actions"],
+      "properties": {
+        "type": { "const": "problem" },
+        "title": { "type": "string" },
+        "prompt": { "type": "string" },
+        "snippet": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "modifiers": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/Modifier" }
+        },
+        "actions": {
+          "type": "array",
+          "minItems": 2,
+          "items": { "$ref": "#/$defs/ProblemAction" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "Interaction": {
+      "oneOf": [
+        { "$ref": "#/$defs/BranchInteraction" },
+        { "$ref": "#/$defs/ProblemInteraction" }
+      ]
+    },
+    "Section": {
+      "type": "object",
+      "required": ["id", "title", "location_id", "intro", "interaction", "conclusion"],
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "location_id": { "type": "string" },
+        "intro": {
+          "type": "object",
+          "required": ["narrative"],
+          "properties": {
+            "narrative": { "type": "string" },
+            "dialogue": {
+              "type": "array",
+              "items": { "$ref": "#/$defs/DialogueLine" }
+            }
+          },
+          "additionalProperties": false
+        },
+        "interaction": { "$ref": "#/$defs/Interaction" },
+        "conclusion": { "$ref": "#/$defs/Conclusion" }
+      },
+      "additionalProperties": false
+    },
+    "Ending": {
+      "type": "object",
+      "required": ["id", "title", "tier", "condition", "summary", "epilogue", "variant_pool"],
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "tier": { "type": "string" },
+        "condition": { "type": "string" },
+        "summary": { "type": "string" },
+        "epilogue": {
+          "type": "object",
+          "required": ["narrative"],
+          "properties": {
+            "narrative": { "type": "string" }
+          },
+          "additionalProperties": true
+        },
+        "variant_pool": {
+          "type": "object",
+          "required": ["count", "selection"],
+          "properties": {
+            "count": { "type": "number" },
+            "selection": { "type": "string" }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": true
+    },
+    "Scenario": {
+      "type": "object",
+      "required": ["id", "title", "start_section", "cast", "locations", "sections", "endings"],
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "start_section": { "type": "string" },
+        "cast": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/CastMember" }
+        },
+        "locations": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/Location" }
+        },
+        "sections": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/Section" }
+        },
+        "endings": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/Ending" }
+        },
+        "continuity": { "type": "object", "additionalProperties": true }
+      },
+      "additionalProperties": false
+    }
+  }
+}
