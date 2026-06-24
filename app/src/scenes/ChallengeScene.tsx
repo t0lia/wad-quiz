@@ -10,25 +10,16 @@ type Props = {
 
 export default function ChallengeScene({ scene, onComplete }: Props) {
   const [submitted, setSubmitted] = useState(false)
-  const [answer, setAnswer] = useState<string | undefined>(undefined)
 
   function handleSubmit(a?: string) {
-    setAnswer(a)
     setSubmitted(true)
+    onComplete(a)
   }
 
   return (
     <div className="scene">
-      <p className="scene-text">{scene.text}</p>
+      <p className="scene-text" style={{ whiteSpace: 'pre-line' }}>{scene.text}</p>
       <TaskRouter task={scene.task} submitted={submitted} onSubmit={handleSubmit} />
-      {submitted && (
-        <div className="feedback correct">
-          Done!
-          <button type="button" className="secondary-btn" onClick={() => onComplete(answer)}>
-            Continue →
-          </button>
-        </div>
-      )}
     </div>
   )
 }
