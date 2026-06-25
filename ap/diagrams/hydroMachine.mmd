@@ -1,0 +1,79 @@
+flowchart TD
+  %% Generated from src/machine.ts (hydroMachine)
+  S1["code_of_growth_hydroworld_v2"]
+  S2["ending_1"]
+  class S2 endingNode
+  S3["ending_2"]
+  class S3 endingNode
+  S4["ending_3"]
+  class S4 endingNode
+  S5["ending_4"]
+  class S5 endingNode
+  S6["ending_5"]
+  class S6 endingNode
+  S7["section_1"]
+  S8["section_10_clean"]
+  S9["section_10_debt"]
+  S10["section_10_exit"]
+  S11["section_2_standard"]
+  S12["section_2_unsigned"]
+  S13["section_3"]
+  S14["section_4_cargo"]
+  S15["section_4_medical"]
+  S16["section_5_cargo"]
+  S17["section_5_cargo_fallout"]
+  S18["section_5_medical"]
+  S19["section_5_medical_fallout"]
+  S20["section_6_cargo"]
+  S21["section_6_medical"]
+  S22["section_7"]
+  S23["section_7_exit_cargo"]
+  S24["section_7_exit_medical"]
+  S25["section_8_clean"]
+  S26["section_8_debt"]
+  S27["section_8_exit_clean"]
+  S28["section_8_exit_debt"]
+  S29["section_9"]
+  S30["section_9_exit"]
+  S7 -->|"event.answer===actionId"| S11
+  S7 -->|"event.answer===actionId"| S12
+  S11 -->|"event.answer===actionId"| S13
+  S12 -->|"event.answer===actionId"| S13
+  S13 -->|"event.answer===actionId"| S14
+  S13 -->|"event.answer===actionId"| S15
+  S14 -->|"event.answer===actionId"| S17
+  S14 -->|"event.answer===actionId"| S16
+  S16 -->|"event.answer===actionId"| S20
+  S17 -->|"event.answer===actionId"| S20
+  S20 -->|"event.answer===actionId"| S22
+  S15 -->|"event.answer===actionId"| S19
+  S15 -->|"event.answer===actionId"| S18
+  S18 -->|"event.answer===actionId"| S21
+  S19 -->|"event.answer===actionId"| S21
+  S21 -->|"event.answer===actionId"| S22
+  S22 -->|"event.answer===actionId&&evalCondition(condition,context)"| S23
+  S22 -->|"event.answer===actionId"| S24
+  S23 -->|"event.answer===actionId"| S2
+  S23 -->|"event.answer===actionId&&evalCondition(condition,context)"| S26
+  S23 -->|"event.answer===actionId"| S25
+  S24 -->|"event.answer===actionId"| S2
+  S24 -->|"event.answer===actionId&&evalCondition(condition,context)"| S26
+  S24 -->|"event.answer===actionId"| S25
+  S25 -->|"event.answer===actionId"| S27
+  S26 -->|"event.answer===actionId"| S28
+  S27 -->|"event.answer===actionId"| S3
+  S27 -->|"event.answer===actionId"| S29
+  S28 -->|"event.answer===actionId"| S3
+  S28 -->|"event.answer===actionId"| S29
+  S29 -->|"event.answer===actionId"| S30
+  S30 -->|"event.answer===actionId"| S4
+  S30 -->|"event.answer===actionId&&evalCondition(condition,context)"| S9
+  S30 -->|"event.answer===actionId"| S8
+  S8 -->|"event.answer===actionId"| S10
+  S9 -->|"event.answer===actionId"| S10
+  S10 -->|"event.answer===actionId"| S5
+  S10 -->|"event.answer===actionId"| S6
+
+  classDef taskNode fill:#d9f5ff,stroke:#0b7285,stroke-width:2px,color:#073642
+  classDef textNode fill:#fff7db,stroke:#a07800,stroke-width:1px,color:#4d3a00
+  classDef endingNode fill:#e9f7ef,stroke:#2f9e44,stroke-width:2px,color:#1b5e20
