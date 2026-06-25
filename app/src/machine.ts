@@ -266,20 +266,29 @@ export const hydroMachine = createMachine<
       meta: {
         id: 'section_4_medical',
         text:
-          'Clara leads Alex through the medical corridor to a quarantine side gate with cleaner walls and angrier software. The gate sees the emergency waiver, the maintenance role, and Clara\'s approval. It still declares the record incomplete and keeps the lock engaged.',
+          'Section 4 Medical: Quarantine Side Gate\n\n' +
+          'Clara leads Alex through the medical corridor to a quarantine side gate with cleaner walls and angrier software. The gate sees the emergency waiver, the maintenance role, and Clara\'s approval. It still declares the record incomplete and keeps the lock engaged.\n\n' +
+          'CLARA: The waiver exists. I signed it myself.\n' +
+          'ALEX: Then the gate is either afraid of doctors or confused by field names.\n' +
+          'CLARA: I can work with either diagnosis.\n' +
+          'ALEX: Let us start with the one that compiles.\n\n' +
+          'Problem 2 Medical: Waiver Field Mismatch\n\n' +
+          'The quarantine gate builds a clearance payload, but writes the approval flag to the wrong field name. Clara\'s valid medical waiver never reaches the logic that unlocks the door.\n\n' +
+          'Click the line that needs to be fixed so the medical waiver is recognized.',
         task: {
-          type: 'multiple_choice',
-          options: [
-            { id: 'solved', content: 'Solve the problem' },
-            { id: 'incorrect', content: 'Give up / Proceed with error' },
-            { id: 'override', content: 'Force/Override solution' },
+          type: 'click_on_line',
+          lines: [
+            { id: 'line_1', content: 'def build_clearance(record):' },
+            { id: 'line_2', content: '    payload = {"level": record["level"], "waiverApproved": False}' },
+            { id: 'line_3', content: '    if record["doctor_ok"]:' },
+            { id: 'line_4', content: '        payload["waiver_approved"] = True' },
+            { id: 'line_5', content: '    return payload' },
           ]
         },
       } as ChallengeSceneData,
       on: {
         NEXT: [
-          { guard: ({ event }: any) => event.answer === 'solved', target: 'section_5_medical', actions: [{ type: 'set', params: { problem_4_result: 'solved' } }] },
-          { guard: ({ event }: any) => event.answer === 'override', target: 'section_5_medical_fallout', actions: [{ type: 'set', params: { problem_4_result: 'override', debt_count: (ctx: any) => ctx.debt_count + 1 } }] },
+          { guard: ({ event }: any) => event.answer === 'line_4', target: 'section_5_medical', actions: [{ type: 'set', params: { problem_4_result: 'solved' } }] },
           { target: 'section_5_medical_fallout', actions: [{ type: 'set', params: { problem_4_result: 'incorrect' } }] },
         ],
       },
