@@ -1,7 +1,8 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import type { ChallengeSceneData } from './types/story'
 import { hydroMachine } from './machine'
 import ChallengeScene from './scenes/ChallengeScene'
+import StateTreeVisualization from './components/StateTreeVisualization'
 import './App.css'
 
 function shortStateId(fullId: string): string {
@@ -96,6 +97,7 @@ function getNextSections(stateNode: any): string[] {
 }
 
 export default function DebugApp() {
+  const [viewMode, setViewMode] = useState<'tree' | 'grid'>('tree')
   const stateNodes = useMemo(() => (hydroMachine as any).config?.states ?? hydroMachine.states, [])
   
   const scenes = useMemo(() => {
@@ -109,36 +111,74 @@ export default function DebugApp() {
   return (
     <main className="debug-page">
       <header className="debug-header">
-        <h1 className="title">Hydroworld Debug</h1>
-        <p className="meta">Total scenes: {scenes.length} | Viewport: 412x915 (Pixel 6)</p>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+          <div>
+            <h1 className="title">Hydroworld Debug</h1>
+            <p className="meta">Total scenes: {scenes.length} | Viewport: 412x915 (Pixel 6)</p>
+          </div>
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <button
+              onClick={() => setViewMode('tree')}
+              style={{
+                padding: '8px 16px',
+                backgroundColor: viewMode === 'tree' ? '#0066cc' : '#e0e0e0',
+                color: viewMode === 'tree' ? '#fff' : '#000',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontWeight: viewMode === 'tree' ? '600' : '400',
+              }}
+            >
+              Tree View
+            </button>
+            <button
+              onClick={() => setViewMode('grid')}
+              style={{
+                padding: '8px 16px',
+                backgroundColor: viewMode === 'grid' ? '#0066cc' : '#e0e0e0',
+                color: viewMode === 'grid' ? '#fff' : '#000',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontWeight: viewMode === 'grid' ? '600' : '400',
+              }}
+            >
+              Grid View
+            </button>
+          </div>
+        </div>
       </header>
 
-      <section className="device-grid" aria-live="polite">
-        {scenes.map(({ key, scene }) => {
-          const nextSections = getNextSections(stateNodes[key])
-          return (
-            <div id={key} key={key}>
-              <div className="tile-id">{shortStateId(key)}</div>
-              <article className="tile">
-                <ChallengeScene scene={scene} onComplete={() => {}} />
-              </article>
-              {nextSections.length > 0 && (
-                <div style={{ fontSize: '0.75rem', color: '#666', marginTop: '0.5rem', padding: '0.5rem', backgroundColor: '#f5f5f5', borderRadius: '4px' }}>
-                  <strong>Next:</strong>{' '}
-                  {nextSections.map((s, idx) => (
-                    <span key={s}>
-                      <a href={`#${s}`} style={{ color: '#0066cc', textDecoration: 'none' }}>
-                        {shortStateId(s)}
-                      </a>
-                      {idx < nextSections.length - 1 && ', '}
-                    </span>
-                  ))}
-                </div>
-              )}
-            </div>
-          )
-        })}
-      </section>
+      {viewMode === 'tree' && <StateTreeVisualization />}
+
+      {viewMode === 'grid' && (
+        <section className="device-grid" aria-live="polite">
+          {scenes.map(({ key, scene }) => {
+            const nextSections = getNextSections(stateNodes[key])
+            return (
+              <div id={key} key={key}>
+                <div className="tile-id">{shortStateId(key)}</div>
+                <article className="tile">
+                  <ChallengeScene scene={scene} onComplete={() => {}} />
+                </article>
+                {nextSections.length > 0 && (
+                  <div style={{ fontSize: '0.75rem', color: '#666', marginTop: '0.5rem', padding: '0.5rem', backgroundColor: '#f5f5f5', borderRadius: '4px' }}>
+                    <strong>Next:</strong>{' '}
+                    {nextSections.map((s, idx) => (
+                      <span key={s}>
+                        <a href={`#${s}`} style={{ color: '#0066cc', textDecoration: 'none' }}>
+                          {shortStateId(s)}
+                        </a>
+                        {idx < nextSections.length - 1 && ', '}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )
+          })}
+        </section>
+      )}
     </main>
   )
 }
