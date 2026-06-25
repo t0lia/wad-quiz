@@ -87,15 +87,24 @@ function topoSortSceneKeys(): string[] {
   return ordered
 }
 
+function getNextSections(stateNode: any): string[] {
+  const targets = new Set<string>()
+  collectTargetIds(stateNode?.on, targets)
+  collectTargetIds(stateNode?.always, targets)
+  collectTargetIds(stateNode?.after, targets)
+  return Array.from(targets).sort()
+}
+
 export default function DebugApp() {
+  const stateNodes = useMemo(() => (hydroMachine as any).config?.states ?? hydroMachine.states, [])
+  
   const scenes = useMemo(() => {
-    const stateNodes = (hydroMachine as any).config?.states ?? hydroMachine.states
     const orderedKeys = topoSortSceneKeys()
 
     return orderedKeys
       .map((key) => ({ key, scene: stateNodes[key]?.meta as ChallengeSceneData | undefined }))
       .filter((entry): entry is { key: string; scene: ChallengeSceneData } => entry.scene != null)
-  }, [])
+  }, [stateNodes])
 
   return (
     <main className="debug-page">
@@ -105,14 +114,30 @@ export default function DebugApp() {
       </header>
 
       <section className="device-grid" aria-live="polite">
-        {scenes.map(({ key, scene }) => (
-          <div>
-            <div className="tile-id">{shortStateId(key)}</div>
-            <article className="tile" key={key}>
-              <ChallengeScene scene={scene} onComplete={() => {}} />
-            </article>
-          </div>
-        ))}
+        {scenes.map(({ key, scene }) => {
+          const nextSections = getNextSections(stateNodes[key])
+          return (
+            <div id={key} key={key}>
+              <div className="tile-id">{shortStateId(key)}</div>
+              <article className="tile">
+                <ChallengeScene scene={scene} onComplete={() => {}} />
+              </article>
+              {nextSections.length > 0 && (
+                <div style={{ fontSize: '0.75rem', color: '#666', marginTop: '0.5rem', padding: '0.5rem', backgroundColor: '#f5f5f5', borderRadius: '4px' }}>
+                  <strong>Next:</strong>{' '}
+                  {nextSections.map((s, idx) => (
+                    <span key={s}>
+                      <a href={`#${s}`} style={{ color: '#0066cc', textDecoration: 'none' }}>
+                        {shortStateId(s)}
+                      </a>
+                      {idx < nextSections.length - 1 && ', '}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+          )
+        })}
       </section>
     </main>
   )
