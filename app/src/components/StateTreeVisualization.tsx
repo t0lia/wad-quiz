@@ -134,7 +134,6 @@ export default function StateTreeVisualization() {
   const maxY = Math.max(...positions.map((p) => p.y + 700), 1000) + 100
 
   const positionMap = new Map(positions.map((p) => [p.id, p]))
-  const phoneContainerHeight = 900
 
   return (
     <div style={{ width: '100%', overflowX: 'auto', padding: '20px', position: 'relative' }}>
