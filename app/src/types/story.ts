@@ -56,6 +56,19 @@ export type TextSceneTask = {
   choices?: { label: string; event: 'NEXT' }[]
 }
 
+export type YamlBranchTask = {
+  type: 'yaml_branch'
+  prompt: string
+  actions: Array<{ id: string; text: string; description: string }>
+}
+
+export type YamlProblemTask = {
+  type: 'yaml_problem'
+  prompt: string
+  snippet?: string[]
+  actions: Array<{ id: string; text: string; description: string; outcome: string }>
+}
+
 export type Task =
   | MultipleChoiceTask
   | DragAndDropTask
@@ -68,5 +81,20 @@ export type Task =
   | OneTapForwardTask
   | DecisionMapTask
   | TextSceneTask
+  | YamlBranchTask
+  | YamlProblemTask
 
 export type ChallengeSceneData = { id: string; text: string; task: Task }
+
+export type { YamlSection, YamlEnding } from './yaml-story'
+export type { MachineContext } from '../machine-builder'
+
+export type YamlSceneData = {
+  section: import('./yaml-story').YamlSection
+  context: import('../machine-builder').MachineContext
+}
+
+export type YamlEndingData = {
+  ending: import('./yaml-story').YamlEnding
+  context: import('../machine-builder').MachineContext
+}

@@ -10,6 +10,8 @@ import BlockBuilder from './BlockBuilder'
 import OneTapForward from './OneTapForward'
 import TextSceneTask from './TextSceneTask'
 import DecisionMap from './DecisionMap'
+import YamlBranch from './YamlBranch'
+import YamlProblem from './YamlProblem'
 
 type Props = { task: Task; submitted: boolean; onSubmit: (answer?: string) => void }
 
@@ -27,5 +29,7 @@ export default function TaskRouter({ task, submitted, onSubmit }: Props) {
     case 'one_tap_forward':    return <OneTapForward     onSubmit={() => onSubmit()} />
     case 'text_scene':         return <TextSceneTask     task={task} onSubmit={onSubmit} />
     case 'decision_map':       return <DecisionMap       task={task} {...p} />
+    case 'yaml_branch':        return <YamlBranch        task={task} onSubmit={(a) => onSubmit(a)} />
+    case 'yaml_problem':       return <YamlProblem       task={task} onSubmit={(a) => onSubmit(a)} />
   }
 }
