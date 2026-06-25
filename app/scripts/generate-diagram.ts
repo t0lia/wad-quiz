@@ -1,8 +1,11 @@
+import { readFileSync } from 'node:fs'
 import { mkdir, writeFile } from 'node:fs/promises'
-import { dirname, join } from 'node:path'
+import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { load } from 'js-yaml'
 import { toDirectedGraph } from 'xstate/graph'
-import { hydroMachine } from '../src/machine.ts'
+import { buildMachineFromYaml } from '../src/machine-builder.ts'
+import type { StoryDocument } from '../src/types/yaml-story.ts'
 
 type DirectedGraphNode = {
   id: string
@@ -203,6 +206,10 @@ function createMermaid(graph: DirectedGraphNode): string {
 }
 
 async function main(): Promise<void> {
+  const yamlPath = resolve(__dirname, '..', '..', 'data', '06-gn_structure.yaml')
+  const rawYaml = readFileSync(yamlPath, 'utf8')
+  const storyDoc = load(rawYaml) as StoryDocument
+  const hydroMachine = buildMachineFromYaml(storyDoc)
   const directedGraph = toDirectedGraph(hydroMachine) as DirectedGraphNode
   const mermaidText = createMermaid(directedGraph)
 
