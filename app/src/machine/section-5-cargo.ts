@@ -6,10 +6,10 @@ export const section5CargoStates = {
     meta: {
       id: 'section_5_cargo',
       text:
-        'The cargo lane reaches Airlock #4 without incident. Tony waves you through with his scanner now properly accepting the shared credential model. The container prep sequence is running clean.\n\n' +
-        'VEX: Freight delivered you in one piece. I respect that lane more than most people.\n' +
-        'ALEX: Is the drone ready for hull work or just ready to complain about hull work?\n' +
-        'VEX: Both. It is a very complete machine.\n' +
+        'The cargo lane reaches Airlock #4, where Vex already has Shmiel waiting. The drone is on site, but its current profile still thinks this is an indoor freight job, and space has very strict feedback about that kind of mistake.\n\n' +
+        'VEX: You made good time. Meet Shmiel - general purpose maintenance drone. Last time it was used for some inside dust removal so his software might be a bit surprised by your open space mission.\n' +
+        'ALEX: So we have a hull job and a drone that still thinks in vacuum cleaner terms.\n' +
+        'VEX: Exactly. We can patch the profile properly, or bully it into follow mode and hope space stays patient.\n' +
         'ALEX: Then let us choose what kind of bad idea it becomes.',
       task: {
         type: 'multiple_choice',
@@ -50,10 +50,10 @@ export const section5CargoStates = {
     meta: {
       id: 'section_5_cargo_fallout',
       text:
-        'By the time Alex reaches Airlock #4, there\'s a maintenance alarm cycling in the corner. The freight pass issue left some debris in the audit logs, and now the gate is double-checking permissions with suspicious slowness.\n\n' +
-        'VEX: You smell like a door override and a rushed explanation.\n' +
-        'ALEX: That is because both happened.\n' +
-        'VEX: Fine. Then let us avoid adding drone rebellion to the list.\n' +
+        'By the time Alex reaches Airlock #4, Vex already has Shmiel waiting. The drone is on site, but its current profile still expects a routine indoor freight task, and vacuum is famously unhelpful when software makes that assumption.\n\n' +
+        'VEX: You smell like a door override and a rushed explanation. Meet Shmiel - general purpose maintenance drone. Last time it was used for indoor freight work, so its software may take your hull mission as a personal insult.\n' +
+        'ALEX: So the route is already messy, and now the drone thinks we are still inside.\n' +
+        'VEX: Exactly. We can patch the profile properly, or bully it into follow mode and hope space stays weirdly forgiving.\n' +
         'ALEX: No promises, but I respect the goal.',
       task: {
         type: 'multiple_choice',

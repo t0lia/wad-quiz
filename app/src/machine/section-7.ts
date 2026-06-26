@@ -32,8 +32,8 @@ export const section7States = {
       task: {
         type: 'multiple_choice',
         options: [
-          { id: 'stop', content: 'Accept handoff and stop' },
-          { id: 'continue', content: 'Continue deeper' },
+          { id: 'stop', content: 'My shift is over, I\'ve had enough for tonight!' },
+          { id: 'continue', content: 'Duty calls! Who will fix this mess if not me?! I carry on' },
         ]
       },
     } as ChallengeSceneData,

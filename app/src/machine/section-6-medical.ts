@@ -6,11 +6,11 @@ export const section6MedicalStates = {
     meta: {
       id: 'section_6_medical_intro',
       text:
-        'The medical shell closes around Shmiel with a soft click and a great deal of bureaucratic self-esteem. The payload reaches the drone, but outside-hull mode never enables sterile shell behavior, which means the first dust cloud could end the argument badly.\n\n' +
-        'VEX: The payload arrives, but the shell logic never sees the flag it needs.\n' +
-        'ALEX: So the message survives transport and dies on schema mismatch.\n' +
-        'CLARA: I could have told you that sentence before you opened the file.\n' +
-        'ALEX: Yes, but then I would lose the joy of proving it.',
+        'The medical shell closes around Shmiel with a soft click. The drone gets the new settings, but once it moves into outside mode, it never turns on the clean shell setting.\n\n' +
+        'VEX: The drone gets the message, but it never sees the switch that should turn the clean shell on.\n' +
+        'ALEX: So the message arrives, but the important bit is written the wrong way.\n' +
+        'CLARA: That is a much friendlier sentence than the one you usually say.\n' +
+        'ALEX: I contain multitudes.',
       task: {
         type: 'one_tap_forward',
       },
@@ -26,7 +26,7 @@ export const section6MedicalStates = {
       id: 'section_6_medical_task',
       text:
         'Problem 3 Medical: Shell Profile Field Name\n\n' +
-        'The sterile shell payload writes the activation flag to the wrong field name, so the drone never enables contamination-safe mode outside. Schema mismatch means the protection is declared but never armed.\n\n' +
+        'The shell setup writes the on switch under the wrong name. The airlock accepts the message, but the drone never turns on clean outside mode.\n\n' +
         '```javascript\n' +
         'function buildShellProfile(mode) {\n' +
         '  const payload = { mode, sterileMode: false, beaconFollow: false };\n' +
@@ -70,7 +70,7 @@ export const section6MedicalStates = {
   section_6_medical_conclusion_incorrect: {
     meta: {
       id: 'section_6_medical_conclusion_incorrect',
-      text: 'The battery swap adds nothing but time, and the schema error remains patient. Alex corrects the field while Clara tracks contamination possibilities.\n\nThe drone is ready enough, and Ray is waiting outside with the full set of new surprises.',
+      text: 'The hardware was never the problem, but it becomes part of the story anyway while Alex fixes the field name and avoids Clara\'s eyes for three full seconds.\n\nThe shell finally behaves, and Ray is already waiting at the outer hatch with fresh bad ideas.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_7' },
@@ -79,7 +79,7 @@ export const section6MedicalStates = {
   section_6_medical_conclusion_solved: {
     meta: {
       id: 'section_6_medical_conclusion_solved',
-      text: 'The payload lands cleanly, the sterile mode field works, and Shmiel suddenly looks much more trustworthy.\n\nThe outer hatch is ready, and Ray is already waiting with a familiar question about teamwork.',
+      text: 'The new field name works, clean mode turns on, and the shell suddenly looks useful instead of dangerous.\n\nThe outer hatch is ready, and Ray is already clipped in like this was always going to happen.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_7' },
@@ -88,7 +88,7 @@ export const section6MedicalStates = {
   section_6_medical_conclusion_override: {
     meta: {
       id: 'section_6_medical_conclusion_override',
-      text: 'Alex forces the drone into a manual shell path that works now and looks deeply unsafe.\n\nThe hatch is ready, but the outside segment begins with one more borrowed trust from the medical side.',
+      text: 'Alex forces the shell into a manual fallback that works right away and inspires no long-term confidence at all.\n\nThe hatch is ready, but the outside segment now begins with one more procedural compromise.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_7' },

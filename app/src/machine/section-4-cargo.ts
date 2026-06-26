@@ -26,7 +26,7 @@ export const section4CargoStates = {
       id: 'section_4_cargo_task',
       text:
         'Problem 2 Cargo: Freight Pass Comparison\n\n' +
-        'The cargo-side gate rejects valid temporary credentials because it compares by reference instead of content. Tony\'s scanner shows the authorization, but the security check compares the wrong way.\n\n' +
+        'Tony, being a very persistent man, tries to apply his pass to card reader from all the sides: backwads, sideways, even flips it at the reader. Still - all the same - ACCESS DENIED. Alex patiently examins the code of yet another service he has never seen before.\n\n' +
         '```java\n' +
         'boolean gateAllows(Credential credential) {\n' +
         '    String level = credential.getAccessLevel();\n' +

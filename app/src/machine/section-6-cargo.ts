@@ -6,10 +6,10 @@ export const section6CargoStates = {
     meta: {
       id: 'section_6_cargo_intro',
       text:
-        'The cargo-side hull kit locks into Shmiel\'s frame with a metallic snap. The drone accepts the follow profile, then immediately treats magnetic clamp mode like a suggestion instead of a command.\n\n' +
-        'VEX: The payload loads, but the clamp logic wakes up outside and forgets what boolean fields are for.\n' +
-        'ALEX: So transport accepts the shape, behavior rejects the meaning.\n' +
-        'VEX: Exactly. Give me boring data and I will give you a drone that survives vacuum.',
+        'The cargo kit clicks onto Shmiel with a sharp snap. The drone accepts the new settings, but once it starts the outside setup, it acts like the magnetic clamp is optional.\n\n' +
+        'VEX: The drone takes the settings, but outside it stops treating the clamp like a real on switch.\n' +
+        'ALEX: So it reads the message, but gets the important part wrong.\n' +
+        'VEX: Exactly. Give me a simple, correct value and I will give you a drone that stays attached to the hull.',
       task: {
         type: 'one_tap_forward',
       },
@@ -25,7 +25,7 @@ export const section6CargoStates = {
       id: 'section_6_cargo_task',
       text:
         'Problem 3 Cargo: Clamp Mode Typing\n\n' +
-        'The cargo hull profile sends the magnetic clamp field as the wrong type. The drone accepts the payload transport, but outside it treats clamp mode as disabled because the type mismatch breaks the logic.\n\n' +
+        'The cargo setup sends the magnetic clamp setting in the wrong format. The drone accepts the data, but outside it behaves as if the clamp is turned off.\n\n' +
         '```javascript\n' +
         'function buildClampProfile(mode) {\n' +
         '  const profile = { mode, magClamp: false, tetherFollow: false };\n' +
@@ -69,7 +69,7 @@ export const section6CargoStates = {
   section_6_cargo_conclusion_incorrect: {
     meta: {
       id: 'section_6_cargo_conclusion_incorrect',
-      text: 'The fresh battery does nothing for the bad payload, but Alex fixes the field under fresh embarrassment and gets the hatch cycle moving again.\n\nThe drone now behaves well enough to open the outer hatch, and Ray is waiting with the next questionable offer.',
+      text: 'The new battery changes nothing, because the real problem is still the bad setting. Alex fixes it with mild embarrassment and gets the hatch moving again.\n\nThe drone now behaves well enough to open the outer hatch, and Ray is waiting with the next questionable offer.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_7' },
@@ -78,7 +78,7 @@ export const section6CargoStates = {
   section_6_cargo_conclusion_solved: {
     meta: {
       id: 'section_6_cargo_conclusion_solved',
-      text: 'The profile lands cleanly, the clamp field behaves, and Shmiel suddenly looks much more employable.\n\nThe outer hatch is ready, and Ray is already waiting with a new definition of teamwork.',
+      text: 'The new setting goes in cleanly, the clamp behaves, and Shmiel suddenly looks much more useful.\n\nThe outer hatch is ready, and Ray is already waiting with a new definition of teamwork.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_7' },
@@ -87,7 +87,7 @@ export const section6CargoStates = {
   section_6_cargo_conclusion_override: {
     meta: {
       id: 'section_6_cargo_conclusion_override',
-      text: 'Alex forces the drone into a manual clamp path that works immediately and looks deeply temporary.\n\nThe hatch is ready, but the outside segment now begins with one more borrowed certainty.',
+      text: 'Alex forces the drone into a manual clamp mode that works right away and looks very temporary.\n\nThe hatch is ready, but the outside segment now begins with one more borrowed certainty.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_7' },
