@@ -56,19 +56,38 @@ function createProgressStore() {
 
 function createProgressRateLimiter() {
   const requestsByIp = new Map()
+  let lastCleanupAt = 0
 
   return (req, res, next) => {
-    const key = req.ip ?? 'unknown'
-    const now = Date.now()
-    const windowStart = now - RATE_LIMIT_WINDOW_MS
-    const recentRequests = (requestsByIp.get(key) ?? []).filter((timestamp) => timestamp > windowStart)
+    const forwardedFor = typeof req.headers['x-forwarded-for'] === 'string' ? req.headers['x-forwarded-for'].split(',')[0].trim() : null
+    const key = req.ip || forwardedFor
 
-    if (recentRequests.length >= RATE_LIMIT_MAX_REQUESTS) {
+    if (!key) {
+      return res.status(400).json({ error: 'Missing client IP' })
+    }
+
+    const now = Date.now()
+    if (now - lastCleanupAt >= RATE_LIMIT_WINDOW_MS) {
+      for (const [ip, entry] of requestsByIp.entries()) {
+        if (entry.resetAt <= now) {
+          requestsByIp.delete(ip)
+        }
+      }
+      lastCleanupAt = now
+    }
+
+    const entry = requestsByIp.get(key)
+
+    if (!entry || entry.resetAt <= now) {
+      requestsByIp.set(key, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS })
+      return next()
+    }
+
+    if (entry.count >= RATE_LIMIT_MAX_REQUESTS) {
       return res.status(429).json({ error: 'Too many progress updates' })
     }
 
-    recentRequests.push(now)
-    requestsByIp.set(key, recentRequests)
+    entry.count += 1
     return next()
   }
 }
