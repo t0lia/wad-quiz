@@ -3,9 +3,11 @@ const path = require('node:path')
 const express = require('express')
 const { Firestore, FieldValue } = require('@google-cloud/firestore')
 
-const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/
+const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/
 const STEP_PATTERN = /^[a-z0-9_-]{1,100}$/i
-let firestoreClient
+const RATE_LIMIT_WINDOW_MS = 60_000
+const RATE_LIMIT_MAX_REQUESTS = 60
+let sharedFirestoreClient
 
 class InMemoryProgressStore {
   constructor() {
@@ -25,11 +27,11 @@ class InMemoryProgressStore {
 class FirestoreProgressStore {
   constructor() {
     this.kind = 'firestore'
-    if (!firestoreClient) {
-      firestoreClient = new Firestore()
+    if (!sharedFirestoreClient) {
+      sharedFirestoreClient = new Firestore()
     }
 
-    this.collection = firestoreClient.collection(process.env.PROGRESS_COLLECTION ?? 'quiz-progress')
+    this.collection = sharedFirestoreClient.collection(process.env.PROGRESS_COLLECTION ?? 'quiz-progress')
   }
 
   async save({ uuid, step }) {
@@ -52,20 +54,41 @@ function createProgressStore() {
   return new InMemoryProgressStore()
 }
 
+function createProgressRateLimiter() {
+  const requestsByIp = new Map()
+
+  return (req, res, next) => {
+    const key = req.ip ?? 'unknown'
+    const now = Date.now()
+    const windowStart = now - RATE_LIMIT_WINDOW_MS
+    const recentRequests = (requestsByIp.get(key) ?? []).filter((timestamp) => timestamp > windowStart)
+
+    if (recentRequests.length >= RATE_LIMIT_MAX_REQUESTS) {
+      return res.status(429).json({ error: 'Too many progress updates' })
+    }
+
+    recentRequests.push(now)
+    requestsByIp.set(key, recentRequests)
+    return next()
+  }
+}
+
 function createApp(progressStore = createProgressStore()) {
   const app = express()
   const publicDir = path.join(__dirname, 'public')
   const indexPath = path.join(publicDir, 'index.html')
   const hasStaticApp = fs.existsSync(indexPath)
   const indexHtml = hasStaticApp ? fs.readFileSync(indexPath, 'utf8') : null
+  const progressRateLimiter = createProgressRateLimiter()
 
+  app.set('trust proxy', true)
   app.use(express.json({ limit: '16kb' }))
 
   app.get('/api/health', (_req, res) => {
     res.json({ ok: true, storage: progressStore.kind })
   })
 
-  app.post('/api/progress', async (req, res) => {
+  app.post('/api/progress', progressRateLimiter, async (req, res) => {
     const { uuid, step } = req.body ?? {}
 
     if (typeof uuid !== 'string' || !UUID_PATTERN.test(uuid)) {
