@@ -569,7 +569,7 @@ scenario:
     title: 'Section 3: Crossing the Ship'
     location_id: cross_ship_route
     intro:
-      narrative: 'The terminal is finally holding a live connection to Sector A when a new alert climbs over the recovery logs. Water is not stuck here anymore. The line is blocked farther down the ship at Maintenance Access Gate before Airlock #4, where the supply path narrows into the outer service corridor. Alex looks up from the screen and finds himself standing between two doors: the heavier cargo hatch on the left and the cleaner medical passage on the right. '
+      narrative: 'The terminal is finally holding a live connection to Sector A when a new alert climbs over the recovery logs. Water is not stuck here anymore. The line is blocked farther down the ship at Maintenance Access Gate before Airlock #4, where the supply path narrows into the outer service corridor. The damaged segment is outside the safe interior path, so Alex will need airlock access and a hull-work drone to reach it safely. Alex looks up from the screen and finds himself standing between two doors: the heavier cargo hatch on the left and the cleaner medical passage on the right. '
       dialogue:
       - speaker: lina
         text: The software side is breathing again. Now go move the part that refuses to move.
@@ -625,7 +625,7 @@ scenario:
     interaction:
       type: problem
       title: 'Problem 2 Cargo: Freight Pass Comparison'
-      prompt: The freight gate reads the temporary access level, but compares the string by reference instead of content. Tony's valid cargo-side maintenance pass keeps getting rejected.
+      prompt: 'Tony, being a very persistent man, tries to apply his pass to card reader from all the sides: backwads, sideways, even flips it at the reader. Still - all the same - ACCESS DENIED. Alex patiently examins the code of yet another service he has never seen before.'
       modifiers:
       - condition: boot_mode == unsigned
         effect: The unsigned console build keeps repainting the scanner UI, which makes every test run feel less trustworthy.
@@ -688,14 +688,14 @@ scenario:
     title: 'Section 5 Cargo: Clean Arrival At Airlock #4'
     location_id: airlock_4
     intro:
-      narrative: The cargo lane reaches Airlock
+      narrative: 'The cargo lane reaches Airlock #4, where Vex already has Shmiel waiting. The drone is on site, but its current profile still thinks this is an indoor freight job, and space has very strict feedback about that kind of mistake.'
       dialogue:
       - speaker: vex
-        text: Freight delivered you in one piece. I respect that lane more than most people.
+        text: You made good time. Meet Shmiel - general purpose maintenance drone. Last time it was used for some inside dust removal so his software might be a bit surprised by your open space mission.
       - speaker: alex
-        text: Is the drone ready for hull work or just ready to complain about hull work?
+        text: So we have a hull job and a drone that still thinks in vacuum cleaner terms.
       - speaker: vex
-        text: Both. It is a very complete machine.
+        text: Exactly. We can patch the profile properly, or bully it into follow mode and hope space stays patient.
       - speaker: alex
         text: Then let us choose what kind of bad idea it becomes.
     interaction:
@@ -729,14 +729,14 @@ scenario:
     title: 'Section 5 Cargo: Airlock #4 Under Audit Smoke'
     location_id: airlock_4
     intro:
-      narrative: By the time Alex reaches Airlock
+      narrative: 'By the time Alex reaches Airlock #4, Vex already has Shmiel waiting. The drone is on site, but its current profile still expects a routine indoor freight task, and vacuum is famously unhelpful when software makes that assumption.'
       dialogue:
       - speaker: vex
-        text: You smell like a door override and a rushed explanation.
+        text: You smell like a door override and a rushed explanation. Meet Shmiel - general purpose maintenance drone. Last time it was used for indoor freight work, so its software may take your hull mission as a personal insult.
       - speaker: alex
-        text: That is because both happened.
+        text: So the route is already messy, and now the drone thinks we are still inside.
       - speaker: vex
-        text: Fine. Then let us avoid adding drone rebellion to the list.
+        text: Exactly. We can patch the profile properly, or bully it into follow mode and hope space stays weirdly forgiving.
       - speaker: alex
         text: No promises, but I respect the goal.
     interaction:
@@ -770,23 +770,23 @@ scenario:
     title: 'Section 6 Cargo: Clamp Follow Profile'
     location_id: airlock_4
     intro:
-      narrative: The cargo-side hull kit locks into Shmiel's frame with a metallic snap. The drone accepts the follow profile, then immediately treats magnetic clamp mode like a suggestion instead of a command.
+      narrative: The cargo kit clicks onto Shmiel with a sharp snap. The drone accepts the new settings, but once it starts the outside setup, it acts like the magnetic clamp is optional.
       dialogue:
       - speaker: vex
-        text: The payload loads, but the clamp logic wakes up outside and forgets what boolean fields are for.
+        text: The drone takes the settings, but outside it stops treating the clamp like a real on switch.
       - speaker: alex
-        text: So transport accepts the shape, behavior rejects the meaning.
+        text: So it reads the message, but gets the important part wrong.
       - speaker: vex
-        text: Exactly. Give me boring data and I will give you a drone that survives vacuum.
+        text: Exactly. Give me a simple, correct value and I will give you a drone that stays attached to the hull.
     interaction:
       type: problem
       title: 'Problem 3 Cargo: Clamp Mode Typing'
-      prompt: The cargo hull profile sets the magnetic clamp field with the wrong type. The drone accepts the payload, but outside it treats clamp mode as disabled.
+      prompt: The cargo setup sends the magnetic clamp setting in the wrong format. The drone accepts the data, but outside it behaves as if the clamp is turned off.
       modifiers:
       - condition: drone_mode == patch
-        effect: The patched drone stays calm, so the problem is mostly data integrity.
+        effect: The patched drone stays calm, so the problem is mostly about the bad setting.
       - condition: drone_mode == override
-        effect: The hard override already made Shmiel twitchy, so any bad payload now looks more dramatic.
+        effect: The hard override already made Shmiel jumpy, so any bad setting now causes more trouble.
       snippet:
       - function buildClampProfile(mode) {
       - '  const profile = { mode, magClamp: false, tetherFollow: false };'
@@ -799,47 +799,47 @@ scenario:
       actions:
       - id: replace_battery
         text: Replace the drone battery pack
-        description: Treat the clamp failure like a power problem.
+        description: Pretend the clamp problem is just a battery problem.
         outcome: incorrect
         sets_flag: 'problem_6_result: incorrect'
       - id: static_distance
         text: Hardcode a fixed standoff distance and ignore clamp state
-        description: Make the drone trail roughly behind without fixing the actual mode flag.
+        description: Make the drone follow at a fixed distance without fixing the real clamp setting.
         outcome: incorrect
         sets_flag: 'problem_6_result: incorrect'
       - id: boolean_follow
         text: Send magClamp as a real boolean value
-        description: Fix the payload so clamp logic activates correctly outside.
+        description: Fix the value so the clamp turns on properly outside.
         outcome: solved
         sets_flag: 'problem_6_result: solved'
       - id: manual_follow_override
         text: Override the profile and force manual clamp behavior
-        description: Skip validation and pin the drone to a dirtier fallback mode.
+        description: Skip the checks and force the drone into a rough backup mode.
         outcome: override
         sets_flag: 'problem_6_result: override'
     conclusion:
       by_action:
         replace_battery:
           narrative: |-
-            The fresh battery does nothing for the bad payload, but Alex fixes the field under fresh embarrassment and gets the hatch cycle moving again.
+            The new battery changes nothing, because the real problem is still the bad setting. Alex fixes it with mild embarrassment and gets the hatch moving again.
 
             The drone now behaves well enough to open the outer hatch, and Ray is waiting with the next questionable offer.
           next_section: section_7
         static_distance:
           narrative: |-
-            The offset hack works right up to the first test drift, where it becomes an argument with physics. Alex corrects the field and keeps the worst part of the experiment to himself.
+            The distance hack works until the first test drift, when it starts losing the argument with reality. Alex fixes the setting and keeps the worst part of the experiment to himself.
 
             Hull movement is possible now, and the only remaining question is whether Alex takes Ray along.
           next_section: section_7
         boolean_follow:
           narrative: |-
-            The profile lands cleanly, the clamp field behaves, and Shmiel suddenly looks much more employable.
+            The new setting goes in cleanly, the clamp behaves, and Shmiel suddenly looks much more useful.
 
             The outer hatch is ready, and Ray is already waiting with a new definition of teamwork.
           next_section: section_7
         manual_follow_override:
           narrative: |-
-            Alex forces the drone into a manual clamp path that works immediately and looks deeply temporary.
+            Alex forces the drone into a manual clamp mode that works right away and looks very temporary.
 
             The hatch is ready, but the outside segment now begins with one more borrowed certainty.
           next_section: section_7
@@ -921,14 +921,14 @@ scenario:
     title: 'Section 5 Medical: Clean Airlock Prep'
     location_id: airlock_4
     intro:
-      narrative: The medical corridor reaches Airlock
+      narrative: 'The medical corridor reaches Airlock #4, where Vex already has Shmiel waiting. The drone is on site, but its current profile still thinks this is a routine indoor maintenance job, and sterile hull work is not known for forgiving that kind of confusion.'
       dialogue:
       - speaker: vex
-        text: Clara insisted the drone stop bringing cargo dust into my airlock.
+        text: You made good time. Meet Shmiel - general purpose maintenance drone. Last time it was used for routine indoor cleanup, so its software may be a little confused by sterile hull work.
       - speaker: alex
-        text: That seems unfair to cargo dust. It has been loyal.
+        text: So we have a medical EVA and a drone that still thinks this is housekeeping.
       - speaker: vex
-        text: The shell is ready. The control profile is less ready.
+        text: Exactly. We can patch the profile properly, or bully it into follow mode and hope contamination rules stay theoretical.
       - speaker: alex
         text: Then let us choose whether to improve it or frighten it.
     interaction:
@@ -962,16 +962,16 @@ scenario:
     title: 'Section 5 Medical: Airlock Prep After A Dirty Shortcut'
     location_id: airlock_4
     intro:
-      narrative: Airlock
+      narrative: 'By the time Alex reaches Airlock #4, Vex already has Shmiel waiting. The drone is on site, but its current profile still expects routine indoor maintenance, and sterile hull work is not known for tolerating that kind of confusion.'
       dialogue:
       - speaker: clara
         text: I am going to describe that gate incident later with adjectives.
       - speaker: alex
         text: Please choose gentle adjectives.
       - speaker: vex
-        text: First survive vacuum. Then negotiate vocabulary.
+        text: First survive vacuum. Meet Shmiel - general purpose maintenance drone. Last time it was used for routine indoor cleanup, so its software may be a little confused by sterile hull work.
       - speaker: alex
-        text: Fine. What are my bad options for the drone?
+        text: Fine. So my bad options are to educate the drone properly or scare it into cooperation.
     interaction:
       type: branch
       title: Drone Preparation
@@ -1003,25 +1003,25 @@ scenario:
     title: 'Section 6 Medical: Sterile Shell Profile'
     location_id: airlock_4
     intro:
-      narrative: The medical shell closes around Shmiel with a soft click and a great deal of bureaucratic self-esteem. The payload reaches the drone, but outside-hull mode never enables sterile shell behavior, which means the first dust cloud could end the argument badly.
+      narrative: The medical shell closes around Shmiel with a soft click. The drone gets the new settings, but once it moves into outside mode, it never turns on the clean shell setting.
       dialogue:
       - speaker: vex
-        text: The payload arrives, but the shell logic never sees the flag it needs.
+        text: The drone gets the message, but it never sees the switch that should turn the clean shell on.
       - speaker: alex
-        text: So the message survives transport and dies on schema mismatch.
+        text: So the message arrives, but the important bit is written the wrong way.
       - speaker: clara
-        text: I could have told you that sentence before you opened the file.
+        text: That is a much friendlier sentence than the one you usually say.
       - speaker: alex
-        text: Yes, but then I would lose the joy of proving it.
+        text: I contain multitudes.
     interaction:
       type: problem
       title: 'Problem 3 Medical: Shell Profile Field Name'
-      prompt: The sterile shell payload writes the activation flag under the wrong field name. The airlock accepts the message, but the drone never enables contamination-safe mode outside.
+      prompt: The shell setup writes the on switch under the wrong name. The airlock accepts the message, but the drone never turns on clean outside mode.
       modifiers:
       - condition: drone_mode == patch
-        effect: The patched drone is calm, so the remaining problem is strictly the schema mismatch.
+        effect: The patched drone is calm, so the remaining problem is just the bad field name.
       - condition: drone_mode == override
-        effect: The override makes every shell-state transition feel one mistake away from a loud lesson.
+        effect: The override makes every shell change feel one mistake away from a very loud problem.
       snippet:
       - function buildShellProfile(mode) {
       - '  const payload = { mode, sterileMode: false, beaconFollow: false };'
@@ -1034,47 +1034,47 @@ scenario:
       actions:
       - id: reseat_shell
         text: Reseat the shell hardware and retry
-        description: Treat the missing sterile mode like a mechanical fit problem.
+        description: Pretend the missing clean mode is just a hardware fit problem.
         outcome: incorrect
         sets_flag: 'problem_6_result: incorrect'
       - id: disable_shell_checks
         text: Disable shell checks and trust the hull to stay clean
-        description: Move forward by pretending contamination logic is optional.
+        description: Move forward by pretending the clean-safety checks do not matter.
         outcome: incorrect
         sets_flag: 'problem_6_result: incorrect'
       - id: align_shell_field
         text: Use the field name the drone actually reads
-        description: Fix the schema mismatch so sterile mode activates correctly.
+        description: Fix the field name so clean mode turns on properly.
         outcome: solved
         sets_flag: 'problem_6_result: solved'
       - id: force_shell_override
         text: Override sterile mode through a manual fallback
-        description: Skip validation and pin the shell into a brittle emergency path.
+        description: Skip the checks and force the shell into a rough emergency mode.
         outcome: override
         sets_flag: 'problem_6_result: override'
     conclusion:
       by_action:
         reseat_shell:
           narrative: |-
-            The hardware fit was never the problem, but it becomes part of the story anyway while Alex fixes the field name and refuses to meet Clara's eyes for three full seconds.
+            The hardware was never the problem, but it becomes part of the story anyway while Alex fixes the field name and avoids Clara's eyes for three full seconds.
 
             The shell finally behaves, and Ray is already waiting at the outer hatch with fresh bad ideas.
           next_section: section_7
         disable_shell_checks:
           narrative: |-
-            The shortcut almost looks clever until everyone remembers what the word quarantine means. Alex restores the right field and moves on before the room develops a committee.
+            The shortcut almost looks clever until everyone remembers what quarantine is for. Alex restores the right field and moves on before the room turns into a committee.
 
             The hull path is open, and the next argument is whether Alex steps outside alone.
           next_section: section_7
         align_shell_field:
           narrative: |-
-            The profile lands cleanly, sterile mode wakes up, and the shell suddenly looks like a plan instead of a lawsuit.
+            The new field name works, clean mode turns on, and the shell suddenly looks useful instead of dangerous.
 
             The outer hatch is ready, and Ray is already clipped in like this was always going to happen.
           next_section: section_7
         force_shell_override:
           narrative: |-
-            Alex forces the shell through a manual fallback that works immediately and inspires absolutely no long-term confidence.
+            Alex forces the shell into a manual fallback that works right away and inspires no long-term confidence at all.
 
             The hatch is ready, but the outside segment now begins with one more procedural compromise.
           next_section: section_7
@@ -1141,12 +1141,12 @@ scenario:
       prompt: The cargo lane is stable enough to hand off. Stop now, or continue outside?
       actions:
       - id: stop_after_7
-        text: Stop Now
+        text: My shift is over, I've had enough for tonight!
         description: End the incident here and hand the rest to the next shift.
         sets_flag: 'accepted_exit_7: true'
         next: ending_1
       - id: continue_after_7
-        text: Continue Outside
+        text: Duty calls! Who will fix this mess if not me?! I carry on
         description: Keep the shift and move deeper into the hull gap.
     conclusion:
       by_action:
@@ -1182,12 +1182,12 @@ scenario:
       prompt: Sector A is stable enough to hand off. Stop now, or continue outside?
       actions:
       - id: stop_after_7
-        text: Stop Now
+        text: My shift is over, I've had enough for tonight!
         description: End the incident here and hand the rest to the next shift.
         sets_flag: 'accepted_exit_7: true'
         next: ending_1
       - id: continue_after_7
-        text: Continue Outside
+        text: Duty calls! Who will fix this mess if not me?! I carry on
         description: Keep the shift and move into the hull gap.
     conclusion:
       by_action:
