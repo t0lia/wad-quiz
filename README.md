@@ -1,5 +1,19 @@
 # WAD - quiz
 
+## Deployment and monitoring
+
+- Pushes to non-`main` branches continue to publish preview builds to GitHub Pages.
+- Pushes to `main` now build the frontend, bundle it into `backend/public`, and deploy a single Cloud Run service on Google Cloud.
+- The frontend sends `{ uuid, step }` to `POST /api/progress` every time the active quiz step changes.
+- The backend stores the latest step for each UUID in Firestore collection `quiz-progress` (override with `PROGRESS_COLLECTION`).
+
+### Required GitHub secrets
+
+- `GCP_PROJECT_ID`
+- `GCP_REGION`
+- `GCP_WORKLOAD_IDENTITY_PROVIDER`
+- `GCP_SERVICE_ACCOUNT`
+
 
 ## UI components
 

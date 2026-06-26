@@ -1,0 +1,19 @@
+{
+  "name": "wad-quiz-backend",
+  "version": "1.0.0",
+  "description": "Simple progress tracking backend for wad-quiz",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@google-cloud/firestore": "^8.6.0",
+    "express": "^5.2.1"
+  }
+}
