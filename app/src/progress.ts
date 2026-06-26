@@ -6,6 +6,7 @@ function createFallbackUuid() {
   }
 
   const bytes = crypto.getRandomValues(new Uint8Array(16))
+  // RFC 4122 UUID v4: set the version nibble on byte 6 and the variant bits on byte 8.
   bytes[6] = (bytes[6] & 0x0f) | 0x40
   bytes[8] = (bytes[8] & 0x3f) | 0x80
 
@@ -25,11 +26,10 @@ function getOrCreateUuid() {
     const existingUuid = window.localStorage.getItem(STORAGE_KEY)
     if (existingUuid) return existingUuid
     window.localStorage.setItem(STORAGE_KEY, createdUuid)
+    return createdUuid
   } catch {
     return createdUuid
   }
-
-  return createdUuid
 }
 
 export async function reportProgress(step: string) {
