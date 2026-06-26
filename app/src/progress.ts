@@ -1,8 +1,16 @@
 const STORAGE_KEY = 'wad-quiz-progress-uuid'
 
 function createFallbackUuid() {
-  const segment = (length: number) => Math.random().toString(16).slice(2).padEnd(length, '0').slice(0, length)
-  return `${segment(8)}-${segment(4)}-4${segment(3)}-8${segment(3)}-${segment(12)}`
+  if (typeof crypto === 'undefined' || typeof crypto.getRandomValues !== 'function') {
+    return null
+  }
+
+  const bytes = crypto.getRandomValues(new Uint8Array(16))
+  bytes[6] = (bytes[6] & 0x0f) | 0x40
+  bytes[8] = (bytes[8] & 0x3f) | 0x80
+
+  const hex = Array.from(bytes, (byte) => byte.toString(16).padStart(2, '0')).join('')
+  return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`
 }
 
 function getOrCreateUuid() {
@@ -10,6 +18,8 @@ function getOrCreateUuid() {
     typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
       ? crypto.randomUUID()
       : createFallbackUuid()
+
+  if (!createdUuid) return null
 
   try {
     const existingUuid = window.localStorage.getItem(STORAGE_KEY)
@@ -25,6 +35,9 @@ function getOrCreateUuid() {
 export async function reportProgress(step: string) {
   if (!step) return
 
+  const uuid = getOrCreateUuid()
+  if (!uuid) return
+
   try {
     await fetch('/api/progress', {
       method: 'POST',
@@ -32,7 +45,7 @@ export async function reportProgress(step: string) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        uuid: getOrCreateUuid(),
+        uuid,
         step,
       }),
       keepalive: true,

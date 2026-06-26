@@ -3,8 +3,9 @@ const path = require('node:path')
 const express = require('express')
 const { Firestore, FieldValue } = require('@google-cloud/firestore')
 
-const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
+const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/
 const STEP_PATTERN = /^[a-z0-9_-]{1,100}$/i
+let firestoreClient
 
 class InMemoryProgressStore {
   constructor() {
@@ -24,7 +25,11 @@ class InMemoryProgressStore {
 class FirestoreProgressStore {
   constructor() {
     this.kind = 'firestore'
-    this.collection = new Firestore().collection(process.env.PROGRESS_COLLECTION ?? 'quiz-progress')
+    if (!firestoreClient) {
+      firestoreClient = new Firestore()
+    }
+
+    this.collection = firestoreClient.collection(process.env.PROGRESS_COLLECTION ?? 'quiz-progress')
   }
 
   async save({ uuid, step }) {
@@ -52,6 +57,7 @@ function createApp(progressStore = createProgressStore()) {
   const publicDir = path.join(__dirname, 'public')
   const indexPath = path.join(publicDir, 'index.html')
   const hasStaticApp = fs.existsSync(indexPath)
+  const indexHtml = hasStaticApp ? fs.readFileSync(indexPath, 'utf8') : null
 
   app.use(express.json({ limit: '16kb' }))
 
@@ -87,7 +93,7 @@ function createApp(progressStore = createProgressStore()) {
         return next()
       }
 
-      return res.sendFile(indexPath)
+      return res.type('html').send(indexHtml)
     })
   }
 
