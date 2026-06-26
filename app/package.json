@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "generate-diagram": "tsx scripts/generate-diagram.ts"
+    "generate-diagram": "echo 'Skipped'"
   },
   "dependencies": {
     "@xstate/react": "^6.1.0",
