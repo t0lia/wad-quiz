@@ -6,7 +6,7 @@ export const section3States = {
     meta: {
       id: 'section_3',
       text:
-        'The terminal is finally holding a live connection to Sector A when a new alert climbs over the recovery logs. Water is not stuck here anymore. The line is blocked farther down the ship at Maintenance Access Gate before Airlock #4, where the supply path narrows into the outer service corridor. Alex looks up from the screen and finds himself standing between two doors: the heavier cargo hatch on the left and the cleaner medical passage on the right.\n\n' +
+        'The terminal is finally holding a live connection to Sector A when a new alert climbs over the recovery logs. Water is not stuck here anymore. The line is blocked farther down the ship at Maintenance Access Gate before Airlock #4, where the supply path narrows into the outer service corridor. The damaged segment is outside the safe interior path, so Alex will need airlock access and a hull-work drone to reach it safely. Alex looks up from the screen and finds himself standing between two doors: the heavier cargo hatch on the left and the cleaner medical passage on the right.\n\n' +
         'LINA: The software side is breathing again. Now go move the part that refuses to move.\n' +
         'ALEX: It\'s like you imply that I have to do something physically?!\n' +
         'LINA: Only eventually. For now you need to get there first.\n' +

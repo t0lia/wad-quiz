@@ -6,11 +6,11 @@ export const section5MedicalStates = {
     meta: {
       id: 'section_5_medical',
       text:
-        'The medical corridor reaches Airlock #4 with Clara\'s approval logs clean. The medical checklist is advancing without hiccups. Clara nods and marks you clear for the next phase.\n\n' +
-        'CLARA: The drone payload is ready. The sterile shell is installed.\n' +
-        'ALEX: Is the profile loaded correctly or are we fixing problems as we go?\n' +
-        'CLARA: Choose your style.\n' +
-        'VEX: Both styles work. One just keeps the drama downstairs.',
+        'The medical corridor reaches Airlock #4, where Vex already has Shmiel waiting. The drone is on site, but its current profile still thinks this is a routine indoor maintenance job, and sterile hull work is not known for forgiving that kind of confusion.\n\n' +
+        'VEX: You made good time. Meet Shmiel - general purpose maintenance drone. Last time it was used for routine indoor cleanup, so its software may be a little confused by sterile hull work.\n' +
+        'ALEX: So we have a medical EVA and a drone that still thinks this is housekeeping.\n' +
+        'VEX: Exactly. We can patch the profile properly, or bully it into follow mode and hope contamination rules stay theoretical.\n' +
+        'ALEX: Then let us choose whether to improve it or frighten it.',
       task: {
         type: 'multiple_choice',
         options: [
@@ -49,11 +49,11 @@ export const section5MedicalStates = {
     meta: {
       id: 'section_5_medical_fallout',
       text:
-        'The shortcut through the quarantine gate has left compliance debris. Clara is still professional, but now there\'s extra documentation and a note about the override in the handoff packet.\n\n' +
+        'By the time Alex reaches Airlock #4, Vex already has Shmiel waiting. The drone is on site, but its current profile still expects routine indoor maintenance, and sterile hull work is not known for tolerating that kind of confusion.\n\n' +
         'CLARA: I am going to describe that gate incident later with adjectives.\n' +
         'ALEX: Please choose gentle adjectives.\n' +
-        'VEX: First survive vacuum. Then negotiate vocabulary.\n' +
-        'ALEX: Fine. What are my bad options for the drone?',
+        'VEX: First survive vacuum. Meet Shmiel - general purpose maintenance drone. Last time it was used for routine indoor cleanup, so its software may be a little confused by sterile hull work.\n' +
+        'ALEX: Fine. So my bad options are to educate the drone properly or scare it into cooperation.',
       task: {
         type: 'multiple_choice',
         options: [
