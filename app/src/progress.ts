@@ -1,4 +1,6 @@
 const STORAGE_KEY = 'wad-quiz-progress-uuid'
+const API_BASE_URL = (import.meta.env.VITE_PROGRESS_API_URL ?? '').replace(/\/$/, '')
+const PROGRESS_ENDPOINT = `${API_BASE_URL}/api/progress`
 
 function createFallbackUuid() {
   if (typeof crypto === 'undefined' || typeof crypto.getRandomValues !== 'function') {
@@ -39,7 +41,7 @@ export async function reportProgress(step: string) {
   if (!uuid) return
 
   try {
-    await fetch('/api/progress', {
+    await fetch(PROGRESS_ENDPOINT, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
