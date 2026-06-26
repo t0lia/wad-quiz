@@ -1,16 +1,16 @@
-name: Deploy to GitHub Pages
+name: Deploy
 
 on:
-  push: {}          # runs on every push to every branch
+  push: {}
 
-# Allow the job to write to gh-pages
 permissions:
   contents: write
   pages: write
   id-token: write
 
 jobs:
-  deploy:
+  preview:
+    if: github.ref_name != 'main'
     runs-on: ubuntu-latest
 
     steps:
@@ -53,3 +53,61 @@ jobs:
           publish_dir: app/dist
           destination_dir: ${{ github.ref_name }}
           keep_files: true
+
+  deploy:
+    if: github.ref_name == 'main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: |
+            app/package-lock.json
+            backend/package-lock.json
+
+      - name: Install app dependencies
+        working-directory: app
+        run: npm ci
+
+      - name: Install backend dependencies
+        working-directory: backend
+        run: npm ci
+
+      - name: Build app
+        working-directory: app
+        run: npm run build
+
+      - name: Copy static assets into backend
+        run: |
+          rm -rf backend/public
+          mkdir -p backend/public
+          cp -R app/dist/. backend/public/
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+
+      - name: Set up gcloud
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy wad-quiz \
+            --project="${{ secrets.GCP_PROJECT_ID }}" \
+            --region="${{ secrets.GCP_REGION }}" \
+            --source=backend \
+            --allow-unauthenticated \
+            --quiet
