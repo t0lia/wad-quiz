@@ -16,6 +16,12 @@
   flex-wrap: wrap;
 }
 
+.text-scene-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
 .scene-text {
   font-size: 18px;
   line-height: 160%;
