@@ -1,5 +1,7 @@
+import { useEffect } from 'react'
 import { useMachine } from '@xstate/react'
 import { hydroMachine } from './machine'
+import { reportProgress } from './progress'
 import ChallengeScene from './scenes/ChallengeScene'
 import './App.css'
 
@@ -7,6 +9,11 @@ export default function App() {
   const [state, send] = useMachine(hydroMachine)
   const stateId = state.value as string
   const scene = Object.values(state.getMeta())[0]
+
+  useEffect(() => {
+    void reportProgress(stateId)
+  }, [stateId])
+
   // ── Final (ending) states ──────────────────────────────────────────────────
   if (state.status === 'done') {
     return (
