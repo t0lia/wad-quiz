@@ -15,7 +15,7 @@ export const section1States = {
       task: {
         type: 'multiple_choice',
         options: [
-          { id: 'standard', content: 'V9 Enterprise.notstable' },
+          { id: 'standard', content: 'V9 Enterprise.nonstable' },
           { id: 'unsigned', content: 'V10.0037.custom.experimental.unsigned' },
         ]
       },
