@@ -109,3 +109,19 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+/* syntax highlighter blocks — override inline styles from react-syntax-highlighter */
+.scene-text pre {
+  margin: 12px 0;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+
+/* prevent global code styles from bleeding into highlighted blocks */
+.scene-text pre code {
+  display: block;
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+}
