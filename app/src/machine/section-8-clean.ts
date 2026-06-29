@@ -5,11 +5,12 @@ export const section8CleanStates = {
   section_8_clean_intro: {
     meta: {
       id: 'section_8_clean_intro',
-      text:
-        'The technical gap is narrow, dark, and almost manageable. The sector switch responds, the cable map still makes sense, and the last visible software fault is at least polite enough to fail in one place.\n\n' +
-        'ALEX: The switch responds, but traffic keeps wandering off into the wrong network.\n' +
-        'RAY: Then bring the network boundary back where it belongs.\n' +
-        'ALEX: I would love one problem tonight that stays politely inside its own lines.',
+      text: 'The technical gap is narrow, dark, and almost manageable. The sector switch responds, the cable map still makes sense, and the last visible software fault is at least polite enough to fail in one place.',
+      dialogue: [
+        { speaker: 'alex', text: 'The switch responds, but traffic keeps wandering off into the wrong network.' },
+        { speaker: 'ray', text: 'Then bring the network boundary back where it belongs.' },
+        { speaker: 'alex', text: 'I would love one problem tonight that stays politely inside its own lines.' },
+      ],
       task: {
         type: 'one_tap_forward',
       },

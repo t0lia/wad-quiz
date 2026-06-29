@@ -5,12 +5,13 @@ export const section6MedicalStates = {
   section_6_medical_intro: {
     meta: {
       id: 'section_6_medical_intro',
-      text:
-        'The medical shell closes around Shmiel with a soft click. The drone gets the new settings, but once it moves into outside mode, it never turns on the clean shell setting.\n\n' +
-        'VEX: The drone gets the message, but it never sees the switch that should turn the clean shell on.\n' +
-        'ALEX: So the message arrives, but the important bit is written the wrong way.\n' +
-        'CLARA: That is a much friendlier sentence than the one you usually say.\n' +
-        'ALEX: I contain multitudes.',
+      text: 'The medical shell closes around Shmiel with a soft click. The drone gets the new settings, but once it moves into outside mode, it never turns on the clean shell setting.',
+      dialogue: [
+        { speaker: 'vex', text: 'The drone gets the message, but it never sees the switch that should turn the clean shell on.' },
+        { speaker: 'alex', text: 'So the message arrives, but the important bit is written the wrong way.' },
+        { speaker: 'clara', text: 'That is a much friendlier sentence than the one you usually say.' },
+        { speaker: 'alex', text: 'I contain multitudes.' },
+      ],
       task: {
         type: 'one_tap_forward',
       },

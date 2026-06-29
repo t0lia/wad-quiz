@@ -5,12 +5,13 @@ export const section5CargoStates = {
   section_5_cargo: {
     meta: {
       id: 'section_5_cargo',
-      text:
-        'The cargo lane reaches Airlock #4, where Vex already has Shmiel waiting. The drone is on site, but its current profile still thinks this is an indoor freight job, and space has very strict feedback about that kind of mistake.\n\n' +
-        'VEX: You made good time. Meet Shmiel - general purpose maintenance drone. Last time it was used for some inside dust removal so his software might be a bit surprised by your open space mission.\n' +
-        'ALEX: So we have a hull job and a drone that still thinks in vacuum cleaner terms.\n' +
-        'VEX: Exactly. We can patch the profile properly, or bully it into follow mode and hope space stays patient.\n' +
-        'ALEX: Then let us choose what kind of bad idea it becomes.',
+      text: 'The cargo lane reaches Airlock #4, where Vex already has Shmiel waiting. The drone is on site, but its current profile still thinks this is an indoor freight job, and space has very strict feedback about that kind of mistake.',
+      dialogue: [
+        { speaker: 'vex', text: 'You made good time. Meet Shmiel - general purpose maintenance drone. Last time it was used for some inside dust removal so his software might be a bit surprised by your open space mission.' },
+        { speaker: 'alex', text: 'So we have a hull job and a drone that still thinks in vacuum cleaner terms.' },
+        { speaker: 'vex', text: 'Exactly. We can patch the profile properly, or bully it into follow mode and hope space stays patient.' },
+        { speaker: 'alex', text: 'Then let us choose what kind of bad idea it becomes.' },
+      ],
       task: {
         type: 'multiple_choice',
         options: [
@@ -49,12 +50,13 @@ export const section5CargoStates = {
   section_5_cargo_fallout: {
     meta: {
       id: 'section_5_cargo_fallout',
-      text:
-        'By the time Alex reaches Airlock #4, Vex already has Shmiel waiting. The drone is on site, but its current profile still expects a routine indoor freight task, and vacuum is famously unhelpful when software makes that assumption.\n\n' +
-        'VEX: You smell like a door override and a rushed explanation. Meet Shmiel - general purpose maintenance drone. Last time it was used for indoor freight work, so its software may take your hull mission as a personal insult.\n' +
-        'ALEX: So the route is already messy, and now the drone thinks we are still inside.\n' +
-        'VEX: Exactly. We can patch the profile properly, or bully it into follow mode and hope space stays weirdly forgiving.\n' +
-        'ALEX: No promises, but I respect the goal.',
+      text: 'By the time Alex reaches Airlock #4, Vex already has Shmiel waiting. The drone is on site, but its current profile still expects a routine indoor freight task, and vacuum is famously unhelpful when software makes that assumption.',
+      dialogue: [
+        { speaker: 'vex', text: 'You smell like a door override and a rushed explanation. Meet Shmiel - general purpose maintenance drone. Last time it was used for indoor freight work, so its software may take your hull mission as a personal insult.' },
+        { speaker: 'alex', text: 'So the route is already messy, and now the drone thinks we are still inside.' },
+        { speaker: 'vex', text: 'Exactly. We can patch the profile properly, or bully it into follow mode and hope space stays weirdly forgiving.' },
+        { speaker: 'alex', text: 'No promises, but I respect the goal.' },
+      ],
       task: {
         type: 'multiple_choice',
         options: [

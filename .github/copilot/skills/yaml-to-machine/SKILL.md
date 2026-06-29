@@ -37,12 +37,23 @@ Only for problems. Branch sections skip intro.
 section_N: {
   meta: {
     id: 'section_N',
-    text: 'intro.narrative + append dialogue with speaker names',
+    text: 'intro.narrative',
+    dialogue: [
+      { speaker: 'lina', text: 'dialogue line text' },
+      { speaker: 'alex', text: 'dialogue line text' },
+      // one entry per intro.dialogue item — speaker name in lowercase
+    ],
     task: { type: 'one_tap_forward' },
   } as ChallengeSceneData,
   on: { NEXT: 'section_N_task' },
 },
 ```
+
+**Rules for dialogue:**
+- `text` contains only `intro.narrative` — no speaker lines
+- `dialogue` is a `{ speaker: string; text: string }[]` array
+- Speaker names are **lowercase** (matching YAML exactly: `lina`, `alex`, `tony`, `vex`, `clara`, `ray`, `captain`, `elena`)
+- Omit `dialogue` entirely if the section has no dialogue lines
 
 **Decision Point**: Is this a branch or problem?
 - **Branch** → Skip intro, jump to Step 3
@@ -56,6 +67,11 @@ section_N_task: {
   meta: {
     id: 'section_N_task',
     text: 'interaction.prompt + matching modifiers + code snippet',
+    // Add dialogue field if this branch/task state has intro.dialogue lines
+    // (branch sections have no separate intro state, so dialogue goes here)
+    dialogue: [
+      { speaker: 'lina', text: 'dialogue line text' },
+    ],
     task: {
       type: 'multiple_choice',
       options: interaction.actions.map(a => ({ 

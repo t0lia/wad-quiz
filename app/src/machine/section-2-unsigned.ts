@@ -5,13 +5,14 @@ export const section2UnsignedStates = {
   section_2_unsigned_intro: {
     meta: {
       id: 'section_2_unsigned_intro',
-      text:
-        'Alex barely taps the confirm key before the experimental build jumps to the desktop. The quick boot looks great for about three seconds. Then the status panel fills with yellow warnings instead of green INFOs. Most of the console is awake, but currently it looks like a traffic light with big red, medium amber and a small touch of green.\n\n' +
-        'LINA: That was fast. So why is Sector A still dead?\n' +
-        'ALEX: Because this build boots the interface before the background services finish sorting themselves out.\n' +
-        'LINA: Which one do we actually need?\n' +
-        'ALEX: `sector-link`. Without it, this nice new desktop is as good as a screensaver.\n' +
-        'LINA: Then fix the race, and keep the wallpaper if you must.',
+      text: 'Alex barely taps the confirm key before the experimental build jumps to the desktop. The quick boot looks great for about three seconds. Then the status panel fills with yellow warnings instead of green INFOs. Most of the console is awake, but currently it looks like a traffic light with big red, medium amber and a small touch of green.',
+      dialogue: [
+        { speaker: 'lina', text: 'That was fast. So why is Sector A still dead?' },
+        { speaker: 'alex', text: 'Because this build boots the interface before the background services finish sorting themselves out.' },
+        { speaker: 'lina', text: 'Which one do we actually need?' },
+        { speaker: 'alex', text: '`sector-link`. Without it, this nice new desktop is as good as a screensaver.' },
+        { speaker: 'lina', text: 'Then fix the race, and keep the wallpaper if you must.' },
+      ],
       task: {
         type: 'one_tap_forward',
       },

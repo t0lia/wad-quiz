@@ -5,13 +5,14 @@ export const section2StandardStates = {
   section_2_standard_intro: {
     meta: {
       id: 'section_2_standard_intro',
-      text:
-        'The enterprise console takes a little longer, but it arrives with calmer telemetry and fewer visual fireworks. The comfort lasts only until the dependency panel starts blinking. Sector A still cannot close the control handshake, and the same lock remains in place.\n\n' +
-        'LINA: Slower boot, cleaner dashboard. Why is Sector A still dead?\n' +
-        'ALEX: One startup module from the station update is racing ahead of its dependencies.\n' +
-        'LINA: So even the safe build inherited the same bad idea?\n' +
-        'ALEX: Yes. We still need `sector-link` to wait for the service chain before handshaking.\n' +
-        'LINA: Then fix it once, and let\'s not debug this corridor again tonight.',
+      text: 'The enterprise console takes a little longer, but it arrives with calmer telemetry and fewer visual fireworks. The comfort lasts only until the dependency panel starts blinking. Sector A still cannot close the control handshake, and the same lock remains in place.',
+      dialogue: [
+        { speaker: 'lina', text: 'Slower boot, cleaner dashboard. Why is Sector A still dead?' },
+        { speaker: 'alex', text: 'One startup module from the station update is racing ahead of its dependencies.' },
+        { speaker: 'lina', text: 'So even the safe build inherited the same bad idea?' },
+        { speaker: 'alex', text: 'Yes. We still need `sector-link` to wait for the service chain before handshaking.' },
+        { speaker: 'lina', text: 'Then fix it once, and let\'s not debug this corridor again tonight.' },
+      ],
       task: {
         type: 'one_tap_forward',
       },

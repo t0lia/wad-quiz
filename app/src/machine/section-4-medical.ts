@@ -5,12 +5,13 @@ export const section4MedicalStates = {
   section_4_medical_intro: {
     meta: {
       id: 'section_4_medical_intro',
-      text:
-        'Clara leads Alex through the medical corridor to a quarantine side gate with cleaner walls and angrier software. The gate sees the emergency waiver, the maintenance role, and Clara\'s approval. It still declares the record incomplete and keeps the lock engaged.\n\n' +
-        'CLARA: The waiver exists. I signed it myself.\n' +
-        'ALEX: Then the gate is either afraid of doctors or confused by field names.\n' +
-        'CLARA: I can work with either diagnosis.\n' +
-        'ALEX: Let us start with the one that compiles.',
+      text: 'Clara leads Alex through the medical corridor to a quarantine side gate with cleaner walls and angrier software. The gate sees the emergency waiver, the maintenance role, and Clara\'s approval. It still declares the record incomplete and keeps the lock engaged.',
+      dialogue: [
+        { speaker: 'clara', text: 'The waiver exists. I signed it myself.' },
+        { speaker: 'alex', text: 'Then the gate is either afraid of doctors or confused by field names.' },
+        { speaker: 'clara', text: 'I can work with either diagnosis.' },
+        { speaker: 'alex', text: 'Let us start with the one that compiles.' },
+      ],
       task: {
         type: 'one_tap_forward',
       },

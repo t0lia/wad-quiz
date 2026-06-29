@@ -69,4 +69,5 @@ export type Task =
   | DecisionMapTask
   | TextSceneTask
 
-export type ChallengeSceneData = { id: string; text: string; task: Task }
+export type DialogueLine = { speaker: string; text: string }
+export type ChallengeSceneData = { id: string; text: string; dialogue?: DialogueLine[]; task: Task }

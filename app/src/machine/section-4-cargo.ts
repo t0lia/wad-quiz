@@ -5,12 +5,13 @@ export const section4CargoStates = {
   section_4_cargo_intro: {
     meta: {
       id: 'section_4_cargo_intro',
-      text:
-        'Tony meets Alex at the freight checkpoint with a handheld scanner and the expression of a man who expected a simpler night. The cargo-side maintenance gate can see the emergency tag, the route authorization, and Tony\'s temporary pass. It still refuses to open.\n\n' +
-        'TONY: I filed the freight pass ten minutes ago. The gate is being dramatic.\n' +
-        'ALEX: No, the gate is being written in Java.\n' +
-        'TONY: Is that better or worse than dramatic?\n' +
-        'ALEX: Usually slower.',
+      text: 'Tony meets Alex at the freight checkpoint with a handheld scanner and the expression of a man who expected a simpler night. The cargo-side maintenance gate can see the emergency tag, the route authorization, and Tony\'s temporary pass. It still refuses to open.',
+      dialogue: [
+        { speaker: 'tony', text: 'I filed the freight pass ten minutes ago. The gate is being dramatic.' },
+        { speaker: 'alex', text: 'No, the gate is being written in Java.' },
+        { speaker: 'tony', text: 'Is that better or worse than dramatic?' },
+        { speaker: 'alex', text: 'Usually slower.' },
+      ],
       task: {
         type: 'one_tap_forward',
       },

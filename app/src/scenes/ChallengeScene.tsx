@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { ChallengeSceneData } from '../types/story'
 import TaskRouter from '../tasks/TaskRouter'
+import DialogueBlock from './DialogueBlock'
 import ReactMarkdown from 'react-markdown'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneLight, oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
@@ -39,6 +40,9 @@ export default function ChallengeScene({ scene, onComplete }: Props) {
     <div className="scene">
       <div className="scene-text">
         <ReactMarkdown components={mdComponents}>{scene.text}</ReactMarkdown>
+        {scene.dialogue && scene.dialogue.length > 0 && (
+          <DialogueBlock lines={scene.dialogue} />
+        )}
       </div>
       <TaskRouter task={scene.task} submitted={submitted} onSubmit={handleSubmit} />
     </div>

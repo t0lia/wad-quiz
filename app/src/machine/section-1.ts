@@ -5,13 +5,14 @@ export const section1States = {
   section_1: {
     meta: {
       id: 'section_1',
-      text:
-        'Alex drops into a folding chair in Incubator #4. A potato vine glows inside a glass grow tube while red alarm lights pulse across the aisle. Sector A is locked after the control link fails, and the watering system is frozen. The PDA opens a local maintenance terminal. To Alex surprise, instead of the standard welcome screen he\'s presented with boot menu he has not seen before. A call from Lina distracts his uncertainty.\n\n' +
-        'LINA: How are things looking?\n' +
-        'ALEX: That\'s a strange new boot menu I\'m getting...\n' +
-        'LINA: Huh? Must be yet another half baked software update. What does it say?\n' +
-        'ALEX: Boot V9 or boot V10.0037.custom.experimental.unsigned\n' +
-        'LINA: You\'re on your own with this one. Who knows what promisses unsigned gives...',
+      text: 'Alex drops into a folding chair in Incubator #4. A potato vine glows inside a glass grow tube while red alarm lights pulse across the aisle. Sector A is locked after the control link fails, and the watering system is frozen. The PDA opens a local maintenance terminal. To Alex surprise, instead of the standard welcome screen he\'s presented with boot menu he has not seen before. A call from Lina distracts his uncertainty.',
+      dialogue: [
+        { speaker: 'lina', text: 'How are things looking?' },
+        { speaker: 'alex', text: 'That\'s a strange new boot menu I\'m getting...' },
+        { speaker: 'lina', text: 'Huh? Must be yet another half baked software update. What does it say?' },
+        { speaker: 'alex', text: 'Boot V9 or boot V10.0037.custom.experimental.unsigned' },
+        { speaker: 'lina', text: 'You\'re on your own with this one. Who knows what promisses unsigned gives...' },
+      ],
       task: {
         type: 'multiple_choice',
         options: [

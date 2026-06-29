@@ -5,12 +5,13 @@ export const section10DebtStates = {
   section_10_debt_intro: {
     meta: {
       id: 'section_10_debt_intro',
-      text:
-        'Inside the distributor core, earlier shortcuts are still echoing through the control layer. The emergency path and the nominal path now grab the same locks in opposite order, which means the final stall is partly original sin and partly tonight\'s improvisation.\n\n' +
-        'CAPTAIN: Engineer, tell me this is still one bug.\n' +
-        'ALEX: It is one bug with excellent networking skills.\n' +
-        'ELENA: Can you stabilize it without creating a sequel?\n' +
-        'ALEX: That depends on whether everyone can survive me refusing the fastest wrong answer.',
+      text: 'Inside the distributor core, earlier shortcuts are still echoing through the control layer. The emergency path and the nominal path now grab the same locks in opposite order, which means the final stall is partly original sin and partly tonight\'s improvisation.',
+      dialogue: [
+        { speaker: 'captain', text: 'Engineer, tell me this is still one bug.' },
+        { speaker: 'alex', text: 'It is one bug with excellent networking skills.' },
+        { speaker: 'elena', text: 'Can you stabilize it without creating a sequel?' },
+        { speaker: 'alex', text: 'That depends on whether everyone can survive me refusing the fastest wrong answer.' },
+      ],
       task: {
         type: 'one_tap_forward',
       },

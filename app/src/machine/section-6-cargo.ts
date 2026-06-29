@@ -5,11 +5,12 @@ export const section6CargoStates = {
   section_6_cargo_intro: {
     meta: {
       id: 'section_6_cargo_intro',
-      text:
-        'The cargo kit clicks onto Shmiel with a sharp snap. The drone accepts the new settings, but once it starts the outside setup, it acts like the magnetic clamp is optional.\n\n' +
-        'VEX: The drone takes the settings, but outside it stops treating the clamp like a real on switch.\n' +
-        'ALEX: So it reads the message, but gets the important part wrong.\n' +
-        'VEX: Exactly. Give me a simple, correct value and I will give you a drone that stays attached to the hull.',
+      text: 'The cargo kit clicks onto Shmiel with a sharp snap. The drone accepts the new settings, but once it starts the outside setup, it acts like the magnetic clamp is optional.',
+      dialogue: [
+        { speaker: 'vex', text: 'The drone takes the settings, but outside it stops treating the clamp like a real on switch.' },
+        { speaker: 'alex', text: 'So it reads the message, but gets the important part wrong.' },
+        { speaker: 'vex', text: 'Exactly. Give me a simple, correct value and I will give you a drone that stays attached to the hull.' },
+      ],
       task: {
         type: 'one_tap_forward',
       },

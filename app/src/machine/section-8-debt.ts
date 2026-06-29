@@ -5,11 +5,12 @@ export const section8DebtStates = {
   section_8_debt_intro: {
     meta: {
       id: 'section_8_debt_intro',
-      text:
-        'The technical gap is no longer polite. Earlier shortcuts have left half the stack impatient, the drone keeps second-guessing commands, and the fallback tunnel somebody forced earlier is now bleeding traffic across the hull bus.\n\n' +
-        'RAY: We are not fixing one clean route anymore. We are fixing the bad rescue path on top of it.\n' +
-        'ALEX: Good. I was worried the night might become straightforward.\n' +
-        'RAY: That concern has passed.',
+      text: 'The technical gap is no longer polite. Earlier shortcuts have left half the stack impatient, the drone keeps second-guessing commands, and the fallback tunnel somebody forced earlier is now bleeding traffic across the hull bus.',
+      dialogue: [
+        { speaker: 'ray', text: 'We are not fixing one clean route anymore. We are fixing the bad rescue path on top of it.' },
+        { speaker: 'alex', text: 'Good. I was worried the night might become straightforward.' },
+        { speaker: 'ray', text: 'That concern has passed.' },
+      ],
       task: {
         type: 'one_tap_forward',
       },

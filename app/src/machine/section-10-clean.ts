@@ -5,12 +5,13 @@ export const section10CleanStates = {
   section_10_clean_intro: {
     meta: {
       id: 'section_10_clean_intro',
-      text:
-        'Inside the distributor core, the remaining fault is at least honest. Two power routines grab the same locks in opposite order. Under load they freeze each other and stall the whole sector.\n\n' +
-        'CAPTAIN: Alex, the sector is close to coming back. What is still holding it down?\n' +
-        'ALEX: Two threads with bad manners and opposite lock order.\n' +
-        'ELENA: How long until they behave?\n' +
-        'ALEX: That depends on how loudly the rest of the ship panics while I work.',
+      text: 'Inside the distributor core, the remaining fault is at least honest. Two power routines grab the same locks in opposite order. Under load they freeze each other and stall the whole sector.',
+      dialogue: [
+        { speaker: 'captain', text: 'Alex, the sector is close to coming back. What is still holding it down?' },
+        { speaker: 'alex', text: 'Two threads with bad manners and opposite lock order.' },
+        { speaker: 'elena', text: 'How long until they behave?' },
+        { speaker: 'alex', text: 'That depends on how loudly the rest of the ship panics while I work.' },
+      ],
       task: {
         type: 'one_tap_forward',
       },
