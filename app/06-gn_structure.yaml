@@ -392,7 +392,7 @@ scenario:
       prompt: Choose which console build Alex starts on the terminal to reconnect Sector A control.
       actions:
       - id: choose_standard
-        text: V9 Enterprise.stable
+        text: V9 Enterprise.notstable
         description: Boot the standard console profile with the full startup checklist and logging.
         sets_flag: 'boot_mode: standard'
         next: section_2_standard
