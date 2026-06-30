@@ -5,6 +5,7 @@ export const section6CargoStates = {
   section_6_cargo_intro: {
     meta: {
       id: 'section_6_cargo_intro',
+      image: '/locations/airlock_4.png',
       text: 'The cargo kit clicks onto Shmiel with a sharp snap. The drone accepts the new settings, but once it starts the outside setup, it acts like the magnetic clamp is optional.',
       dialogue: [
         { speaker: 'vex', text: 'The drone takes the settings, but outside it stops treating the clamp like a real on switch.' },
@@ -24,6 +25,7 @@ export const section6CargoStates = {
   section_6_cargo_task: {
     meta: {
       id: 'section_6_cargo_task',
+      image: '/locations/airlock_4.png',
       text:
         'Problem 3 Cargo: Clamp Mode Typing\n\n' +
         'The cargo setup sends the magnetic clamp setting in the wrong format. The drone accepts the data, but outside it behaves as if the clamp is turned off.\n\n' +
@@ -71,6 +73,7 @@ export const section6CargoStates = {
   section_6_cargo_conclusion_incorrect: {
     meta: {
       id: 'section_6_cargo_conclusion_incorrect',
+      image: '/locations/airlock_4.png',
       text: 'Battery guesses and rough fallback behavior waste time. Alex still has to correct the profile value the drone actually reads before the outside setup behaves.\n\nHull movement is possible now, and the only remaining question is whether Alex takes Ray along.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
@@ -80,6 +83,7 @@ export const section6CargoStates = {
   section_6_cargo_conclusion_solved: {
     meta: {
       id: 'section_6_cargo_conclusion_solved',
+      image: '/locations/airlock_4.png',
       text: 'The corrected profile goes in cleanly, the clamp behaves, and Shmiel suddenly looks much more useful.\n\nThe outer hatch is ready, and Ray is already waiting with a new definition of teamwork.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
@@ -89,6 +93,7 @@ export const section6CargoStates = {
   section_6_cargo_conclusion_override: {
     meta: {
       id: 'section_6_cargo_conclusion_override',
+      image: '/locations/airlock_4.png',
       text: 'Alex forces the drone into a manual support mode that works right away and looks very temporary. The hatch is ready, but Alex steps outside relying on another temporary fix. However he\'s feeling lucky.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,

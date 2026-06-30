@@ -5,6 +5,7 @@ export const section4CargoStates = {
   section_4_cargo_intro: {
     meta: {
       id: 'section_4_cargo_intro',
+      image: '/locations/access_gate-cargo.png',
       text: 'Tony meets Alex at the freight checkpoint with a handheld scanner and the expression of a man who expected a simpler night. The cargo-side maintenance gate can see the emergency tag, the route authorization, and Tony\'s temporary pass. It still refuses to open.',
       dialogue: [
         { speaker: 'tony', text: 'I filed the freight pass ten minutes ago. The gate is being dramatic.' },
@@ -25,6 +26,7 @@ export const section4CargoStates = {
   section_4_cargo_task: {
     meta: {
       id: 'section_4_cargo_task',
+      image: '/locations/access_gate-cargo.png',
       text:
         'Problem 2 Cargo: Freight Pass Comparison\n\n' +
         'Tony, being a very persistent man, tries to apply his pass to card reader from all the sides: backwads, sideways, even flips it at the reader. Still - all the same - ACCESS DENIED. Alex patiently examins the code of yet another service he has never seen before.\n\n' +
@@ -71,6 +73,7 @@ export const section4CargoStates = {
   section_4_cargo_conclusion_incorrect: {
     meta: {
       id: 'section_4_cargo_conclusion_incorrect',
+      image: '/locations/access_gate-cargo.png',
       text: 'The first guesses miss the real gate check. Whether Alex blames the reader or weakens the rule, the freight door only behaves once he fixes what the scanner is actually testing.\n\nThe freight corridor opens, but everyone in it now knows Alex needed a second argument with a door.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
@@ -80,6 +83,7 @@ export const section4CargoStates = {
   section_4_cargo_conclusion_solved: {
     meta: {
       id: 'section_4_cargo_conclusion_solved',
+      image: '/locations/access_gate-cargo.png',
       text: 'The gate stops lying as soon as Alex fixes the access check it actually reads. Tony gives the scanner a look usually reserved for delayed shipments.\n\nThe freight lane stays orderly all the way to Airlock',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
@@ -89,6 +93,7 @@ export const section4CargoStates = {
   section_4_cargo_conclusion_override: {
     meta: {
       id: 'section_4_cargo_conclusion_override',
+      image: '/locations/access_gate-cargo.png',
       text: 'Alex forces the freight lock, the door jerks open, and three compliance policies quietly die inside the wall.\n\nThe path is open, but the override smell follows Alex toward the airlock like a second tether.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,

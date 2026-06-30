@@ -73,6 +73,8 @@ export default function ChallengeScene({ scene, onComplete }: Props) {
 
   return (
     <div className="scene">
+      {scene.image && <img className="scene-image" src={scene.image} alt="" />}
+
       {/* Text — always first */}
       <div className="block-enter">
         <div className="scene-text">

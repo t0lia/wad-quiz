@@ -102,6 +102,7 @@ export const section10DebtStates = {
   section_10_exit: {
     meta: {
       id: 'section_10_exit',
+      image: '/locations/incubator_4.png',
       text:
         'By the time Alex returns to Incubator #4, the folding chair is still there and the Nevsky potato is still growing like none of this should be surprising. Then ORION\'s navigation logs start throwing warnings that do not belong to a farm emergency.',
       task: {

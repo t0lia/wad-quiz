@@ -5,6 +5,7 @@ export const section6MedicalStates = {
   section_6_medical_intro: {
     meta: {
       id: 'section_6_medical_intro',
+      image: '/locations/airlock_4.png',
       text: 'The medical shell closes around Shmiel with a soft click. The drone gets the new settings, but once it moves into outside mode, it never turns on the clean shell setting.',
       dialogue: [
         { speaker: 'vex', text: 'The drone gets the message, but it never sees the switch that should turn the clean shell on.' },
@@ -25,6 +26,7 @@ export const section6MedicalStates = {
   section_6_medical_task: {
     meta: {
       id: 'section_6_medical_task',
+      image: '/locations/airlock_4.png',
       text:
         'Problem 3 Medical: Shell Profile Field Name\n\n' +
         'The shell setup writes the on switch under the wrong name. The airlock accepts the message, but the drone never turns on clean outside mode.\n\n' +
@@ -72,6 +74,7 @@ export const section6MedicalStates = {
   section_6_medical_conclusion_incorrect: {
     meta: {
       id: 'section_6_medical_conclusion_incorrect',
+      image: '/locations/airlock_4.png',
       text: 'The wrong guesses never touch the real profile problem. Alex still has to align the shell payload with what the drone actually reads before the outside mode behaves.\n\nThe shell finally behaves, and Ray is already waiting at the outer hatch with fresh bad ideas.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
@@ -81,6 +84,7 @@ export const section6MedicalStates = {
   section_6_medical_conclusion_solved: {
     meta: {
       id: 'section_6_medical_conclusion_solved',
+      image: '/locations/airlock_4.png',
       text: 'The corrected payload works, clean mode turns on, and the shell suddenly looks useful instead of dangerous.\n\nThe outer hatch is ready, and Ray is already clipped in like this was always going to happen.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
@@ -90,6 +94,7 @@ export const section6MedicalStates = {
   section_6_medical_conclusion_override: {
     meta: {
       id: 'section_6_medical_conclusion_override',
+      image: '/locations/airlock_4.png',
       text: 'Alex forces the shell into a manual fallback that works right away and inspires no long-term confidence at all.\n\nThe hatch is ready, but the outside segment now begins with one more procedural compromise.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,

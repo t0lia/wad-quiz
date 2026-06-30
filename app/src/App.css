@@ -28,6 +28,14 @@
   color: var(--text-h);
 }
 
+.scene-image {
+  display: block;
+  width: calc(100% + 40px);
+  margin: -32px -20px 0;
+  aspect-ratio: 1200 / 896;
+  object-fit: cover;
+}
+
 .option-list {
   list-style: none;
   margin: 0;

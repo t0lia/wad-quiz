@@ -5,6 +5,7 @@ export const section4MedicalStates = {
   section_4_medical_intro: {
     meta: {
       id: 'section_4_medical_intro',
+      image: '/locations/access_gate-medical.png',
       text: 'Clara leads Alex through the medical corridor to a quarantine side gate with cleaner walls and angrier software. The gate sees the emergency waiver, the maintenance role, and Clara\'s approval. It still declares the record incomplete and keeps the lock engaged.',
       dialogue: [
         { speaker: 'clara', text: 'The waiver exists. I signed it myself.' },
@@ -25,6 +26,7 @@ export const section4MedicalStates = {
   section_4_medical_task: {
     meta: {
       id: 'section_4_medical_task',
+      image: '/locations/access_gate-medical.png',
       text:
         'Problem 2 Medical: Waiver Field Mismatch\n\n' +
         'The quarantine gate writes the approval flag to the wrong field name, so Clara\'s valid medical waiver never reaches the logic that unlocks the door. The gate sees the data but misses the meaning.\n\n' +
@@ -69,6 +71,7 @@ export const section4MedicalStates = {
   section_4_medical_conclusion_incorrect: {
     meta: {
       id: 'section_4_medical_conclusion_incorrect',
+      image: '/locations/access_gate-medical.png',
       text: 'The first guesses never reach the real gate logic. Whether Alex blames the scanner or weakens quarantine policy, the side gate only opens once he fixes the check it actually reads.\n\nThe quarantine lane opens, but only after the medical side learns exactly how avoidable this was.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
@@ -78,6 +81,7 @@ export const section4MedicalStates = {
   section_4_medical_conclusion_solved: {
     meta: {
       id: 'section_4_medical_conclusion_solved',
+      image: '/locations/access_gate-medical.png',
       text: 'The gate unlocks the moment Alex aligns the access check with the field it was always supposed to read. Clara gives the panel a look usually reserved for contagious stupidity.\n\nThe decontamination corridor clears cleanly toward Airlock',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
@@ -87,6 +91,7 @@ export const section4MedicalStates = {
   section_4_medical_conclusion_override: {
     meta: {
       id: 'section_4_medical_conclusion_override',
+      image: '/locations/access_gate-medical.png',
       text: 'Alex trips the manual release, the seal cycles open, and quarantine policy becomes an abstract concept for thirty uncomfortable seconds.\n\nThe route is open, but medical now owes itself a serious internal conversation.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
