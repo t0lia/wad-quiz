@@ -804,3 +804,246 @@
   padding: 32px 20px;
   text-align: center;
 }
+
+/* ── sci-fi phone theme override ────────────────────────── */
+:root {
+  color-scheme: dark;
+  --text: #9af0c5;
+  --text-h: #f5fff8;
+  --bg: #07080a;
+  --border: rgba(109, 255, 191, 0.16);
+  --code-bg: rgba(8, 14, 12, 0.94);
+  --accent: #67ffbf;
+  --accent-bg: rgba(103, 255, 191, 0.09);
+  --accent-border: rgba(103, 255, 191, 0.42);
+  --social-bg: rgba(7, 11, 10, 0.72);
+  --shadow: 0 20px 50px rgba(0, 0, 0, 0.62);
+  --sans: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --heading: ui-monospace, SFMono-Regular, 'Roboto Mono', Consolas, monospace;
+  --mono: ui-monospace, SFMono-Regular, 'Roboto Mono', Consolas, monospace;
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  background:
+    radial-gradient(circle at 50% 18%, rgba(120, 196, 255, 0.1), transparent 24%),
+    radial-gradient(circle at 14% 16%, rgba(255, 181, 86, 0.08), transparent 18%),
+    linear-gradient(180deg, #07080a 0%, #030405 100%);
+  color: var(--text-h);
+}
+
+#root {
+  width: 100%;
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: 24px 16px;
+  box-sizing: border-box;
+}
+
+.scene,
+.ending {
+  width: min(430px, 100%);
+  border-radius: 42px;
+  border: 1px solid rgba(109, 255, 191, 0.18);
+  background:
+    linear-gradient(180deg, rgba(17, 23, 26, 0.98), rgba(9, 10, 11, 0.98)),
+    radial-gradient(circle at 50% 0%, rgba(103, 255, 191, 0.08), transparent 32%);
+  box-shadow:
+    0 28px 80px rgba(0, 0, 0, 0.74),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.scene {
+  padding: 22px 22px 26px;
+  gap: 20px;
+  text-align: left;
+}
+
+.scene::before,
+.ending::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(155deg, rgba(255, 191, 90, 0.09) 0 28%, transparent 28.2%),
+    linear-gradient(205deg, transparent 0 40%, rgba(114, 222, 255, 0.13) 40.2% 100%),
+    radial-gradient(circle at 72% 18%, rgba(151, 227, 255, 0.18), transparent 12%),
+    radial-gradient(circle at 12% 18%, rgba(255, 185, 88, 0.16), transparent 10%);
+  pointer-events: none;
+  opacity: 0.95;
+}
+
+.scene::after,
+.ending::after {
+  content: "";
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 42%;
+  height: 12px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.18), transparent);
+  filter: blur(1px);
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.scene > *,
+.ending > * {
+  position: relative;
+  z-index: 1;
+}
+
+.scene-text {
+  font-family: var(--heading);
+  font-size: clamp(1.08rem, 2.8vw, 1.18rem);
+  line-height: 1.3;
+  color: rgba(245, 255, 248, 0.96);
+  text-shadow: 0 0 10px rgba(103, 255, 191, 0.08);
+}
+
+.option-list,
+.dnd-list,
+.resource-list,
+.line-list,
+.card-meta,
+.block-available,
+.cf-queue,
+.swipe-history,
+.cf-buckets {
+  position: relative;
+  z-index: 1;
+}
+
+.option,
+.line-item,
+.mapping-item,
+.resource-item,
+.cf-card-item,
+.block-btn,
+.block-slot,
+.stepper-btn,
+.cf-bucket,
+.submit-btn,
+.secondary-btn,
+.dnd-item {
+  border-radius: 18px;
+  border-color: rgba(109, 255, 191, 0.2);
+  background: linear-gradient(180deg, rgba(10, 13, 15, 0.98), rgba(7, 9, 10, 0.98));
+  color: var(--text-h);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+}
+
+.option:hover:not(:disabled),
+.line-item:hover:not(:disabled),
+.mapping-item:hover:not(:disabled),
+.resource-item:hover,
+.cf-card-item:hover:not(:disabled),
+.block-btn:hover:not(:disabled),
+.block-slot.filled:hover,
+.stepper-btn:hover:not(:disabled),
+.cf-bucket:hover,
+.dnd-item:hover {
+  border-color: rgba(103, 255, 191, 0.6);
+}
+
+.option.selected,
+.line-item.selected,
+.mapping-item.active,
+.mapping-item.paired,
+.cf-card-item.selected,
+.block-slot.filled,
+.cf-bucket.available,
+.cf-bucket.over,
+.dnd-item.settled {
+  background: linear-gradient(180deg, rgba(14, 26, 22, 0.98), rgba(9, 14, 12, 0.98));
+}
+
+.submit-btn,
+.secondary-btn,
+.block-btn,
+.stepper-btn {
+  border-radius: 999px;
+}
+
+.submit-btn {
+  min-height: 60px;
+  padding: 0 24px;
+  border: 1px solid rgba(103, 255, 191, 0.48);
+  background: linear-gradient(180deg, rgba(12, 32, 24, 0.98), rgba(8, 18, 14, 0.98));
+  box-shadow: 0 0 0 1px rgba(103, 255, 191, 0.08), 0 0 22px rgba(103, 255, 191, 0.1);
+}
+
+.submit-btn:hover:not(:disabled),
+.submit-btn:focus-visible {
+  border-color: rgba(123, 255, 205, 1);
+  box-shadow: 0 0 0 1px rgba(123, 255, 205, 0.16), 0 0 26px rgba(88, 255, 187, 0.14);
+}
+
+.feedback.correct {
+  background: rgba(34, 197, 94, 0.12);
+  color: #69f29a;
+  border-color: rgba(34, 197, 94, 0.36);
+}
+
+.feedback.incorrect {
+  background: rgba(239, 68, 68, 0.1);
+  color: #fda4af;
+  border-color: rgba(239, 68, 68, 0.32);
+}
+
+.card-content,
+.card-meta li,
+.budget-bar,
+.budget-bar.budget-done,
+.card-progress,
+.meta-key,
+.stepper-value,
+.cf-card-content,
+.cf-card-tag,
+.cf-bucket-label,
+.line-num,
+.dnd-handle {
+  color: var(--text-h);
+}
+
+.card-meta li,
+.swipe-history-item {
+  background: rgba(8, 14, 12, 0.9);
+  border: 1px solid rgba(109, 255, 191, 0.14);
+}
+
+.dm-edge,
+.mapping-line {
+  stroke: rgba(103, 255, 191, 0.42);
+}
+
+.dm-node-rect,
+.tile,
+.tile-id,
+.debug-page .meta,
+.debug-page .title {
+  transition: all 0.15s ease;
+}
+
+.ending {
+  padding: 32px 24px;
+  min-height: 100svh;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.ending p {
+  font-family: var(--heading);
+  max-width: 18ch;
+  font-size: clamp(1.15rem, 3vw, 1.35rem);
+  line-height: 1.35;
+  color: var(--text-h);
+}
