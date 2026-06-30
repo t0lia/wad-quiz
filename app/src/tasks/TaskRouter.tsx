@@ -24,8 +24,8 @@ export default function TaskRouter({ task, submitted, onSubmit }: Props) {
     case 'card_filter':        return <CardFilter        task={task} {...p} />
     case 'swipe_cards':        return <SwipeCards        task={task} {...p} />
     case 'block_builder':      return <BlockBuilder      task={task} submitted={submitted} onSubmit={onSubmit} />
-    case 'one_tap_forward':    return <OneTapForward     onSubmit={() => onSubmit()} />
-    case 'text_scene':         return <TextSceneTask     task={task} onSubmit={onSubmit} />
+    case 'one_tap_forward':    return <OneTapForward     submitted={submitted} onSubmit={() => onSubmit()} />
+    case 'text_scene':         return <TextSceneTask     task={task} submitted={submitted} onSubmit={onSubmit} />
     case 'decision_map':       return <DecisionMap       task={task} {...p} />
   }
 }

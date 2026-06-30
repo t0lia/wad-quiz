@@ -1,3 +1,13 @@
+.scroll-feed {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 60px;
+}
+
+.scroll-feed .scene + .scene {
+  border-top: 1px solid var(--border);
+}
+
 .scene {
   width: 100%;
   max-width: 480px;
@@ -845,7 +855,7 @@ body {
 .scene,
 .ending {
   width: min(430px, 100%);
-  border-radius: 42px;
+  /* border-radius: 42px; */
   border: none;
   background:
     linear-gradient(180deg, rgba(17, 23, 26, 0.98), rgba(9, 10, 11, 0.98)),

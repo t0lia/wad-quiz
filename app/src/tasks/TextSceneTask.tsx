@@ -1,8 +1,9 @@
 import type { TextSceneTask } from '../types/story'
 
-type Props = { task: TextSceneTask, onSubmit: (answer?: string) => void }
+type Props = { task: TextSceneTask; submitted: boolean; onSubmit: (answer?: string) => void }
 
-export default function TextSceneTask({ task, onSubmit }: Props) {
+export default function TextSceneTask({ task, submitted, onSubmit }: Props) {
+  if (submitted) return null
   const choices = task.choices ?? [{ label: 'Continue →', event: 'NEXT' }]
 
   return (
