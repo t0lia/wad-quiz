@@ -38,22 +38,22 @@ export const section8DebtStates = {
         type: 'single_choice',
         variant: 'problem',
         options: [
-          { id: 'cycle_everything', content: 'Bounce the tunnel, the switch, and the visor and hope one of them learns something' },
-          { id: 'layer_more_static', content: 'Add another emergency route on top of the bad one' },
-          { id: 'narrow_the_tunnel_prefix', content: 'Narrow the tunnel boundary so only the farm path uses it' },
-          { id: 'keep_force_mode', content: 'Keep the forced tunnel and pin it with an ugly manual rule' },
+          { id: 'blame_switch', content: 'Bounce the tunnel, the switch, and the visor and hope one of them learns something' },
+          { id: 'add_shortcut_route', content: 'Add another emergency route on top of the bad one' },
+          { id: 'correct_network_boundary', content: 'Narrow the tunnel boundary so only the farm path uses it' },
+          { id: 'force_recovery_tunnel', content: 'Keep the forced tunnel and pin it with an ugly manual rule' },
         ]
       },
     } as ChallengeSceneData,
     on: {
       NEXT: [
         {
-          guard: ({ event }: any) => event.answer === 'narrow_the_tunnel_prefix',
+          guard: ({ event }: any) => event.answer === 'correct_network_boundary',
           target: 'section_8_debt_conclusion_solved',
           actions: [{ type: 'set', params: { problem_8_result: 'solved' } }],
         },
         {
-          guard: ({ event }: any) => event.answer === 'keep_force_mode',
+          guard: ({ event }: any) => event.answer === 'force_recovery_tunnel',
           target: 'section_8_debt_conclusion_override',
           actions: [{ type: 'set', params: { problem_8_result: 'override' } }],
         },
@@ -68,7 +68,7 @@ export const section8DebtStates = {
   section_8_debt_conclusion_incorrect: {
     meta: {
       id: 'section_8_debt_conclusion_incorrect',
-      text: 'The bounce cycle wastes time and proves that the tunnel stays bad. Alex narrows the boundary under Ray\'s increasingly colorful commentary.\n\nThe hull route stabilizes but carries the load of all the shortcuts that are holding up the rest of the stack.',
+      text: 'The tunnel thrash proves motion is not the same as progress, and Alex has to narrow the route properly while the whole hull bus complains.\n\nConnectivity is back, but the system now feels like it survived by accumulation rather than design.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_8_exit_debt' },
@@ -77,7 +77,7 @@ export const section8DebtStates = {
   section_8_debt_conclusion_solved: {
     meta: {
       id: 'section_8_debt_conclusion_solved',
-      text: 'The boundary narrows, the tunnel stays contained, and the hull systems stop screaming at each other.\n\nThe rescue route is now holding steady, built on honest corrections under a night of shortcuts.',
+      text: 'The broad tunnel stops stealing traffic the moment Alex restores a sane boundary around it.\n\nThe farm path holds, the debt stack quiets down a little, and the burned connector becomes the last obvious threat.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_8_exit_debt' },
@@ -86,7 +86,7 @@ export const section8DebtStates = {
   section_8_debt_conclusion_override: {
     meta: {
       id: 'section_8_debt_conclusion_override',
-      text: 'Alex pins the tunnel with a manual rule that works now and looks like a warning label.\n\nThe hull route is passable now, but the override weight is getting heavier with each decision.',
+      text: 'Alex pins the forced tunnel in place with one more manual rule and gets the sector stable in the least comforting possible way.\n\nThe ship is moving again, but not because the software has learned anything.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_8_exit_debt' },

@@ -39,22 +39,22 @@ export const section4MedicalStates = {
         type: 'single_choice',
         variant: 'problem',
         options: [
-          { id: 'rescan_wristband', content: 'Rescan Clara\'s wristband until the panel gives up' },
-          { id: 'skip_quarantine_check', content: 'Bypass the quarantine check entirely' },
-          { id: 'align_waiver_field', content: 'Write the approval flag to the field the gate actually reads' },
-          { id: 'force_manual_release', content: 'Trigger a manual release and leave the paperwork behind' },
+          { id: 'blame_reader', content: 'Rescan Clara\'s wristband until the panel gives up' },
+          { id: 'relax_gate_rule', content: 'Bypass the quarantine check entirely' },
+          { id: 'align_access_check', content: 'Write the approval flag to the field the gate actually reads' },
+          { id: 'force_gate_release', content: 'Trigger a manual release and leave the paperwork behind' },
         ]
       },
     } as ChallengeSceneData,
     on: {
       NEXT: [
         {
-          guard: ({ event }: any) => event.answer === 'align_waiver_field',
+          guard: ({ event }: any) => event.answer === 'align_access_check',
           target: 'section_4_medical_conclusion_solved',
           actions: [{ type: 'set', params: { problem_4_result: 'solved' } }],
         },
         {
-          guard: ({ event }: any) => event.answer === 'force_manual_release',
+          guard: ({ event }: any) => event.answer === 'force_gate_release',
           target: 'section_4_medical_conclusion_override',
           actions: [{ type: 'set', params: { problem_4_result: 'override' } }],
         },
@@ -69,7 +69,7 @@ export const section4MedicalStates = {
   section_4_medical_conclusion_incorrect: {
     meta: {
       id: 'section_4_medical_conclusion_incorrect',
-      text: 'The scanner accepts Clara perfectly every single time and remains wrong with perfect confidence. Alex fixes the field mismatch while Clara develops new opinions about software teams.\n\nThe quarantine lane opens, but only after the medical side learns exactly how avoidable this was.',
+      text: 'The first guesses never reach the real gate logic. Whether Alex blames the scanner or weakens quarantine policy, the side gate only opens once he fixes the check it actually reads.\n\nThe quarantine lane opens, but only after the medical side learns exactly how avoidable this was.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_5_medical_fallout' },
@@ -78,7 +78,7 @@ export const section4MedicalStates = {
   section_4_medical_conclusion_solved: {
     meta: {
       id: 'section_4_medical_conclusion_solved',
-      text: 'The payload lands cleanly, the waiver flag behaves, and Clara suddenly looks much more comfortable.\n\nThe gate is ready, and the medical side moves without the usual argument.',
+      text: 'The gate unlocks the moment Alex aligns the access check with the field it was always supposed to read. Clara gives the panel a look usually reserved for contagious stupidity.\n\nThe decontamination corridor clears cleanly toward Airlock',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_5_medical' },
@@ -87,7 +87,7 @@ export const section4MedicalStates = {
   section_4_medical_conclusion_override: {
     meta: {
       id: 'section_4_medical_conclusion_override',
-      text: 'Alex triggers a manual release and the quarantine gate opens, but the override echo follows them into the medical compartment like a second signature.\n\nClara looks at the logs and decides that judgment can wait until everyone is back.',
+      text: 'Alex trips the manual release, the seal cycles open, and quarantine policy becomes an abstract concept for thirty uncomfortable seconds.\n\nThe route is open, but medical now owes itself a serious internal conversation.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_5_medical_fallout' },

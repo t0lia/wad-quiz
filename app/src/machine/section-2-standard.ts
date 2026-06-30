@@ -72,7 +72,7 @@ export const section2StandardStates = {
   section_2_standard_conclusion_incorrect: {
     meta: {
       id: 'section_2_standard_conclusion_incorrect',
-      text: 'The controller room reboots, loses another minute, and comes back exactly as stubborn as before. Alex pokes the service order until the link finally answers.\n\nWater starts moving again, but the main valve farther down the ship is still blocked.',
+      text: 'The first guesses waste another minute. Whether Alex reboots the controller room or leans on a timing hack, `sector-link` only stays up after the startup order is forced back into line.\n\nWater starts moving again, but the main valve farther down the ship is still blocked.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_3' },

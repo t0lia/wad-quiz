@@ -42,22 +42,22 @@ export const section6MedicalStates = {
         type: 'single_choice',
         variant: 'problem',
         options: [
-          { id: 'replace_battery', content: 'Replace the drone battery pack' },
-          { id: 'static_distance', content: 'Hardcode a fixed standoff distance and ignore shell state' },
-          { id: 'boolean_follow', content: 'Write sterileMode to the field the profile actually reads' },
-          { id: 'manual_follow_override', content: 'Override the profile and force manual shell behavior' },
+          { id: 'blame_hardware', content: 'Replace the drone battery pack' },
+          { id: 'fake_safe_mode', content: 'Hardcode a fixed standoff distance and ignore shell state' },
+          { id: 'align_profile_value', content: 'Write sterileMode to the field the profile actually reads' },
+          { id: 'force_profile_override', content: 'Override the profile and force manual shell behavior' },
         ]
       },
     } as ChallengeSceneData,
     on: {
       NEXT: [
         {
-          guard: ({ event }: any) => event.answer === 'boolean_follow',
+          guard: ({ event }: any) => event.answer === 'align_profile_value',
           target: 'section_6_medical_conclusion_solved',
           actions: [{ type: 'set', params: { problem_6_result: 'solved' } }],
         },
         {
-          guard: ({ event }: any) => event.answer === 'manual_follow_override',
+          guard: ({ event }: any) => event.answer === 'force_profile_override',
           target: 'section_6_medical_conclusion_override',
           actions: [{ type: 'set', params: { problem_6_result: 'override' } }],
         },
@@ -72,7 +72,7 @@ export const section6MedicalStates = {
   section_6_medical_conclusion_incorrect: {
     meta: {
       id: 'section_6_medical_conclusion_incorrect',
-      text: 'The hardware was never the problem, but it becomes part of the story anyway while Alex fixes the field name and avoids Clara\'s eyes for three full seconds.\n\nThe shell finally behaves, and Ray is already waiting at the outer hatch with fresh bad ideas.',
+      text: 'The wrong guesses never touch the real profile problem. Alex still has to align the shell payload with what the drone actually reads before the outside mode behaves.\n\nThe shell finally behaves, and Ray is already waiting at the outer hatch with fresh bad ideas.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_7' },
@@ -81,7 +81,7 @@ export const section6MedicalStates = {
   section_6_medical_conclusion_solved: {
     meta: {
       id: 'section_6_medical_conclusion_solved',
-      text: 'The new field name works, clean mode turns on, and the shell suddenly looks useful instead of dangerous.\n\nThe outer hatch is ready, and Ray is already clipped in like this was always going to happen.',
+      text: 'The corrected payload works, clean mode turns on, and the shell suddenly looks useful instead of dangerous.\n\nThe outer hatch is ready, and Ray is already clipped in like this was always going to happen.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_7' },

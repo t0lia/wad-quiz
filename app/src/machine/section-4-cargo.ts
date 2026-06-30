@@ -41,22 +41,22 @@ export const section4CargoStates = {
         type: 'single_choice',
         variant: 'problem',
         options: [
-          { id: 'restart_gate', content: 'Reboot the freight gate and hope the cache clears' },
-          { id: 'hardcode_allow', content: 'Hardcode the gate to trust every cargo maintenance badge' },
-          { id: 'compare_access_value', content: 'Compare the access level by value instead of by reference' },
-          { id: 'jumper_the_lock', content: 'Override the lock through the freight panel bridge' },
+          { id: 'blame_reader', content: 'Reboot the freight gate and hope the cache clears' },
+          { id: 'relax_gate_rule', content: 'Hardcode the gate to trust every cargo maintenance badge' },
+          { id: 'align_access_check', content: 'Compare the access level by value instead of by reference' },
+          { id: 'force_gate_release', content: 'Override the lock through the freight panel bridge' },
         ]
       },
     } as ChallengeSceneData,
     on: {
       NEXT: [
         {
-          guard: ({ event }: any) => event.answer === 'compare_access_value',
+          guard: ({ event }: any) => event.answer === 'align_access_check',
           target: 'section_4_cargo_conclusion_solved',
           actions: [{ type: 'set', params: { problem_4_result: 'solved' } }],
         },
         {
-          guard: ({ event }: any) => event.answer === 'jumper_the_lock',
+          guard: ({ event }: any) => event.answer === 'force_gate_release',
           target: 'section_4_cargo_conclusion_override',
           actions: [{ type: 'set', params: { problem_4_result: 'override' } }],
         },
@@ -71,7 +71,7 @@ export const section4CargoStates = {
   section_4_cargo_conclusion_incorrect: {
     meta: {
       id: 'section_4_cargo_conclusion_incorrect',
-      text: 'The reboot wastes time and proves that the gate remembers its bad decisions perfectly. Alex fixes the comparison under Tony\'s increasingly educational silence.\n\nThe freight corridor opens, but everyone in it now knows Alex needed a second argument with a door.',
+      text: 'The first guesses miss the real gate check. Whether Alex blames the reader or weakens the rule, the freight door only behaves once he fixes what the scanner is actually testing.\n\nThe freight corridor opens, but everyone in it now knows Alex needed a second argument with a door.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_5_cargo_fallout' },
@@ -80,7 +80,7 @@ export const section4CargoStates = {
   section_4_cargo_conclusion_solved: {
     meta: {
       id: 'section_4_cargo_conclusion_solved',
-      text: 'The scanner stops lying as soon as the code starts comparing what it actually read. Tony gives the gate a look usually reserved for delayed shipments.\n\nThe freight lane stays orderly all the way to Airlock #4.',
+      text: 'The gate stops lying as soon as Alex fixes the access check it actually reads. Tony gives the scanner a look usually reserved for delayed shipments.\n\nThe freight lane stays orderly all the way to Airlock',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_5_cargo' },
@@ -89,7 +89,7 @@ export const section4CargoStates = {
   section_4_cargo_conclusion_override: {
     meta: {
       id: 'section_4_cargo_conclusion_override',
-      text: 'Alex bridges the freight lock, the door jerks open, and three compliance policies quietly die inside the wall.\n\nThe path is open, but the override smell follows Alex toward the airlock like a second tether.',
+      text: 'Alex forces the freight lock, the door jerks open, and three compliance policies quietly die inside the wall.\n\nThe path is open, but the override smell follows Alex toward the airlock like a second tether.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_5_cargo_fallout' },

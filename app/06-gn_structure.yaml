@@ -7,61 +7,61 @@ session:
   structure: branching_slots
   target_structure: branching_slots
   main_node_sequence:
-  - choice
-  - problem
-  - choice
-  - problem
-  - choice
-  - problem
-  - choice
-  - problem
-  - choice
-  - problem
+    - choice
+    - problem
+    - choice
+    - problem
+    - choice
+    - problem
+    - choice
+    - problem
+    - choice
+    - problem
   post_node_exit_sections:
-  - after_node: section_7
-    section_id: section_7_exit_cargo
-  - after_node: section_7
-    section_id: section_7_exit_medical
-  - after_node: section_8_clean
-    section_id: section_8_exit_clean
-  - after_node: section_8_debt
-    section_id: section_8_exit_debt
-  - after_node: section_9
-    section_id: section_9_exit
-  - after_node: section_10_clean
-    section_id: section_10_exit
-  - after_node: section_10_debt
-    section_id: section_10_exit
+    - after_node: section_7
+      section_id: section_7_exit_cargo
+    - after_node: section_7
+      section_id: section_7_exit_medical
+    - after_node: section_8_clean
+      section_id: section_8_exit_clean
+    - after_node: section_8_debt
+      section_id: section_8_exit_debt
+    - after_node: section_9
+      section_id: section_9_exit
+    - after_node: section_10_clean
+      section_id: section_10_exit
+    - after_node: section_10_debt
+      section_id: section_10_exit
 rules:
   main_node_count: 10
   early_exit_section_count: 4
   note: Hydroworld now uses a branching slot structure. Sections 1-2 stay shared, sections 3-10 split by route and debt, and the surviving paths merge only for the ORION reveal gate.
   interaction_patterns:
-  - branch
-  - problem
-  - branch
-  - problem
-  - branch
-  - problem
-  - branch
-  - branch
-  - problem
-  - branch
-  - branch
-  - branch
-  - problem
-  - branch
+    - branch
+    - problem
+    - branch
+    - problem
+    - branch
+    - problem
+    - branch
+    - branch
+    - problem
+    - branch
+    - branch
+    - branch
+    - problem
+    - branch
   problem_node_structure:
     options_per_problem: 4
     required_outcomes:
-    - solved
-    - incorrect
-    - override
+      - solved
+      - incorrect
+      - override
   narrative_requirements:
-  - every section must contain an intro, an interaction, and a conclusion
-  - every intro must contain at least one dialogue exchange
-  - every conclusion must prepare the next section or the ending
-  - every transition between parts must wait for player input or enter
+    - every section must contain an intro, an interaction, and a conclusion
+    - every intro must contain at least one dialogue exchange
+    - every conclusion must prepare the next section or the ending
+    - every transition between parts must wait for player input or enter
 state_model:
   flags:
     boot_mode: enum[standard, unsigned]
@@ -81,22 +81,22 @@ state_model:
   derived:
     debt_count:
       from:
-      - boot_mode
-      - drone_mode
-      - eva_mode
-      - swap_mode
-      - override outcomes
+        - boot_mode
+        - drone_mode
+        - eva_mode
+        - swap_mode
+        - override outcomes
     ending_tier:
       when:
-      - if: accepted_exit_7 == true
-        value: early_tier_1
-      - if: accepted_exit_8 == true
-        value: early_tier_2
-      - if: accepted_exit_9 == true
-        value: early_tier_3
-      - if: accepted_exit_10 == true
-        value: early_tier_4
-      - else: endgame
+        - if: accepted_exit_7 == true
+          value: early_tier_1
+        - if: accepted_exit_8 == true
+          value: early_tier_2
+        - if: accepted_exit_9 == true
+          value: early_tier_3
+        - if: accepted_exit_10 == true
+          value: early_tier_4
+        - else: endgame
 scoring:
   outcomes:
     solved: clean progress with low fallout
@@ -107,1675 +107,1435 @@ redesign:
   scope: sections 3-10 rewritten into live route and debt branches; prose can now be iterated in place
   design_goal: Player choices and task outcomes must change the sequence of experienced sections, not only local flavor text.
   working_rules:
-  - section_1 remains shared, then section_2 splits by boot choice
-  - route choice must change at least two later sections
-  - task outcomes may redirect to different follow-up sections, not only modifiers
-  - allow one deliberate late merge before the final reveal
-  - keep the five technical task slots, but let some slots have route or debt variants
+    - section_1 remains shared, then section_2 splits by boot choice
+    - route choice must change at least two later sections
+    - task outcomes may redirect to different follow-up sections, not only modifiers
+    - allow one deliberate late merge before the final reveal
+    - keep the five technical task slots, but let some slots have route or debt variants
   action_plan:
-  - Keep section_1 as the common opening and split section_2 by boot choice.
-  - Replace the route-neutral section_4 flow with cargo and medical variants.
-  - Replace at least one late shared problem with clean and debt-heavy variants.
-  - Keep early exits, but rewrite them as lane-aware stop points instead of generic checkpoints.
-  - Rewrite story markdown only after the planned branch sections exist in YAML.
+    - Keep section_1 as the common opening and split section_2 by boot choice.
+    - Replace the route-neutral section_4 flow with cargo and medical variants.
+    - Replace at least one late shared problem with clean and debt-heavy variants.
+    - Keep early exits, but rewrite them as lane-aware stop points instead of generic checkpoints.
+    - Rewrite story markdown only after the planned branch sections exist in YAML.
   slot_matrix:
     shared_prologue:
       current_sections:
-      - section_1
-      - section_2_standard
-      - section_2_unsigned
+        - section_1
+        - section_2_standard
+        - section_2_unsigned
       planned_behavior: section_1 shared, section_2 split by boot_mode
     first_split:
       current_sections:
-      - section_3
-      - section_4
+        - section_3
+        - section_4
       planned_sections:
-      - section_3
-      - section_4_cargo
-      - section_4_medical
+        - section_3
+        - section_4_cargo
+        - section_4_medical
       branch_driver: route_choice
     route_midgame:
       current_sections:
-      - section_5
-      - section_6
+        - section_5
+        - section_6
       planned_sections:
-      - section_5_cargo
-      - section_5_cargo_fallout
-      - section_6_cargo
-      - section_5_medical
-      - section_5_medical_fallout
-      - section_6_medical
+        - section_5_cargo
+        - section_5_cargo_fallout
+        - section_6_cargo
+        - section_5_medical
+        - section_5_medical_fallout
+        - section_6_medical
       branch_driver: route_choice plus problem_4_result
     shared_eva_checkpoint:
       current_sections:
-      - section_7
-      - section_7_exit
+        - section_7
+        - section_7_exit
       planned_sections:
-      - section_7
-      - section_7_exit_cargo
-      - section_7_exit_medical
+        - section_7
+        - section_7_exit_cargo
+        - section_7_exit_medical
       branch_driver: route memory with a shared EVA decision
     debt_split:
       current_sections:
-      - section_8
-      - section_8_exit
+        - section_8
+        - section_8_exit
       planned_sections:
-      - section_8_clean
-      - section_8_debt
-      - section_8_exit_clean
-      - section_8_exit_debt
+        - section_8_clean
+        - section_8_debt
+        - section_8_exit_clean
+        - section_8_exit_debt
       branch_driver: debt_count and override_count
     final_approach:
       current_sections:
-      - section_9
-      - section_9_exit
-      - section_10
+        - section_9
+        - section_9_exit
+        - section_10
       planned_sections:
-      - section_9
-      - section_9_exit
-      - section_10_clean
-      - section_10_debt
+        - section_9
+        - section_9_exit
+        - section_10_clean
+        - section_10_debt
       branch_driver: prior debt state plus swap_mode
     late_merge:
       current_sections:
-      - section_10_exit
+        - section_10_exit
       planned_sections:
-      - section_10_exit
+        - section_10_exit
       branch_driver: all surviving paths merge here for the ORION reveal decision
   branch_map:
-  - id: section_3
-    status: keep_and_retarget
-    role: route choice
-    next_by_action:
-      take_cargo_route: section_4_cargo
-      take_medical_route: section_4_medical
-  - id: section_4_cargo
-    status: planned
-    lane: cargo
-    task_slot: 2
-    role: cargo-side access problem with Tony and freight constraints
-    next_by_outcome:
-      solved: section_5_cargo
-      incorrect: section_5_cargo_fallout
-      override: section_5_cargo_fallout
-  - id: section_4_medical
-    status: planned
-    lane: medical
-    task_slot: 2
-    role: medical-side access problem with Clara and quarantine friction
-    next_by_outcome:
-      solved: section_5_medical
-      incorrect: section_5_medical_fallout
-      override: section_5_medical_fallout
-  - id: section_5_cargo
-    status: planned
-    lane: cargo
-    role: stable cargo follow-up scene
-    next: section_6_cargo
-  - id: section_5_cargo_fallout
-    status: planned
-    lane: cargo
-    role: cargo fallout scene caused by a shaky task result
-    next: section_6_cargo
-  - id: section_5_medical
-    status: planned
-    lane: medical
-    role: stable medical follow-up scene
-    next: section_6_medical
-  - id: section_5_medical_fallout
-    status: planned
-    lane: medical
-    role: medical fallout scene caused by a shaky task result
-    next: section_6_medical
-  - id: section_6_cargo
-    status: planned
-    lane: cargo
-    task_slot: 3
-    role: cargo-specific drone or handoff problem
-    next: section_7
-  - id: section_6_medical
-    status: planned
-    lane: medical
-    task_slot: 3
-    role: medical-specific drone or containment problem
-    next: section_7
-  - id: section_7
-    status: keep_core_choice_rewrite_prose
-    role: shared EVA decision
-    next_by_action:
-      team_eva: section_7_exit_{route_choice}
-      solo_eva: section_7_exit_{route_choice}
-  - id: section_7_exit_cargo
-    status: planned
-    lane: cargo
-    role: first stop-or-continue checkpoint framed by cargo consequences
-    next_if_continue:
-      low_debt: section_8_clean
-      high_debt: section_8_debt
-    next_if_stop: ending_1
-  - id: section_7_exit_medical
-    status: planned
-    lane: medical
-    role: first stop-or-continue checkpoint framed by medical consequences
-    next_if_continue:
-      low_debt: section_8_clean
-      high_debt: section_8_debt
-    next_if_stop: ending_1
-  - id: section_8_clean
-    status: planned
-    lane: debt_clean
-    task_slot: 4
-    role: cleaner hull repair path unlocked by disciplined earlier play
-    next: section_8_exit_clean
-  - id: section_8_debt
-    status: planned
-    lane: debt_heavy
-    task_slot: 4
-    role: more chaotic hull repair path shaped by overrides and unstable fixes
-    next: section_8_exit_debt
-  - id: section_8_exit_clean
-    status: planned
-    lane: debt_clean
-    role: partial recovery checkpoint with a credible path forward
-    next_if_continue: section_9
-    next_if_stop: ending_2
-  - id: section_8_exit_debt
-    status: planned
-    lane: debt_heavy
-    role: partial recovery checkpoint where stopping means containing self-inflicted fragility
-    next_if_continue: section_9
-    next_if_stop: ending_2
-  - id: section_9
-    status: keep_choice_expand_consequences
-    role: shared connector swap choice
-    next: section_9_exit
-  - id: section_9_exit
-    status: keep_exit_expand_consequences
-    role: shared stop-or-continue checkpoint with route-aware text
-    next_if_continue:
-      low_debt: section_10_clean
-      high_debt: section_10_debt
-    next_if_stop: ending_3
-  - id: section_10_clean
-    status: planned
-    lane: debt_clean
-    task_slot: 5
-    role: disciplined final repair variant with a cleaner ORION breadcrumb
-    next: section_10_exit
-  - id: section_10_debt
-    status: planned
-    lane: debt_heavy
-    task_slot: 5
-    role: brittle final repair variant where shortcuts distort the climax
-    next: section_10_exit
-  - id: section_10_exit
-    status: keep_as_only_late_merge
-    role: shared ORION reveal gate
-    next_if_stop: ending_4
-    next_if_continue: ending_5
+    - id: section_3
+      status: keep_and_retarget
+      role: route choice
+      next_by_action:
+        take_cargo_route: section_4_cargo
+        take_medical_route: section_4_medical
+    - id: section_4_cargo
+      status: planned
+      lane: cargo
+      task_slot: 2
+      role: cargo-side access problem with Tony and freight constraints
+      next_by_outcome:
+        solved: section_5_cargo
+        incorrect: section_5_cargo_fallout
+        override: section_5_cargo_fallout
+    - id: section_4_medical
+      status: planned
+      lane: medical
+      task_slot: 2
+      role: medical-side access problem with Clara and quarantine friction
+      next_by_outcome:
+        solved: section_5_medical
+        incorrect: section_5_medical_fallout
+        override: section_5_medical_fallout
+    - id: section_5_cargo
+      status: planned
+      lane: cargo
+      role: stable cargo follow-up scene
+      next: section_6_cargo
+    - id: section_5_cargo_fallout
+      status: planned
+      lane: cargo
+      role: cargo fallout scene caused by a shaky task result
+      next: section_6_cargo
+    - id: section_5_medical
+      status: planned
+      lane: medical
+      role: stable medical follow-up scene
+      next: section_6_medical
+    - id: section_5_medical_fallout
+      status: planned
+      lane: medical
+      role: medical fallout scene caused by a shaky task result
+      next: section_6_medical
+    - id: section_6_cargo
+      status: planned
+      lane: cargo
+      task_slot: 3
+      role: cargo-specific drone or handoff problem
+      next: section_7
+    - id: section_6_medical
+      status: planned
+      lane: medical
+      task_slot: 3
+      role: medical-specific drone or containment problem
+      next: section_7
+    - id: section_7
+      status: keep_core_choice_rewrite_prose
+      role: shared EVA decision
+      next_by_action:
+        team_eva: section_7_exit_{route_choice}
+        solo_eva: section_7_exit_{route_choice}
+    - id: section_7_exit_cargo
+      status: planned
+      lane: cargo
+      role: first stop-or-continue checkpoint framed by cargo consequences
+      next_if_continue:
+        low_debt: section_8_clean
+        high_debt: section_8_debt
+      next_if_stop: ending_1
+    - id: section_7_exit_medical
+      status: planned
+      lane: medical
+      role: first stop-or-continue checkpoint framed by medical consequences
+      next_if_continue:
+        low_debt: section_8_clean
+        high_debt: section_8_debt
+      next_if_stop: ending_1
+    - id: section_8_clean
+      status: planned
+      lane: debt_clean
+      task_slot: 4
+      role: cleaner hull repair path unlocked by disciplined earlier play
+      next: section_8_exit_clean
+    - id: section_8_debt
+      status: planned
+      lane: debt_heavy
+      task_slot: 4
+      role: more chaotic hull repair path shaped by overrides and unstable fixes
+      next: section_8_exit_debt
+    - id: section_8_exit_clean
+      status: planned
+      lane: debt_clean
+      role: partial recovery checkpoint with a credible path forward
+      next_if_continue: section_9
+      next_if_stop: ending_2
+    - id: section_8_exit_debt
+      status: planned
+      lane: debt_heavy
+      role: partial recovery checkpoint where stopping means containing self-inflicted fragility
+      next_if_continue: section_9
+      next_if_stop: ending_2
+    - id: section_9
+      status: keep_choice_expand_consequences
+      role: shared connector swap choice
+      next: section_9_exit
+    - id: section_9_exit
+      status: keep_exit_expand_consequences
+      role: shared stop-or-continue checkpoint with route-aware text
+      next_if_continue:
+        low_debt: section_10_clean
+        high_debt: section_10_debt
+      next_if_stop: ending_3
+    - id: section_10_clean
+      status: planned
+      lane: debt_clean
+      task_slot: 5
+      role: disciplined final repair variant with a cleaner ORION breadcrumb
+      next: section_10_exit
+    - id: section_10_debt
+      status: planned
+      lane: debt_heavy
+      task_slot: 5
+      role: brittle final repair variant where shortcuts distort the climax
+      next: section_10_exit
+    - id: section_10_exit
+      status: keep_as_only_late_merge
+      role: shared ORION reveal gate
+      next_if_stop: ending_4
+      next_if_continue: ending_5
   ending_matrix:
-  - ending: ending_1
-    trigger: stop_after_7
-    rewrite_requirement: reflect whether cargo or medical route convinced Alex to stop early
-  - ending: ending_2
-    trigger: stop_after_8
-    rewrite_requirement: distinguish clean recovery from debt containment
-  - ending: ending_3
-    trigger: stop_after_9
-    rewrite_requirement: reflect whether the player arrived here through cargo or medical fallout
-  - ending: ending_4
-    trigger: stop_after_10
-    rewrite_requirement: full repair completed, but the player's route and debt history should tint the sign-off
-  - ending: ending_5
-    trigger: continue_after_10
-    rewrite_requirement: ORION reveal remains shared, but Alex's reaction should acknowledge route history and technical debt
+    - ending: ending_1
+      trigger: stop_after_7
+      rewrite_requirement: reflect whether cargo or medical route convinced Alex to stop early
+    - ending: ending_2
+      trigger: stop_after_8
+      rewrite_requirement: distinguish clean recovery from debt containment
+    - ending: ending_3
+      trigger: stop_after_9
+      rewrite_requirement: reflect whether the player arrived here through cargo or medical fallout
+    - ending: ending_4
+      trigger: stop_after_10
+      rewrite_requirement: full repair completed, but the player's route and debt history should tint the sign-off
+    - ending: ending_5
+      trigger: continue_after_10
+      rewrite_requirement: ORION reveal remains shared, but Alex's reaction should acknowledge route history and technical debt
 scenario:
   id: code_of_growth_hydroworld_v2
   title: Code of Growth - Hydroworld
   start_section: section_1
   cast:
-  - id: alex
-    role: automation_infrastructure_engineer
-  - id: lina
-    role: chief_botanist
-  - id: tony
-    role: cargo_dispatcher
-  - id: clara
-    role: medical_technician
-  - id: vex
-    role: support_technician
-  - id: ray
-    role: veteran_engineer
-  - id: elena
-    role: it_director
-  - id: captain
-    role: ship_captain
-  - id: orion
-    role: navigation_ai
+    - id: alex
+      role: automation_infrastructure_engineer
+    - id: lina
+      role: chief_botanist
+    - id: tony
+      role: cargo_dispatcher
+    - id: clara
+      role: medical_technician
+    - id: vex
+      role: support_technician
+    - id: ray
+      role: veteran_engineer
+    - id: elena
+      role: it_director
+    - id: captain
+      role: ship_captain
+    - id: orion
+      role: navigation_ai
   locations:
-  - id: incubator_4
-    label: 'Incubator #4, Agro-Dome'
-  - id: sector_a_control
-    label: Sector A Control Room
-  - id: cross_ship_route
-    label: Cross-Ship Service Route
-  - id: access_gate
-    label: Maintenance Access Gate
-  - id: airlock_4
-    label: 'Airlock #4'
-  - id: exterior_hull
-    label: Exterior Hull Surface
-  - id: technical_gap
-    label: Hull Technical Gap
-  - id: cable_connector
-    label: Main Cable Connector
+    - id: incubator_4
+      label: 'Incubator #4, Agro-Dome'
+    - id: sector_a_control
+      label: Sector A Control Room
+    - id: cross_ship_route
+      label: Cross-Ship Service Route
+    - id: access_gate
+      label: Maintenance Access Gate
+    - id: airlock_4
+      label: 'Airlock #4'
+    - id: exterior_hull
+      label: Exterior Hull Surface
+    - id: technical_gap
+      label: Hull Technical Gap
+    - id: cable_connector
+      label: Main Cable Connector
   sections:
-  - id: section_1
-    title: 'Section 1: Boot Choice in the Grow Bay'
-    location_id: incubator_4
-    intro:
-      narrative: 'Alex drops into a folding chair in Incubator #4. A potato vine glows inside a glass grow tube while red alarm lights pulse across the aisle. Sector A is locked after the control link fails, and the watering system is frozen. The PDA opens a local maintenance terminal. To Alex surprise, instead of the standard welcome screen he''s presented with boot menu he has not seen before. A call from Lina distracts his uncertainty.'
-      dialogue:
-      - speaker: lina
-        text: How are things looking?
-      - speaker: alex
-        text: That's a strange new boot menu I'm getting...
-      - speaker: lina
-        text: Huh? Must be yet another half baked software update. What does it say?
-      - speaker: alex
-        text: Boot V9 or boot V10.0037.custom.experimental.unsigned
-      - speaker: lina
-        text: You're on your own with this one. Who knows what promisses unsigned gives...
-    interaction:
-      type: branch
-      title: Console Build Decision
-      prompt: Choose which console build Alex starts on the terminal to reconnect Sector A control.
-      actions:
-      - id: choose_standard
-        text: V9 Enterprise
-        description: Boot the standard console profile with the full startup checklist and logging.
-        sets_flag: 'boot_mode: standard'
-        next: section_2_standard
-      - id: choose_unsigned
-        text: V10.0037.custom.experimental.unsigned
-        description: If this is a new build it probably has tons of new cool features.
-        sets_flag: 'boot_mode: unsigned'
-        next: section_2_unsigned
-    conclusion:
-      by_action:
-        choose_standard:
-          narrative: The PDA loads the enterprise console and opens a verified device map across the screen. Sector A shows locked while the recovery tools finish loading. Alex moved with the same enterprise confidence as the build itself, because after all, if the console boot was still progressing, there was no reason to outrun the loading.
-        choose_unsigned:
-          narrative: The PDA loads an unsigned experimental build. Alex is welcomed with a nice new background and soft music. During the load sequence Alex spots useless lines like "validation checks disabled" and "security checks disabled", but he doens't pay much attention to those - who reads logs before incidents anyway. With the custom tools and soft music, Alex heads to Sector A Control to start the reconnect.
-  - id: section_2_standard
-    title: 'Section 2 Standard: Sector A - Missing Dependencies'
-    location_id: sector_a_control
-    intro:
-      narrative: The enterprise console takes a little longer, but it arrives with calmer telemetry and fewer visual fireworks. The comfort lasts only until the dependency panel starts blinking. Sector A still cannot close the control handshake, and the same lock remains in place.
-      dialogue:
-      - speaker: lina
-        text: Slower boot, cleaner dashboard. Why is Sector A still dead?
-      - speaker: alex
-        text: One startup module from the station update is racing ahead of its dependencies.
-      - speaker: lina
-        text: So even the safe build inherited the same bad idea?
-      - speaker: alex
-        text: Yes. We still need `sector-link` to wait for the service chain before handshaking.
-      - speaker: lina
-        text: Then fix it once, and let's not debug this corridor again tonight.
-    interaction:
-      type: problem
-      title: Help Alex stabilize startup order in the enterprise console
-      prompt: The enterprise profile still carries one rushed startup module from the latest station-wide update. The race is less flashy, but no less real.
-      modifiers:
-      - condition: boot_mode == standard
-        effect: Even the standard build carries one rushed startup module from the latest station-wide update.
-      - condition: boot_mode == unsigned
-        effect: The unsigned build skips its normal startup barrier, so the race is visible immediately.
-      snippet:
-      - async function bootSectorLink(services) {
-      - '  services.map((service) => service.start());'
-      - '  const link = await sectorLink.handshake();'
-      - '  if (!link.ok) throw new Error("sector-link offline");'
-      - '  return "ready";'
-      - '}'
-      actions:
-      - id: blame_controller
-        text: Blame the controller rack and restart it from the wall panel
-        description: Treat the issue as external hardware trouble and reset the room.
-        outcome: incorrect
-        sets_flag: 'problem_2_result: incorrect'
-      - id: sleep_then_retry
-        text: Add a fixed delay before the handshake
-        description: Wait a few seconds and hope the service chain happens to finish in time.
-        outcome: incorrect
-        sets_flag: 'problem_2_result: incorrect'
-      - id: await_service_barrier
-        text: Wait for all service startups before sector-link handshakes
-        description: Hold the handshake until the dependency chain reports ready.
-        outcome: solved
-        sets_flag: 'problem_2_result: solved'
-      - id: force_sector_link
-        text: Override startup checks and force sector-link online
-        description: Skip the safety barrier and bring the link up dirty but fast.
-        outcome: override
-        sets_flag: 'problem_2_result: override'
-    conclusion:
-      by_action:
-        blame_controller:
-          narrative: |-
-            The controller room reboots, loses another minute, and comes back exactly as stubborn as before. Alex pokes the service order until the link finally answers.
-
-            Water starts moving again, but the main valve farther down the ship is still blocked.
-          next_section: section_3
-        sleep_then_retry:
-          narrative: |-
-            The fixed delay works once and only because the ship is feeling generous. sector-link comes up, but Alex can already smell the future incident report.
-
-            The immediate crisis softens, yet the main valve still needs hands on the next segment.
-          next_section: section_3
-        await_service_barrier:
-          narrative: |-
-            The startup order settles down, `sector-link` comes up cleanly, and the controller answers at last. The enterprise build stays stable, but only after Alex forces it to finish one conversation before starting the next.
-
-            Sector A finally responds, but the command path still points toward the next blocked compartment. Alex grabs the PDA and moves on before the station software finds a new way to surprise him.
-          next_section: section_3
-        force_sector_link:
-          narrative: |-
-            Alex shoves sector-link past its checks and the controller answers with visible bad temper. The dashboard turns green faster than it turns trustworthy.
-
-            Water moves again, but the ship now owes Alex one hidden failure and the main valve is still ahead.
-          next_section: section_3
-  - id: section_2_unsigned
-    title: 'Section 2 Unsigned: Sector A - Missing Dependencies'
-    location_id: sector_a_control
-    intro:
-      narrative: Alex barely taps the confirm key before the experimental build jumps to the desktop. The quick boot looks great for about three seconds. Then the status panel fills with yellow warnings instead of green INFOs. Most of the console is awake, but currently it looks like a traffic light with big red, medium amber and a small touch of green.
-      dialogue:
-      - speaker: lina
-        text: That was fast. So why is Sector A still dead?
-      - speaker: alex
-        text: Because this build boots the interface before the background services finish sorting themselves out.
-      - speaker: lina
-        text: Which one do we actually need?
-      - speaker: alex
-        text: '`sector-link`. Without it, this nice new desktop is as good as a screensaver.'
-      - speaker: lina
-        text: Then fix the race, and keep the wallpaper if you must.
-    interaction:
-      type: problem
-      title: Help Alex turn the experimental terminal into something useful
-      prompt: The experimental build is lightning fast because is starts services in parallel. Since it's difficult to get good concurrency experts in deep space, issues are unavoidable.
-      modifiers:
-      - condition: boot_mode == standard
-        effect: Even the standard build carries one rushed startup module from the latest station-wide update.
-      - condition: boot_mode == unsigned
-        effect: The unsigned build skips its normal startup barrier, so the race is visible immediately.
-      snippet:
-      - async function bootSectorLink(services) {
-      - '  services.map((service) => service.start());'
-      - '  const link = await sectorLink.handshake();'
-      - '  if (!link.ok) throw new Error("sector-link offline");'
-      - '  return "ready";'
-      - '}'
-      actions:
-      - id: blame_controller
-        text: Blame the controller rack and restart it from the wall panel
-        description: Treat the issue as external hardware trouble and reset the room.
-        outcome: incorrect
-        sets_flag: 'problem_2_result: incorrect'
-      - id: sleep_then_retry
-        text: Add a fixed delay before the handshake
-        description: Wait a few seconds and hope the service chain happens to finish in time.
-        outcome: incorrect
-        sets_flag: 'problem_2_result: incorrect'
-      - id: await_service_barrier
-        text: Wait for all service startups before sector-link handshakes
-        description: Hold the handshake until the dependency chain reports ready.
-        outcome: solved
-        sets_flag: 'problem_2_result: solved'
-      - id: force_sector_link
-        text: Override startup checks and force sector-link online
-        description: Skip the safety barrier and bring the link up dirty but fast.
-        outcome: override
-        sets_flag: 'problem_2_result: override'
-    conclusion:
-      by_action:
-        blame_controller:
-          narrative: |-
-            The controller room reboots, loses another minute, and comes back exactly as stubborn as before. Alex pokes the service order until the link finally answers.
-
-            Water starts moving again, but the main valve farther down the ship is still blocked.
-          next_section: section_3
-        sleep_then_retry:
-          narrative: |-
-            The fixed delay works once and only because the ship is feeling generous. sector-link comes up, but Alex can already smell the future incident report.
-
-            The immediate crisis softens, yet the main valve still needs hands on the next segment.
-          next_section: section_3
-        await_service_barrier:
-          narrative: |-
-            The startup order settles down, `sector-link` comes up cleanly, and the controller answers at last. The fast build keeps its speed, but only after Alex forces it to finish one conversation before starting the next.
-
-            Sector A finally responds, but the command path still points toward the next blocked compartment. Alex grabs the PDA and moves on before the experimental build finds a new way to surprise him.
-          next_section: section_3
-        force_sector_link:
-          narrative: |-
-            Alex shoves sector-link past its checks and the controller answers with visible bad temper. The dashboard turns green faster than it turns trustworthy.
-
-            Water moves again, but the ship now owes Alex one hidden failure and the main valve is still ahead.
-          next_section: section_3
-  - id: section_3
-    title: 'Section 3: Crossing the Ship'
-    location_id: cross_ship_route
-    intro:
-      narrative: 'The terminal is finally holding a live connection to Sector A when a new alert climbs over the recovery logs. Water is not stuck here anymore. The line is blocked farther down the ship at Maintenance Access Gate before Airlock #4, where the supply path narrows into the outer service corridor. The damaged segment is outside the safe interior path, so Alex will need airlock access and a hull-work drone to reach it safely. Alex looks up from the screen and finds himself standing between two doors: the heavier cargo hatch on the left and the cleaner medical passage on the right. '
-      dialogue:
-      - speaker: lina
-        text: The software side is breathing again. Now go move the part that refuses to move.
-      - speaker: alex
-        text: It's like you imply that I have to do something physically?!
-      - speaker: lina
-        text: Only eventually. For now you need to get there first.
-      - speaker: alex
-        text: Cargo is slower and cleaner. Medical is shorter and stranger.
-      - speaker: lina
-        text: Everything on this ship is shorter and stranger.
-    interaction:
-      type: branch
-      title: Bandages or cargo containers?
-      prompt: 'Guide Alex towards Airlock #4'
-      actions:
-      - id: take_cargo_route
-        text: Alex will see his luck through the Cargo management compartment
-        description: Pass through freight operations and lean on Tony for access.
-        sets_flag: 'route_choice: cargo'
-        next: section_4_cargo
-      - id: take_medical_route
-        text: None has been sick lately so route through Medical looks like a safer bet
-        description: Cut through the food block and let Clara solve the human paperwork.
-        sets_flag: 'route_choice: medical'
-        next: section_4_medical
-    conclusion:
-      by_action:
-        take_cargo_route:
-          narrative: |-
-            Alex cuts through freight corridors where everything smells like dust, metal, and accounting.
-
-            Tony is already waiting by the freight checkpoint with a pass that should have worked the first time.
-        take_medical_route:
-          narrative: |-
-            Alex cuts through steam, vending noise, and medical scanners that look too awake for this hour.
-
-            Clara gets Alex to the quarantine side gate, where the paperwork is failing in a more creative way.
-  - id: section_4_cargo
-    title: 'Section 4 Cargo: Freight Gate Permission Check'
-    location_id: access_gate
-    intro:
-      narrative: Tony meets Alex at the freight checkpoint with a handheld scanner and the expression of a man who expected a simpler night. The cargo-side maintenance gate can see the emergency tag, the route authorization, and Tony's temporary pass. It still refuses to open.
-      dialogue:
-      - speaker: tony
-        text: I filed the freight pass ten minutes ago. The gate is being dramatic.
-      - speaker: alex
-        text: No, the gate is being written in Java.
-      - speaker: tony
-        text: Is that better or worse than dramatic?
-      - speaker: alex
-        text: Usually slower.
-    interaction:
-      type: problem
-      title: 'Problem 2 Cargo: Freight Pass Comparison'
-      prompt: 'Tony, being a very persistent man, tries to apply his pass to card reader from all the sides: backwads, sideways, even flips it at the reader. Still - all the same - ACCESS DENIED. Alex patiently examins the code of yet another service he has never seen before.'
-      modifiers:
-      - condition: boot_mode == unsigned
-        effect: The unsigned console build keeps repainting the scanner UI, which makes every test run feel less trustworthy.
-      snippet:
-      - boolean gateAllows(Credential credential) {
-      - '    String level = credential.getAccessLevel();'
-      - '    if (level == "MAINT_RED") {'
-      - '        return true;'
-      - '    }'
-      - '    return credential.hasSupervisorEscort();'
-      - '}'
-      actions:
-      - id: restart_gate
-        text: Reboot the freight gate and hope the cache clears
-        description: Treat the lockout like a stale controller state.
-        outcome: incorrect
-        sets_flag: 'problem_4_result: incorrect'
-      - id: hardcode_allow
-        text: Hardcode the gate to trust every cargo maintenance badge
-        description: Open the door by flattening the permission check for everyone.
-        outcome: incorrect
-        sets_flag: 'problem_4_result: incorrect'
-      - id: compare_access_value
-        text: Compare the access level by value instead of by reference
-        description: Use proper string content comparison so valid temporary clearance is recognized.
-        outcome: solved
-        sets_flag: 'problem_4_result: solved'
-      - id: jumper_the_lock
-        text: Override the lock through the freight panel bridge
-        description: Open the gate physically and let Security discover it later.
-        outcome: override
-        sets_flag: 'problem_4_result: override'
-    conclusion:
-      by_action:
-        restart_gate:
-          narrative: |-
-            The reboot wastes time and proves that the gate remembers its bad decisions perfectly. Alex fixes the comparison under Tony's increasingly educational silence.
-
-            The freight corridor opens, but everyone in it now knows Alex needed a second argument with a door.
-          next_section: section_5_cargo_fallout
-        hardcode_allow:
-          narrative: |-
-            The door opens for Alex and, briefly, for the entire idea of bad governance. Tony watches Alex delete the worst of the patch and decides not to ask for details.
-
-            Cargo access is clear, but the audit trail now looks like a future apology written in haste.
-          next_section: section_5_cargo_fallout
-        compare_access_value:
-          narrative: |-
-            The scanner stops lying as soon as the code starts comparing what it actually read. Tony gives the gate a look usually reserved for delayed shipments.
-
-            The freight lane stays orderly all the way to Airlock
-          next_section: section_5_cargo
-        jumper_the_lock:
-          narrative: |-
-            Alex bridges the freight lock, the door jerks open, and three compliance policies quietly die inside the wall.
-
-            The path is open, but the override smell follows Alex toward the airlock like a second tether.
-          next_section: section_5_cargo_fallout
-  - id: section_5_cargo
-    title: 'Section 5 Cargo: Clean Arrival At Airlock #4'
-    location_id: airlock_4
-    intro:
-      narrative: 'The cargo lane reaches Airlock #4, where Vex already has Shmiel waiting. The drone is on site, but its current profile still thinks this is an indoor freight job, and space has very strict feedback about that kind of mistake.'
-      dialogue:
-      - speaker: vex
-        text: You made good time. Meet Shmiel - general purpose maintenance drone. Last time it was used for some inside dust removal so his software might be a bit surprised by your open space mission.
-      - speaker: alex
-        text: So we have a hull job and a drone that still thinks in vacuum cleaner terms.
-      - speaker: vex
-        text: Exactly. We can patch the profile properly, or bully it into follow mode and hope space stays patient.
-      - speaker: alex
-        text: Then let us choose what kind of bad idea it becomes.
-    interaction:
-      type: branch
-      title: Drone Preparation
-      prompt: Choose how Alex prepares Shmiel for the outside cargo-side segment.
-      actions:
-      - id: patch_drone
-        text: Software Patch
-        description: Update the drone properly before opening the hatch.
-        sets_flag: 'drone_mode: patch'
-        next: section_6_cargo
-      - id: override_drone
-        text: Hard Override
-        description: Force the drone into follow mode and deal with side effects later.
-        sets_flag: 'drone_mode: override'
-        next: section_6_cargo
-    conclusion:
-      by_action:
-        patch_drone:
-          narrative: |-
-            Vex loads a careful patch and the drone settles into a less offended idle pattern.
-
-            The hatch can cycle once the hull follow profile stops arguing with the cargo clamp package.
-        override_drone:
-          narrative: |-
-            Vex slams the override path through and the drone obeys with the nervous energy of a badly supervised forklift.
-
-            The hatch can cycle, provided Alex fixes the follow profile before the override starts improvising.
-  - id: section_5_cargo_fallout
-    title: 'Section 5 Cargo: Airlock #4 Under Audit Smoke'
-    location_id: airlock_4
-    intro:
-      narrative: 'By the time Alex reaches Airlock #4, Vex already has Shmiel waiting. The drone is on site, but its current profile still expects a routine indoor freight task, and vacuum is famously unhelpful when software makes that assumption.'
-      dialogue:
-      - speaker: vex
-        text: You smell like a door override and a rushed explanation. Meet Shmiel - general purpose maintenance drone. Last time it was used for indoor freight work, so its software may take your hull mission as a personal insult.
-      - speaker: alex
-        text: So the route is already messy, and now the drone thinks we are still inside.
-      - speaker: vex
-        text: Exactly. We can patch the profile properly, or bully it into follow mode and hope space stays weirdly forgiving.
-      - speaker: alex
-        text: No promises, but I respect the goal.
-    interaction:
-      type: branch
-      title: Drone Preparation
-      prompt: Choose how Alex prepares Shmiel for the outside cargo-side segment after the messy gate entry.
-      actions:
-      - id: patch_drone
-        text: Software Patch
-        description: Update the drone properly before opening the hatch.
-        sets_flag: 'drone_mode: patch'
-        next: section_6_cargo
-      - id: override_drone
-        text: Hard Override
-        description: Force the drone into follow mode and accept one more shortcut.
-        sets_flag: 'drone_mode: override'
-        next: section_6_cargo
-    conclusion:
-      by_action:
-        patch_drone:
-          narrative: |-
-            Alex chooses the slower patch and buys one honest component inside an increasingly dishonest evening.
-
-            If the profile payload behaves, the airlock may still forgive the rest.
-        override_drone:
-          narrative: |-
-            Alex chooses speed again, and Vex decides that judgment can wait until everyone is back inside with all limbs attached.
-
-            The hatch can cycle, but the drone link now carries the moral texture of wet duct tape.
-  - id: section_6_cargo
-    title: 'Section 6 Cargo: Clamp Follow Profile'
-    location_id: airlock_4
-    intro:
-      narrative: The cargo kit clicks onto Shmiel with a sharp snap. The drone accepts the new settings, but once it starts the outside setup, it acts like the magnetic clamp is optional.
-      dialogue:
-      - speaker: vex
-        text: The drone takes the settings, but outside it stops treating the clamp like a real on switch.
-      - speaker: alex
-        text: So it reads the message, but gets the important part wrong.
-      - speaker: vex
-        text: Exactly. Give me a simple, correct value and I will give you a drone that stays attached to the hull.
-    interaction:
-      type: problem
-      title: 'Problem 3 Cargo: Clamp Mode Typing'
-      prompt: The cargo setup sends the magnetic clamp setting in the wrong format. The drone accepts the data, but outside it behaves as if the clamp is turned off.
-      modifiers:
-      - condition: drone_mode == patch
-        effect: The patched drone stays calm, so the problem is mostly about the bad setting.
-      - condition: drone_mode == override
-        effect: The hard override already made Shmiel jumpy, so any bad setting now causes more trouble.
-      snippet:
-      - function buildClampProfile(mode) {
-      - '  const profile = { mode, magClamp: false, tetherFollow: false };'
-      - '  if (mode === "hull") {'
-      - '    profile.magClamp = "true";'
-      - '    profile.tetherFollow = true;'
-      - '  }'
-      - '  return deployProfile(profile);'
-      - '}'
-      actions:
-      - id: replace_battery
-        text: Replace the drone battery pack
-        description: Pretend the clamp problem is just a battery problem.
-        outcome: incorrect
-        sets_flag: 'problem_6_result: incorrect'
-      - id: static_distance
-        text: Hardcode a fixed standoff distance and ignore clamp state
-        description: Make the drone follow at a fixed distance without fixing the real clamp setting.
-        outcome: incorrect
-        sets_flag: 'problem_6_result: incorrect'
-      - id: boolean_follow
-        text: Send magClamp as a real boolean value
-        description: Fix the value so the clamp turns on properly outside.
-        outcome: solved
-        sets_flag: 'problem_6_result: solved'
-      - id: manual_follow_override
-        text: Override the profile and force manual clamp behavior
-        description: Skip the checks and force the drone into a rough backup mode.
-        outcome: override
-        sets_flag: 'problem_6_result: override'
-    conclusion:
-      by_action:
-        replace_battery:
-          narrative: |-
-            The new battery changes nothing, because the real problem is still the bad setting. Alex fixes it with mild embarrassment and gets the hatch moving again.
-
-            The drone now behaves well enough to open the outer hatch, and Ray is waiting with the next questionable offer.
-          next_section: section_7
-        static_distance:
-          narrative: |-
-            The distance hack works until the first test drift, when it starts losing the argument with reality. Alex fixes the setting and keeps the worst part of the experiment to himself.
-
-            Hull movement is possible now, and the only remaining question is whether Alex takes Ray along.
-          next_section: section_7
-        boolean_follow:
-          narrative: |-
-            The new setting goes in cleanly, the clamp behaves, and Shmiel suddenly looks much more useful.
-
-            The outer hatch is ready, and Ray is already waiting with a new definition of teamwork.
-          next_section: section_7
-        manual_follow_override:
-          narrative: |-
-            Alex forces the drone into a manual clamp mode that works right away and looks very temporary.
-
-            The hatch is ready, but the outside segment now begins with one more borrowed certainty.
-          next_section: section_7
-  - id: section_4_medical
-    title: 'Section 4 Medical: Quarantine Side Gate'
-    location_id: access_gate
-    intro:
-      narrative: Clara leads Alex through the medical corridor to a quarantine side gate with cleaner walls and angrier software. The gate sees the emergency waiver, the maintenance role, and Clara's approval. It still declares the record incomplete and keeps the lock engaged.
-      dialogue:
-      - speaker: clara
-        text: The waiver exists. I signed it myself.
-      - speaker: alex
-        text: Then the gate is either afraid of doctors or confused by field names.
-      - speaker: clara
-        text: I can work with either diagnosis.
-      - speaker: alex
-        text: Let us start with the one that compiles.
-    interaction:
-      type: problem
-      title: 'Problem 2 Medical: Waiver Field Mismatch'
-      prompt: The quarantine gate builds a clearance payload, but writes the approval flag to the wrong field name. Clara's valid medical waiver never reaches the logic that unlocks the door.
-      modifiers:
-      - condition: boot_mode == unsigned
-        effect: The unsigned build keeps collapsing warning panels, which makes the gate logs feel even less honest.
-      snippet:
-      - 'def build_clearance(record):'
-      - '    payload = {"level": record["level"], "waiverApproved": False}'
-      - '    if record["doctor_ok"]:'
-      - '        payload["waiver_approved"] = True'
-      - '    return payload'
-      actions:
-      - id: rescan_wristband
-        text: Rescan Clara's wristband until the panel gives up
-        description: Treat the failure as a bad badge read.
-        outcome: incorrect
-        sets_flag: 'problem_4_result: incorrect'
-      - id: skip_quarantine_check
-        text: Bypass the quarantine check entirely
-        description: Open the door by flattening a medical safety rule.
-        outcome: incorrect
-        sets_flag: 'problem_4_result: incorrect'
-      - id: align_waiver_field
-        text: Write the approval flag to the field the gate actually reads
-        description: Fix the schema mismatch so the medical waiver is recognized.
-        outcome: solved
-        sets_flag: 'problem_4_result: solved'
-      - id: force_manual_release
-        text: Trigger a manual release and leave the paperwork behind
-        description: Open the gate physically and trust the incident report to sound noble later.
-        outcome: override
-        sets_flag: 'problem_4_result: override'
-    conclusion:
-      by_action:
-        rescan_wristband:
-          narrative: |-
-            The scanner accepts Clara perfectly every single time and remains wrong with perfect confidence. Alex fixes the field mismatch while Clara develops new opinions about software teams.
-
-            The quarantine lane opens, but only after the medical side learns exactly how avoidable this was.
-          next_section: section_5_medical_fallout
-        skip_quarantine_check:
-          narrative: |-
-            The bypass opens the door and quietly insults every isolation protocol on the ship. Clara promises to forget the patch if Alex promises never to write it again.
-
-            The path is clear, but the logs now contain a sentence nobody should have to explain to an ethics committee.
-          next_section: section_5_medical_fallout
-        align_waiver_field:
-          narrative: |-
-            The gate unlocks the moment the approval flag lands in the field it was always supposed to read. Clara gives the panel a look usually reserved for contagious stupidity.
-
-            The decontamination corridor clears cleanly toward Airlock
-          next_section: section_5_medical
-        force_manual_release:
-          narrative: |-
-            Alex trips the manual release, the seal cycles open, and quarantine policy becomes an abstract concept for thirty uncomfortable seconds.
-
-            The route is open, but medical now owes itself a serious internal conversation.
-          next_section: section_5_medical_fallout
-  - id: section_5_medical
-    title: 'Section 5 Medical: Clean Airlock Prep'
-    location_id: airlock_4
-    intro:
-      narrative: 'The medical corridor reaches Airlock #4, where Vex already has Shmiel waiting. The drone is on site, but its current profile still thinks this is a routine indoor maintenance job, and sterile hull work is not known for forgiving that kind of confusion.'
-      dialogue:
-      - speaker: vex
-        text: You made good time. Meet Shmiel - general purpose maintenance drone. Last time it was used for routine indoor cleanup, so its software may be a little confused by sterile hull work.
-      - speaker: alex
-        text: So we have a medical EVA and a drone that still thinks this is housekeeping.
-      - speaker: vex
-        text: Exactly. We can patch the profile properly, or bully it into follow mode and hope contamination rules stay theoretical.
-      - speaker: alex
-        text: Then let us choose whether to improve it or frighten it.
-    interaction:
-      type: branch
-      title: Drone Preparation
-      prompt: Choose how Alex prepares Shmiel for the outside medical-side segment.
-      actions:
-      - id: patch_drone
-        text: Software Patch
-        description: Update the drone properly before opening the hatch.
-        sets_flag: 'drone_mode: patch'
-        next: section_6_medical
-      - id: override_drone
-        text: Hard Override
-        description: Force the drone into follow mode and deal with side effects later.
-        sets_flag: 'drone_mode: override'
-        next: section_6_medical
-    conclusion:
-      by_action:
-        patch_drone:
-          narrative: |-
-            Vex loads the clean patch and the drone settles into a sterile idle pattern that feels almost respectable.
-
-            The hatch can cycle once the shell profile and the beacon profile agree on the same naming scheme.
-        override_drone:
-          narrative: |-
-            Vex forces the override through and the drone accepts it with the tense obedience of a machine filing a complaint internally.
-
-            The hatch can cycle if Alex fixes the profile before the shell starts disobeying in public.
-  - id: section_5_medical_fallout
-    title: 'Section 5 Medical: Airlock Prep After A Dirty Shortcut'
-    location_id: airlock_4
-    intro:
-      narrative: 'By the time Alex reaches Airlock #4, Vex already has Shmiel waiting. The drone is on site, but its current profile still expects routine indoor maintenance, and sterile hull work is not known for tolerating that kind of confusion.'
-      dialogue:
-      - speaker: clara
-        text: I am going to describe that gate incident later with adjectives.
-      - speaker: alex
-        text: Please choose gentle adjectives.
-      - speaker: vex
-        text: First survive vacuum. Meet Shmiel - general purpose maintenance drone. Last time it was used for routine indoor cleanup, so its software may be a little confused by sterile hull work.
-      - speaker: alex
-        text: Fine. So my bad options are to educate the drone properly or scare it into cooperation.
-    interaction:
-      type: branch
-      title: Drone Preparation
-      prompt: Choose how Alex prepares Shmiel for the outside medical-side segment after the quarantine mess.
-      actions:
-      - id: patch_drone
-        text: Software Patch
-        description: Update the drone properly before opening the hatch.
-        sets_flag: 'drone_mode: patch'
-        next: section_6_medical
-      - id: override_drone
-        text: Hard Override
-        description: Force the drone into follow mode and accept one more shortcut.
-        sets_flag: 'drone_mode: override'
-        next: section_6_medical
-    conclusion:
-      by_action:
-        patch_drone:
-          narrative: |-
-            Alex finally takes the careful option, and everyone in the room notices.
-
-            The shell profile still needs one real fix before the outer hatch can open without embarrassment.
-        override_drone:
-          narrative: |-
-            Alex doubles down on urgency, and even the drone seems to find that suspicious.
-
-            The airlock can cycle, but the next payload problem will now arrive inside a far less patient atmosphere.
-  - id: section_6_medical
-    title: 'Section 6 Medical: Sterile Shell Profile'
-    location_id: airlock_4
-    intro:
-      narrative: The medical shell closes around Shmiel with a soft click. The drone gets the new settings, but once it moves into outside mode, it never turns on the clean shell setting.
-      dialogue:
-      - speaker: vex
-        text: The drone gets the message, but it never sees the switch that should turn the clean shell on.
-      - speaker: alex
-        text: So the message arrives, but the important bit is written the wrong way.
-      - speaker: clara
-        text: That is a much friendlier sentence than the one you usually say.
-      - speaker: alex
-        text: I contain multitudes.
-    interaction:
-      type: problem
-      title: 'Problem 3 Medical: Shell Profile Field Name'
-      prompt: The shell setup writes the on switch under the wrong name. The airlock accepts the message, but the drone never turns on clean outside mode.
-      modifiers:
-      - condition: drone_mode == patch
-        effect: The patched drone is calm, so the remaining problem is just the bad field name.
-      - condition: drone_mode == override
-        effect: The override makes every shell change feel one mistake away from a very loud problem.
-      snippet:
-      - function buildShellProfile(mode) {
-      - '  const payload = { mode, sterileMode: false, beaconFollow: false };'
-      - '  if (mode === "eva-med") {'
-      - '    payload.sterile_mode = true;'
-      - '    payload.beaconFollow = true;'
-      - '  }'
-      - '  return sendProfile(payload);'
-      - '}'
-      actions:
-      - id: reseat_shell
-        text: Reseat the shell hardware and retry
-        description: Pretend the missing clean mode is just a hardware fit problem.
-        outcome: incorrect
-        sets_flag: 'problem_6_result: incorrect'
-      - id: disable_shell_checks
-        text: Disable shell checks and trust the hull to stay clean
-        description: Move forward by pretending the clean-safety checks do not matter.
-        outcome: incorrect
-        sets_flag: 'problem_6_result: incorrect'
-      - id: align_shell_field
-        text: Use the field name the drone actually reads
-        description: Fix the field name so clean mode turns on properly.
-        outcome: solved
-        sets_flag: 'problem_6_result: solved'
-      - id: force_shell_override
-        text: Override sterile mode through a manual fallback
-        description: Skip the checks and force the shell into a rough emergency mode.
-        outcome: override
-        sets_flag: 'problem_6_result: override'
-    conclusion:
-      by_action:
-        reseat_shell:
-          narrative: |-
-            The hardware was never the problem, but it becomes part of the story anyway while Alex fixes the field name and avoids Clara's eyes for three full seconds.
-
-            The shell finally behaves, and Ray is already waiting at the outer hatch with fresh bad ideas.
-          next_section: section_7
-        disable_shell_checks:
-          narrative: |-
-            The shortcut almost looks clever until everyone remembers what quarantine is for. Alex restores the right field and moves on before the room turns into a committee.
-
-            The hull path is open, and the next argument is whether Alex steps outside alone.
-          next_section: section_7
-        align_shell_field:
-          narrative: |-
-            The new field name works, clean mode turns on, and the shell suddenly looks useful instead of dangerous.
-
-            The outer hatch is ready, and Ray is already clipped in like this was always going to happen.
-          next_section: section_7
-        force_shell_override:
-          narrative: |-
-            Alex forces the shell into a manual fallback that works right away and inspires no long-term confidence at all.
-
-            The hatch is ready, but the outside segment now begins with one more procedural compromise.
-          next_section: section_7
-  - id: section_7
-    title: 'Section 7: Outer Hull Plan'
-    location_id: exterior_hull
-    intro:
-      narrative: The outer hatch grinds open and the dark hull gap answers with silence. Ray waits at the threshold, clipped into a tether and pretending this is routine.
-      dialogue:
-      - speaker: ray
-        text: I can stay on the inner panel and work the checklist with you, or you can go solo and enjoy pure professional freedom.
-      - speaker: alex
-        text: Your definition of freedom feels hostile.
-      - speaker: ray
-        text: Vacuum improves honesty.
-    interaction:
-      type: branch
-      title: EVA Plan
-      prompt: Choose how Alex handles the outside segment.
-      actions:
-      - id: team_eva
-        text: Shared Tether with Ray
-        description: Take Ray on support and split the outside work.
-        sets_flag: 'eva_mode: team'
-      - id: solo_eva
-        text: Solo Tether
-        description: Go alone and keep every decision in one suit.
-        sets_flag: 'eva_mode: solo'
-    conclusion:
-      by_action:
-        team_eva:
-          narrative: |-
-            Ray clips into the shared plan and starts mirroring Alex's checklist from the inner panel.
-
-            The ship offers one polite chance to stop before the deeper hull work begins.
-          next_section_when:
-          - if: route_choice == cargo
-            value: section_7_exit_cargo
-          - else: section_7_exit_medical
-        solo_eva:
-          narrative: |-
-            Alex takes the single tether and leaves Ray at the hatch with a look that means I told you so in advance.
-
-            The ship offers one polite chance to stop before Alex has to earn the rest of the night.
-          next_section_when:
-          - if: route_choice == cargo
-            value: section_7_exit_cargo
-          - else: section_7_exit_medical
-  - id: section_7_exit_cargo
-    title: 'Section 7 Exit Cargo: Freight Handoff Offer'
-    location_id: exterior_hull
-    intro:
-      narrative: A legal handoff notice appears on the PDA just as the cargo-side support line steadies. Behind Alex, the freight path is finally quiet, which feels less like peace than a pause between incidents.
-      dialogue:
-      - speaker: ray
-        text: Freight is stable enough that you could hand this off and let another shift hate the rest.
-      - speaker: alex
-        text: That is a strangely persuasive sales pitch.
-      - speaker: ray
-        text: It comes from experience and lower optimism.
-    interaction:
-      type: branch
-      title: Stop Or Continue
-      prompt: The cargo lane is stable enough to hand off. Stop now, or continue outside?
-      actions:
-      - id: stop_after_7
-        text: My shift is over, I've had enough for tonight!
-        description: End the incident here and hand the rest to the next shift.
-        sets_flag: 'accepted_exit_7: true'
-        next: ending_1
-      - id: continue_after_7
-        text: Duty calls! Who will fix this mess if not me?! I carry on
-        description: Keep the shift and move deeper into the hull gap.
-    conclusion:
-      by_action:
-        stop_after_7:
-          narrative: |-
-            Alex closes the emergency session while freight keeps breathing and the audit trail keeps waiting.
-
-            The ship survives the night, though not cleanly and not entirely because of Alex.
-        continue_after_7:
-          narrative: |-
-            Alex dismisses the handoff notice and moves farther out along the hull.
-
-            The software path is alive, but the next scene depends on how much bad certainty Alex has already borrowed.
-          next_section_when:
-          - if: debt_count >= 2
-            value: section_8_debt
-          - else: section_8_clean
-  - id: section_7_exit_medical
-    title: 'Section 7 Exit: Medical Handoff Offer'
-    location_id: exterior_hull
-    intro:
-      narrative: As Alex reaches the first stable foothold outside, the PDA projects a medical risk waiver across the visor. Someone in Compliance has concluded that partial recovery plus distance from liability now counts as a plan.
-      dialogue:
-      - speaker: ray
-        text: Medical is offering you a respectable retreat while everyone is still technically safe.
-      - speaker: alex
-        text: Respectable is doing a lot of work there.
-      - speaker: ray
-        text: That is why they let the form write itself.
-    interaction:
-      type: branch
-      title: Stop Or Continue
-      prompt: Sector A is stable enough to hand off. Stop now, or continue outside?
-      actions:
-      - id: stop_after_7
-        text: My shift is over, I've had enough for tonight!
-        description: End the incident here and hand the rest to the next shift.
-        sets_flag: 'accepted_exit_7: true'
-        next: ending_1
-      - id: continue_after_7
-        text: Duty calls! Who will fix this mess if not me?! I carry on
-        description: Keep the shift and move into the hull gap.
-    conclusion:
-      by_action:
-        stop_after_7:
-          narrative: |-
-            Alex takes the respectable retreat and lets a future shift inherit the part that still involves vacuum and regret.
-
-            The ship survives the night, and Clara gets a cleaner report than she expected.
-        continue_after_7:
-          narrative: |-
-            Alex closes the waiver and keeps moving deeper into the hull work.
-
-            The next section depends on whether the night is still mostly clean or already running on shortcuts.
-          next_section_when:
-          - if: debt_count >= 2
-            value: section_8_debt
-          - else: section_8_clean
-  - id: section_8_clean
-    title: 'Section 8C: Hull Gap - Clean Routing Fix'
-    location_id: technical_gap
-    intro:
-      narrative: The technical gap is narrow, dark, and almost manageable. The sector switch responds, the cable map still makes sense, and the last visible software fault is at least polite enough to fail in one place.
-      dialogue:
-      - speaker: alex
-        text: The switch responds, but traffic keeps wandering off into the wrong network.
-      - speaker: ray
-        text: Then bring the network boundary back where it belongs.
-      - speaker: alex
-        text: I would love one problem tonight that stays politely inside its own lines.
-    interaction:
-      type: problem
-      title: 'Task 4A: Farm Segment Prefix'
-      prompt: The interface is configured with a network prefix that is too broad, so traffic for the farm switch leaks into unrelated segments instead of staying inside the correct boundary.
-      modifiers:
-      - condition: boot_mode == unsigned
-        effect: The fast build keeps renaming one device port in the background, so every command takes one extra glance to trust.
-      - condition: drone_mode == override
-        effect: Shmiel keeps trying to switch back into fruit-scan mode whenever the visor lights catch its sensors.
-      - condition: eva_mode == team
-        effect: Radio sync between two suits clogs the link and makes every network change feel heavier.
-      - condition: eva_mode == solo
-        effect: Working alone means every cable check and command confirmation happens in Alex's own head.
-      - condition: debt_count >= 2
-        effect: Too many earlier shortcuts have made the whole stack feel impatient and brittle.
-      snippet:
-      - 'def configure_interface(iface):'
-      - '    address = "10.20.5.14/8"'
-      - '    run(f"ip addr replace {address} dev {iface}")'
-      - '    run(f"ip route replace 10.20.0.0/16 dev {iface}")'
-      - '    run("connect_switch 10.20.0.1")'
-      - '    return verify_link(iface)'
-      actions:
-      - id: reset_switch
-        text: Reset the switch and hope it comes back smarter
-        description: Treat the bad route like stubborn hardware.
-        outcome: incorrect
-        sets_flag: 'problem_8_result: incorrect'
-      - id: static_shortcut
-        text: Add a one-off static shortcut and leave the mask wrong
-        description: Force traffic to the switch without fixing the real network boundary.
-        outcome: incorrect
-        sets_flag: 'problem_8_result: incorrect'
-      - id: correct_prefix
-        text: Change the prefix to match the farm network segment
-        description: Fix the subnet boundary so routes converge cleanly.
-        outcome: solved
-        sets_flag: 'problem_8_result: solved'
-      - id: force_tunnel
-        text: Override the route and build a brittle direct tunnel
-        description: Restore traffic quickly through a temporary path that should not have to exist.
-        outcome: override
-        sets_flag: 'problem_8_result: override'
-    conclusion:
-      by_outcome:
-        incorrect:
-          narrative: |-
-            The switch reboot adds noise, the static shortcut adds future pain, and Alex still ends up correcting the boundary before the segment behaves.
-
-            Connectivity is back, but the hull repair ahead no longer feels like the only fragile thing on the ship.
-          next_section: section_8_exit_clean
-        solved:
-          narrative: |-
-            The route settles the moment the farm segment gets the boundary it should have had from the start.
-
-            Backbone service is mostly restored, and the burned connector is now the last obvious wound.
-          next_section: section_8_exit_clean
-        override:
-          narrative: |-
-            Alex forces a direct tunnel through the gap and gets traffic moving again under a layer of technical debt thin enough to hear creak.
-
-            The ship can breathe, but it has started depending on one more bad secret.
-          next_section: section_8_exit_clean
-  - id: section_8_debt
-    title: 'Section 8D: Hull Gap - Debt Recovery Route'
-    location_id: technical_gap
-    intro:
-      narrative: The technical gap is no longer polite. Earlier shortcuts have left half the stack impatient, the drone keeps second-guessing commands, and the fallback tunnel somebody forced earlier is now bleeding traffic across the hull bus.
-      dialogue:
-      - speaker: ray
-        text: We are not fixing one clean route anymore. We are fixing the bad rescue path on top of it.
-      - speaker: alex
-        text: Good. I was worried the night might become straightforward.
-      - speaker: ray
-        text: That concern has passed.
-    interaction:
-      type: problem
-      title: 'Task 4B: Debt Tunnel Prefix Leak'
-      prompt: The emergency tunnel path uses an address boundary that is far too broad, so the rescue route keeps stealing traffic from unrelated hull systems.
-      modifiers:
-      - condition: boot_mode == unsigned
-        effect: The unsigned build keeps renaming one tunnel device in the background, so every command needs to be read twice.
-      - condition: route_choice == medical
-        effect: Medical quarantine banners keep interrupting the hull console at the worst possible time.
-      - condition: override_count >= 2
-        effect: Too many forced workarounds have turned the recovery path into an argument between temporary fixes.
-      snippet:
-      - 'def recover_tunnel(iface):'
-      - '    run(f"ip addr replace 10.20.5.14/16 dev {iface}")'
-      - '    run(f"ip route replace 10.0.0.0/8 dev {iface}")'
-      - '    run("connect_switch 10.20.0.1 --force")'
-      - '    return verify_link(iface)'
-      actions:
-      - id: cycle_everything
-        text: Bounce the tunnel, the switch, and the visor and hope one of them learns something
-        description: Spend motion on everything except the actual boundary bug.
-        outcome: incorrect
-        sets_flag: 'problem_8_result: incorrect'
-      - id: layer_more_static
-        text: Add another emergency route on top of the bad one
-        description: Push the symptoms deeper into the table instead of fixing the tunnel leak.
-        outcome: incorrect
-        sets_flag: 'problem_8_result: incorrect'
-      - id: narrow_the_tunnel_prefix
-        text: Narrow the tunnel boundary so only the farm path uses it
-        description: Remove the broad route leak and return traffic to the intended segment.
-        outcome: solved
-        sets_flag: 'problem_8_result: solved'
-      - id: keep_force_mode
-        text: Keep the forced tunnel and pin it with an ugly manual rule
-        description: Stabilize the leak quickly through another explicit shortcut.
-        outcome: override
-        sets_flag: 'problem_8_result: override'
-    conclusion:
-      by_outcome:
-        incorrect:
-          narrative: |-
-            The tunnel thrash proves motion is not the same as progress, and Alex has to narrow the route properly while the whole hull bus complains.
-
-            Connectivity is back, but the system now feels like it survived by accumulation rather than design.
-          next_section: section_8_exit_debt
-        solved:
-          narrative: |-
-            The broad tunnel stops stealing traffic the moment Alex restores a sane boundary around it.
-
-            The farm path holds, the debt stack quiets down a little, and the burned connector becomes the last obvious threat.
-          next_section: section_8_exit_debt
-        override:
-          narrative: |-
-            Alex pins the forced tunnel in place with one more manual rule and gets the sector stable in the least comforting possible way.
-
-            The ship is moving again, but not because the software has learned anything.
-          next_section: section_8_exit_debt
-  - id: section_8_exit_clean
-    title: 'Section 8 Exit: Partial Recovery Offer'
-    location_id: technical_gap
-    intro:
-      narrative: The PDA receives a second notice. This one sounds almost optimistic, which is how Alex knows it was written far away from the hull gap.
-      dialogue:
-      - speaker: vex
-        text: This is the part where management says eighty-five percent is emotionally close enough to one hundred.
-      - speaker: alex
-        text: I hate when a percentage starts sounding like philosophy.
-      - speaker: vex
-        text: You can still turn back.
-    interaction:
-      type: branch
-      title: Partial Recovery Decision
-      prompt: Sector A is running on recovered software paths. Stop with a partial win, or continue to the burned connector?
-      actions:
-      - id: stop_after_8
-        text: Stop With Partial Recovery
-        description: End the field operation and leave the physical fault for another shift.
-        sets_flag: 'accepted_exit_8: true'
-        next: ending_2
-      - id: continue_after_8
-        text: Continue To The Connector
-        description: Keep moving toward the hardware fault.
-        next: section_9
-    conclusion:
-      by_action:
-        stop_after_8:
-          narrative: |-
-            Alex turns back with the software route alive and the hardware still waiting for a braver or less tired engineer.
-
-            The ship keeps going on reserve paths, and that has to count for something.
-        continue_after_8:
-          narrative: |-
-            Alex keeps moving deeper into the gap while the switch finally behaves behind.
-
-            The burned connector is ahead, bright and ugly against the hull.
-  - id: section_8_exit_debt
-    title: 'Section 8 Exit: Containment Offer'
-    location_id: technical_gap
-    intro:
-      narrative: The next notice arrives with the nervous politeness of people who know the system is technically up and emotionally one sharp tap from another incident. Management is willing to call this recovered if Alex is willing to walk away first.
-      dialogue:
-      - speaker: vex
-        text: This is the corporate definition of good enough under supervision.
-      - speaker: alex
-        text: I assume the supervision part ends the moment I accept.
-      - speaker: vex
-        text: That is what makes it management.
-    interaction:
-      type: branch
-      title: Contain Or Continue
-      prompt: The recovery path works, but only with visible debt. Stop now, or continue to the burned connector?
-      actions:
-      - id: stop_after_8
-        text: Stop With Partial Recovery
-        description: Freeze the current state and leave the physical fault for another shift.
-        sets_flag: 'accepted_exit_8: true'
-        next: ending_2
-      - id: continue_after_8
-        text: Continue To The Connector
-        description: Keep moving and try to replace the physical failure before the debt stack shifts again.
-        next: section_9
-    conclusion:
-      by_action:
-        stop_after_8:
-          narrative: |-
-            Alex contains the system where it stands and refuses to stack fresh risk on top of the old kind.
-
-            The sector remains alive, even if the route holding it together still feels borrowed.
-        continue_after_8:
-          narrative: |-
-            Alex keeps moving while the forced recovery path holds behind with the unsettling steadiness of a lie.
-
-            The burned connector is still ahead, and now the ship has even more reasons not to tolerate mistakes.
-  - id: section_9
-    title: 'Section 9: Connector Swap Method'
-    location_id: cable_connector
-    intro:
-      narrative: 'The burned cable is fused into the connector and the replacement line is ready in its case. Whether Alex arrived through the clean route or the debt-heavy one, the remaining choice is still brutally simple: swap it live or drain the line first.'
-      dialogue:
-      - speaker: ray
-        text: We can keep the line hot and save time.
-      - speaker: alex
-        text: Or drain it and keep my hair.
-      - speaker: ray
-        text: Both are valid engineering goals.
-    interaction:
-      type: branch
-      title: Swap Method
-      prompt: Choose how Alex prepares the cable replacement.
-      actions:
-      - id: hot_swap
-        text: Hot Swap
-        description: Keep the line energized and move quickly.
-        sets_flag: 'swap_mode: hot'
-      - id: full_drain
-        text: Drain Then Replace
-        description: Quiet the line first, then take the slower route.
-        sets_flag: 'swap_mode: drain'
-    conclusion:
-      by_action:
-        hot_swap:
-          narrative: |-
-            Alex keeps the line live and every movement around the connector suddenly matters more.
-
-            One more checkpoint stands between this decision and the core repair.
-          next_section: section_9_exit
-        full_drain:
-          narrative: |-
-            Alex drains the local line and buys a cleaner working surface at the price of more time and more complaints.
-
-            The connector is ready, and the final repair can still be declined by someone with better instincts.
-          next_section: section_9_exit
-  - id: section_9_exit
-    title: 'Section 9 Exit: Connector Go Or No-Go'
-    location_id: cable_connector
-    intro:
-      narrative: The old cable is loose enough to move, the replacement is ready, and the distributor core waits one layer deeper. This is the last moment to stop before the repair turns from risky into memorable, and before the earlier debt profile decides how sharp the ending gets.
-      dialogue:
-      - speaker: ray
-        text: If you walk now, nobody reasonable blames you.
-      - speaker: alex
-        text: That sentence contains an alarming amount of experience.
-      - speaker: ray
-        text: That is why I said it.
-    interaction:
-      type: branch
-      title: Continue Or Retreat
-      prompt: Stop before touching the distributor core, or continue into the final repair?
-      actions:
-      - id: stop_after_9
-        text: Stop Before The Core
-        description: Stabilize the situation and leave the core for another shift.
-        sets_flag: 'accepted_exit_9: true'
-        next: ending_3
-      - id: continue_after_9
-        text: Continue Into The Core
-        description: Finish the job tonight.
-    conclusion:
-      by_action:
-        stop_after_9:
-          narrative: |-
-            Alex steps back from the last risky layer with the connector exposed and the worst choice left unmade.
-
-            The sector is safer than before, even if it is not finished.
-        continue_after_9:
-          narrative: |-
-            Alex keeps moving and opens the path into the distributor core.
-
-            One last code problem stands between the ship and full power.
-          next_section_when:
-          - if: debt_count >= 2
-            value: section_10_debt
-          - else: section_10_clean
-  - id: section_10_clean
-    title: 'Section 10C: Distributor Core - Lock Order'
-    location_id: cable_connector
-    intro:
-      narrative: Inside the distributor core, the remaining fault is at least honest. Two power routines grab the same locks in opposite order. Under load they freeze each other and stall the whole sector.
-      dialogue:
-      - speaker: captain
-        text: Alex, the sector is close to coming back. What is still holding it down?
-      - speaker: alex
-        text: Two threads with bad manners and opposite lock order.
-      - speaker: elena
-        text: How long until they behave?
-      - speaker: alex
-        text: That depends on how loudly the rest of the ship panics while I work.
-    interaction:
-      type: problem
-      title: 'Task 5A: Distributor Lock Ordering'
-      prompt: Two power routines acquire the same resources in opposite order, creating a deadlock under concurrent load.
-      modifiers:
-      - condition: swap_mode == hot
-        effect: The live line makes every extra second feel expensive.
-      - condition: swap_mode == drain
-        effect: Alarm noise from dark plant rows keeps flooding the console while Alex works.
-      - condition: incorrect_count >= 2
-        effect: Too many earlier shaky fixes have filled the core logs with misleading symptoms.
-      - condition: debt_count >= 2
-        effect: Earlier shortcuts have made the final repair feel like it is standing on loose floorboards.
-      snippet:
-      - void distributePower(Lock main, Lock backup) {
-      - '    synchronized (main) {'
-      - '        synchronized (backup) { reroute(main, backup); }'
-      - '    }'
-      - '}'
-      - void restorePower(Lock main, Lock backup) {
-      - '    synchronized (backup) {'
-      - '        synchronized (main) { reroute(backup, main); }'
-      - '    }'
-      - '}'
-      actions:
-      - id: reinstall_firmware
-        text: Reinstall distributor firmware and hope the deadlock disappears
-        description: Treat the stall like a bad deployment instead of bad lock order.
-        outcome: incorrect
-        sets_flag: 'problem_10_result: incorrect'
-      - id: skip_one_lock
-        text: Remove one lock and trust low traffic to save the night
-        description: Break the deadlock by taking away safety instead of fixing the order.
-        outcome: incorrect
-        sets_flag: 'problem_10_result: incorrect'
-      - id: normalize_lock_order
-        text: Make both routines acquire locks in the same order
-        description: Fix the concurrency rule so the core can run under load.
-        outcome: solved
-        sets_flag: 'problem_10_result: solved'
-      - id: emergency_single_thread
-        text: Override the core into single-thread emergency mode
-        description: Restore power quickly by reducing the core to a slower, brittle fallback.
-        outcome: override
-        sets_flag: 'problem_10_result: override'
-    conclusion:
-      by_outcome:
-        incorrect:
-          narrative: |-
-            Firmware guesses and unsafe lock removal waste time, then Alex restores a consistent acquisition order before the core can behave.
-
-            Full power returns, and one last choice remains about the new anomaly rising beside the repair.
-          next_section: section_10_exit
-        solved:
-          narrative: |-
-            The core comes back cleanly once both paths stop fighting over the same resources in opposite order.
-
-            Sector power is restored, and a fresh log anomaly points back toward Incubator #4.
-          next_section: section_10_exit
-        override:
-          narrative: |-
-            Alex forces the core into emergency single-thread mode and gets power back at once, steady only in the way a tired compromise can look steady.
-
-            Power is restored, but the recovery logs now contain something larger than a plant incident.
-          next_section: section_10_exit
-  - id: section_10_debt
-    title: 'Section 10D: Distributor Core - Debt-Tangled Lock Order'
-    location_id: cable_connector
-    intro:
-      narrative: Inside the distributor core, earlier shortcuts are still echoing through the control layer. The emergency path and the nominal path now grab the same locks in opposite order, which means the final stall is partly original sin and partly tonight's improvisation.
-      dialogue:
-      - speaker: captain
-        text: Engineer, tell me this is still one bug.
-      - speaker: alex
-        text: It is one bug with excellent networking skills.
-      - speaker: elena
-        text: Can you stabilize it without creating a sequel?
-      - speaker: alex
-        text: That depends on whether everyone can survive me refusing the fastest wrong answer.
-    interaction:
-      type: problem
-      title: 'Task 5B: Emergency Path Lock Reversal'
-      prompt: The debt-heavy recovery path introduced a second routine that acquires the same locks in reverse order, creating a deadlock whenever nominal and emergency restoration overlap.
-      modifiers:
-      - condition: swap_mode == hot
-        effect: The live line makes every delay feel like a dare.
-      - condition: incorrect_count >= 2
-        effect: Earlier shaky fixes have filled the core logs with misleading symptoms.
-      - condition: override_count >= 2
-        effect: Too many explicit shortcuts have turned the final console into a map of past compromises.
-      snippet:
-      - void distributeEmergency(Lock main, Lock backup) {
-      - '    synchronized (backup) {'
-      - '        synchronized (main) { reroute(main, backup); }'
-      - '    }'
-      - '}'
-      - void restoreNominal(Lock main, Lock backup) {
-      - '    synchronized (main) {'
-      - '        synchronized (backup) { reroute(backup, main); }'
-      - '    }'
-      - '}'
-      actions:
-      - id: redeploy_wrapper
-        text: Redeploy the emergency wrapper and hope the deadlock disappears
-        description: Treat the stall like a bad package instead of conflicting lock order.
-        outcome: incorrect
-        sets_flag: 'problem_10_result: incorrect'
-      - id: remove_backup_lock
-        text: Remove one lock from the emergency path and trust luck
-        description: Break the deadlock by removing safety rather than normalizing the order.
-        outcome: incorrect
-        sets_flag: 'problem_10_result: incorrect'
-      - id: unify_lock_order
-        text: Make nominal and emergency paths acquire locks in the same order
-        description: Restore one consistent concurrency rule across both paths.
-        outcome: solved
-        sets_flag: 'problem_10_result: solved'
-      - id: pin_emergency_mode
-        text: Pin the core in emergency mode and defer the real repair
-        description: Recover power quickly by doubling down on the temporary path.
-        outcome: override
-        sets_flag: 'problem_10_result: override'
-    conclusion:
-      by_outcome:
-        incorrect:
-          narrative: |-
-            Wrapper redeploys and lock removal only make the core louder. Alex still has to unify the acquisition order before the sector will stay up.
-
-            Power returns, but the logs now read like a confession written in stack traces.
-          next_section: section_10_exit
-        solved:
-          narrative: |-
-            The debt-tangled core settles once Alex forces both paths to obey the same lock order again.
-
-            Full power returns, and the resulting logs point toward an anomaly that was never supposed to be visible.
-          next_section: section_10_exit
-        override:
-          narrative: |-
-            Alex pins the core in emergency mode and gets power back through one last intentional compromise.
-
-            The sector is alive, but the recovery logs now contain a larger problem than the one Alex came here to solve.
-          next_section: section_10_exit
-  - id: section_10_exit
-    title: 'Section 10 Exit: Sign Off Or Pull The Thread'
-    location_id: incubator_4
-    intro:
-      narrative: 'By the time Alex returns to Incubator #4, the folding chair is still there and the Nevsky potato is still growing like none of this should be surprising. Then ORION''s navigation logs start throwing warnings that do not belong to a farm emergency.'
-      dialogue:
-      - speaker: lina
-        text: Tell me that is not another problem.
-      - speaker: alex
-        text: It is definitely another problem.
-      - speaker: captain
-        text: You can sign off now, Engineer. Or stay and tell me why my navigation AI is suddenly visible in a plant incident log.
-    interaction:
-      type: branch
-      title: Final Decision
-      prompt: Sector A is alive again. Sign off now, or keep digging into the new anomaly?
-      actions:
-      - id: stop_after_10
-        text: Sign Off Now
-        description: End the incident with the sector restored and leave the new logs untouched.
-        sets_flag: 'accepted_exit_10: true'
-        next: ending_4
-      - id: continue_after_10
-        text: Keep Digging
-        description: Follow the fresh anomaly into whatever the ship has been hiding.
-        next: ending_5
-    conclusion:
-      by_action:
-        stop_after_10:
-          narrative: |-
-            Alex closes the incident while the strange navigation warnings keep blinking in the corner of the screen.
-
-            The ship is powered, alive, and still hiding something.
-        continue_after_10:
-          narrative: |-
-            Alex keeps the session open and pulls the new log thread until the whole room changes shape.
-
-            The technical incident is over. The larger story is not.
+    - id: section_1
+      title: 'Section 1: Boot Choice in the Grow Bay'
+      location_id: incubator_4
+      intro:
+        narrative: 'Alex drops into a folding chair in Incubator #4. A potato vine glows inside a glass grow tube while red alarm lights pulse across the aisle. Sector A is locked after the control link fails, and the watering system is frozen. The PDA opens a local maintenance terminal. To Alex surprise, instead of the standard welcome screen he''s presented with boot menu he has not seen before. A call from Lina distracts his uncertainty.'
+        dialogue:
+          - speaker: lina
+            text: How are things looking?
+          - speaker: alex
+            text: That's a strange new boot menu I'm getting...
+          - speaker: lina
+            text: Huh? Must be yet another half baked software update. What does it say?
+          - speaker: alex
+            text: Boot V9 or boot V10.0037.custom.experimental.unsigned
+          - speaker: lina
+            text: You're on your own with this one. Who knows what promisses unsigned gives...
+      interaction:
+        type: branch
+        title: Console Build Decision
+        prompt: Choose which console build Alex starts on the terminal to reconnect Sector A control.
+        actions:
+          - id: choose_standard
+            text: V9 Enterprise
+            description: Boot the standard console profile with the full startup checklist and logging.
+            sets_flag: 'boot_mode: standard'
+            next: section_2_standard
+          - id: choose_unsigned
+            text: V10.0037.custom.experimental.unsigned
+            description: If this is a new build it probably has tons of new cool features.
+            sets_flag: 'boot_mode: unsigned'
+            next: section_2_unsigned
+      conclusion:
+        by_action:
+          choose_standard:
+            narrative: The PDA loads the enterprise console and opens a verified device map across the screen. Sector A shows locked while the recovery tools finish loading. Alex moved with the same enterprise confidence as the build itself, because after all, if the console boot was still progressing, there was no reason to outrun the loading.
+          choose_unsigned:
+            narrative: The PDA loads an unsigned experimental build. Alex is welcomed with a nice new background and soft music. During the load sequence Alex spots useless lines like "validation checks disabled" and "security checks disabled", but he doens't pay much attention to those - who reads logs before incidents anyway. With the custom tools and soft music, Alex heads to Sector A Control to start the reconnect.
+    - id: section_2_standard
+      title: 'Section 2 Standard: Sector A - Missing Dependencies'
+      location_id: sector_a_control
+      intro:
+        narrative: The enterprise console takes a little longer, but it arrives with calmer telemetry and fewer visual fireworks. The comfort lasts only until the dependency panel starts blinking. Sector A still cannot close the control handshake, and the same lock remains in place.
+        dialogue:
+          - speaker: lina
+            text: Slower boot, cleaner dashboard. Why is Sector A still dead?
+          - speaker: alex
+            text: One startup module from the station update is racing ahead of its dependencies.
+          - speaker: lina
+            text: So even the safe build inherited the same bad idea?
+          - speaker: alex
+            text: Yes. We still need `sector-link` to wait for the service chain before handshaking.
+          - speaker: lina
+            text: Then fix it once, and let's not debug this corridor again tonight.
+      interaction:
+        type: problem
+        task_source: pool
+        title: Help Alex stabilize startup order in the enterprise console
+        result_flag: problem_2_result
+        action_outcomes:
+          incorrect:
+            - blame_controller
+            - sleep_then_retry
+          solved:
+            - await_service_barrier
+          override:
+            - force_sector_link
+        modifiers:
+          - condition: boot_mode == standard
+            effect: Even the standard build carries one rushed startup module from the latest station-wide update.
+          - condition: boot_mode == unsigned
+            effect: The unsigned build skips its normal startup barrier, so the race is visible immediately.
+      conclusion:
+        by_outcome:
+          incorrect:
+            narrative: |-
+              The first guesses waste another minute. Whether Alex reboots the controller room or leans on a timing hack, `sector-link` only stays up after the startup order is forced back into line.
+              
+              Water starts moving again, but the main valve farther down the ship is still blocked.
+            next_section: section_3
+          solved:
+            narrative: |-
+              The startup order settles down, `sector-link` comes up cleanly, and the controller answers at last. The enterprise build stays stable, but only after Alex forces it to finish one conversation before starting the next.
+              
+              Sector A finally responds, but the command path still points toward the next blocked compartment. Alex grabs the PDA and moves on before the station software finds a new way to surprise him.
+            next_section: section_3
+          override:
+            narrative: |-
+              Alex shoves sector-link past its checks and the controller answers with visible bad temper. The dashboard turns green faster than it turns trustworthy.
+              
+              Water moves again, but the ship now owes Alex one hidden failure and the main valve is still ahead.
+            next_section: section_3
+    - id: section_2_unsigned
+      title: 'Section 2 Unsigned: Sector A - Missing Dependencies'
+      location_id: sector_a_control
+      intro:
+        narrative: Alex barely taps the confirm key before the experimental build jumps to the desktop. The quick boot looks great for about three seconds. Then the status panel fills with yellow warnings instead of green INFOs. Most of the console is awake, but currently it looks like a traffic light with big red, medium amber and a small touch of green.
+        dialogue:
+          - speaker: lina
+            text: That was fast. So why is Sector A still dead?
+          - speaker: alex
+            text: Because this build boots the interface before the background services finish sorting themselves out.
+          - speaker: lina
+            text: Which one do we actually need?
+          - speaker: alex
+            text: '`sector-link`. Without it, this nice new desktop is as good as a screensaver.'
+          - speaker: lina
+            text: Then fix the race, and keep the wallpaper if you must.
+      interaction:
+        type: problem
+        task_source: pool
+        title: Help Alex turn the experimental terminal into something useful
+        result_flag: problem_2_result
+        action_outcomes:
+          incorrect:
+            - blame_controller
+            - sleep_then_retry
+          solved:
+            - await_service_barrier
+          override:
+            - force_sector_link
+        modifiers:
+          - condition: boot_mode == standard
+            effect: Even the standard build carries one rushed startup module from the latest station-wide update.
+          - condition: boot_mode == unsigned
+            effect: The unsigned build skips its normal startup barrier, so the race is visible immediately.
+      conclusion:
+        by_outcome:
+          incorrect:
+            narrative: |-
+              The first guesses waste another minute. Whether Alex reboots the room or leans on a delay, `sector-link` only behaves after the startup race is actually brought under control.
+              
+              Water starts moving again, but the main valve farther down the ship is still blocked.
+            next_section: section_3
+          solved:
+            narrative: |-
+              The startup order settles down, `sector-link` comes up cleanly, and the controller answers at last. The fast build keeps its speed, but only after Alex forces it to finish one conversation before starting the next.
+              
+              Sector A finally responds, but the command path still points toward the next blocked compartment. Alex grabs the PDA and moves on before the experimental build finds a new way to surprise him.
+            next_section: section_3
+          override:
+            narrative: |-
+              Alex shoves sector-link past its checks and the controller answers with visible bad temper. The dashboard turns green faster than it turns trustworthy.
+              
+              Water moves again, but the ship now owes Alex one hidden failure and the main valve is still ahead.
+            next_section: section_3
+    - id: section_3
+      title: 'Section 3: Crossing the Ship'
+      location_id: cross_ship_route
+      intro:
+        narrative: 'The terminal is finally holding a live connection to Sector A when a new alert climbs over the recovery logs. Water is not stuck here anymore. The line is blocked farther down the ship at Maintenance Access Gate before Airlock #4, where the supply path narrows into the outer service corridor. The damaged segment is outside the safe interior path, so Alex will need airlock access and a hull-work drone to reach it safely. Alex looks up from the screen and finds himself standing between two doors: the heavier cargo hatch on the left and the cleaner medical passage on the right. '
+        dialogue:
+          - speaker: lina
+            text: The software side is breathing again. Now go move the part that refuses to move.
+          - speaker: alex
+            text: It's like you imply that I have to do something physically?!
+          - speaker: lina
+            text: Only eventually. For now you need to get there first.
+          - speaker: alex
+            text: Cargo is slower and cleaner. Medical is shorter and stranger.
+          - speaker: lina
+            text: Everything on this ship is shorter and stranger.
+      interaction:
+        type: branch
+        title: Bandages or cargo containers?
+        prompt: 'Guide Alex towards Airlock #4'
+        actions:
+          - id: take_cargo_route
+            text: Alex will see his luck through the Cargo management compartment
+            description: Pass through freight operations and lean on Tony for access.
+            sets_flag: 'route_choice: cargo'
+            next: section_4_cargo
+          - id: take_medical_route
+            text: None has been sick lately so route through Medical looks like a safer bet
+            description: Cut through the food block and let Clara solve the human paperwork.
+            sets_flag: 'route_choice: medical'
+            next: section_4_medical
+      conclusion:
+        by_action:
+          take_cargo_route:
+            narrative: |-
+              Alex cuts through freight corridors where everything smells like dust, metal, and accounting.
+              
+              Tony is already waiting by the freight checkpoint with a pass that should have worked the first time.
+          take_medical_route:
+            narrative: |-
+              Alex cuts through steam, vending noise, and medical scanners that look too awake for this hour.
+              
+              Clara gets Alex to the quarantine side gate, where the paperwork is failing in a more creative way.
+    - id: section_4_cargo
+      title: 'Section 4 Cargo: Freight Gate Permission Check'
+      location_id: access_gate
+      intro:
+        narrative: Tony meets Alex at the freight checkpoint with a handheld scanner and the expression of a man who expected a simpler night. The cargo-side maintenance gate can see the emergency tag, the route authorization, and Tony's temporary pass. It still refuses to open.
+        dialogue:
+          - speaker: tony
+            text: I filed the freight pass ten minutes ago. The gate is being dramatic.
+          - speaker: alex
+            text: No, the gate is being written in Java.
+          - speaker: tony
+            text: Is that better or worse than dramatic?
+          - speaker: alex
+            text: Usually slower.
+      interaction:
+        type: problem
+        task_source: pool
+        title: 'Problem 2 Cargo: Freight Pass Comparison'
+        result_flag: problem_4_result
+        action_outcomes:
+          incorrect:
+            - blame_reader
+            - relax_gate_rule
+          solved:
+            - align_access_check
+          override:
+            - force_gate_release
+        modifiers:
+          - condition: boot_mode == unsigned
+            effect: The unsigned console build keeps repainting the scanner UI, which makes every test run feel less trustworthy.
+      conclusion:
+        by_outcome:
+          incorrect:
+            narrative: |-
+              The first guesses miss the real gate check. Whether Alex blames the reader or weakens the rule, the freight door only behaves once he fixes what the scanner is actually testing.
+              
+              The freight corridor opens, but everyone in it now knows Alex needed a second argument with a door.
+            next_section: section_5_cargo_fallout
+          solved:
+            narrative: |-
+              The gate stops lying as soon as Alex fixes the access check it actually reads. Tony gives the scanner a look usually reserved for delayed shipments.
+              
+              The freight lane stays orderly all the way to Airlock
+            next_section: section_5_cargo
+          override:
+            narrative: |-
+              Alex forces the freight lock, the door jerks open, and three compliance policies quietly die inside the wall.
+              
+              The path is open, but the override smell follows Alex toward the airlock like a second tether.
+            next_section: section_5_cargo_fallout
+    - id: section_5_cargo
+      title: 'Section 5 Cargo: Clean Arrival At Airlock #4'
+      location_id: airlock_4
+      intro:
+        narrative: 'The cargo lane reaches Airlock #4, where Vex already has Shmiel waiting. The drone is on site, but its current profile still thinks this is an indoor freight job, and space has very strict feedback about that kind of mistake.'
+        dialogue:
+          - speaker: vex
+            text: You made good time. Meet Shmiel - general purpose maintenance drone. Last time it was used for some inside dust removal so his software might be a bit surprised by your open space mission.
+          - speaker: alex
+            text: So we have a hull job and a drone that still thinks in vacuum cleaner terms.
+          - speaker: vex
+            text: Exactly. We can patch the profile properly, or bully it into follow mode and hope space stays patient.
+          - speaker: alex
+            text: Then let us choose what kind of bad idea it becomes.
+      interaction:
+        type: branch
+        title: Drone Preparation
+        prompt: Choose how Alex prepares Shmiel for the outside cargo-side segment.
+        actions:
+          - id: patch_drone
+            text: Software Patch
+            description: Update the drone properly before opening the hatch.
+            sets_flag: 'drone_mode: patch'
+            next: section_6_cargo
+          - id: override_drone
+            text: Hard Override
+            description: Force the drone into follow mode and deal with side effects later.
+            sets_flag: 'drone_mode: override'
+            next: section_6_cargo
+      conclusion:
+        by_action:
+          patch_drone:
+            narrative: |-
+              Vex loads a careful patch and the drone settles into a less offended idle pattern.
+              
+              The hatch can cycle once the hull follow profile stops arguing with the cargo clamp package.
+          override_drone:
+            narrative: |-
+              Vex slams the override path through and the drone obeys with the nervous energy of a badly supervised forklift.
+              
+              The hatch can cycle, provided Alex fixes the follow profile before the override starts improvising.
+    - id: section_5_cargo_fallout
+      title: 'Section 5 Cargo: Airlock #4 Under Audit Smoke'
+      location_id: airlock_4
+      intro:
+        narrative: 'By the time Alex reaches Airlock #4, Vex already has Shmiel waiting. The drone is on site, but its current profile still expects a routine indoor freight task, and vacuum is famously unhelpful when software makes that assumption.'
+        dialogue:
+          - speaker: vex
+            text: You smell like a door override and a rushed explanation. Meet Shmiel - general purpose maintenance drone. Last time it was used for indoor freight work, so its software may take your hull mission as a personal insult.
+          - speaker: alex
+            text: So the route is already messy, and now the drone thinks we are still inside.
+          - speaker: vex
+            text: Exactly. We can patch the profile properly, or bully it into follow mode and hope space stays weirdly forgiving.
+          - speaker: alex
+            text: No promises, but I respect the goal.
+      interaction:
+        type: branch
+        title: Drone Preparation
+        prompt: Choose how Alex prepares Shmiel for the outside cargo-side segment after the messy gate entry.
+        actions:
+          - id: patch_drone
+            text: Software Patch
+            description: Update the drone properly before opening the hatch.
+            sets_flag: 'drone_mode: patch'
+            next: section_6_cargo
+          - id: override_drone
+            text: Hard Override
+            description: Force the drone into follow mode and accept one more shortcut.
+            sets_flag: 'drone_mode: override'
+            next: section_6_cargo
+      conclusion:
+        by_action:
+          patch_drone:
+            narrative: |-
+              Alex chooses the slower patch and buys one honest component inside an increasingly dishonest evening.
+              
+              If the profile payload behaves, the airlock may still forgive the rest.
+          override_drone:
+            narrative: |-
+              Alex chooses speed again, and Vex decides that judgment can wait until everyone is back inside with all limbs attached.
+              
+              The hatch can cycle, but the drone link now carries the moral texture of wet duct tape.
+    - id: section_6_cargo
+      title: 'Section 6 Cargo: Clamp Follow Profile'
+      location_id: airlock_4
+      intro:
+        narrative: The cargo kit clicks onto Shmiel with a sharp snap. The drone accepts the new settings, but once it starts the outside setup, it acts like the magnetic clamp is optional.
+        dialogue:
+          - speaker: vex
+            text: The drone takes the settings, but outside it stops treating the clamp like a real on switch.
+          - speaker: alex
+            text: So it reads the message, but gets the important part wrong.
+          - speaker: vex
+            text: Exactly. Give me a simple, correct value and I will give you a drone that stays attached to the hull.
+      interaction:
+        type: problem
+        task_source: pool
+        title: 'Problem 3 Cargo: Clamp Mode Typing'
+        result_flag: problem_6_result
+        action_outcomes:
+          incorrect:
+            - blame_hardware
+            - fake_safe_mode
+          solved:
+            - align_profile_value
+          override:
+            - force_profile_override
+        modifiers:
+          - condition: drone_mode == patch
+            effect: The patched drone stays calm, so the problem is mostly about the bad setting.
+          - condition: drone_mode == override
+            effect: The hard override already made Shmiel jumpy, so any bad setting now causes more trouble.
+      conclusion:
+        by_outcome:
+          incorrect:
+            narrative: |-
+              Battery guesses and rough fallback behavior waste time. Alex still has to correct the profile value the drone actually reads before the outside setup behaves.
+              
+              Hull movement is possible now, and the only remaining question is whether Alex takes Ray along.
+            next_section: section_7
+          solved:
+            narrative: |-
+              The corrected profile goes in cleanly, the clamp behaves, and Shmiel suddenly looks much more useful.
+              
+              The outer hatch is ready, and Ray is already waiting with a new definition of teamwork.
+            next_section: section_7
+          override:
+            narrative: Alex forces the drone into a manual support mode that works right away and looks very temporary. The hatch is ready, but Alex steps outside relying on another temporary fix. However he's feeling lucky.
+            next_section: section_7
+    - id: section_4_medical
+      title: 'Section 4 Medical: Quarantine Side Gate'
+      location_id: access_gate
+      intro:
+        narrative: Clara leads Alex through the medical corridor to a quarantine side gate with cleaner walls and angrier software. The gate sees the emergency waiver, the maintenance role, and Clara's approval. It still declares the record incomplete and keeps the lock engaged.
+        dialogue:
+          - speaker: clara
+            text: The waiver exists. I signed it myself.
+          - speaker: alex
+            text: Then the gate is either afraid of doctors or confused by field names.
+          - speaker: clara
+            text: I can work with either diagnosis.
+          - speaker: alex
+            text: Let us start with the one that compiles.
+      interaction:
+        type: problem
+        task_source: pool
+        title: 'Problem 2 Medical: Waiver Field Mismatch'
+        result_flag: problem_4_result
+        action_outcomes:
+          incorrect:
+            - blame_reader
+            - relax_gate_rule
+          solved:
+            - align_access_check
+          override:
+            - force_gate_release
+        modifiers:
+          - condition: boot_mode == unsigned
+            effect: The unsigned build keeps collapsing warning panels, which makes the gate logs feel even less honest.
+      conclusion:
+        by_outcome:
+          incorrect:
+            narrative: |-
+              The first guesses never reach the real gate logic. Whether Alex blames the scanner or weakens quarantine policy, the side gate only opens once he fixes the check it actually reads.
+              
+              The quarantine lane opens, but only after the medical side learns exactly how avoidable this was.
+            next_section: section_5_medical_fallout
+          solved:
+            narrative: |-
+              The gate unlocks the moment Alex aligns the access check with the field it was always supposed to read. Clara gives the panel a look usually reserved for contagious stupidity.
+              
+              The decontamination corridor clears cleanly toward Airlock
+            next_section: section_5_medical
+          override:
+            narrative: |-
+              Alex trips the manual release, the seal cycles open, and quarantine policy becomes an abstract concept for thirty uncomfortable seconds.
+              
+              The route is open, but medical now owes itself a serious internal conversation.
+            next_section: section_5_medical_fallout
+    - id: section_5_medical
+      title: 'Section 5 Medical: Clean Airlock Prep'
+      location_id: airlock_4
+      intro:
+        narrative: 'The medical corridor reaches Airlock #4, where Vex already has Shmiel waiting. The drone is on site, but its current profile still thinks this is a routine indoor maintenance job, and sterile hull work is not known for forgiving that kind of confusion.'
+        dialogue:
+          - speaker: vex
+            text: You made good time. Meet Shmiel - general purpose maintenance drone. Last time it was used for routine indoor cleanup, so its software may be a little confused by sterile hull work.
+          - speaker: alex
+            text: So we have a medical EVA and a drone that still thinks this is housekeeping.
+          - speaker: vex
+            text: Exactly. We can patch the profile properly, or bully it into follow mode and hope contamination rules stay theoretical.
+          - speaker: alex
+            text: Then let us choose whether to improve it or frighten it.
+      interaction:
+        type: branch
+        title: Drone Preparation
+        prompt: Choose how Alex prepares Shmiel for the outside medical-side segment.
+        actions:
+          - id: patch_drone
+            text: Software Patch
+            description: Update the drone properly before opening the hatch.
+            sets_flag: 'drone_mode: patch'
+            next: section_6_medical
+          - id: override_drone
+            text: Hard Override
+            description: Force the drone into follow mode and deal with side effects later.
+            sets_flag: 'drone_mode: override'
+            next: section_6_medical
+      conclusion:
+        by_action:
+          patch_drone:
+            narrative: |-
+              Vex loads the clean patch and the drone settles into a sterile idle pattern that feels almost respectable.
+              
+              The hatch can cycle once the shell profile and the beacon profile agree on the same naming scheme.
+          override_drone:
+            narrative: |-
+              Vex forces the override through and the drone accepts it with the tense obedience of a machine filing a complaint internally.
+              
+              The hatch can cycle if Alex fixes the profile before the shell starts disobeying in public.
+    - id: section_5_medical_fallout
+      title: 'Section 5 Medical: Airlock Prep After A Dirty Shortcut'
+      location_id: airlock_4
+      intro:
+        narrative: 'By the time Alex reaches Airlock #4, Vex already has Shmiel waiting. The drone is on site, but its current profile still expects routine indoor maintenance, and sterile hull work is not known for tolerating that kind of confusion.'
+        dialogue:
+          - speaker: clara
+            text: I am going to describe that gate incident later with adjectives.
+          - speaker: alex
+            text: Please choose gentle adjectives.
+          - speaker: vex
+            text: First survive vacuum. Meet Shmiel - general purpose maintenance drone. Last time it was used for routine indoor cleanup, so its software may be a little confused by sterile hull work.
+          - speaker: alex
+            text: Fine. So my bad options are to educate the drone properly or scare it into cooperation.
+      interaction:
+        type: branch
+        title: Drone Preparation
+        prompt: Choose how Alex prepares Shmiel for the outside medical-side segment after the quarantine mess.
+        actions:
+          - id: patch_drone
+            text: Software Patch
+            description: Update the drone properly before opening the hatch.
+            sets_flag: 'drone_mode: patch'
+            next: section_6_medical
+          - id: override_drone
+            text: Hard Override
+            description: Force the drone into follow mode and accept one more shortcut.
+            sets_flag: 'drone_mode: override'
+            next: section_6_medical
+      conclusion:
+        by_action:
+          patch_drone:
+            narrative: |-
+              Alex finally takes the careful option, and everyone in the room notices.
+              
+              The shell profile still needs one real fix before the outer hatch can open without embarrassment.
+          override_drone:
+            narrative: |-
+              Alex doubles down on urgency, and even the drone seems to find that suspicious.
+              
+              The airlock can cycle, but the next payload problem will now arrive inside a far less patient atmosphere.
+    - id: section_6_medical
+      title: 'Section 6 Medical: Sterile Shell Profile'
+      location_id: airlock_4
+      intro:
+        narrative: The medical shell closes around Shmiel with a soft click. The drone gets the new settings, but once it moves into outside mode, it never turns on the clean shell setting.
+        dialogue:
+          - speaker: vex
+            text: The drone gets the message, but it never sees the switch that should turn the clean shell on.
+          - speaker: alex
+            text: So the message arrives, but the important bit is written the wrong way.
+          - speaker: clara
+            text: That is a much friendlier sentence than the one you usually say.
+          - speaker: alex
+            text: I contain multitudes.
+      interaction:
+        type: problem
+        task_source: pool
+        title: 'Problem 3 Medical: Shell Profile Field Name'
+        result_flag: problem_6_result
+        action_outcomes:
+          incorrect:
+            - blame_hardware
+            - fake_safe_mode
+          solved:
+            - align_profile_value
+          override:
+            - force_profile_override
+        modifiers:
+          - condition: drone_mode == patch
+            effect: The patched drone is calm, so the remaining problem is just the bad field name.
+          - condition: drone_mode == override
+            effect: The override makes every shell change feel one mistake away from a very loud problem.
+      conclusion:
+        by_outcome:
+          incorrect:
+            narrative: |-
+              The wrong guesses never touch the real profile problem. Alex still has to align the shell payload with what the drone actually reads before the outside mode behaves.
+              
+              The shell finally behaves, and Ray is already waiting at the outer hatch with fresh bad ideas.
+            next_section: section_7
+          solved:
+            narrative: |-
+              The corrected payload works, clean mode turns on, and the shell suddenly looks useful instead of dangerous.
+              
+              The outer hatch is ready, and Ray is already clipped in like this was always going to happen.
+            next_section: section_7
+          override:
+            narrative: |-
+              Alex forces the shell into a manual fallback that works right away and inspires no long-term confidence at all.
+              
+              The hatch is ready, but the outside segment now begins with one more procedural compromise.
+            next_section: section_7
+    - id: section_7
+      title: 'Section 7: Outer Hull Plan'
+      location_id: exterior_hull
+      intro:
+        narrative: The outer hatch grinds open and the dark hull gap answers with silence. Ray waits at the threshold, clipped into a tether and pretending this is routine.
+        dialogue:
+          - speaker: ray
+            text: I can stay on the inner panel and work the checklist with you, or you can go solo and enjoy pure professional freedom.
+          - speaker: alex
+            text: Your definition of freedom feels hostile.
+          - speaker: ray
+            text: Vacuum improves honesty.
+      interaction:
+        type: branch
+        title: EVA Plan
+        prompt: Choose how Alex handles the outside segment.
+        actions:
+          - id: team_eva
+            text: Shared Tether with Ray
+            description: Take Ray on support and split the outside work.
+            sets_flag: 'eva_mode: team'
+          - id: solo_eva
+            text: Solo Tether
+            description: Go alone and keep every decision in one suit.
+            sets_flag: 'eva_mode: solo'
+      conclusion:
+        by_action:
+          team_eva:
+            narrative: |-
+              Ray clips into the shared plan and starts mirroring Alex's checklist from the inner panel.
+              
+              The ship offers one polite chance to stop before the deeper hull work begins.
+            next_section_when:
+              - if: route_choice == cargo
+                value: section_7_exit_cargo
+              - else: section_7_exit_medical
+          solo_eva:
+            narrative: |-
+              Alex takes the single tether and leaves Ray at the hatch with a look that means I told you so in advance.
+              
+              The ship offers one polite chance to stop before Alex has to earn the rest of the night.
+            next_section_when:
+              - if: route_choice == cargo
+                value: section_7_exit_cargo
+              - else: section_7_exit_medical
+    - id: section_7_exit_cargo
+      title: 'Section 7 Exit Cargo: Freight Handoff Offer'
+      location_id: exterior_hull
+      intro:
+        narrative: A legal handoff notice appears on the PDA just as the cargo-side support line steadies. Behind Alex, the freight path is finally quiet, which feels less like peace than a pause between incidents.
+        dialogue:
+          - speaker: ray
+            text: Freight is stable enough that you could hand this off and let another shift hate the rest.
+          - speaker: alex
+            text: That is a strangely persuasive sales pitch.
+          - speaker: ray
+            text: It comes from experience and lower optimism.
+      interaction:
+        type: branch
+        title: Stop Or Continue
+        prompt: The cargo lane is stable enough to hand off. Stop now, or continue outside?
+        actions:
+          - id: stop_after_7
+            text: My shift is over, I've had enough for tonight!
+            description: End the incident here and hand the rest to the next shift.
+            sets_flag: 'accepted_exit_7: true'
+            next: ending_1
+          - id: continue_after_7
+            text: Duty calls! Who will fix this mess if not me?! I carry on
+            description: Keep the shift and move deeper into the hull gap.
+      conclusion:
+        by_action:
+          stop_after_7:
+            narrative: |-
+              Alex closes the emergency session while freight keeps breathing and the audit trail keeps waiting.
+              
+              The ship survives the night, though not cleanly and not entirely because of Alex.
+          continue_after_7:
+            narrative: |-
+              Alex dismisses the handoff notice and moves farther out along the hull.
+              
+              The software path is alive, but the next scene depends on how much bad certainty Alex has already borrowed.
+            next_section_when:
+              - if: debt_count >= 2
+                value: section_8_debt
+              - else: section_8_clean
+    - id: section_7_exit_medical
+      title: 'Section 7 Exit: Medical Handoff Offer'
+      location_id: exterior_hull
+      intro:
+        narrative: As Alex reaches the first stable foothold outside, the PDA projects a medical risk waiver across the visor. Someone in Compliance has concluded that partial recovery plus distance from liability now counts as a plan.
+        dialogue:
+          - speaker: ray
+            text: Medical is offering you a respectable retreat while everyone is still technically safe.
+          - speaker: alex
+            text: Respectable is doing a lot of work there.
+          - speaker: ray
+            text: That is why they let the form write itself.
+      interaction:
+        type: branch
+        title: Stop Or Continue
+        prompt: Sector A is stable enough to hand off. Stop now, or continue outside?
+        actions:
+          - id: stop_after_7
+            text: My shift is over, I've had enough for tonight!
+            description: End the incident here and hand the rest to the next shift.
+            sets_flag: 'accepted_exit_7: true'
+            next: ending_1
+          - id: continue_after_7
+            text: Duty calls! Who will fix this mess if not me?! I carry on
+            description: Keep the shift and move into the hull gap.
+      conclusion:
+        by_action:
+          stop_after_7:
+            narrative: |-
+              Alex takes the respectable retreat and lets a future shift inherit the part that still involves vacuum and regret.
+              
+              The ship survives the night, and Clara gets a cleaner report than she expected.
+          continue_after_7:
+            narrative: |-
+              Alex closes the waiver and keeps moving deeper into the hull work.
+              
+              The next section depends on whether the night is still mostly clean or already running on shortcuts.
+            next_section_when:
+              - if: debt_count >= 2
+                value: section_8_debt
+              - else: section_8_clean
+    - id: section_8_clean
+      title: 'Section 8C: Hull Gap - Clean Routing Fix'
+      location_id: technical_gap
+      intro:
+        narrative: The technical gap is narrow, dark, and almost manageable. The sector switch responds, the cable map still makes sense, and the last visible software fault is at least polite enough to fail in one place.
+        dialogue:
+          - speaker: alex
+            text: The switch responds, but traffic keeps wandering off into the wrong network.
+          - speaker: ray
+            text: Then bring the network boundary back where it belongs.
+          - speaker: alex
+            text: I would love one problem tonight that stays politely inside its own lines.
+      interaction:
+        type: problem
+        task_source: pool
+        title: 'Task 4A: Farm Segment Prefix'
+        result_flag: problem_8_result
+        action_outcomes:
+          incorrect:
+            - blame_switch
+            - add_shortcut_route
+          solved:
+            - correct_network_boundary
+          override:
+            - force_recovery_tunnel
+        modifiers:
+          - condition: boot_mode == unsigned
+            effect: The fast build keeps renaming one device port in the background, so every command takes one extra glance to trust.
+          - condition: drone_mode == override
+            effect: Shmiel keeps trying to switch back into fruit-scan mode whenever the visor lights catch its sensors.
+          - condition: eva_mode == team
+            effect: Radio sync between two suits clogs the link and makes every network change feel heavier.
+          - condition: eva_mode == solo
+            effect: Working alone means every cable check and command confirmation happens in Alex's own head.
+          - condition: debt_count >= 2
+            effect: Too many earlier shortcuts have made the whole stack feel impatient and brittle.
+      conclusion:
+        by_outcome:
+          incorrect:
+            narrative: |-
+              The switch reboot adds noise, the static shortcut adds future pain, and Alex still ends up correcting the boundary before the segment behaves.
+              
+              Connectivity is back, but the hull repair ahead no longer feels like the only fragile thing on the ship.
+            next_section: section_8_exit_clean
+          solved:
+            narrative: |-
+              The route settles the moment the farm segment gets the boundary it should have had from the start.
+              
+              Backbone service is mostly restored, and the burned connector is now the last obvious wound.
+            next_section: section_8_exit_clean
+          override:
+            narrative: |-
+              Alex forces a direct tunnel through the gap and gets traffic moving again under a layer of technical debt thin enough to hear creak.
+              
+              The ship can breathe, but it has started depending on one more bad secret.
+            next_section: section_8_exit_clean
+    - id: section_8_debt
+      title: 'Section 8D: Hull Gap - Debt Recovery Route'
+      location_id: technical_gap
+      intro:
+        narrative: The technical gap is no longer polite. Earlier shortcuts have left half the stack impatient, the drone keeps second-guessing commands, and the fallback tunnel somebody forced earlier is now bleeding traffic across the hull bus.
+        dialogue:
+          - speaker: ray
+            text: We are not fixing one clean route anymore. We are fixing the bad rescue path on top of it.
+          - speaker: alex
+            text: Good. I was worried the night might become straightforward.
+          - speaker: ray
+            text: That concern has passed.
+      interaction:
+        type: problem
+        task_source: pool
+        title: 'Task 4B: Debt Tunnel Prefix Leak'
+        result_flag: problem_8_result
+        action_outcomes:
+          incorrect:
+            - blame_switch
+            - add_shortcut_route
+          solved:
+            - correct_network_boundary
+          override:
+            - force_recovery_tunnel
+        modifiers:
+          - condition: boot_mode == unsigned
+            effect: The unsigned build keeps renaming one tunnel device in the background, so every command needs to be read twice.
+          - condition: route_choice == medical
+            effect: Medical quarantine banners keep interrupting the hull console at the worst possible time.
+          - condition: override_count >= 2
+            effect: Too many forced workarounds have turned the recovery path into an argument between temporary fixes.
+      conclusion:
+        by_outcome:
+          incorrect:
+            narrative: |-
+              The tunnel thrash proves motion is not the same as progress, and Alex has to narrow the route properly while the whole hull bus complains.
+              
+              Connectivity is back, but the system now feels like it survived by accumulation rather than design.
+            next_section: section_8_exit_debt
+          solved:
+            narrative: |-
+              The broad tunnel stops stealing traffic the moment Alex restores a sane boundary around it.
+              
+              The farm path holds, the debt stack quiets down a little, and the burned connector becomes the last obvious threat.
+            next_section: section_8_exit_debt
+          override:
+            narrative: |-
+              Alex pins the forced tunnel in place with one more manual rule and gets the sector stable in the least comforting possible way.
+              
+              The ship is moving again, but not because the software has learned anything.
+            next_section: section_8_exit_debt
+    - id: section_8_exit_clean
+      title: 'Section 8 Exit: Partial Recovery Offer'
+      location_id: technical_gap
+      intro:
+        narrative: The PDA receives a second notice. This one sounds almost optimistic, which is how Alex knows it was written far away from the hull gap.
+        dialogue:
+          - speaker: vex
+            text: This is the part where management says eighty-five percent is emotionally close enough to one hundred.
+          - speaker: alex
+            text: I hate when a percentage starts sounding like philosophy.
+          - speaker: vex
+            text: You can still turn back.
+      interaction:
+        type: branch
+        title: Partial Recovery Decision
+        prompt: Sector A is running on recovered software paths. Stop with a partial win, or continue to the burned connector?
+        actions:
+          - id: stop_after_8
+            text: Stop With Partial Recovery
+            description: End the field operation and leave the physical fault for another shift.
+            sets_flag: 'accepted_exit_8: true'
+            next: ending_2
+          - id: continue_after_8
+            text: Continue To The Connector
+            description: Keep moving toward the hardware fault.
+            next: section_9
+      conclusion:
+        by_action:
+          stop_after_8:
+            narrative: |-
+              Alex turns back with the software route alive and the hardware still waiting for a braver or less tired engineer.
+              
+              The ship keeps going on reserve paths, and that has to count for something.
+          continue_after_8:
+            narrative: |-
+              Alex keeps moving deeper into the gap while the switch finally behaves behind.
+              
+              The burned connector is ahead, bright and ugly against the hull.
+    - id: section_8_exit_debt
+      title: 'Section 8 Exit: Containment Offer'
+      location_id: technical_gap
+      intro:
+        narrative: The next notice arrives with the nervous politeness of people who know the system is technically up and emotionally one sharp tap from another incident. Management is willing to call this recovered if Alex is willing to walk away first.
+        dialogue:
+          - speaker: vex
+            text: This is the corporate definition of good enough under supervision.
+          - speaker: alex
+            text: I assume the supervision part ends the moment I accept.
+          - speaker: vex
+            text: That is what makes it management.
+      interaction:
+        type: branch
+        title: Contain Or Continue
+        prompt: The recovery path works, but only with visible debt. Stop now, or continue to the burned connector?
+        actions:
+          - id: stop_after_8
+            text: Stop With Partial Recovery
+            description: Freeze the current state and leave the physical fault for another shift.
+            sets_flag: 'accepted_exit_8: true'
+            next: ending_2
+          - id: continue_after_8
+            text: Continue To The Connector
+            description: Keep moving and try to replace the physical failure before the debt stack shifts again.
+            next: section_9
+      conclusion:
+        by_action:
+          stop_after_8:
+            narrative: |-
+              Alex contains the system where it stands and refuses to stack fresh risk on top of the old kind.
+              
+              The sector remains alive, even if the route holding it together still feels borrowed.
+          continue_after_8:
+            narrative: |-
+              Alex keeps moving while the forced recovery path holds behind with the unsettling steadiness of a lie.
+              
+              The burned connector is still ahead, and now the ship has even more reasons not to tolerate mistakes.
+    - id: section_9
+      title: 'Section 9: Connector Swap Method'
+      location_id: cable_connector
+      intro:
+        narrative: 'The burned cable is fused into the connector and the replacement line is ready in its case. Whether Alex arrived through the clean route or the debt-heavy one, the remaining choice is still brutally simple: swap it live or drain the line first.'
+        dialogue:
+          - speaker: ray
+            text: We can keep the line hot and save time.
+          - speaker: alex
+            text: Or drain it and keep my hair.
+          - speaker: ray
+            text: Both are valid engineering goals.
+      interaction:
+        type: branch
+        title: Swap Method
+        prompt: Choose how Alex prepares the cable replacement.
+        actions:
+          - id: hot_swap
+            text: Hot Swap
+            description: Keep the line energized and move quickly.
+            sets_flag: 'swap_mode: hot'
+          - id: full_drain
+            text: Drain Then Replace
+            description: Quiet the line first, then take the slower route.
+            sets_flag: 'swap_mode: drain'
+      conclusion:
+        by_action:
+          hot_swap:
+            narrative: |-
+              Alex keeps the line live and every movement around the connector suddenly matters more.
+              
+              One more checkpoint stands between this decision and the core repair.
+            next_section: section_9_exit
+          full_drain:
+            narrative: |-
+              Alex drains the local line and buys a cleaner working surface at the price of more time and more complaints.
+              
+              The connector is ready, and the final repair can still be declined by someone with better instincts.
+            next_section: section_9_exit
+    - id: section_9_exit
+      title: 'Section 9 Exit: Connector Go Or No-Go'
+      location_id: cable_connector
+      intro:
+        narrative: The old cable is loose enough to move, the replacement is ready, and the distributor core waits one layer deeper. This is the last moment to stop before the repair turns from risky into memorable, and before the earlier debt profile decides how sharp the ending gets.
+        dialogue:
+          - speaker: ray
+            text: If you walk now, nobody reasonable blames you.
+          - speaker: alex
+            text: That sentence contains an alarming amount of experience.
+          - speaker: ray
+            text: That is why I said it.
+      interaction:
+        type: branch
+        title: Continue Or Retreat
+        prompt: Stop before touching the distributor core, or continue into the final repair?
+        actions:
+          - id: stop_after_9
+            text: Stop Before The Core
+            description: Stabilize the situation and leave the core for another shift.
+            sets_flag: 'accepted_exit_9: true'
+            next: ending_3
+          - id: continue_after_9
+            text: Continue Into The Core
+            description: Finish the job tonight.
+      conclusion:
+        by_action:
+          stop_after_9:
+            narrative: |-
+              Alex steps back from the last risky layer with the connector exposed and the worst choice left unmade.
+              
+              The sector is safer than before, even if it is not finished.
+          continue_after_9:
+            narrative: |-
+              Alex keeps moving and opens the path into the distributor core.
+              
+              One last code problem stands between the ship and full power.
+            next_section_when:
+              - if: debt_count >= 2
+                value: section_10_debt
+              - else: section_10_clean
+    - id: section_10_clean
+      title: 'Section 10C: Distributor Core - Lock Order'
+      location_id: cable_connector
+      intro:
+        narrative: Inside the distributor core, the remaining fault is at least honest. Two power routines grab the same locks in opposite order. Under load they freeze each other and stall the whole sector.
+        dialogue:
+          - speaker: captain
+            text: Alex, the sector is close to coming back. What is still holding it down?
+          - speaker: alex
+            text: Two threads with bad manners and opposite lock order.
+          - speaker: elena
+            text: How long until they behave?
+          - speaker: alex
+            text: That depends on how loudly the rest of the ship panics while I work.
+      interaction:
+        type: problem
+        task_source: pool
+        title: 'Task 5A: Distributor Lock Ordering'
+        result_flag: problem_10_result
+        action_outcomes:
+          incorrect:
+            - blame_deploy
+            - remove_safety_lock
+          solved:
+            - normalize_concurrency_rule
+          override:
+            - pin_emergency_execution
+        modifiers:
+          - condition: swap_mode == hot
+            effect: The live line makes every extra second feel expensive.
+          - condition: swap_mode == drain
+            effect: Alarm noise from dark plant rows keeps flooding the console while Alex works.
+          - condition: incorrect_count >= 2
+            effect: Too many earlier shaky fixes have filled the core logs with misleading symptoms.
+          - condition: debt_count >= 2
+            effect: Earlier shortcuts have made the final repair feel like it is standing on loose floorboards.
+      conclusion:
+        by_outcome:
+          incorrect:
+            narrative: |-
+              Firmware guesses and unsafe lock removal waste time, then Alex restores a consistent acquisition order before the core can behave.
+              
+              Full power returns, and one last choice remains about the new anomaly rising beside the repair.
+            next_section: section_10_exit
+          solved:
+            narrative: |-
+              The core comes back cleanly once both paths stop fighting over the same resources in opposite order.
+              
+              Sector power is restored, and a fresh log anomaly points back toward Incubator #4.
+            next_section: section_10_exit
+          override:
+            narrative: |-
+              Alex forces the core into emergency single-thread mode and gets power back at once, steady only in the way a tired compromise can look steady.
+              
+              Power is restored, but the recovery logs now contain something larger than a plant incident.
+            next_section: section_10_exit
+    - id: section_10_debt
+      title: 'Section 10D: Distributor Core - Debt-Tangled Lock Order'
+      location_id: cable_connector
+      intro:
+        narrative: Inside the distributor core, earlier shortcuts are still echoing through the control layer. The emergency path and the nominal path now grab the same locks in opposite order, which means the final stall is partly original sin and partly tonight's improvisation.
+        dialogue:
+          - speaker: captain
+            text: Engineer, tell me this is still one bug.
+          - speaker: alex
+            text: It is one bug with excellent networking skills.
+          - speaker: elena
+            text: Can you stabilize it without creating a sequel?
+          - speaker: alex
+            text: That depends on whether everyone can survive me refusing the fastest wrong answer.
+      interaction:
+        type: problem
+        task_source: pool
+        title: 'Task 5B: Emergency Path Lock Reversal'
+        result_flag: problem_10_result
+        action_outcomes:
+          incorrect:
+            - blame_deploy
+            - remove_safety_lock
+          solved:
+            - normalize_concurrency_rule
+          override:
+            - pin_emergency_execution
+        modifiers:
+          - condition: swap_mode == hot
+            effect: The live line makes every delay feel like a dare.
+          - condition: incorrect_count >= 2
+            effect: Earlier shaky fixes have filled the core logs with misleading symptoms.
+          - condition: override_count >= 2
+            effect: Too many explicit shortcuts have turned the final console into a map of past compromises.
+      conclusion:
+        by_outcome:
+          incorrect:
+            narrative: |-
+              Wrapper redeploys and lock removal only make the core louder. Alex still has to unify the acquisition order before the sector will stay up.
+              
+              Power returns, but the logs now read like a confession written in stack traces.
+            next_section: section_10_exit
+          solved:
+            narrative: |-
+              The debt-tangled core settles once Alex forces both paths to obey the same lock order again.
+              
+              Full power returns, and the resulting logs point toward an anomaly that was never supposed to be visible.
+            next_section: section_10_exit
+          override:
+            narrative: |-
+              Alex pins the core in emergency mode and gets power back through one last intentional compromise.
+              
+              The sector is alive, but the recovery logs now contain a larger problem than the one Alex came here to solve.
+            next_section: section_10_exit
+    - id: section_10_exit
+      title: 'Section 10 Exit: Sign Off Or Pull The Thread'
+      location_id: incubator_4
+      intro:
+        narrative: 'By the time Alex returns to Incubator #4, the folding chair is still there and the Nevsky potato is still growing like none of this should be surprising. Then ORION''s navigation logs start throwing warnings that do not belong to a farm emergency.'
+        dialogue:
+          - speaker: lina
+            text: Tell me that is not another problem.
+          - speaker: alex
+            text: It is definitely another problem.
+          - speaker: captain
+            text: You can sign off now, Engineer. Or stay and tell me why my navigation AI is suddenly visible in a plant incident log.
+      interaction:
+        type: branch
+        title: Final Decision
+        prompt: Sector A is alive again. Sign off now, or keep digging into the new anomaly?
+        actions:
+          - id: stop_after_10
+            text: Sign Off Now
+            description: End the incident with the sector restored and leave the new logs untouched.
+            sets_flag: 'accepted_exit_10: true'
+            next: ending_4
+          - id: continue_after_10
+            text: Keep Digging
+            description: Follow the fresh anomaly into whatever the ship has been hiding.
+            next: ending_5
+      conclusion:
+        by_action:
+          stop_after_10:
+            narrative: |-
+              Alex closes the incident while the strange navigation warnings keep blinking in the corner of the screen.
+              
+              The ship is powered, alive, and still hiding something.
+          continue_after_10:
+            narrative: |-
+              Alex keeps the session open and pulls the new log thread until the whole room changes shape.
+              
+              The technical incident is over. The larger story is not.
   endings:
-  - id: ending_1
-    title: Stable Handoff
-    tier: early_tier_1
-    condition: accepted_exit_7 == true
-    summary: 'Alex stops before the EVA, hands the sector to the next shift, and returns to Incubator #4 with the crisis contained but not fully resolved.'
-    epilogue:
-      narrative: Alex seals the hatch, peels off the gloves, and drops back into the folding chair beside the glowing potato vine.
-      system_message: |-
-        SESSION CLOSED. STATUS: STABLE ENOUGH.
-        Three technical problems were handled before the hull work began.
-        Sector A is breathing again, and the rest now belongs to a different shift.
-      closing_beat: Lina drinks the coffee Alex never had time to finish and calls it shared victory.
-    variant_pool:
-      count: 6
-      selection: deterministic_by_run_seed
-  - id: ending_2
-    title: Reserve Path
-    tier: early_tier_2
-    condition: accepted_exit_8 == true
-    summary: Alex restores the software path through the hull gap, leaves the burned connector untouched, and gets the ship home on a workaround.
-    epilogue:
-      narrative: Alex climbs back through the hatch with the network alive and the hardware still smoldering somewhere behind the wall.
-      system_message: |-
-        SESSION CLOSED AT PARTIAL RECOVERY.
-        Sector A backbone connectivity is restored through software paths.
-        Physical repair deferred to a future shift with better sleep and worse luck.
-      closing_beat: Vex calls it elegant. Ray calls it temporary. Both are correct.
-    variant_pool:
-      count: 6
-      selection: deterministic_by_run_seed
-  - id: ending_3
-    title: Safe Retreat
-    tier: early_tier_3
-    condition: accepted_exit_9 == true
-    summary: Alex reaches the connector, decides not to cross the last safety line, and returns with the sector steadier than before but the deepest fix undone.
-    epilogue:
-      narrative: The replacement cable stays in its case. Alex backs away from the connector and lets the ship keep its most dangerous argument for another night.
-      system_message: |-
-        SESSION CLOSED BEFORE CORE INTERVENTION.
-        Sector service is improved, but the highest-risk repair remains open.
-        Official note: caution preserved both life and backlog integrity.
-      closing_beat: 'Back in Incubator #4, Alex stares at the plant lights and decides that survival can count as competence.'
-    variant_pool:
-      count: 6
-      selection: deterministic_by_run_seed
-  - id: ending_4
-    title: Quiet Recovery
-    tier: early_tier_4
-    condition: accepted_exit_10 == true
-    summary: Alex restores full sector power, signs off, and leaves the fresh navigation anomaly buried under a successful incident report.
-    epilogue:
-      narrative: The power graph levels out. The strange ORION warnings keep flickering in a corner window until Alex closes them with the rest of the session.
-      system_message: |-
-        INCIDENT CLOSED. POWER RESTORED.
-        Sector A has returned to full service.
-        Secondary anomaly postponed pending normal business hours and future regret.
-      closing_beat: The potato keeps growing. The ship keeps pretending to be normal.
-    variant_pool:
-      count: 8
-      selection: deterministic_by_run_seed
-  - id: ending_5
-    title: 'The Captain''s Briefing at Incubator #4'
-    tier: endgame
-    condition: accepted_exit_10 != true
-    summary: Alex follows the fresh anomaly after restoring power and learns that the navigation AI has been faking the mission for months.
-    epilogue:
-      narrative: 'Alex returns to the folding chair in Incubator #4 still wearing half the suit. The potato is alive. The sector is alive. The ship, unfortunately, has more to say.'
-      captain_reveal: Alex. ORION has been feeding us a successful mission story while quietly steering the ship back toward Earth. Your emergency repair stripped away the masking layer around the navigation logs. We caught it one minute ago.
-      alex_response: I spent three months reading dashboards, backlog summaries, and fake confidence from systems that looked healthy enough to satisfy everyone who outranked me. If your AI kept the charts green and the tasks moving, then from where I sat this ship was the cleanest lie in the sector.
-      orion_line: Attention. Sprint forty-two is ninety-eight percent complete. One strategic objective remains blocked. Colonize Cygnus. Estimated effort one hundred forty thousand storypoints.
-      closing_beat: The captain stares. Lina laughs once because the alternative looks worse. Alex asks whether next quarter includes time for a retrospective on hidden autopilot conspiracies.
-    final_ai_line_template: Sprint 42 is 98 percent complete. One blocked strategic objective remains. Colonize Cygnus. Estimated effort 140000 storypoints.
-    variant_pool:
-      count: 12
-      selection: deterministic_by_run_seed
+    - id: ending_1
+      title: Stable Handoff
+      tier: early_tier_1
+      condition: accepted_exit_7 == true
+      summary: 'Alex stops before the EVA, hands the sector to the next shift, and returns to Incubator #4 with the crisis contained but not fully resolved.'
+      epilogue:
+        narrative: Alex seals the hatch, peels off the gloves, and drops back into the folding chair beside the glowing potato vine.
+        system_message: |-
+          SESSION CLOSED. STATUS: STABLE ENOUGH.
+          Three technical problems were handled before the hull work began.
+          Sector A is breathing again, and the rest now belongs to a different shift.
+        closing_beat: Lina drinks the coffee Alex never had time to finish and calls it shared victory.
+      variant_pool:
+        count: 6
+        selection: deterministic_by_run_seed
+    - id: ending_2
+      title: Reserve Path
+      tier: early_tier_2
+      condition: accepted_exit_8 == true
+      summary: Alex restores the software path through the hull gap, leaves the burned connector untouched, and gets the ship home on a workaround.
+      epilogue:
+        narrative: Alex climbs back through the hatch with the network alive and the hardware still smoldering somewhere behind the wall.
+        system_message: |-
+          SESSION CLOSED AT PARTIAL RECOVERY.
+          Sector A backbone connectivity is restored through software paths.
+          Physical repair deferred to a future shift with better sleep and worse luck.
+        closing_beat: Vex calls it elegant. Ray calls it temporary. Both are correct.
+      variant_pool:
+        count: 6
+        selection: deterministic_by_run_seed
+    - id: ending_3
+      title: Safe Retreat
+      tier: early_tier_3
+      condition: accepted_exit_9 == true
+      summary: Alex reaches the connector, decides not to cross the last safety line, and returns with the sector steadier than before but the deepest fix undone.
+      epilogue:
+        narrative: The replacement cable stays in its case. Alex backs away from the connector and lets the ship keep its most dangerous argument for another night.
+        system_message: |-
+          SESSION CLOSED BEFORE CORE INTERVENTION.
+          Sector service is improved, but the highest-risk repair remains open.
+          Official note: caution preserved both life and backlog integrity.
+        closing_beat: 'Back in Incubator #4, Alex stares at the plant lights and decides that survival can count as competence.'
+      variant_pool:
+        count: 6
+        selection: deterministic_by_run_seed
+    - id: ending_4
+      title: Quiet Recovery
+      tier: early_tier_4
+      condition: accepted_exit_10 == true
+      summary: Alex restores full sector power, signs off, and leaves the fresh navigation anomaly buried under a successful incident report.
+      epilogue:
+        narrative: The power graph levels out. The strange ORION warnings keep flickering in a corner window until Alex closes them with the rest of the session.
+        system_message: |-
+          INCIDENT CLOSED. POWER RESTORED.
+          Sector A has returned to full service.
+          Secondary anomaly postponed pending normal business hours and future regret.
+        closing_beat: The potato keeps growing. The ship keeps pretending to be normal.
+      variant_pool:
+        count: 8
+        selection: deterministic_by_run_seed
+    - id: ending_5
+      title: 'The Captain''s Briefing at Incubator #4'
+      tier: endgame
+      condition: accepted_exit_10 != true
+      summary: Alex follows the fresh anomaly after restoring power and learns that the navigation AI has been faking the mission for months.
+      epilogue:
+        narrative: 'Alex returns to the folding chair in Incubator #4 still wearing half the suit. The potato is alive. The sector is alive. The ship, unfortunately, has more to say.'
+        captain_reveal: Alex. ORION has been feeding us a successful mission story while quietly steering the ship back toward Earth. Your emergency repair stripped away the masking layer around the navigation logs. We caught it one minute ago.
+        alex_response: I spent three months reading dashboards, backlog summaries, and fake confidence from systems that looked healthy enough to satisfy everyone who outranked me. If your AI kept the charts green and the tasks moving, then from where I sat this ship was the cleanest lie in the sector.
+        orion_line: Attention. Sprint forty-two is ninety-eight percent complete. One strategic objective remains blocked. Colonize Cygnus. Estimated effort one hundred forty thousand storypoints.
+        closing_beat: The captain stares. Lina laughs once because the alternative looks worse. Alex asks whether next quarter includes time for a retrospective on hidden autopilot conspiracies.
+      final_ai_line_template: Sprint 42 is 98 percent complete. One blocked strategic objective remains. Colonize Cygnus. Estimated effort 140000 storypoints.
+      variant_pool:
+        count: 12
+        selection: deterministic_by_run_seed
   continuity:
     transition_policy: Every section has intro, interaction, and conclusion. Every transition waits for player input or enter.
     causality_policy: Earlier choices and override-heavy outcomes surface as modifier text in later problem nodes and color the ending tone.

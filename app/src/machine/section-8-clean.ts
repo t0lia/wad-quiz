@@ -39,22 +39,22 @@ export const section8CleanStates = {
         type: 'single_choice',
         variant: 'problem',
         options: [
-          { id: 'reset_switch', content: 'Reset the switch and hope it comes back smarter' },
-          { id: 'static_shortcut', content: 'Add a one-off static shortcut and leave the mask wrong' },
-          { id: 'correct_prefix', content: 'Change the prefix to match the farm network segment' },
-          { id: 'force_tunnel', content: 'Override the route and build a brittle direct tunnel' },
+          { id: 'blame_switch', content: 'Reset the switch and hope it comes back smarter' },
+          { id: 'add_shortcut_route', content: 'Add a one-off static shortcut and leave the mask wrong' },
+          { id: 'correct_network_boundary', content: 'Change the prefix to match the farm network segment' },
+          { id: 'force_recovery_tunnel', content: 'Override the route and build a brittle direct tunnel' },
         ]
       },
     } as ChallengeSceneData,
     on: {
       NEXT: [
         {
-          guard: ({ event }: any) => event.answer === 'correct_prefix',
+          guard: ({ event }: any) => event.answer === 'correct_network_boundary',
           target: 'section_8_clean_conclusion_solved',
           actions: [{ type: 'set', params: { problem_8_result: 'solved' } }],
         },
         {
-          guard: ({ event }: any) => event.answer === 'force_tunnel',
+          guard: ({ event }: any) => event.answer === 'force_recovery_tunnel',
           target: 'section_8_clean_conclusion_override',
           actions: [{ type: 'set', params: { problem_8_result: 'override' } }],
         },
@@ -69,7 +69,7 @@ export const section8CleanStates = {
   section_8_clean_conclusion_incorrect: {
     meta: {
       id: 'section_8_clean_conclusion_incorrect',
-      text: 'The workaround holds right up to the next stress test, then something else breaks under the weight. Alex fixes the mask under the accumulated frustration.\n\nThe interface stabilizes but carries the smell of all the shortcuts that came before it.',
+      text: 'The switch reboot adds noise, the static shortcut adds future pain, and Alex still ends up correcting the boundary before the segment behaves.\n\nConnectivity is back, but the hull repair ahead no longer feels like the only fragile thing on the ship.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_8_exit_clean' },
@@ -78,7 +78,7 @@ export const section8CleanStates = {
   section_8_clean_conclusion_solved: {
     meta: {
       id: 'section_8_clean_conclusion_solved',
-      text: 'The prefix correction lands cleanly, traffic routes stay inside their boundaries, and the farm switch finally behaves.\n\nThe hull path is stable now, held by one honest configuration in a night full of shortcuts.',
+      text: 'The route settles the moment the farm segment gets the boundary it should have had from the start.\n\nBackbone service is mostly restored, and the burned connector is now the last obvious wound.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_8_exit_clean' },
@@ -87,7 +87,7 @@ export const section8CleanStates = {
   section_8_clean_conclusion_override: {
     meta: {
       id: 'section_8_clean_conclusion_override',
-      text: 'Alex forces a tunnel bridge that bypasses the real fix, and it works immediately but looks fundamentally dishonest.\n\nThe hull route is open now, but one more promise is being kept by borrowed certainty.',
+      text: 'Alex forces a direct tunnel through the gap and gets traffic moving again under a layer of technical debt thin enough to hear creak.\n\nThe ship can breathe, but it has started depending on one more bad secret.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_8_exit_clean' },

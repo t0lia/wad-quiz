@@ -44,22 +44,22 @@ export const section10CleanStates = {
         type: 'single_choice',
         variant: 'problem',
         options: [
-          { id: 'reinstall_firmware', content: 'Reinstall distributor firmware and hope the deadlock disappears' },
-          { id: 'skip_one_lock', content: 'Remove one lock and trust low traffic to save the night' },
-          { id: 'normalize_lock_order', content: 'Make both routines acquire locks in the same order' },
-          { id: 'emergency_single_thread', content: 'Override the core into single-thread emergency mode' },
+          { id: 'blame_deploy', content: 'Reinstall distributor firmware and hope the deadlock disappears' },
+          { id: 'remove_safety_lock', content: 'Remove one lock and trust low traffic to save the night' },
+          { id: 'normalize_concurrency_rule', content: 'Make both routines acquire locks in the same order' },
+          { id: 'pin_emergency_execution', content: 'Override the core into single-thread emergency mode' },
         ]
       },
     } as ChallengeSceneData,
     on: {
       NEXT: [
         {
-          guard: ({ event }: any) => event.answer === 'normalize_lock_order',
+          guard: ({ event }: any) => event.answer === 'normalize_concurrency_rule',
           target: 'section_10_clean_conclusion_solved',
           actions: [{ type: 'set', params: { problem_10_result: 'solved' } }],
         },
         {
-          guard: ({ event }: any) => event.answer === 'emergency_single_thread',
+          guard: ({ event }: any) => event.answer === 'pin_emergency_execution',
           target: 'section_10_clean_conclusion_override',
           actions: [{ type: 'set', params: { problem_10_result: 'override' } }],
         },
@@ -74,7 +74,7 @@ export const section10CleanStates = {
   section_10_clean_conclusion_incorrect: {
     meta: {
       id: 'section_10_clean_conclusion_incorrect',
-      text: 'The firmware reinstall wastes time and proves that the deadlock was always there. Alex fixes the lock order under the accumulated exhaustion.\n\nThe distributor stabilizes, but it carries the memory of all the shortcuts that led to this final argument.',
+      text: 'Firmware guesses and unsafe lock removal waste time, then Alex restores a consistent acquisition order before the core can behave.\n\nFull power returns, and one last choice remains about the new anomaly rising beside the repair.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_10_exit' },
@@ -83,7 +83,7 @@ export const section10CleanStates = {
   section_10_clean_conclusion_solved: {
     meta: {
       id: 'section_10_clean_conclusion_solved',
-      text: 'Both routines now ask for locks in the same order, the deadlock dissolves, and the distributor finally breathes.\n\nThe last fault is fixed, held by one honest synchronization in a night full of compromises.',
+      text: 'The core comes back cleanly once both paths stop fighting over the same resources in opposite order.\n\nSector power is restored, and a fresh log anomaly points back toward Incubator #4.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_10_exit' },
@@ -92,7 +92,7 @@ export const section10CleanStates = {
   section_10_clean_conclusion_override: {
     meta: {
       id: 'section_10_clean_conclusion_override',
-      text: 'Alex forces the core into single-thread mode and the deadlock disappears but so does most of the parallelism.\n\nPower flows again, but the distributor now runs at a fraction of its capacity.',
+      text: 'Alex forces the core into emergency single-thread mode and gets power back at once, steady only in the way a tired compromise can look steady.\n\nPower is restored, but the recovery logs now contain something larger than a plant incident.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_10_exit' },

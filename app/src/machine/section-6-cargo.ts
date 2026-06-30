@@ -41,22 +41,22 @@ export const section6CargoStates = {
         type: 'single_choice',
         variant: 'problem',
         options: [
-          { id: 'replace_battery', content: 'Replace the drone battery pack' },
-          { id: 'static_distance', content: 'Hardcode a fixed standoff distance and ignore clamp state' },
-          { id: 'boolean_follow', content: 'Send magClamp as a real boolean value' },
-          { id: 'manual_follow_override', content: 'Override the profile and force manual clamp behavior' },
+          { id: 'blame_hardware', content: 'Replace the drone battery pack' },
+          { id: 'fake_safe_mode', content: 'Hardcode a fixed standoff distance and ignore clamp state' },
+          { id: 'align_profile_value', content: 'Send magClamp as a real boolean value' },
+          { id: 'force_profile_override', content: 'Override the profile and force manual clamp behavior' },
         ]
       },
     } as ChallengeSceneData,
     on: {
       NEXT: [
         {
-          guard: ({ event }: any) => event.answer === 'boolean_follow',
+          guard: ({ event }: any) => event.answer === 'align_profile_value',
           target: 'section_6_cargo_conclusion_solved',
           actions: [{ type: 'set', params: { problem_6_result: 'solved' } }],
         },
         {
-          guard: ({ event }: any) => event.answer === 'manual_follow_override',
+          guard: ({ event }: any) => event.answer === 'force_profile_override',
           target: 'section_6_cargo_conclusion_override',
           actions: [{ type: 'set', params: { problem_6_result: 'override' } }],
         },
@@ -71,7 +71,7 @@ export const section6CargoStates = {
   section_6_cargo_conclusion_incorrect: {
     meta: {
       id: 'section_6_cargo_conclusion_incorrect',
-      text: 'The new battery changes nothing, because the real problem is still the bad setting. Alex fixes it with mild embarrassment and gets the hatch moving again.\n\nThe drone now behaves well enough to open the outer hatch, and Ray is waiting with the next questionable offer.',
+      text: 'Battery guesses and rough fallback behavior waste time. Alex still has to correct the profile value the drone actually reads before the outside setup behaves.\n\nHull movement is possible now, and the only remaining question is whether Alex takes Ray along.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_7' },
@@ -80,7 +80,7 @@ export const section6CargoStates = {
   section_6_cargo_conclusion_solved: {
     meta: {
       id: 'section_6_cargo_conclusion_solved',
-      text: 'The new setting goes in cleanly, the clamp behaves, and Shmiel suddenly looks much more useful.\n\nThe outer hatch is ready, and Ray is already waiting with a new definition of teamwork.',
+      text: 'The corrected profile goes in cleanly, the clamp behaves, and Shmiel suddenly looks much more useful.\n\nThe outer hatch is ready, and Ray is already waiting with a new definition of teamwork.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_7' },
@@ -89,7 +89,7 @@ export const section6CargoStates = {
   section_6_cargo_conclusion_override: {
     meta: {
       id: 'section_6_cargo_conclusion_override',
-      text: 'Alex forces the drone into a manual clamp mode that works right away and looks very temporary.\n\nThe hatch is ready, but the outside segment now begins with one more borrowed certainty.',
+      text: 'Alex forces the drone into a manual support mode that works right away and looks very temporary. The hatch is ready, but Alex steps outside relying on another temporary fix. However he\'s feeling lucky.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_7' },

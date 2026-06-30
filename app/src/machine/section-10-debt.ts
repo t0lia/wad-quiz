@@ -44,22 +44,22 @@ export const section10DebtStates = {
         type: 'single_choice',
         variant: 'problem',
         options: [
-          { id: 'redeploy_wrapper', content: 'Redeploy the emergency wrapper and hope the deadlock disappears' },
-          { id: 'remove_backup_lock', content: 'Remove one lock from the emergency path and trust luck' },
-          { id: 'unify_lock_order', content: 'Make nominal and emergency paths acquire locks in the same order' },
-          { id: 'pin_emergency_mode', content: 'Pin the core in emergency mode and defer the real repair' },
+          { id: 'blame_deploy', content: 'Redeploy the emergency wrapper and hope the deadlock disappears' },
+          { id: 'remove_safety_lock', content: 'Remove one lock from the emergency path and trust luck' },
+          { id: 'normalize_concurrency_rule', content: 'Make nominal and emergency paths acquire locks in the same order' },
+          { id: 'pin_emergency_execution', content: 'Pin the core in emergency mode and defer the real repair' },
         ]
       },
     } as ChallengeSceneData,
     on: {
       NEXT: [
         {
-          guard: ({ event }: any) => event.answer === 'unify_lock_order',
+          guard: ({ event }: any) => event.answer === 'normalize_concurrency_rule',
           target: 'section_10_debt_conclusion_solved',
           actions: [{ type: 'set', params: { problem_10_result: 'solved' } }],
         },
         {
-          guard: ({ event }: any) => event.answer === 'pin_emergency_mode',
+          guard: ({ event }: any) => event.answer === 'pin_emergency_execution',
           target: 'section_10_debt_conclusion_override',
           actions: [{ type: 'set', params: { problem_10_result: 'override' } }],
         },
@@ -74,7 +74,7 @@ export const section10DebtStates = {
   section_10_debt_conclusion_incorrect: {
     meta: {
       id: 'section_10_debt_conclusion_incorrect',
-      text: 'The wrapper redeploy wastes time and leaves the deadlock untouched. Alex fixes the lock order under the accumulated memory of all the shortcuts that built up to this moment.\n\nThe distributor stabilizes, but it now runs with the weight of every compromise that brought it here.',
+      text: 'Wrapper redeploys and lock removal only make the core louder. Alex still has to unify the acquisition order before the sector will stay up.\n\nPower returns, but the logs now read like a confession written in stack traces.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_10_exit' },
@@ -83,7 +83,7 @@ export const section10DebtStates = {
   section_10_debt_conclusion_solved: {
     meta: {
       id: 'section_10_debt_conclusion_solved',
-      text: 'Both paths now acquire locks in the same order, the deadlock dissolves, and the distributor finally breathes despite all the shortcuts that tried to break it.\n\nThe final fault is fixed, held by one honest synchronization in a night of compromises.',
+      text: 'The debt-tangled core settles once Alex forces both paths to obey the same lock order again.\n\nFull power returns, and the resulting logs point toward an anomaly that was never supposed to be visible.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_10_exit' },
@@ -92,7 +92,7 @@ export const section10DebtStates = {
   section_10_debt_conclusion_override: {
     meta: {
       id: 'section_10_debt_conclusion_override',
-      text: 'Alex pins the core in emergency mode and the deadlock stops appearing but so does most of the system\'s capacity.\n\nPower flows again, but the distributor now runs in emergency mode, carrying one final compromise.',
+      text: 'Alex pins the core in emergency mode and gets power back through one last intentional compromise.\n\nThe sector is alive, but the recovery logs now contain a larger problem than the one Alex came here to solve.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_10_exit' },
