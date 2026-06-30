@@ -1,9 +1,11 @@
 import { useMachine } from '@xstate/react'
+import { useState } from 'react'
 import { hydroMachine } from './machine'
 import ChallengeScene from './scenes/ChallengeScene'
 import './App.css'
 
 export default function App() {
+  const [rand] = useState<number>(() => Math.random())
   const [state, send] = useMachine(hydroMachine)
   const stateId = state.value as string
   const scene = Object.values(state.getMeta())[0]
@@ -25,7 +27,7 @@ export default function App() {
     <ChallengeScene
       key={stateId}
       scene={scene}
-      onComplete={(answer) => send({ type: 'NEXT', answer })}
+      onComplete={(answer) => send({ type: 'NEXT', answer, rand })}
     />
   )
 }

@@ -1,4 +1,5 @@
 import type { ChallengeSceneData } from '../types/story'
+import { javaLockOrderDeadlockTaskState } from './tasks/11-java_lock_order_deadlock'
 
 export const section10CleanStates = {
   // ── Section 10 Clean: Intro ──────────────────────────────
@@ -20,54 +21,12 @@ export const section10CleanStates = {
     },
   },
 
-  // ── Section 10 Clean: Task ───────────────────────────────
-  section_10_clean_task: {
-    meta: {
-      id: 'section_10_clean_task',
-      text:
-        'Task 5A: Distributor Lock Ordering\n\n' +
-        'Two power routines grab the same locks in opposite order. Under load they freeze each other and stall the whole sector. The remaining fault is at least honest.\n\n' +
-        '```java\n' +
-        'void distributePower(Lock main, Lock backup) {\n' +
-        '    synchronized (main) {\n' +
-        '        synchronized (backup) { reroute(main, backup); }\n' +
-        '    }\n' +
-        '}\n' +
-        'void restorePower(Lock main, Lock backup) {\n' +
-        '    synchronized (backup) {\n' +
-        '        synchronized (main) { reroute(backup, main); }\n' +
-        '    }\n' +
-        '}\n' +
-        '```',
-      task: {
-        type: 'multiple_choice',
-        options: [
-          { id: 'reinstall_firmware', content: 'Reinstall distributor firmware and hope the deadlock disappears' },
-          { id: 'skip_one_lock', content: 'Remove one lock and trust low traffic to save the night' },
-          { id: 'normalize_lock_order', content: 'Make both routines acquire locks in the same order' },
-          { id: 'emergency_single_thread', content: 'Override the core into single-thread emergency mode' },
-        ]
-      },
-    } as ChallengeSceneData,
-    on: {
-      NEXT: [
-        {
-          guard: ({ event }: any) => event.answer === 'normalize_lock_order',
-          target: 'section_10_clean_conclusion_solved',
-          actions: [{ type: 'set', params: { problem_10_result: 'solved' } }],
-        },
-        {
-          guard: ({ event }: any) => event.answer === 'emergency_single_thread',
-          target: 'section_10_clean_conclusion_override',
-          actions: [{ type: 'set', params: { problem_10_result: 'override' } }],
-        },
-        {
-          target: 'section_10_clean_conclusion_incorrect',
-          actions: [{ type: 'set', params: { problem_10_result: 'incorrect' } }],
-        },
-      ],
-    },
-  },
+  ...javaLockOrderDeadlockTaskState({
+    stateId: 'section_10_clean_task',
+    solvedTarget: 'section_10_clean_conclusion_solved',
+    overrideTarget: 'section_10_clean_conclusion_override',
+    incorrectTarget: 'section_10_clean_conclusion_incorrect',
+  }),
 
   section_10_clean_conclusion_incorrect: {
     meta: {

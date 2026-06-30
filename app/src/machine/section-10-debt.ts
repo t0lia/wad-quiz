@@ -1,4 +1,5 @@
 import type { ChallengeSceneData } from '../types/story'
+import { javaEmergencyLockReversalTaskState } from './tasks/12-java_emergency_lock_reversal'
 
 export const section10DebtStates = {
   // ── Section 10 Debt: Intro ───────────────────────────────
@@ -20,54 +21,12 @@ export const section10DebtStates = {
     },
   },
 
-  // ── Section 10 Debt: Task ────────────────────────────────
-  section_10_debt_task: {
-    meta: {
-      id: 'section_10_debt_task',
-      text:
-        'Task 5B: Emergency Path Lock Reversal\n\n' +
-        'Earlier shortcuts are still echoing through the control layer. The emergency path and the nominal path now grab the same locks in opposite order, creating a deadlock whenever nominal and emergency restoration overlap. Too many explicit shortcuts have turned the final console into a map of past compromises.\n\n' +
-        '```java\n' +
-        'void distributeEmergency(Lock main, Lock backup) {\n' +
-        '    synchronized (backup) {\n' +
-        '        synchronized (main) { reroute(main, backup); }\n' +
-        '    }\n' +
-        '}\n' +
-        'void restoreNominal(Lock main, Lock backup) {\n' +
-        '    synchronized (main) {\n' +
-        '        synchronized (backup) { reroute(backup, main); }\n' +
-        '    }\n' +
-        '}\n' +
-        '```',
-      task: {
-        type: 'multiple_choice',
-        options: [
-          { id: 'redeploy_wrapper', content: 'Redeploy the emergency wrapper and hope the deadlock disappears' },
-          { id: 'remove_backup_lock', content: 'Remove one lock from the emergency path and trust luck' },
-          { id: 'unify_lock_order', content: 'Make nominal and emergency paths acquire locks in the same order' },
-          { id: 'pin_emergency_mode', content: 'Pin the core in emergency mode and defer the real repair' },
-        ]
-      },
-    } as ChallengeSceneData,
-    on: {
-      NEXT: [
-        {
-          guard: ({ event }: any) => event.answer === 'unify_lock_order',
-          target: 'section_10_debt_conclusion_solved',
-          actions: [{ type: 'set', params: { problem_10_result: 'solved' } }],
-        },
-        {
-          guard: ({ event }: any) => event.answer === 'pin_emergency_mode',
-          target: 'section_10_debt_conclusion_override',
-          actions: [{ type: 'set', params: { problem_10_result: 'override' } }],
-        },
-        {
-          target: 'section_10_debt_conclusion_incorrect',
-          actions: [{ type: 'set', params: { problem_10_result: 'incorrect' } }],
-        },
-      ],
-    },
-  },
+  ...javaEmergencyLockReversalTaskState({
+    stateId: 'section_10_debt_task',
+    solvedTarget: 'section_10_debt_conclusion_solved',
+    overrideTarget: 'section_10_debt_conclusion_override',
+    incorrectTarget: 'section_10_debt_conclusion_incorrect',
+  }),
 
   section_10_debt_conclusion_incorrect: {
     meta: {

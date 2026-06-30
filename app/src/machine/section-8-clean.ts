@@ -1,4 +1,5 @@
 import type { ChallengeSceneData } from '../types/story'
+import { pyFarmPrefixBoundaryTaskState } from './tasks/09-py_farm_prefix_boundary'
 
 export const section8CleanStates = {
   // ── Section 8 Clean: Intro ───────────────────────────────
@@ -19,50 +20,12 @@ export const section8CleanStates = {
     },
   },
 
-  // ── Section 8 Clean: Task ────────────────────────────────
-  section_8_clean_task: {
-    meta: {
-      id: 'section_8_clean_task',
-      text:
-        'Task 4A: Farm Segment Prefix\n\n' +
-        'The interface is configured with a network prefix that is too broad. Traffic for the farm switch leaks into unrelated segments instead of staying inside the correct boundary. The sector switch responds, but traffic keeps wandering off into the wrong network.\n\n' +
-        '```python\n' +
-        'def configure_interface(iface):\n' +
-        '    address = "10.20.5.14/8"\n' +
-        '    run(f"ip addr replace {address} dev {iface}")\n' +
-        '    run(f"ip route replace 10.20.0.0/16 dev {iface}")\n' +
-        '    run("connect_switch 10.20.0.1")\n' +
-        '    return verify_link(iface)\n' +
-        '```',
-      task: {
-        type: 'multiple_choice',
-        options: [
-          { id: 'reset_switch', content: 'Reset the switch and hope it comes back smarter' },
-          { id: 'static_shortcut', content: 'Add a one-off static shortcut and leave the mask wrong' },
-          { id: 'correct_prefix', content: 'Change the prefix to match the farm network segment' },
-          { id: 'force_tunnel', content: 'Override the route and build a brittle direct tunnel' },
-        ]
-      },
-    } as ChallengeSceneData,
-    on: {
-      NEXT: [
-        {
-          guard: ({ event }: any) => event.answer === 'correct_prefix',
-          target: 'section_8_clean_conclusion_solved',
-          actions: [{ type: 'set', params: { problem_8_result: 'solved' } }],
-        },
-        {
-          guard: ({ event }: any) => event.answer === 'force_tunnel',
-          target: 'section_8_clean_conclusion_override',
-          actions: [{ type: 'set', params: { problem_8_result: 'override' } }],
-        },
-        {
-          target: 'section_8_clean_conclusion_incorrect',
-          actions: [{ type: 'set', params: { problem_8_result: 'incorrect' } }],
-        },
-      ],
-    },
-  },
+  ...pyFarmPrefixBoundaryTaskState({
+    stateId: 'section_8_clean_task',
+    solvedTarget: 'section_8_clean_conclusion_solved',
+    overrideTarget: 'section_8_clean_conclusion_override',
+    incorrectTarget: 'section_8_clean_conclusion_incorrect',
+  }),
 
   section_8_clean_conclusion_incorrect: {
     meta: {

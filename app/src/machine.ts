@@ -27,6 +27,7 @@ import { allMachineStates } from './machine/index'
 export const hydroMachine = createMachine<
   {
     boot_mode?: 'standard' | 'unsigned'
+    rand?: number
     route_choice?: 'cargo' | 'medical'
     eva_mode?: 'team' | 'solo'
     swap_mode?: 'hot' | 'drain'
@@ -42,7 +43,7 @@ export const hydroMachine = createMachine<
     debt_count?: number
     ending_tier?: string
   },
-  { type: 'NEXT'; answer?: string },
+  { type: 'NEXT'; answer?: string; rand?: number },
   any,
   any,
   any,
@@ -57,6 +58,7 @@ export const hydroMachine = createMachine<
   initial: 'section_1',
   context: {
     boot_mode: undefined,
+    rand: undefined,
     route_choice: undefined,
     eva_mode: undefined,
     swap_mode: undefined,
@@ -73,7 +75,7 @@ export const hydroMachine = createMachine<
     ending_tier: undefined,
   },
   types: {} as {
-    events: { type: 'NEXT'; answer?: string }
+    events: { type: 'NEXT'; answer?: string; rand?: 0 | 1 }
   },
   states: allMachineStates as any,
 })

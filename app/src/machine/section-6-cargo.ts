@@ -1,75 +1,43 @@
 import type { ChallengeSceneData } from '../types/story'
+import { jsClampBooleanPayloadTaskState } from './tasks/07-js_clamp_boolean_payload'
 
 export const section6CargoStates = {
-  // ── Section 6 Cargo: Intro ───────────────────────────────
   section_6_cargo_intro: {
     meta: {
       id: 'section_6_cargo_intro',
       text:
-        'The cargo kit clicks onto Shmiel with a sharp snap. The drone accepts the new settings, but once it starts the outside setup, it acts like the magnetic clamp is optional.\n\n' +
-        'VEX: The drone takes the settings, but outside it stops treating the clamp like a real on switch.\n' +
-        'ALEX: So it reads the message, but gets the important part wrong.\n' +
-        'VEX: Exactly. Give me a simple, correct value and I will give you a drone that stays attached to the hull.',
-      task: {
-        type: 'one_tap_forward',
-      },
-    } as ChallengeSceneData,
-    on: {
-      NEXT: 'section_6_cargo_task',
-    },
-  },
-
-  // ── Section 6 Cargo: Task ────────────────────────────────
-  section_6_cargo_task: {
-    meta: {
-      id: 'section_6_cargo_task',
-      text:
-        'Problem 3 Cargo: Clamp Mode Typing\n\n' +
-        'The cargo setup sends the magnetic clamp setting in the wrong format. The drone accepts the data, but outside it behaves as if the clamp is turned off.\n\n' +
-        '```javascript\n' +
-        'function buildClampProfile(mode) {\n' +
-        '  const profile = { mode, magClamp: false, tetherFollow: false };\n' +
-        '  if (mode === "hull") {\n' +
-        '    profile.magClamp = "true";\n' +
-        '    profile.tetherFollow = true;\n' +
-        '  }\n' +
-        '  return deployProfile(profile);\n' +
-        '}\n' +
-        '```',
+        'The cargo lane reaches Airlock #4, where Vex already has Shmiel waiting. The drone is on site, but its current profile still thinks this is an indoor freight job, and space has very strict feedback about that kind of mistake.\n\n' +
+        'VEX: You made good time. Meet Shmiel - general purpose maintenance drone. Last time it was used for some inside dust removal so his software might be a bit surprised by your open space mission.\n' +
+        'ALEX: So we have a hull job and a drone that still thinks in vacuum cleaner terms.\n' +
+        'VEX: Exactly. We can patch the profile properly, or bully it into follow mode and hope space stays patient.\n' +
+        'ALEX: Then let us choose what kind of bad idea it becomes.',
       task: {
         type: 'multiple_choice',
         options: [
-          { id: 'replace_battery', content: 'Replace the drone battery pack' },
-          { id: 'static_distance', content: 'Hardcode a fixed standoff distance and ignore clamp state' },
-          { id: 'boolean_follow', content: 'Send magClamp as a real boolean value' },
-          { id: 'manual_follow_override', content: 'Override the profile and force manual clamp behavior' },
+          { id: 'patch_drone', content: 'Software Patch' },
+          { id: 'override_drone', content: 'Hard Override' },
         ]
       },
     } as ChallengeSceneData,
     on: {
       NEXT: [
-        {
-          guard: ({ event }: any) => event.answer === 'boolean_follow',
-          target: 'section_6_cargo_conclusion_solved',
-          actions: [{ type: 'set', params: { problem_6_result: 'solved' } }],
-        },
-        {
-          guard: ({ event }: any) => event.answer === 'manual_follow_override',
-          target: 'section_6_cargo_conclusion_override',
-          actions: [{ type: 'set', params: { problem_6_result: 'override' } }],
-        },
-        {
-          target: 'section_6_cargo_conclusion_incorrect',
-          actions: [{ type: 'set', params: { problem_6_result: 'incorrect' } }],
-        },
+        { guard: ({ event }: any) => event.answer === 'patch_drone', target: 'section_6_cargo_task', actions: [{ type: 'set', params: { drone_mode: 'patch' } }] },
+        { guard: ({ event }: any) => event.answer === 'override_drone', target: 'section_6_cargo_task', actions: [{ type: 'set', params: { drone_mode: 'override' } }] },
       ],
     },
   },
 
+  ...jsClampBooleanPayloadTaskState({
+    stateId: 'section_6_cargo_task',
+    solvedTarget: 'section_6_cargo_conclusion_solved',
+    overrideTarget: 'section_6_cargo_conclusion_override',
+    incorrectTarget: 'section_6_cargo_conclusion_incorrect',
+  }),
+
   section_6_cargo_conclusion_incorrect: {
     meta: {
       id: 'section_6_cargo_conclusion_incorrect',
-      text: 'The new battery changes nothing, because the real problem is still the bad setting. Alex fixes it with mild embarrassment and gets the hatch moving again.\n\nThe drone now behaves well enough to open the outer hatch, and Ray is waiting with the next questionable offer.',
+      text: 'Battery guesses and rough fallback behavior waste time. Alex still has to correct the profile value the drone actually reads before the outside setup behaves.\n\nHull movement is possible now, and the only remaining question is whether Alex takes Ray along.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_7' },
@@ -78,7 +46,7 @@ export const section6CargoStates = {
   section_6_cargo_conclusion_solved: {
     meta: {
       id: 'section_6_cargo_conclusion_solved',
-      text: 'The new setting goes in cleanly, the clamp behaves, and Shmiel suddenly looks much more useful.\n\nThe outer hatch is ready, and Ray is already waiting with a new definition of teamwork.',
+      text: 'The corrected profile goes in cleanly, the clamp behaves, and Shmiel suddenly looks much more useful.\n\nThe outer hatch is ready, and Ray is already waiting with a new definition of teamwork.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_7' },
@@ -87,7 +55,7 @@ export const section6CargoStates = {
   section_6_cargo_conclusion_override: {
     meta: {
       id: 'section_6_cargo_conclusion_override',
-      text: 'Alex forces the drone into a manual clamp mode that works right away and looks very temporary.\n\nThe hatch is ready, but the outside segment now begins with one more borrowed certainty.',
+      text: 'Alex forces the drone into a manual support mode that works right away and looks very temporary. The hatch is ready, but Alex steps outside relying on another temporary fix. However he\'s feeling lucky.\n\nThe outer hatch is ready, and Ray is waiting with questions about exactly how confident Alex is today.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_7' },

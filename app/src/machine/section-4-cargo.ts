@@ -1,4 +1,5 @@
 import type { ChallengeSceneData } from '../types/story'
+import { javaAccessLevelCompareTaskState } from './tasks/05-java_access_level_compare'
 
 export const section4CargoStates = {
   // ── Section 4 Cargo: Intro ───────────────────────────────
@@ -20,51 +21,12 @@ export const section4CargoStates = {
     },
   },
 
-  // ── Section 4 Cargo: Task ────────────────────────────────
-  section_4_cargo_task: {
-    meta: {
-      id: 'section_4_cargo_task',
-      text:
-        'Problem 2 Cargo: Freight Pass Comparison\n\n' +
-        'Tony, being a very persistent man, tries to apply his pass to card reader from all the sides: backwads, sideways, even flips it at the reader. Still - all the same - ACCESS DENIED. Alex patiently examins the code of yet another service he has never seen before.\n\n' +
-        '```java\n' +
-        'boolean gateAllows(Credential credential) {\n' +
-        '    String level = credential.getAccessLevel();\n' +
-        '    if (level == "MAINT_RED") {\n' +
-        '        return true;\n' +
-        '    }\n' +
-        '    return credential.hasSupervisorEscort();\n' +
-        '}\n' +
-        '```',
-      task: {
-        type: 'multiple_choice',
-        options: [
-          { id: 'restart_gate', content: 'Reboot the freight gate and hope the cache clears' },
-          { id: 'hardcode_allow', content: 'Hardcode the gate to trust every cargo maintenance badge' },
-          { id: 'compare_access_value', content: 'Compare the access level by value instead of by reference' },
-          { id: 'jumper_the_lock', content: 'Override the lock through the freight panel bridge' },
-        ]
-      },
-    } as ChallengeSceneData,
-    on: {
-      NEXT: [
-        {
-          guard: ({ event }: any) => event.answer === 'compare_access_value',
-          target: 'section_4_cargo_conclusion_solved',
-          actions: [{ type: 'set', params: { problem_4_result: 'solved' } }],
-        },
-        {
-          guard: ({ event }: any) => event.answer === 'jumper_the_lock',
-          target: 'section_4_cargo_conclusion_override',
-          actions: [{ type: 'set', params: { problem_4_result: 'override' } }],
-        },
-        {
-          target: 'section_4_cargo_conclusion_incorrect',
-          actions: [{ type: 'set', params: { problem_4_result: 'incorrect' } }],
-        },
-      ],
-    },
-  },
+  ...javaAccessLevelCompareTaskState({
+    stateId: 'section_4_cargo_task',
+    solvedTarget: 'section_4_cargo_conclusion_solved',
+    overrideTarget: 'section_4_cargo_conclusion_override',
+    incorrectTarget: 'section_4_cargo_conclusion_incorrect',
+  }),
 
   section_4_cargo_conclusion_incorrect: {
     meta: {

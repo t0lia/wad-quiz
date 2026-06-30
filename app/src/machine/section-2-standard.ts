@@ -1,4 +1,8 @@
 import type { ChallengeSceneData } from '../types/story'
+import { jsStartBarrierMissingTaskState } from './tasks/01-js_start_barrier_missing'
+import { pyReadinessGatherMissingTaskState } from './tasks/02-py_readiness_gather_missing'
+import { javaFutureJoinMissingTaskState } from './tasks/03-java_future_join_missing'
+import { jsRegistryRaceTaskState } from './tasks/04-js_registry_race'
 
 export const section2StandardStates = {
   // ── Section 2 Standard: Intro ────────────────────────────
@@ -17,24 +21,68 @@ export const section2StandardStates = {
       },
     } as ChallengeSceneData,
     on: {
-      NEXT: 'section_2_standard_task',
+      NEXT: [
+        {
+          guard: ({ event }: any) => event.rand < 0.25,
+          target: 'section_2_standard_task_1',
+        },
+        {
+          guard: ({ event }: any) => event.rand < 0.5,
+          target: 'section_2_standard_task_2',
+        },
+        {
+          guard: ({ event }: any) => event.rand < 0.75,
+          target: 'section_2_standard_task_3',
+        },
+        {
+          target: 'section_2_standard_task_4',
+        },
+      ],
     },
   },
 
-  // ── Section 2 Standard: Task ─────────────────────────────
-  section_2_standard_task: {
+  ...jsStartBarrierMissingTaskState({
+    stateId: 'section_2_standard_task_1',
+    solvedTarget: 'section_2_standard_conclusion_solved',
+    overrideTarget: 'section_2_standard_conclusion_override',
+    incorrectTarget: 'section_2_standard_conclusion_incorrect',
+  }),
+
+  ...pyReadinessGatherMissingTaskState({
+    stateId: 'section_2_standard_task_2',
+    solvedTarget: 'section_2_standard_conclusion_solved',
+    overrideTarget: 'section_2_standard_conclusion_override',
+    incorrectTarget: 'section_2_standard_conclusion_incorrect',
+  }),
+
+  ...javaFutureJoinMissingTaskState({
+    stateId: 'section_2_standard_task_3',
+    solvedTarget: 'section_2_standard_conclusion_solved',
+    overrideTarget: 'section_2_standard_conclusion_override',
+    incorrectTarget: 'section_2_standard_conclusion_incorrect',
+  }),
+
+  ...jsRegistryRaceTaskState({
+    stateId: 'section_2_standard_task_4',
+    solvedTarget: 'section_2_standard_conclusion_solved',
+    overrideTarget: 'section_2_standard_conclusion_override',
+    incorrectTarget: 'section_2_standard_conclusion_incorrect',
+  }),
+
+  // ── Section 2 Standard: Task 2 ───────────────────────────
+  section_2_standard_task_2: {
     meta: {
-      id: 'section_2_standard_task',
+      id: 'section_2_standard_task_2',
       text:
-        'Problem 2 Standard: Sector Link Race Condition\n\n' +
-        'Even the standard build carries one rushed startup module from the latest station-wide update. The race is less flashy, but no less real.\n\n' +
-        '```javascript\n' +
-        'async function bootSectorLink(services) {\n' +
-        '  services.map((service) => service.start());\n' +
-        '  const link = await sectorLink.handshake();\n' +
-        '  if (!link.ok) throw new Error("sector-link offline");\n' +
-        '  return "ready";\n' +
-        '}\n' +
+        'Problem 2 Standard: Missing Gather Barrier\n\n' +
+        'The same startup race shows up in a different language, but the fix is still about waiting for readiness instead of guessing.\n\n' +
+        '```python\n' +
+        'async def boot_sector_link(services):\n' +
+        '    tasks = [asyncio.create_task(service.start()) for service in services]\n' +
+        '    link = await sector_link.handshake()\n' +
+        '    if not link.ok:\n' +
+        '        raise RuntimeError("sector-link offline")\n' +
+        '    return "ready"\n' +
         '```\n\n' +
         'How should Alex fix this?',
       task: {
@@ -42,8 +90,102 @@ export const section2StandardStates = {
         options: [
           { id: 'blame_controller', content: 'Blame the controller rack and restart it from the wall panel' },
           { id: 'sleep_then_retry', content: 'Add a fixed delay before the handshake' },
-          { id: 'await_service_barrier', content: 'Wait for all service startups before sector-link handshakes' },
-          { id: 'force_sector_link', content: 'Override startup checks and force sector-link online' },
+          { id: 'await_service_barrier', content: 'Await the startup tasks before the handshake begins' },
+          { id: 'force_sector_link', content: 'Force sector-link up even if the startup tasks are still racing' },
+        ]
+      },
+    } as ChallengeSceneData,
+    on: {
+      NEXT: [
+        {
+          guard: ({ event }: any) => event.answer === 'await_service_barrier',
+          target: 'section_2_standard_conclusion_solved',
+          actions: [{ type: 'set', params: { problem_2_result: 'solved' } }],
+        },
+        {
+          guard: ({ event }: any) => event.answer === 'force_sector_link',
+          target: 'section_2_standard_conclusion_override',
+          actions: [{ type: 'set', params: { problem_2_result: 'override' } }],
+        },
+        {
+          target: 'section_2_standard_conclusion_incorrect',
+          actions: [{ type: 'set', params: { problem_2_result: 'incorrect' } }],
+        },
+      ],
+    },
+  },
+
+  // ── Section 2 Standard: Task 3 ───────────────────────────
+  section_2_standard_task_3: {
+    meta: {
+      id: 'section_2_standard_task_3',
+      text:
+        'Problem 2 Standard: Missing Future Join\n\n' +
+        'The experimental build moved startup work into futures, but the terminal still tries to talk to sector-link before those futures finish.\n\n' +
+        '```java\n' +
+        'String bootSectorLink(List<Service> services) throws Exception {\n' +
+        '    services.forEach(service -> CompletableFuture.runAsync(service::start));\n' +
+        '    Link link = sectorLink.handshake().get();\n' +
+        '    if (!link.ok()) throw new IllegalStateException("sector-link offline");\n' +
+        '    return "ready";\n' +
+        '}\n' +
+        '```\n\n' +
+        'How should Alex fix this?',
+      task: {
+        type: 'multiple_choice',
+        options: [
+          { id: 'blame_controller', content: 'Reboot the controller rack and treat the symptom as a room failure' },
+          { id: 'sleep_then_retry', content: 'Add a retry delay before the handshake call' },
+          { id: 'await_service_barrier', content: 'Join the startup futures before sector-link handshakes' },
+          { id: 'force_sector_link', content: 'Bypass readiness checks and bring sector-link up immediately' },
+        ]
+      },
+    } as ChallengeSceneData,
+    on: {
+      NEXT: [
+        {
+          guard: ({ event }: any) => event.answer === 'await_service_barrier',
+          target: 'section_2_standard_conclusion_solved',
+          actions: [{ type: 'set', params: { problem_2_result: 'solved' } }],
+        },
+        {
+          guard: ({ event }: any) => event.answer === 'force_sector_link',
+          target: 'section_2_standard_conclusion_override',
+          actions: [{ type: 'set', params: { problem_2_result: 'override' } }],
+        },
+        {
+          target: 'section_2_standard_conclusion_incorrect',
+          actions: [{ type: 'set', params: { problem_2_result: 'incorrect' } }],
+        },
+      ],
+    },
+  },
+
+  // ── Section 2 Standard: Task 4 ───────────────────────────
+  section_2_standard_task_4: {
+    meta: {
+      id: 'section_2_standard_task_4',
+      text:
+        'Problem 2 Standard: Registry Readiness Race\n\n' +
+        'The unsigned build marks services as running before registration finishes, so sector-link sees a healthy dashboard and still fails its first handshake.\n\n' +
+        '```javascript\n' +
+        'async function startService(service, registry) {\n' +
+        '  registry[service.name] = "running";\n' +
+        '  await service.register(registry);\n' +
+        '}\n' +
+        'async function bootSectorLink(services, registry) {\n' +
+        '  services.forEach((service) => startService(service, registry));\n' +
+        '  return sectorLink.handshake(registry);\n' +
+        '}\n' +
+        '```\n\n' +
+        'How should Alex fix this?',
+      task: {
+        type: 'multiple_choice',
+        options: [
+          { id: 'blame_controller', content: 'Treat the warning panel as a controller problem and restart the room' },
+          { id: 'sleep_then_retry', content: 'Add a delay and retry once the panel looks calmer' },
+          { id: 'await_service_barrier', content: 'Wait for registration to finish before sector-link reads readiness' },
+          { id: 'force_sector_link', content: 'Ignore the registry state and force sector-link through' },
         ]
       },
     } as ChallengeSceneData,

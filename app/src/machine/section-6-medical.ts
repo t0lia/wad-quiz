@@ -1,76 +1,43 @@
 import type { ChallengeSceneData } from '../types/story'
+import { javaShellFieldAlignmentTaskState } from './tasks/08-java_shell_field_alignment'
 
 export const section6MedicalStates = {
-  // ── Section 6 Medical: Intro ─────────────────────────────
   section_6_medical_intro: {
     meta: {
       id: 'section_6_medical_intro',
       text:
-        'The medical shell closes around Shmiel with a soft click. The drone gets the new settings, but once it moves into outside mode, it never turns on the clean shell setting.\n\n' +
-        'VEX: The drone gets the message, but it never sees the switch that should turn the clean shell on.\n' +
-        'ALEX: So the message arrives, but the important bit is written the wrong way.\n' +
-        'CLARA: That is a much friendlier sentence than the one you usually say.\n' +
-        'ALEX: I contain multitudes.',
-      task: {
-        type: 'one_tap_forward',
-      },
-    } as ChallengeSceneData,
-    on: {
-      NEXT: 'section_6_medical_task',
-    },
-  },
-
-  // ── Section 6 Medical: Task ──────────────────────────────
-  section_6_medical_task: {
-    meta: {
-      id: 'section_6_medical_task',
-      text:
-        'Problem 3 Medical: Shell Profile Field Name\n\n' +
-        'The shell setup writes the on switch under the wrong name. The airlock accepts the message, but the drone never turns on clean outside mode.\n\n' +
-        '```javascript\n' +
-        'function buildShellProfile(mode) {\n' +
-        '  const payload = { mode, sterileMode: false, beaconFollow: false };\n' +
-        '  if (mode === "eva-med") {\n' +
-        '    payload.sterile_mode = true;\n' +
-        '    payload.beaconFollow = true;\n' +
-        '  }\n' +
-        '  return deployProfile(payload);\n' +
-        '}\n' +
-        '```',
+        'The medical corridor reaches Airlock #4, where Vex already has Shmiel waiting. The drone is on site, but its current profile still thinks this is a routine indoor maintenance job, and sterile hull work is not known for forgiving that kind of confusion.\n\n' +
+        'VEX: You made good time. Meet Shmiel - general purpose maintenance drone. Last time it was used for routine indoor cleanup, so its software may be a little confused by sterile hull work.\n' +
+        'ALEX: So we have a medical EVA and a drone that still thinks this is housekeeping.\n' +
+        'VEX: Exactly. We can patch the profile properly, or bully it into follow mode and hope contamination rules stay theoretical.\n' +
+        'ALEX: Then let us choose whether to improve it or frighten it.',
       task: {
         type: 'multiple_choice',
         options: [
-          { id: 'replace_battery', content: 'Replace the drone battery pack' },
-          { id: 'static_distance', content: 'Hardcode a fixed standoff distance and ignore shell state' },
-          { id: 'boolean_follow', content: 'Write sterileMode to the field the profile actually reads' },
-          { id: 'manual_follow_override', content: 'Override the profile and force manual shell behavior' },
+          { id: 'patch_drone', content: 'Software Patch' },
+          { id: 'override_drone', content: 'Hard Override' },
         ]
       },
     } as ChallengeSceneData,
     on: {
       NEXT: [
-        {
-          guard: ({ event }: any) => event.answer === 'boolean_follow',
-          target: 'section_6_medical_conclusion_solved',
-          actions: [{ type: 'set', params: { problem_6_result: 'solved' } }],
-        },
-        {
-          guard: ({ event }: any) => event.answer === 'manual_follow_override',
-          target: 'section_6_medical_conclusion_override',
-          actions: [{ type: 'set', params: { problem_6_result: 'override' } }],
-        },
-        {
-          target: 'section_6_medical_conclusion_incorrect',
-          actions: [{ type: 'set', params: { problem_6_result: 'incorrect' } }],
-        },
+        { guard: ({ event }: any) => event.answer === 'patch_drone', target: 'section_6_medical_task', actions: [{ type: 'set', params: { drone_mode: 'patch' } }] },
+        { guard: ({ event }: any) => event.answer === 'override_drone', target: 'section_6_medical_task', actions: [{ type: 'set', params: { drone_mode: 'override' } }] },
       ],
     },
   },
 
+  ...javaShellFieldAlignmentTaskState({
+    stateId: 'section_6_medical_task',
+    solvedTarget: 'section_6_medical_conclusion_solved',
+    overrideTarget: 'section_6_medical_conclusion_override',
+    incorrectTarget: 'section_6_medical_conclusion_incorrect',
+  }),
+
   section_6_medical_conclusion_incorrect: {
     meta: {
       id: 'section_6_medical_conclusion_incorrect',
-      text: 'The hardware was never the problem, but it becomes part of the story anyway while Alex fixes the field name and avoids Clara\'s eyes for three full seconds.\n\nThe shell finally behaves, and Ray is already waiting at the outer hatch with fresh bad ideas.',
+      text: 'Guesses about hardware or emergency overrides do not fix what the drone actually reads. Alex has to correct the seal comparison before the sterile containment behaves.\n\nHull movement is finally possible, and Ray is waiting for Alex outside, along with medical\'s persistent question about whether Alex took sterility seriously.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_7' },
@@ -79,7 +46,7 @@ export const section6MedicalStates = {
   section_6_medical_conclusion_solved: {
     meta: {
       id: 'section_6_medical_conclusion_solved',
-      text: 'The new field name works, clean mode turns on, and the shell suddenly looks useful instead of dangerous.\n\nThe outer hatch is ready, and Ray is already clipped in like this was always going to happen.',
+      text: 'The corrected seal comparison goes in cleanly, the containment stabilizes, and Shmiel suddenly looks properly sterile.\n\nThe outer hatch is ready, and Ray is already waiting with a new definition of medical teamwork.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_7' },
@@ -88,7 +55,7 @@ export const section6MedicalStates = {
   section_6_medical_conclusion_override: {
     meta: {
       id: 'section_6_medical_conclusion_override',
-      text: 'Alex forces the shell into a manual fallback that works right away and inspires no long-term confidence at all.\n\nThe hatch is ready, but the outside segment now begins with one more procedural compromise.',
+      text: 'Alex overrides the containment check and forces Shmiel into manual mode that ignores the sterility warnings. It works immediately and looks extremely temporary.\n\nThe outer hatch is ready, but medical sterility is now an optimistic concept. Ray is waiting with questions about how confident Alex is in this approach.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_7' },
