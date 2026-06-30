@@ -18,7 +18,7 @@ const mdComponents: Components = {
     const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches
     if (match) {
       return (
-        <SyntaxHighlighter language={match[1]} style={isDark ? oneDark : oneLight} PreTag="div">
+        <SyntaxHighlighter language={match[1]} style={isDark ? oneDark : oneLight} PreTag="div" customStyle={{ fontSize: '11px' }}>
           {String(children).replace(/\n$/, '')}
         </SyntaxHighlighter>
       )
