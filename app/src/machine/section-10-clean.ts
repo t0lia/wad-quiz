@@ -5,6 +5,7 @@ export const section10CleanStates = {
   section_10_clean_intro: {
     meta: {
       id: 'section_10_clean_intro',
+      title: 'Section 10C: Distributor Core - Lock Order',
       text: 'Inside the distributor core, the remaining fault is at least honest. Two power routines grab the same locks in opposite order. Under load they freeze each other and stall the whole sector.',
       dialogue: [
         { speaker: 'captain', text: 'Alex, the sector is close to coming back. What is still holding it down?' },
@@ -25,6 +26,7 @@ export const section10CleanStates = {
   section_10_clean_task: {
     meta: {
       id: 'section_10_clean_task',
+      title: 'Section 10C: Distributor Core - Lock Order',
       text:
         'Task 5A: Distributor Lock Ordering\n\n' +
         'Two power routines grab the same locks in opposite order. Under load they freeze each other and stall the whole sector. The remaining fault is at least honest.\n\n' +
@@ -74,6 +76,7 @@ export const section10CleanStates = {
   section_10_clean_conclusion_incorrect: {
     meta: {
       id: 'section_10_clean_conclusion_incorrect',
+      title: 'Section 10C: Distributor Core - Lock Order',
       text: 'Firmware guesses and unsafe lock removal waste time, then Alex restores a consistent acquisition order before the core can behave.\n\nFull power returns, and one last choice remains about the new anomaly rising beside the repair.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
@@ -83,6 +86,7 @@ export const section10CleanStates = {
   section_10_clean_conclusion_solved: {
     meta: {
       id: 'section_10_clean_conclusion_solved',
+      title: 'Section 10C: Distributor Core - Lock Order',
       text: 'The core comes back cleanly once both paths stop fighting over the same resources in opposite order.\n\nSector power is restored, and a fresh log anomaly points back toward Incubator #4.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
@@ -92,6 +96,7 @@ export const section10CleanStates = {
   section_10_clean_conclusion_override: {
     meta: {
       id: 'section_10_clean_conclusion_override',
+      title: 'Section 10C: Distributor Core - Lock Order',
       text: 'Alex forces the core into emergency single-thread mode and gets power back at once, steady only in the way a tired compromise can look steady.\n\nPower is restored, but the recovery logs now contain something larger than a plant incident.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,

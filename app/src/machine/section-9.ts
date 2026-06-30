@@ -5,6 +5,7 @@ export const section9States = {
   section_9: {
     meta: {
       id: 'section_9',
+      title: 'Section 9: Connector Swap Method',
       text:
         'The burned cable is fused into the connector and the replacement line is ready in its case. Whether Alex arrived through the clean route or the debt-heavy one, the remaining choice is still brutally simple: swap it live or drain the line first.',
       task: {
@@ -28,6 +29,7 @@ export const section9States = {
   section_9_exit: {
     meta: {
       id: 'section_9_exit',
+      title: 'Section 9 Exit: Connector Go Or No-Go',
       text:
         'The old cable is loose enough to move, the replacement is ready, and the distributor core waits one layer deeper. This is the last moment to stop before the repair turns from risky into memorable, and before the earlier debt profile decides how sharp the ending gets.',
       task: {

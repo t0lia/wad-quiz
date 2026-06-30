@@ -6,6 +6,7 @@ export const section5MedicalStates = {
     meta: {
       id: 'section_5_medical',
       image: '/locations/airlock_4.png',
+      title: 'Section 5 Medical: Clean Airlock Prep',
       text: 'The medical corridor reaches Airlock #4, where Vex already has Shmiel waiting. The drone is on site, but its current profile still thinks this is a routine indoor maintenance job, and sterile hull work is not known for forgiving that kind of confusion.',
       dialogue: [
         { speaker: 'vex', text: 'You made good time. Meet Shmiel - general purpose maintenance drone. Last time it was used for routine indoor cleanup, so its software may be a little confused by sterile hull work.' },
@@ -34,6 +35,7 @@ export const section5MedicalStates = {
     meta: {
       id: 'section_5_medical_conclusion_patch',
       image: '/locations/airlock_4.png',
+      title: 'Section 5 Medical: Clean Airlock Prep',
       text: 'Vex loads a careful patch and the drone settles into a less offended idle pattern.\n\nThe sterile profile settles cleanly, and the hatch can cycle once the shell thinks about what safety means.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
@@ -44,6 +46,7 @@ export const section5MedicalStates = {
     meta: {
       id: 'section_5_medical_conclusion_override',
       image: '/locations/airlock_4.png',
+      title: 'Section 5 Medical: Clean Airlock Prep',
       text: 'Vex slams the override path through and the drone obeys with the nervous energy of a badly supervised forklift.\n\nThe hatch can cycle, but the drone link now carries the moral texture of wet duct tape.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
@@ -54,6 +57,7 @@ export const section5MedicalStates = {
     meta: {
       id: 'section_5_medical_fallout',
       image: '/locations/airlock_4.png',
+      title: 'Section 5 Medical: Airlock Prep After A Dirty Shortcut',
       text: 'By the time Alex reaches Airlock #4, Vex already has Shmiel waiting. The drone is on site, but its current profile still expects routine indoor maintenance, and sterile hull work is not known for tolerating that kind of confusion.',
       dialogue: [
         { speaker: 'clara', text: 'I am going to describe that gate incident later with adjectives.' },
@@ -82,6 +86,7 @@ export const section5MedicalStates = {
     meta: {
       id: 'section_5_medical_fallout_conclusion_patch',
       image: '/locations/airlock_4.png',
+      title: 'Section 5 Medical: Airlock Prep After A Dirty Shortcut',
       text: 'Alex chooses the slower patch and buys one honest component inside an increasingly dishonest evening.\n\nIf the sterile payload behaves, the airlock may still forgive the rest.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
@@ -92,6 +97,7 @@ export const section5MedicalStates = {
     meta: {
       id: 'section_5_medical_fallout_conclusion_override',
       image: '/locations/airlock_4.png',
+      title: 'Section 5 Medical: Airlock Prep After A Dirty Shortcut',
       text: 'Alex chooses speed again, and Clara decides that judgment can wait until everyone is back inside with all limbs attached.\n\nThe hatch can cycle, but the drone link now carries the moral texture of wet duct tape.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,

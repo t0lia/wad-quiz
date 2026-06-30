@@ -74,4 +74,4 @@ export type Task =
   | TextSceneTask
 
 export type DialogueLine = { speaker: string; text: string }
-export type ChallengeSceneData = { id: string; text: string; image?: string; dialogue?: DialogueLine[]; task: Task }
+export type ChallengeSceneData = { id: string; text: string; image?: string; title?: string; dialogue?: DialogueLine[]; task: Task }
