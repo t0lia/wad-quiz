@@ -83,6 +83,39 @@
   cursor: default;
 }
 
+.tap-hint {
+  width: 100%;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  font: inherit;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text);
+  cursor: pointer;
+  margin: 0;
+  padding: 8px 0;
+  animation: tap-hint-pulse 2s ease-in-out infinite;
+}
+
+@keyframes tap-hint-pulse {
+  0%, 100% { opacity: 0.3; }
+  50%       { opacity: 0.6; }
+}
+
+@keyframes block-enter {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.block-enter {
+  animation: block-enter 0.35s ease forwards;
+}
+
 .feedback {
   display: flex;
   align-items: center;

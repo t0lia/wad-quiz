@@ -38,7 +38,7 @@ export default function MultipleChoice({ task, submitted, onSubmit }: Props) {
           disabled={selected.size === 0}
           onClick={() => onSubmit(Array.from(selected).join(','))}
         >
-          Submit
+          next
         </button>
       )}
     </>

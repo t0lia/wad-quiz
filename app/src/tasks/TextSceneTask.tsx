@@ -3,11 +3,13 @@ import type { TextSceneTask } from '../types/story'
 type Props = { task: TextSceneTask, onSubmit: (answer?: string) => void }
 
 export default function TextSceneTask({ task, onSubmit }: Props) {
-  const choices = task.choices ?? [{ label: 'Continue →', event: 'NEXT' }]
+  if (!task.choices) {
+    return <p className="tap-hint">next</p>
+  }
 
   return (
     <div className="text-scene-actions">
-      {choices.map((choice) => (
+      {task.choices.map((choice) => (
         <button
           key={`${choice.event}:${choice.label}`}
           type="button"

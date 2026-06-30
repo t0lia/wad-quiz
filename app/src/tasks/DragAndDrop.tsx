@@ -113,7 +113,7 @@ export default function DragAndDrop({ task, submitted, onSubmit }: Props) {
           className="submit-btn"
           onClick={() => onSubmit(order.map((item) => item.id).join(','))}
         >
-          Submit
+          next
         </button>
       )}
     </>

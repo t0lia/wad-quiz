@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import ReactMarkdown from 'react-markdown'
 import type { Components } from 'react-markdown'
 import type { DialogueLine } from '../types/story'
@@ -11,31 +11,48 @@ const inlineComponents: Components = {
   p: ({ children }) => <>{children}</>,
 }
 
-export default function DialogueBlock({ lines }: { lines: DialogueLine[] }) {
+type Props = { lines: DialogueLine[]; onComplete?: () => void }
+
+export default function DialogueBlock({ lines, onComplete }: Props) {
   const [typingLine, setTypingLine] = useState(0)
   const [charCount, setCharCount] = useState(0)
+  const completedRef = useRef(false)
 
   const currentText = lines[typingLine]?.text ?? ''
   const currentLineDone = charCount >= currentText.length
   const allDone = typingLine >= lines.length
 
+  // Tick: advance character count
   useEffect(() => {
     if (allDone || currentLineDone) return
     const t = setTimeout(() => setCharCount(c => c + 1), CHAR_SPEED)
     return () => clearTimeout(t)
   }, [allDone, currentLineDone, charCount])
 
+  // Advance to next line, or fire onComplete when last line finishes
   useEffect(() => {
-    if (!currentLineDone || typingLine >= lines.length - 1) return
+    if (!currentLineDone) return
+    if (typingLine >= lines.length - 1) {
+      if (!completedRef.current) {
+        completedRef.current = true
+        onComplete?.()
+      }
+      return
+    }
     const t = setTimeout(() => {
       setTypingLine(l => l + 1)
       setCharCount(0)
     }, LINE_PAUSE)
     return () => clearTimeout(t)
-  }, [currentLineDone, typingLine, lines.length])
+  }, [currentLineDone, typingLine, lines.length, onComplete])
+
+  function skipToEnd() {
+    setTypingLine(lines.length - 1)
+    setCharCount(lines[lines.length - 1]?.text.length ?? 0)
+  }
 
   return (
-    <div className="dialogue">
+    <div className="dialogue" onClick={skipToEnd} style={{ cursor: 'pointer' }}>
       {lines.map((line, i) => {
         if (i > typingLine) return null
         const lineDone = i < typingLine || (i === typingLine && currentLineDone)

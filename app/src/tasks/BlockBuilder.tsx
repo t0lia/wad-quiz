@@ -197,7 +197,7 @@ export default function BlockBuilder({ task, submitted, onSubmit }: Props) {
           disabled={!allFilled}
           onClick={() => onSubmit(sequence[0] ? getContent(sequence[0]) : undefined)}
         >
-          Submit
+          next
         </button>
       )}
     </>
