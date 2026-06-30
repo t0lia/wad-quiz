@@ -39,7 +39,8 @@ export const section2UnsignedStates = {
         '```\n\n' +
         'How should Alex fix this?',
       task: {
-        type: 'multiple_choice',
+        type: 'single_choice',
+        variant: 'problem',
         options: [
           { id: 'blame_controller', content: 'Blame the controller rack and restart it from the wall panel' },
           { id: 'sleep_then_retry', content: 'Add a fixed delay before the handshake' },

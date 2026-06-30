@@ -13,7 +13,8 @@ export const section5MedicalStates = {
         { speaker: 'alex', text: 'Then let us choose whether to improve it or frighten it.' },
       ],
       task: {
-        type: 'multiple_choice',
+        type: 'single_choice',
+        variant: 'branch',
         options: [
           { id: 'patch_drone', content: 'Software Patch' },
           { id: 'override_drone', content: 'Hard Override' },
@@ -57,7 +58,8 @@ export const section5MedicalStates = {
         { speaker: 'alex', text: 'Fine. So my bad options are to educate the drone properly or scare it into cooperation.' },
       ],
       task: {
-        type: 'multiple_choice',
+        type: 'single_choice',
+        variant: 'branch',
         options: [
           { id: 'patch_drone', content: 'Software Patch' },
           { id: 'override_drone', content: 'Hard Override' },

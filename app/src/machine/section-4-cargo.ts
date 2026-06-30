@@ -38,7 +38,8 @@ export const section4CargoStates = {
         '}\n' +
         '```',
       task: {
-        type: 'multiple_choice',
+        type: 'single_choice',
+        variant: 'problem',
         options: [
           { id: 'restart_gate', content: 'Reboot the freight gate and hope the cache clears' },
           { id: 'hardcode_allow', content: 'Hardcode the gate to trust every cargo maintenance badge' },

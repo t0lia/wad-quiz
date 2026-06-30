@@ -35,7 +35,8 @@ export const section8DebtStates = {
         '    return verify_link(iface)\n' +
         '```',
       task: {
-        type: 'multiple_choice',
+        type: 'single_choice',
+        variant: 'problem',
         options: [
           { id: 'cycle_everything', content: 'Bounce the tunnel, the switch, and the visor and hope one of them learns something' },
           { id: 'layer_more_static', content: 'Add another emergency route on top of the bad one' },
@@ -97,7 +98,8 @@ export const section8DebtStates = {
       text:
         'The next notice arrives with the nervous politeness of people who know the system is technically up and emotionally one sharp tap from another incident. Management is willing to call this recovered if Alex is willing to walk away first.',
       task: {
-        type: 'multiple_choice',
+        type: 'single_choice',
+        variant: 'branch',
         options: [
           { id: 'stop', content: 'Stop and sign off' },
           { id: 'continue', content: 'Continue to distributor' },

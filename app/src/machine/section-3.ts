@@ -14,7 +14,8 @@ export const section3States = {
         { speaker: 'lina', text: 'Everything on this ship is shorter and stranger.' },
       ],
       task: {
-        type: 'multiple_choice',
+        type: 'single_choice',
+        variant: 'branch',
         options: [
           { id: 'cargo', content: 'Through Cargo management compartment' },
           { id: 'medical', content: 'Through Medical passage' },

@@ -39,7 +39,8 @@ export const section6MedicalStates = {
         '}\n' +
         '```',
       task: {
-        type: 'multiple_choice',
+        type: 'single_choice',
+        variant: 'problem',
         options: [
           { id: 'replace_battery', content: 'Replace the drone battery pack' },
           { id: 'static_distance', content: 'Hardcode a fixed standoff distance and ignore shell state' },

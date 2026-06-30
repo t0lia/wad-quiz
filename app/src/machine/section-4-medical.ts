@@ -36,7 +36,8 @@ export const section4MedicalStates = {
         '    return payload\n' +
         '```',
       task: {
-        type: 'multiple_choice',
+        type: 'single_choice',
+        variant: 'problem',
         options: [
           { id: 'rescan_wristband', content: 'Rescan Clara\'s wristband until the panel gives up' },
           { id: 'skip_quarantine_check', content: 'Bypass the quarantine check entirely' },

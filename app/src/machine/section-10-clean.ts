@@ -41,7 +41,8 @@ export const section10CleanStates = {
         '}\n' +
         '```',
       task: {
-        type: 'multiple_choice',
+        type: 'single_choice',
+        variant: 'problem',
         options: [
           { id: 'reinstall_firmware', content: 'Reinstall distributor firmware and hope the deadlock disappears' },
           { id: 'skip_one_lock', content: 'Remove one lock and trust low traffic to save the night' },

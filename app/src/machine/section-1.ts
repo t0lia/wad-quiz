@@ -14,7 +14,8 @@ export const section1States = {
         { speaker: 'lina', text: 'You\'re on your own with this one. Who knows what promisses unsigned gives...' },
       ],
       task: {
-        type: 'multiple_choice',
+        type: 'single_choice',
+        variant: 'branch',
         options: [
           { id: 'standard', content: 'V9 Enterprise' },
           { id: 'unsigned', content: 'V10.0037.custom.experimental.unsigned' },

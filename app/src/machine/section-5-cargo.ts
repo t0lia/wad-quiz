@@ -13,7 +13,8 @@ export const section5CargoStates = {
         { speaker: 'alex', text: 'Then let us choose what kind of bad idea it becomes.' },
       ],
       task: {
-        type: 'multiple_choice',
+        type: 'single_choice',
+        variant: 'branch',
         options: [
           { id: 'patch_drone', content: 'Software Patch' },
           { id: 'override_drone', content: 'Hard Override' },
@@ -58,7 +59,8 @@ export const section5CargoStates = {
         { speaker: 'alex', text: 'No promises, but I respect the goal.' },
       ],
       task: {
-        type: 'multiple_choice',
+        type: 'single_choice',
+        variant: 'branch',
         options: [
           { id: 'patch_drone', content: 'Software Patch' },
           { id: 'override_drone', content: 'Hard Override' },

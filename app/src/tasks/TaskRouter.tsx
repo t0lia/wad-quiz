@@ -1,5 +1,5 @@
 import type { Task } from '../types/story'
-import MultipleChoice from './MultipleChoice'
+import SingleChoice from './SingleChoice'
 import DragAndDrop from './DragAndDrop'
 import ResourceAllocation from './ResourceAllocation'
 import ClickOnLine from './ClickOnLine'
@@ -16,7 +16,7 @@ type Props = { task: Task; submitted: boolean; onSubmit: (answer?: string) => vo
 export default function TaskRouter({ task, submitted, onSubmit }: Props) {
   const p = { submitted, onSubmit }
   switch (task.type) {
-    case 'multiple_choice':    return <MultipleChoice    task={task} {...p} />
+    case 'single_choice':      return <SingleChoice      task={task} {...p} />
     case 'drag_and_drop':      return <DragAndDrop       task={task} {...p} />
     case 'resource_allocation':return <ResourceAllocation task={task} {...p} />
     case 'click_on_line':      return <ClickOnLine       task={task} {...p} />

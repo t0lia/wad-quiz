@@ -36,7 +36,8 @@ export const section8CleanStates = {
         '    return verify_link(iface)\n' +
         '```',
       task: {
-        type: 'multiple_choice',
+        type: 'single_choice',
+        variant: 'problem',
         options: [
           { id: 'reset_switch', content: 'Reset the switch and hope it comes back smarter' },
           { id: 'static_shortcut', content: 'Add a one-off static shortcut and leave the mask wrong' },
@@ -99,7 +100,8 @@ export const section8CleanStates = {
       text:
         'The PDA receives a second notice. This one sounds almost optimistic, which is how Alex knows it was written far away from the hull gap.',
       task: {
-        type: 'multiple_choice',
+        type: 'single_choice',
+        variant: 'branch',
         options: [
           { id: 'stop', content: 'Stop and sign off' },
           { id: 'continue', content: 'Continue to distributor' },

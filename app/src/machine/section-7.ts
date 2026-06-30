@@ -8,7 +8,8 @@ export const section7States = {
       text:
         'The outer hatch grinds open and the dark hull gap answers with silence. Ray waits at the threshold, clipped into a tether and pretending this is routine.',
       task: {
-        type: 'multiple_choice',
+        type: 'single_choice',
+        variant: 'branch',
         options: [
           { id: 'team', content: 'Team EVA' },
           { id: 'solo', content: 'Solo EVA' },
@@ -30,7 +31,8 @@ export const section7States = {
       text:
         'A legal handoff notice appears on the PDA. Behind you, the support line steadies. This is the first moment to hand off and stop, or push deeper into the hull repair.',
       task: {
-        type: 'multiple_choice',
+        type: 'single_choice',
+        variant: 'branch',
         options: [
           { id: 'stop', content: 'My shift is over, I\'ve had enough for tonight!' },
           { id: 'continue', content: 'Duty calls! Who will fix this mess if not me?! I carry on' },

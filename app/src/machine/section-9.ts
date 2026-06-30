@@ -8,7 +8,8 @@ export const section9States = {
       text:
         'The burned cable is fused into the connector and the replacement line is ready in its case. Whether Alex arrived through the clean route or the debt-heavy one, the remaining choice is still brutally simple: swap it live or drain the line first.',
       task: {
-        type: 'multiple_choice',
+        type: 'single_choice',
+        variant: 'branch',
         options: [
           { id: 'hot', content: 'Hot swap' },
           { id: 'drain', content: 'Drain first' },
@@ -30,7 +31,8 @@ export const section9States = {
       text:
         'The old cable is loose enough to move, the replacement is ready, and the distributor core waits one layer deeper. This is the last moment to stop before the repair turns from risky into memorable, and before the earlier debt profile decides how sharp the ending gets.',
       task: {
-        type: 'multiple_choice',
+        type: 'single_choice',
+        variant: 'branch',
         options: [
           { id: 'stop', content: 'Stop and sign off' },
           { id: 'continue', content: 'Continue to distributor' },

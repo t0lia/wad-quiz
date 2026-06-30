@@ -18,7 +18,7 @@ user-invocable: true
 ## Quick Outcome
 Each YAML section becomes **3+ separate states** that display as individual pages:
 1. **Intro page** → narrative + dialogue (one_tap_forward)
-2. **Task page** → code + buttons OR branch options (multiple_choice)
+2. **Task page** → code + buttons OR branch options (single_choice)
 3. **Conclusion page(s)** → outcome narratives (text_scene, one per action result)
 
 ---
@@ -72,12 +72,17 @@ section_N_task: {
     dialogue: [
       { speaker: 'lina', text: 'dialogue line text' },
     ],
+    // branch sections:
     task: {
-      type: 'multiple_choice',
-      options: interaction.actions.map(a => ({ 
-        id: a.id, 
-        content: a.text 
-      }))
+      type: 'single_choice',
+      variant: 'branch',
+      options: interaction.actions.map(a => ({ id: a.id, content: a.text }))
+    },
+    // problem sections:
+    task: {
+      type: 'single_choice',
+      variant: 'problem',
+      options: interaction.actions.map(a => ({ id: a.id, content: a.text }))
     },
   } as ChallengeSceneData,
   on: { NEXT: [...] },  // Step 4

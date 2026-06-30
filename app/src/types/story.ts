@@ -1,5 +1,9 @@
 export type Option = { id: string; content: string }
-export type MultipleChoiceTask = { type: 'multiple_choice'; options: Option[] }
+export type SingleChoiceTask = {
+  type: 'single_choice'
+  variant: 'branch' | 'problem'
+  options: Option[]
+}
 
 export type DragAndDropItem = { id: string; content: string }
 export type DragAndDropTask = { type: 'drag_and_drop'; items: DragAndDropItem[] }
@@ -57,7 +61,7 @@ export type TextSceneTask = {
 }
 
 export type Task =
-  | MultipleChoiceTask
+  | SingleChoiceTask
   | DragAndDropTask
   | ResourceAllocationTask
   | ClickOnLineTask

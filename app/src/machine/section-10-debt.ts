@@ -41,7 +41,8 @@ export const section10DebtStates = {
         '}\n' +
         '```',
       task: {
-        type: 'multiple_choice',
+        type: 'single_choice',
+        variant: 'problem',
         options: [
           { id: 'redeploy_wrapper', content: 'Redeploy the emergency wrapper and hope the deadlock disappears' },
           { id: 'remove_backup_lock', content: 'Remove one lock from the emergency path and trust luck' },
@@ -104,7 +105,8 @@ export const section10DebtStates = {
       text:
         'By the time Alex returns to Incubator #4, the folding chair is still there and the Nevsky potato is still growing like none of this should be surprising. Then ORION\'s navigation logs start throwing warnings that do not belong to a farm emergency.',
       task: {
-        type: 'multiple_choice',
+        type: 'single_choice',
+        variant: 'branch',
         options: [
           { id: 'stop', content: 'Sign off - repair complete' },
           { id: 'continue', content: 'Investigate ORION warnings' },
