@@ -425,62 +425,37 @@ scenario:
         text: Then fix it once, and let's not debug this corridor again tonight.
     interaction:
       type: problem
+      task_source: pool
       title: Help Alex stabilize startup order in the enterprise console
-      prompt: The enterprise profile still carries one rushed startup module from the latest station-wide update. The race is less flashy, but no less real.
+      result_flag: problem_2_result
+      action_outcomes:
+        incorrect:
+        - blame_controller
+        - sleep_then_retry
+        solved:
+        - await_service_barrier
+        override:
+        - force_sector_link
       modifiers:
       - condition: boot_mode == standard
         effect: Even the standard build carries one rushed startup module from the latest station-wide update.
       - condition: boot_mode == unsigned
         effect: The unsigned build skips its normal startup barrier, so the race is visible immediately.
-      snippet:
-      - async function bootSectorLink(services) {
-      - '  services.map((service) => service.start());'
-      - '  const link = await sectorLink.handshake();'
-      - '  if (!link.ok) throw new Error("sector-link offline");'
-      - '  return "ready";'
-      - '}'
-      actions:
-      - id: blame_controller
-        text: Blame the controller rack and restart it from the wall panel
-        description: Treat the issue as external hardware trouble and reset the room.
-        outcome: incorrect
-        sets_flag: 'problem_2_result: incorrect'
-      - id: sleep_then_retry
-        text: Add a fixed delay before the handshake
-        description: Wait a few seconds and hope the service chain happens to finish in time.
-        outcome: incorrect
-        sets_flag: 'problem_2_result: incorrect'
-      - id: await_service_barrier
-        text: Wait for all service startups before sector-link handshakes
-        description: Hold the handshake until the dependency chain reports ready.
-        outcome: solved
-        sets_flag: 'problem_2_result: solved'
-      - id: force_sector_link
-        text: Override startup checks and force sector-link online
-        description: Skip the safety barrier and bring the link up dirty but fast.
-        outcome: override
-        sets_flag: 'problem_2_result: override'
     conclusion:
-      by_action:
-        blame_controller:
+      by_outcome:
+        incorrect:
           narrative: |-
-            The controller room reboots, loses another minute, and comes back exactly as stubborn as before. Alex pokes the service order until the link finally answers.
+            The first guesses waste another minute. Whether Alex reboots the controller room or leans on a timing hack, `sector-link` only stays up after the startup order is forced back into line.
 
             Water starts moving again, but the main valve farther down the ship is still blocked.
           next_section: section_3
-        sleep_then_retry:
-          narrative: |-
-            The fixed delay works once and only because the ship is feeling generous. sector-link comes up, but Alex can already smell the future incident report.
-
-            The immediate crisis softens, yet the main valve still needs hands on the next segment.
-          next_section: section_3
-        await_service_barrier:
+        solved:
           narrative: |-
             The startup order settles down, `sector-link` comes up cleanly, and the controller answers at last. The enterprise build stays stable, but only after Alex forces it to finish one conversation before starting the next.
 
             Sector A finally responds, but the command path still points toward the next blocked compartment. Alex grabs the PDA and moves on before the station software finds a new way to surprise him.
           next_section: section_3
-        force_sector_link:
+        override:
           narrative: |-
             Alex shoves sector-link past its checks and the controller answers with visible bad temper. The dashboard turns green faster than it turns trustworthy.
 
@@ -504,62 +479,37 @@ scenario:
         text: Then fix the race, and keep the wallpaper if you must.
     interaction:
       type: problem
+      task_source: pool
       title: Help Alex turn the experimental terminal into something useful
-      prompt: The experimental build is lightning fast because is starts services in parallel. Since it's difficult to get good concurrency experts in deep space, issues are unavoidable.
+      result_flag: problem_2_result
+      action_outcomes:
+        incorrect:
+        - blame_controller
+        - sleep_then_retry
+        solved:
+        - await_service_barrier
+        override:
+        - force_sector_link
       modifiers:
       - condition: boot_mode == standard
         effect: Even the standard build carries one rushed startup module from the latest station-wide update.
       - condition: boot_mode == unsigned
         effect: The unsigned build skips its normal startup barrier, so the race is visible immediately.
-      snippet:
-      - async function bootSectorLink(services) {
-      - '  services.map((service) => service.start());'
-      - '  const link = await sectorLink.handshake();'
-      - '  if (!link.ok) throw new Error("sector-link offline");'
-      - '  return "ready";'
-      - '}'
-      actions:
-      - id: blame_controller
-        text: Blame the controller rack and restart it from the wall panel
-        description: Treat the issue as external hardware trouble and reset the room.
-        outcome: incorrect
-        sets_flag: 'problem_2_result: incorrect'
-      - id: sleep_then_retry
-        text: Add a fixed delay before the handshake
-        description: Wait a few seconds and hope the service chain happens to finish in time.
-        outcome: incorrect
-        sets_flag: 'problem_2_result: incorrect'
-      - id: await_service_barrier
-        text: Wait for all service startups before sector-link handshakes
-        description: Hold the handshake until the dependency chain reports ready.
-        outcome: solved
-        sets_flag: 'problem_2_result: solved'
-      - id: force_sector_link
-        text: Override startup checks and force sector-link online
-        description: Skip the safety barrier and bring the link up dirty but fast.
-        outcome: override
-        sets_flag: 'problem_2_result: override'
     conclusion:
-      by_action:
-        blame_controller:
+      by_outcome:
+        incorrect:
           narrative: |-
-            The controller room reboots, loses another minute, and comes back exactly as stubborn as before. Alex pokes the service order until the link finally answers.
+            The first guesses waste another minute. Whether Alex reboots the room or leans on a delay, `sector-link` only behaves after the startup race is actually brought under control.
 
             Water starts moving again, but the main valve farther down the ship is still blocked.
           next_section: section_3
-        sleep_then_retry:
-          narrative: |-
-            The fixed delay works once and only because the ship is feeling generous. sector-link comes up, but Alex can already smell the future incident report.
-
-            The immediate crisis softens, yet the main valve still needs hands on the next segment.
-          next_section: section_3
-        await_service_barrier:
+        solved:
           narrative: |-
             The startup order settles down, `sector-link` comes up cleanly, and the controller answers at last. The fast build keeps its speed, but only after Alex forces it to finish one conversation before starting the next.
 
             Sector A finally responds, but the command path still points toward the next blocked compartment. Alex grabs the PDA and moves on before the experimental build finds a new way to surprise him.
           next_section: section_3
-        force_sector_link:
+        override:
           narrative: |-
             Alex shoves sector-link past its checks and the controller answers with visible bad temper. The dashboard turns green faster than it turns trustworthy.
 
@@ -624,63 +574,37 @@ scenario:
         text: Usually slower.
     interaction:
       type: problem
+      task_source: pool
       title: 'Problem 2 Cargo: Freight Pass Comparison'
-      prompt: 'Tony, being a very persistent man, tries to apply his pass to card reader from all the sides: backwads, sideways, even flips it at the reader. Still - all the same - ACCESS DENIED. Alex patiently examins the code of yet another service he has never seen before.'
+      result_flag: problem_4_result
+      action_outcomes:
+        incorrect:
+        - blame_reader
+        - relax_gate_rule
+        solved:
+        - align_access_check
+        override:
+        - force_gate_release
       modifiers:
       - condition: boot_mode == unsigned
         effect: The unsigned console build keeps repainting the scanner UI, which makes every test run feel less trustworthy.
-      snippet:
-      - boolean gateAllows(Credential credential) {
-      - '    String level = credential.getAccessLevel();'
-      - '    if (level == "MAINT_RED") {'
-      - '        return true;'
-      - '    }'
-      - '    return credential.hasSupervisorEscort();'
-      - '}'
-      actions:
-      - id: restart_gate
-        text: Reboot the freight gate and hope the cache clears
-        description: Treat the lockout like a stale controller state.
-        outcome: incorrect
-        sets_flag: 'problem_4_result: incorrect'
-      - id: hardcode_allow
-        text: Hardcode the gate to trust every cargo maintenance badge
-        description: Open the door by flattening the permission check for everyone.
-        outcome: incorrect
-        sets_flag: 'problem_4_result: incorrect'
-      - id: compare_access_value
-        text: Compare the access level by value instead of by reference
-        description: Use proper string content comparison so valid temporary clearance is recognized.
-        outcome: solved
-        sets_flag: 'problem_4_result: solved'
-      - id: jumper_the_lock
-        text: Override the lock through the freight panel bridge
-        description: Open the gate physically and let Security discover it later.
-        outcome: override
-        sets_flag: 'problem_4_result: override'
     conclusion:
-      by_action:
-        restart_gate:
+      by_outcome:
+        incorrect:
           narrative: |-
-            The reboot wastes time and proves that the gate remembers its bad decisions perfectly. Alex fixes the comparison under Tony's increasingly educational silence.
+            The first guesses miss the real gate check. Whether Alex blames the reader or weakens the rule, the freight door only behaves once he fixes what the scanner is actually testing.
 
             The freight corridor opens, but everyone in it now knows Alex needed a second argument with a door.
           next_section: section_5_cargo_fallout
-        hardcode_allow:
+        solved:
           narrative: |-
-            The door opens for Alex and, briefly, for the entire idea of bad governance. Tony watches Alex delete the worst of the patch and decides not to ask for details.
-
-            Cargo access is clear, but the audit trail now looks like a future apology written in haste.
-          next_section: section_5_cargo_fallout
-        compare_access_value:
-          narrative: |-
-            The scanner stops lying as soon as the code starts comparing what it actually read. Tony gives the gate a look usually reserved for delayed shipments.
+            The gate stops lying as soon as Alex fixes the access check it actually reads. Tony gives the scanner a look usually reserved for delayed shipments.
 
             The freight lane stays orderly all the way to Airlock
           next_section: section_5_cargo
-        jumper_the_lock:
+        override:
           narrative: |-
-            Alex bridges the freight lock, the door jerks open, and three compliance policies quietly die inside the wall.
+            Alex forces the freight lock, the door jerks open, and three compliance policies quietly die inside the wall.
 
             The path is open, but the override smell follows Alex toward the airlock like a second tether.
           next_section: section_5_cargo_fallout
@@ -780,68 +704,38 @@ scenario:
         text: Exactly. Give me a simple, correct value and I will give you a drone that stays attached to the hull.
     interaction:
       type: problem
+      task_source: pool
       title: 'Problem 3 Cargo: Clamp Mode Typing'
-      prompt: The cargo setup sends the magnetic clamp setting in the wrong format. The drone accepts the data, but outside it behaves as if the clamp is turned off.
+      result_flag: problem_6_result
+      action_outcomes:
+        incorrect:
+        - blame_hardware
+        - fake_safe_mode
+        solved:
+        - align_profile_value
+        override:
+        - force_profile_override
       modifiers:
       - condition: drone_mode == patch
         effect: The patched drone stays calm, so the problem is mostly about the bad setting.
       - condition: drone_mode == override
         effect: The hard override already made Shmiel jumpy, so any bad setting now causes more trouble.
-      snippet:
-      - function buildClampProfile(mode) {
-      - '  const profile = { mode, magClamp: false, tetherFollow: false };'
-      - '  if (mode === "hull") {'
-      - '    profile.magClamp = "true";'
-      - '    profile.tetherFollow = true;'
-      - '  }'
-      - '  return deployProfile(profile);'
-      - '}'
-      actions:
-      - id: replace_battery
-        text: Replace the drone battery pack
-        description: Pretend the clamp problem is just a battery problem.
-        outcome: incorrect
-        sets_flag: 'problem_6_result: incorrect'
-      - id: static_distance
-        text: Hardcode a fixed standoff distance and ignore clamp state
-        description: Make the drone follow at a fixed distance without fixing the real clamp setting.
-        outcome: incorrect
-        sets_flag: 'problem_6_result: incorrect'
-      - id: boolean_follow
-        text: Send magClamp as a real boolean value
-        description: Fix the value so the clamp turns on properly outside.
-        outcome: solved
-        sets_flag: 'problem_6_result: solved'
-      - id: manual_follow_override
-        text: Override the profile and force manual clamp behavior
-        description: Skip the checks and force the drone into a rough backup mode.
-        outcome: override
-        sets_flag: 'problem_6_result: override'
     conclusion:
-      by_action:
-        replace_battery:
+      by_outcome:
+        incorrect:
           narrative: |-
-            The new battery changes nothing, because the real problem is still the bad setting. Alex fixes it with mild embarrassment and gets the hatch moving again.
-
-            The drone now behaves well enough to open the outer hatch, and Ray is waiting with the next questionable offer.
-          next_section: section_7
-        static_distance:
-          narrative: |-
-            The distance hack works until the first test drift, when it starts losing the argument with reality. Alex fixes the setting and keeps the worst part of the experiment to himself.
+            Battery guesses and rough fallback behavior waste time. Alex still has to correct the profile value the drone actually reads before the outside setup behaves.
 
             Hull movement is possible now, and the only remaining question is whether Alex takes Ray along.
           next_section: section_7
-        boolean_follow:
+        solved:
           narrative: |-
-            The new setting goes in cleanly, the clamp behaves, and Shmiel suddenly looks much more useful.
+            The corrected profile goes in cleanly, the clamp behaves, and Shmiel suddenly looks much more useful.
 
             The outer hatch is ready, and Ray is already waiting with a new definition of teamwork.
           next_section: section_7
-        manual_follow_override:
-          narrative: |-
-            Alex forces the drone into a manual clamp mode that works right away and looks very temporary.
-
-            The hatch is ready, but the outside segment now begins with one more borrowed certainty.
+        override:
+          narrative: Alex forces the drone into a manual support mode that works right away and looks very temporary. The hatch is ready, but Alex steps outside relying on another temporary fix. However he's feeling lucky.
           next_section: section_7
   - id: section_4_medical
     title: 'Section 4 Medical: Quarantine Side Gate'
@@ -859,59 +753,35 @@ scenario:
         text: Let us start with the one that compiles.
     interaction:
       type: problem
+      task_source: pool
       title: 'Problem 2 Medical: Waiver Field Mismatch'
-      prompt: The quarantine gate builds a clearance payload, but writes the approval flag to the wrong field name. Clara's valid medical waiver never reaches the logic that unlocks the door.
+      result_flag: problem_4_result
+      action_outcomes:
+        incorrect:
+        - blame_reader
+        - relax_gate_rule
+        solved:
+        - align_access_check
+        override:
+        - force_gate_release
       modifiers:
       - condition: boot_mode == unsigned
         effect: The unsigned build keeps collapsing warning panels, which makes the gate logs feel even less honest.
-      snippet:
-      - 'def build_clearance(record):'
-      - '    payload = {"level": record["level"], "waiverApproved": False}'
-      - '    if record["doctor_ok"]:'
-      - '        payload["waiver_approved"] = True'
-      - '    return payload'
-      actions:
-      - id: rescan_wristband
-        text: Rescan Clara's wristband until the panel gives up
-        description: Treat the failure as a bad badge read.
-        outcome: incorrect
-        sets_flag: 'problem_4_result: incorrect'
-      - id: skip_quarantine_check
-        text: Bypass the quarantine check entirely
-        description: Open the door by flattening a medical safety rule.
-        outcome: incorrect
-        sets_flag: 'problem_4_result: incorrect'
-      - id: align_waiver_field
-        text: Write the approval flag to the field the gate actually reads
-        description: Fix the schema mismatch so the medical waiver is recognized.
-        outcome: solved
-        sets_flag: 'problem_4_result: solved'
-      - id: force_manual_release
-        text: Trigger a manual release and leave the paperwork behind
-        description: Open the gate physically and trust the incident report to sound noble later.
-        outcome: override
-        sets_flag: 'problem_4_result: override'
     conclusion:
-      by_action:
-        rescan_wristband:
+      by_outcome:
+        incorrect:
           narrative: |-
-            The scanner accepts Clara perfectly every single time and remains wrong with perfect confidence. Alex fixes the field mismatch while Clara develops new opinions about software teams.
+            The first guesses never reach the real gate logic. Whether Alex blames the scanner or weakens quarantine policy, the side gate only opens once he fixes the check it actually reads.
 
             The quarantine lane opens, but only after the medical side learns exactly how avoidable this was.
           next_section: section_5_medical_fallout
-        skip_quarantine_check:
+        solved:
           narrative: |-
-            The bypass opens the door and quietly insults every isolation protocol on the ship. Clara promises to forget the patch if Alex promises never to write it again.
-
-            The path is clear, but the logs now contain a sentence nobody should have to explain to an ethics committee.
-          next_section: section_5_medical_fallout
-        align_waiver_field:
-          narrative: |-
-            The gate unlocks the moment the approval flag lands in the field it was always supposed to read. Clara gives the panel a look usually reserved for contagious stupidity.
+            The gate unlocks the moment Alex aligns the access check with the field it was always supposed to read. Clara gives the panel a look usually reserved for contagious stupidity.
 
             The decontamination corridor clears cleanly toward Airlock
           next_section: section_5_medical
-        force_manual_release:
+        override:
           narrative: |-
             Alex trips the manual release, the seal cycles open, and quarantine policy becomes an abstract concept for thirty uncomfortable seconds.
 
@@ -1015,64 +885,37 @@ scenario:
         text: I contain multitudes.
     interaction:
       type: problem
+      task_source: pool
       title: 'Problem 3 Medical: Shell Profile Field Name'
-      prompt: The shell setup writes the on switch under the wrong name. The airlock accepts the message, but the drone never turns on clean outside mode.
+      result_flag: problem_6_result
+      action_outcomes:
+        incorrect:
+        - blame_hardware
+        - fake_safe_mode
+        solved:
+        - align_profile_value
+        override:
+        - force_profile_override
       modifiers:
       - condition: drone_mode == patch
         effect: The patched drone is calm, so the remaining problem is just the bad field name.
       - condition: drone_mode == override
         effect: The override makes every shell change feel one mistake away from a very loud problem.
-      snippet:
-      - function buildShellProfile(mode) {
-      - '  const payload = { mode, sterileMode: false, beaconFollow: false };'
-      - '  if (mode === "eva-med") {'
-      - '    payload.sterile_mode = true;'
-      - '    payload.beaconFollow = true;'
-      - '  }'
-      - '  return sendProfile(payload);'
-      - '}'
-      actions:
-      - id: reseat_shell
-        text: Reseat the shell hardware and retry
-        description: Pretend the missing clean mode is just a hardware fit problem.
-        outcome: incorrect
-        sets_flag: 'problem_6_result: incorrect'
-      - id: disable_shell_checks
-        text: Disable shell checks and trust the hull to stay clean
-        description: Move forward by pretending the clean-safety checks do not matter.
-        outcome: incorrect
-        sets_flag: 'problem_6_result: incorrect'
-      - id: align_shell_field
-        text: Use the field name the drone actually reads
-        description: Fix the field name so clean mode turns on properly.
-        outcome: solved
-        sets_flag: 'problem_6_result: solved'
-      - id: force_shell_override
-        text: Override sterile mode through a manual fallback
-        description: Skip the checks and force the shell into a rough emergency mode.
-        outcome: override
-        sets_flag: 'problem_6_result: override'
     conclusion:
-      by_action:
-        reseat_shell:
+      by_outcome:
+        incorrect:
           narrative: |-
-            The hardware was never the problem, but it becomes part of the story anyway while Alex fixes the field name and avoids Clara's eyes for three full seconds.
+            The wrong guesses never touch the real profile problem. Alex still has to align the shell payload with what the drone actually reads before the outside mode behaves.
 
             The shell finally behaves, and Ray is already waiting at the outer hatch with fresh bad ideas.
           next_section: section_7
-        disable_shell_checks:
+        solved:
           narrative: |-
-            The shortcut almost looks clever until everyone remembers what quarantine is for. Alex restores the right field and moves on before the room turns into a committee.
-
-            The hull path is open, and the next argument is whether Alex steps outside alone.
-          next_section: section_7
-        align_shell_field:
-          narrative: |-
-            The new field name works, clean mode turns on, and the shell suddenly looks useful instead of dangerous.
+            The corrected payload works, clean mode turns on, and the shell suddenly looks useful instead of dangerous.
 
             The outer hatch is ready, and Ray is already clipped in like this was always going to happen.
           next_section: section_7
-        force_shell_override:
+        override:
           narrative: |-
             Alex forces the shell into a manual fallback that works right away and inspires no long-term confidence at all.
 
@@ -1219,8 +1062,17 @@ scenario:
         text: I would love one problem tonight that stays politely inside its own lines.
     interaction:
       type: problem
+      task_source: pool
       title: 'Task 4A: Farm Segment Prefix'
-      prompt: The interface is configured with a network prefix that is too broad, so traffic for the farm switch leaks into unrelated segments instead of staying inside the correct boundary.
+      result_flag: problem_8_result
+      action_outcomes:
+        incorrect:
+        - blame_switch
+        - add_shortcut_route
+        solved:
+        - correct_network_boundary
+        override:
+        - force_recovery_tunnel
       modifiers:
       - condition: boot_mode == unsigned
         effect: The fast build keeps renaming one device port in the background, so every command takes one extra glance to trust.
@@ -1232,34 +1084,6 @@ scenario:
         effect: Working alone means every cable check and command confirmation happens in Alex's own head.
       - condition: debt_count >= 2
         effect: Too many earlier shortcuts have made the whole stack feel impatient and brittle.
-      snippet:
-      - 'def configure_interface(iface):'
-      - '    address = "10.20.5.14/8"'
-      - '    run(f"ip addr replace {address} dev {iface}")'
-      - '    run(f"ip route replace 10.20.0.0/16 dev {iface}")'
-      - '    run("connect_switch 10.20.0.1")'
-      - '    return verify_link(iface)'
-      actions:
-      - id: reset_switch
-        text: Reset the switch and hope it comes back smarter
-        description: Treat the bad route like stubborn hardware.
-        outcome: incorrect
-        sets_flag: 'problem_8_result: incorrect'
-      - id: static_shortcut
-        text: Add a one-off static shortcut and leave the mask wrong
-        description: Force traffic to the switch without fixing the real network boundary.
-        outcome: incorrect
-        sets_flag: 'problem_8_result: incorrect'
-      - id: correct_prefix
-        text: Change the prefix to match the farm network segment
-        description: Fix the subnet boundary so routes converge cleanly.
-        outcome: solved
-        sets_flag: 'problem_8_result: solved'
-      - id: force_tunnel
-        text: Override the route and build a brittle direct tunnel
-        description: Restore traffic quickly through a temporary path that should not have to exist.
-        outcome: override
-        sets_flag: 'problem_8_result: override'
     conclusion:
       by_outcome:
         incorrect:
@@ -1294,8 +1118,17 @@ scenario:
         text: That concern has passed.
     interaction:
       type: problem
+      task_source: pool
       title: 'Task 4B: Debt Tunnel Prefix Leak'
-      prompt: The emergency tunnel path uses an address boundary that is far too broad, so the rescue route keeps stealing traffic from unrelated hull systems.
+      result_flag: problem_8_result
+      action_outcomes:
+        incorrect:
+        - blame_switch
+        - add_shortcut_route
+        solved:
+        - correct_network_boundary
+        override:
+        - force_recovery_tunnel
       modifiers:
       - condition: boot_mode == unsigned
         effect: The unsigned build keeps renaming one tunnel device in the background, so every command needs to be read twice.
@@ -1303,33 +1136,6 @@ scenario:
         effect: Medical quarantine banners keep interrupting the hull console at the worst possible time.
       - condition: override_count >= 2
         effect: Too many forced workarounds have turned the recovery path into an argument between temporary fixes.
-      snippet:
-      - 'def recover_tunnel(iface):'
-      - '    run(f"ip addr replace 10.20.5.14/16 dev {iface}")'
-      - '    run(f"ip route replace 10.0.0.0/8 dev {iface}")'
-      - '    run("connect_switch 10.20.0.1 --force")'
-      - '    return verify_link(iface)'
-      actions:
-      - id: cycle_everything
-        text: Bounce the tunnel, the switch, and the visor and hope one of them learns something
-        description: Spend motion on everything except the actual boundary bug.
-        outcome: incorrect
-        sets_flag: 'problem_8_result: incorrect'
-      - id: layer_more_static
-        text: Add another emergency route on top of the bad one
-        description: Push the symptoms deeper into the table instead of fixing the tunnel leak.
-        outcome: incorrect
-        sets_flag: 'problem_8_result: incorrect'
-      - id: narrow_the_tunnel_prefix
-        text: Narrow the tunnel boundary so only the farm path uses it
-        description: Remove the broad route leak and return traffic to the intended segment.
-        outcome: solved
-        sets_flag: 'problem_8_result: solved'
-      - id: keep_force_mode
-        text: Keep the forced tunnel and pin it with an ugly manual rule
-        description: Stabilize the leak quickly through another explicit shortcut.
-        outcome: override
-        sets_flag: 'problem_8_result: override'
     conclusion:
       by_outcome:
         incorrect:
@@ -1522,8 +1328,17 @@ scenario:
         text: That depends on how loudly the rest of the ship panics while I work.
     interaction:
       type: problem
+      task_source: pool
       title: 'Task 5A: Distributor Lock Ordering'
-      prompt: Two power routines acquire the same resources in opposite order, creating a deadlock under concurrent load.
+      result_flag: problem_10_result
+      action_outcomes:
+        incorrect:
+        - blame_deploy
+        - remove_safety_lock
+        solved:
+        - normalize_concurrency_rule
+        override:
+        - pin_emergency_execution
       modifiers:
       - condition: swap_mode == hot
         effect: The live line makes every extra second feel expensive.
@@ -1533,38 +1348,6 @@ scenario:
         effect: Too many earlier shaky fixes have filled the core logs with misleading symptoms.
       - condition: debt_count >= 2
         effect: Earlier shortcuts have made the final repair feel like it is standing on loose floorboards.
-      snippet:
-      - void distributePower(Lock main, Lock backup) {
-      - '    synchronized (main) {'
-      - '        synchronized (backup) { reroute(main, backup); }'
-      - '    }'
-      - '}'
-      - void restorePower(Lock main, Lock backup) {
-      - '    synchronized (backup) {'
-      - '        synchronized (main) { reroute(backup, main); }'
-      - '    }'
-      - '}'
-      actions:
-      - id: reinstall_firmware
-        text: Reinstall distributor firmware and hope the deadlock disappears
-        description: Treat the stall like a bad deployment instead of bad lock order.
-        outcome: incorrect
-        sets_flag: 'problem_10_result: incorrect'
-      - id: skip_one_lock
-        text: Remove one lock and trust low traffic to save the night
-        description: Break the deadlock by taking away safety instead of fixing the order.
-        outcome: incorrect
-        sets_flag: 'problem_10_result: incorrect'
-      - id: normalize_lock_order
-        text: Make both routines acquire locks in the same order
-        description: Fix the concurrency rule so the core can run under load.
-        outcome: solved
-        sets_flag: 'problem_10_result: solved'
-      - id: emergency_single_thread
-        text: Override the core into single-thread emergency mode
-        description: Restore power quickly by reducing the core to a slower, brittle fallback.
-        outcome: override
-        sets_flag: 'problem_10_result: override'
     conclusion:
       by_outcome:
         incorrect:
@@ -1601,8 +1384,17 @@ scenario:
         text: That depends on whether everyone can survive me refusing the fastest wrong answer.
     interaction:
       type: problem
+      task_source: pool
       title: 'Task 5B: Emergency Path Lock Reversal'
-      prompt: The debt-heavy recovery path introduced a second routine that acquires the same locks in reverse order, creating a deadlock whenever nominal and emergency restoration overlap.
+      result_flag: problem_10_result
+      action_outcomes:
+        incorrect:
+        - blame_deploy
+        - remove_safety_lock
+        solved:
+        - normalize_concurrency_rule
+        override:
+        - pin_emergency_execution
       modifiers:
       - condition: swap_mode == hot
         effect: The live line makes every delay feel like a dare.
@@ -1610,38 +1402,6 @@ scenario:
         effect: Earlier shaky fixes have filled the core logs with misleading symptoms.
       - condition: override_count >= 2
         effect: Too many explicit shortcuts have turned the final console into a map of past compromises.
-      snippet:
-      - void distributeEmergency(Lock main, Lock backup) {
-      - '    synchronized (backup) {'
-      - '        synchronized (main) { reroute(main, backup); }'
-      - '    }'
-      - '}'
-      - void restoreNominal(Lock main, Lock backup) {
-      - '    synchronized (main) {'
-      - '        synchronized (backup) { reroute(backup, main); }'
-      - '    }'
-      - '}'
-      actions:
-      - id: redeploy_wrapper
-        text: Redeploy the emergency wrapper and hope the deadlock disappears
-        description: Treat the stall like a bad package instead of conflicting lock order.
-        outcome: incorrect
-        sets_flag: 'problem_10_result: incorrect'
-      - id: remove_backup_lock
-        text: Remove one lock from the emergency path and trust luck
-        description: Break the deadlock by removing safety rather than normalizing the order.
-        outcome: incorrect
-        sets_flag: 'problem_10_result: incorrect'
-      - id: unify_lock_order
-        text: Make nominal and emergency paths acquire locks in the same order
-        description: Restore one consistent concurrency rule across both paths.
-        outcome: solved
-        sets_flag: 'problem_10_result: solved'
-      - id: pin_emergency_mode
-        text: Pin the core in emergency mode and defer the real repair
-        description: Recover power quickly by doubling down on the temporary path.
-        outcome: override
-        sets_flag: 'problem_10_result: override'
     conclusion:
       by_outcome:
         incorrect:
