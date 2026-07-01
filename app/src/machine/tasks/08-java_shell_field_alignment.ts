@@ -9,7 +9,7 @@ export function javaShellFieldAlignmentTaskState(config: {
   return createChoiceTaskState({
     ...config,
     text:
-      'Problem 3 Medical: Shell Profile Field Name\n\n' +
+      'Shell Profile Field Name\n\n' +
       'The medical shell closes around Shmiel with a soft click. The drone gets the new settings, but once it moves into outside mode, it never turns on the clean shell setting.\n\n' +
       '```java\n' +
       'Map<String, Object> buildShellProfile(String mode) {\n' +
@@ -25,10 +25,30 @@ export function javaShellFieldAlignmentTaskState(config: {
       '}\n' +
       '```',
     options: [
-      { id: 'blame_hardware', content: 'Treat the failure like hardware drift and swap components first' },
-      { id: 'fake_safe_mode', content: 'Work around the setting with a rough fallback behavior' },
-      { id: 'align_profile_value', content: 'Write the activation field the way the drone actually reads it' },
-      { id: 'force_profile_override', content: 'Override the profile and force a manual backup mode' },
+      {
+        id: 'blame_hardware',
+        content: 'Treat the failure like hardware drift and swap components first',
+        description: 'Treat the failure like hardware drift and swap components first',
+        metrics: { tek: 0, ded: 0, soc: 0 },
+      },
+      {
+        id: 'fake_safe_mode',
+        content: 'Work around the setting with a rough fallback behavior',
+        description: 'Work around the setting with a rough fallback behavior',
+        metrics: { tek: 0, ded: 0, soc: 1 },
+      },
+      {
+        id: 'align_profile_value',
+        content: 'Write the activation field the way the drone actually reads it',
+        description: 'Write the activation field the way the drone actually reads it',
+        metrics: { tek: 1, ded: 1, soc: 1 },
+      },
+      {
+        id: 'force_profile_override',
+        content: 'Override the profile and force a manual backup mode',
+        description: 'Override the profile and force a manual backup mode',
+        metrics: { tek: 0, ded: 1, soc: 0 },
+      },
     ],
     correctAnswer: 'align_profile_value',
     overrideAnswer: 'force_profile_override',

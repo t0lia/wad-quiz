@@ -1,6 +1,7 @@
 import type { ChallengeSceneData } from '../../types/story'
+import type { MetricsDelta } from '../../types/story'
 
-type Choice = { id: string; content: string }
+type Choice = { id: string; content: string; description?: string; metrics?: MetricsDelta }
 
 type ChoiceTaskConfig = {
   stateId: string
@@ -30,16 +31,34 @@ export function createChoiceTaskState(config: ChoiceTaskConfig) {
           {
             guard: ({ event }: any) => event.answer === config.correctAnswer,
             target: config.solvedTarget,
-            actions: [{ type: 'set', params: { [config.resultFlag]: 'solved' } }],
+            actions: [
+              { type: 'set', params: { [config.resultFlag]: 'solved' } },
+              {
+                type: 'addMetrics',
+                params: { optionId: config.correctAnswer, options: config.options },
+              },
+            ],
           },
           {
             guard: ({ event }: any) => event.answer === config.overrideAnswer,
             target: config.overrideTarget,
-            actions: [{ type: 'set', params: { [config.resultFlag]: 'override' } }],
+            actions: [
+              { type: 'set', params: { [config.resultFlag]: 'override' } },
+              {
+                type: 'addMetrics',
+                params: { optionId: config.overrideAnswer, options: config.options },
+              },
+            ],
           },
           {
             target: config.incorrectTarget,
-            actions: [{ type: 'set', params: { [config.resultFlag]: 'incorrect' } }],
+            actions: [
+              { type: 'set', params: { [config.resultFlag]: 'incorrect' } },
+              {
+                type: 'addMetrics',
+                params: { optionId: event.answer, options: config.options },
+              },
+            ],
           },
         ],
       },

@@ -1,4 +1,11 @@
-export type Option = { id: string; content: string }
+export type MetricsDelta = { tek?: number; ded?: number; soc?: number }
+
+export type Option = {
+  id: string
+  content: string
+  description?: string
+  metrics?: MetricsDelta
+}
 export type MultipleChoiceTask = { type: 'multiple_choice'; options: Option[] }
 
 export type DragAndDropItem = { id: string; content: string }

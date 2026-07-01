@@ -9,7 +9,7 @@ export function pyReadinessGatherMissingTaskState(config: {
   return createChoiceTaskState({
     ...config,
     text:
-      'Problem 2 Standard: Missing Gather Barrier\n\n' +
+      'Missing Gather Barrier\n\n' +
       'The same startup race shows up in a different language, but the fix is still about waiting for readiness instead of guessing.\n\n' +
       '```python\n' +
       'async def boot_sector_link(services):\n' +
@@ -21,10 +21,30 @@ export function pyReadinessGatherMissingTaskState(config: {
       '```\n\n' +
       'How should Alex fix this?',
     options: [
-      { id: 'blame_controller', content: 'Blame the controller rack and restart it from the wall panel' },
-      { id: 'sleep_then_retry', content: 'Add a fixed delay before the handshake' },
-      { id: 'await_service_barrier', content: 'Await the startup tasks before the handshake begins' },
-      { id: 'force_sector_link', content: 'Force sector-link up even if the startup tasks are still racing' },
+      {
+        id: 'blame_controller',
+        content: 'Blame the controller rack and restart it from the wall panel',
+        description: 'Blame the controller rack and restart it from the wall panel',
+        metrics: { tek: 0, ded: 0, soc: 0 },
+      },
+      {
+        id: 'sleep_then_retry',
+        content: 'Add a fixed delay before the handshake',
+        description: 'Add a fixed delay before the handshake',
+        metrics: { tek: 0, ded: 1, soc: 0 },
+      },
+      {
+        id: 'await_service_barrier',
+        content: 'Await the startup tasks before the handshake begins',
+        description: 'Await the startup tasks before the handshake begins',
+        metrics: { tek: 1, ded: 1, soc: 1 },
+      },
+      {
+        id: 'force_sector_link',
+        content: 'Force sector-link up even if the startup tasks are still racing',
+        description: 'Force sector-link up even if the startup tasks are still racing',
+        metrics: { tek: 0, ded: 1, soc: 0 },
+      },
     ],
     correctAnswer: 'await_service_barrier',
     overrideAnswer: 'force_sector_link',

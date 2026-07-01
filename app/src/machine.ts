@@ -1,5 +1,6 @@
 import { createMachine } from 'xstate'
 import type { ChallengeSceneData } from './types/story'
+import type { MetricsDelta } from './types/story'
 import { allMachineStates } from './machine/index'
 
 /**
@@ -24,6 +25,9 @@ import { allMachineStates } from './machine/index'
  *  debt_count (derived from overrides)
  *  accepted_exit_* (early exit decisions)
  */
+
+type Option = { id: string; content: string; description?: string; metrics?: MetricsDelta }
+
 export const hydroMachine = createMachine<
   {
     boot_mode?: 'standard' | 'unsigned'
@@ -42,6 +46,9 @@ export const hydroMachine = createMachine<
     accepted_exit_10?: boolean
     debt_count?: number
     ending_tier?: string
+    tek_score?: number
+    ded_score?: number
+    soc_score?: number
   },
   { type: 'NEXT'; answer?: string; rand?: number },
   any,
@@ -73,9 +80,29 @@ export const hydroMachine = createMachine<
     accepted_exit_10: false,
     debt_count: 0,
     ending_tier: undefined,
+    tek_score: 0,
+    ded_score: 0,
+    soc_score: 0,
   },
   types: {} as {
     events: { type: 'NEXT'; answer?: string; rand?: 0 | 1 }
+  },
+  on: {
+    addMetrics: {
+      actions: ({ context, event }: any) => {
+        const params = event.params
+        const optionId = params.optionId
+        const options: Option[] = params.options || []
+        const selectedOption = options.find((opt: Option) => opt.id === optionId)
+
+        if (selectedOption?.metrics) {
+          const metrics = selectedOption.metrics
+          context.tek_score = (context.tek_score || 0) + (metrics.tek || 0)
+          context.ded_score = (context.ded_score || 0) + (metrics.ded || 0)
+          context.soc_score = (context.soc_score || 0) + (metrics.soc || 0)
+        }
+      },
+    },
   },
   states: allMachineStates as any,
 })
