@@ -58,16 +58,16 @@ export const section10DebtStates = {
         {
           guard: ({ event }: any) => event.answer === 'normalize_concurrency_rule',
           target: 'section_10_debt_conclusion_solved',
-          actions: [{ type: 'set', params: { problem_10_result: 'solved' } }],
+          actions: [{ type: 'set', params: { problem_10_result: 'solved' } }, { type: 'score', params: { technical: 2, dedication: 1, social: 0 } }],
         },
         {
           guard: ({ event }: any) => event.answer === 'pin_emergency_execution',
           target: 'section_10_debt_conclusion_override',
-          actions: [{ type: 'set', params: { problem_10_result: 'override' } }],
+          actions: [{ type: 'set', params: { problem_10_result: 'override' } }, { type: 'score', params: { technical: 1, dedication: -1, social: -1 } }],
         },
         {
           target: 'section_10_debt_conclusion_incorrect',
-          actions: [{ type: 'set', params: { problem_10_result: 'incorrect' } }],
+          actions: [{ type: 'set', params: { problem_10_result: 'incorrect' } }, { type: 'score', params: { technical: -1, dedication: 0, social: 0 } }],
         },
       ],
     },
@@ -125,11 +125,12 @@ export const section10DebtStates = {
         {
           guard: ({ event }: any) => event.answer === 'stop',
           target: 'ending_4',
-          actions: [{ type: 'set', params: { accepted_exit_10: true } }],
+          actions: [{ type: 'set', params: { accepted_exit_10: true } }, { type: 'score', params: { technical: 0, dedication: -1, social: 0 } }],
         },
         {
           guard: ({ event }: any) => event.answer === 'continue',
           target: 'ending_5',
+          actions: [{ type: 'score', params: { technical: 0, dedication: 1, social: 0 } }],
         },
       ],
     },

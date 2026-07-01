@@ -395,11 +395,13 @@ scenario:
             text: V9 Enterprise
             description: Boot the standard console profile with the full startup checklist and logging.
             sets_flag: 'boot_mode: standard'
+            metric_delta: { technical: 0, dedication: 1, social: 0 }
             next: section_2_standard
           - id: choose_unsigned
             text: V10.0037.custom.experimental.unsigned
             description: If this is a new build it probably has tons of new cool features.
             sets_flag: 'boot_mode: unsigned'
+            metric_delta: { technical: 1, dedication: -1, social: 0 }
             next: section_2_unsigned
       conclusion:
         by_action:
@@ -446,20 +448,23 @@ scenario:
           incorrect:
             narrative: |-
               The first guesses waste another minute. Whether Alex reboots the controller room or leans on a timing hack, `sector-link` only stays up after the startup order is forced back into line.
-              
+
               Water starts moving again, but the main valve farther down the ship is still blocked.
+            metric_delta: { technical: -1, dedication: 0, social: 0 }
             next_section: section_3
           solved:
             narrative: |-
               The startup order settles down, `sector-link` comes up cleanly, and the controller answers at last. The enterprise build stays stable, but only after Alex forces it to finish one conversation before starting the next.
-              
+
               Sector A finally responds, but the command path still points toward the next blocked compartment. Alex grabs the PDA and moves on before the station software finds a new way to surprise him.
+            metric_delta: { technical: 2, dedication: 1, social: 0 }
             next_section: section_3
           override:
             narrative: |-
               Alex shoves sector-link past its checks and the controller answers with visible bad temper. The dashboard turns green faster than it turns trustworthy.
-              
+
               Water moves again, but the ship now owes Alex one hidden failure and the main valve is still ahead.
+            metric_delta: { technical: 1, dedication: -1, social: -1 }
             next_section: section_3
     - id: section_2_unsigned
       title: 'Section 2 Unsigned: Sector A - Missing Dependencies'
@@ -500,20 +505,23 @@ scenario:
           incorrect:
             narrative: |-
               The first guesses waste another minute. Whether Alex reboots the room or leans on a delay, `sector-link` only behaves after the startup race is actually brought under control.
-              
+
               Water starts moving again, but the main valve farther down the ship is still blocked.
+            metric_delta: { technical: -1, dedication: 0, social: 0 }
             next_section: section_3
           solved:
             narrative: |-
               The startup order settles down, `sector-link` comes up cleanly, and the controller answers at last. The fast build keeps its speed, but only after Alex forces it to finish one conversation before starting the next.
-              
+
               Sector A finally responds, but the command path still points toward the next blocked compartment. Alex grabs the PDA and moves on before the experimental build finds a new way to surprise him.
+            metric_delta: { technical: 2, dedication: 1, social: 0 }
             next_section: section_3
           override:
             narrative: |-
               Alex shoves sector-link past its checks and the controller answers with visible bad temper. The dashboard turns green faster than it turns trustworthy.
-              
+
               Water moves again, but the ship now owes Alex one hidden failure and the main valve is still ahead.
+            metric_delta: { technical: 1, dedication: -1, social: -1 }
             next_section: section_3
     - id: section_3
       title: 'Section 3: Crossing the Ship'
@@ -540,11 +548,13 @@ scenario:
             text: Alex will see his luck through the Cargo management compartment
             description: Pass through freight operations and lean on Tony for access.
             sets_flag: 'route_choice: cargo'
+            metric_delta: { technical: 1, dedication: 0, social: 0 }
             next: section_4_cargo
           - id: take_medical_route
             text: None has been sick lately so route through Medical looks like a safer bet
             description: Cut through the food block and let Clara solve the human paperwork.
             sets_flag: 'route_choice: medical'
+            metric_delta: { technical: 0, dedication: 0, social: 1 }
             next: section_4_medical
       conclusion:
         by_action:
@@ -593,20 +603,23 @@ scenario:
           incorrect:
             narrative: |-
               The first guesses miss the real gate check. Whether Alex blames the reader or weakens the rule, the freight door only behaves once he fixes what the scanner is actually testing.
-              
+
               The freight corridor opens, but everyone in it now knows Alex needed a second argument with a door.
+            metric_delta: { technical: -1, dedication: 0, social: 0 }
             next_section: section_5_cargo_fallout
           solved:
             narrative: |-
               The gate stops lying as soon as Alex fixes the access check it actually reads. Tony gives the scanner a look usually reserved for delayed shipments.
-              
+
               The freight lane stays orderly all the way to Airlock
+            metric_delta: { technical: 2, dedication: 1, social: 0 }
             next_section: section_5_cargo
           override:
             narrative: |-
               Alex forces the freight lock, the door jerks open, and three compliance policies quietly die inside the wall.
-              
+
               The path is open, but the override smell follows Alex toward the airlock like a second tether.
+            metric_delta: { technical: 1, dedication: -1, social: -1 }
             next_section: section_5_cargo_fallout
     - id: section_5_cargo
       title: 'Section 5 Cargo: Clean Arrival At Airlock #4'
@@ -631,23 +644,25 @@ scenario:
             text: Software Patch
             description: Update the drone properly before opening the hatch.
             sets_flag: 'drone_mode: patch'
+            metric_delta: { technical: 1, dedication: 1, social: 1 }
             next: section_6_cargo
           - id: override_drone
             text: Hard Override
             description: Force the drone into follow mode and deal with side effects later.
             sets_flag: 'drone_mode: override'
+            metric_delta: { technical: 0, dedication: -1, social: -1 }
             next: section_6_cargo
       conclusion:
         by_action:
           patch_drone:
             narrative: |-
               Vex loads a careful patch and the drone settles into a less offended idle pattern.
-              
+
               The hatch can cycle once the hull follow profile stops arguing with the cargo clamp package.
           override_drone:
             narrative: |-
               Vex slams the override path through and the drone obeys with the nervous energy of a badly supervised forklift.
-              
+
               The hatch can cycle, provided Alex fixes the follow profile before the override starts improvising.
     - id: section_5_cargo_fallout
       title: 'Section 5 Cargo: Airlock #4 Under Audit Smoke'
@@ -672,11 +687,13 @@ scenario:
             text: Software Patch
             description: Update the drone properly before opening the hatch.
             sets_flag: 'drone_mode: patch'
+            metric_delta: { technical: 1, dedication: 1, social: 1 }
             next: section_6_cargo
           - id: override_drone
             text: Hard Override
             description: Force the drone into follow mode and accept one more shortcut.
             sets_flag: 'drone_mode: override'
+            metric_delta: { technical: 0, dedication: -1, social: -1 }
             next: section_6_cargo
       conclusion:
         by_action:
@@ -725,17 +742,20 @@ scenario:
           incorrect:
             narrative: |-
               Battery guesses and rough fallback behavior waste time. Alex still has to correct the profile value the drone actually reads before the outside setup behaves.
-              
+
               Hull movement is possible now, and the only remaining question is whether Alex takes Ray along.
+            metric_delta: { technical: -1, dedication: 0, social: 0 }
             next_section: section_7
           solved:
             narrative: |-
               The corrected profile goes in cleanly, the clamp behaves, and Shmiel suddenly looks much more useful.
-              
+
               The outer hatch is ready, and Ray is already waiting with a new definition of teamwork.
+            metric_delta: { technical: 2, dedication: 1, social: 0 }
             next_section: section_7
           override:
             narrative: Alex forces the drone into a manual support mode that works right away and looks very temporary. The hatch is ready, but Alex steps outside relying on another temporary fix. However he's feeling lucky.
+            metric_delta: { technical: 1, dedication: -1, social: -1 }
             next_section: section_7
     - id: section_4_medical
       title: 'Section 4 Medical: Quarantine Side Gate'
@@ -772,20 +792,23 @@ scenario:
           incorrect:
             narrative: |-
               The first guesses never reach the real gate logic. Whether Alex blames the scanner or weakens quarantine policy, the side gate only opens once he fixes the check it actually reads.
-              
+
               The quarantine lane opens, but only after the medical side learns exactly how avoidable this was.
+            metric_delta: { technical: -1, dedication: 0, social: 0 }
             next_section: section_5_medical_fallout
           solved:
             narrative: |-
               The gate unlocks the moment Alex aligns the access check with the field it was always supposed to read. Clara gives the panel a look usually reserved for contagious stupidity.
-              
+
               The decontamination corridor clears cleanly toward Airlock
+            metric_delta: { technical: 2, dedication: 1, social: 0 }
             next_section: section_5_medical
           override:
             narrative: |-
               Alex trips the manual release, the seal cycles open, and quarantine policy becomes an abstract concept for thirty uncomfortable seconds.
-              
+
               The route is open, but medical now owes itself a serious internal conversation.
+            metric_delta: { technical: 1, dedication: -1, social: -1 }
             next_section: section_5_medical_fallout
     - id: section_5_medical
       title: 'Section 5 Medical: Clean Airlock Prep'
@@ -810,11 +833,13 @@ scenario:
             text: Software Patch
             description: Update the drone properly before opening the hatch.
             sets_flag: 'drone_mode: patch'
+            metric_delta: { technical: 1, dedication: 1, social: 1 }
             next: section_6_medical
           - id: override_drone
             text: Hard Override
             description: Force the drone into follow mode and deal with side effects later.
             sets_flag: 'drone_mode: override'
+            metric_delta: { technical: 0, dedication: -1, social: -1 }
             next: section_6_medical
       conclusion:
         by_action:
@@ -851,11 +876,13 @@ scenario:
             text: Software Patch
             description: Update the drone properly before opening the hatch.
             sets_flag: 'drone_mode: patch'
+            metric_delta: { technical: 1, dedication: 1, social: 1 }
             next: section_6_medical
           - id: override_drone
             text: Hard Override
             description: Force the drone into follow mode and accept one more shortcut.
             sets_flag: 'drone_mode: override'
+            metric_delta: { technical: 0, dedication: -1, social: -1 }
             next: section_6_medical
       conclusion:
         by_action:
@@ -906,20 +933,23 @@ scenario:
           incorrect:
             narrative: |-
               The wrong guesses never touch the real profile problem. Alex still has to align the shell payload with what the drone actually reads before the outside mode behaves.
-              
+
               The shell finally behaves, and Ray is already waiting at the outer hatch with fresh bad ideas.
+            metric_delta: { technical: -1, dedication: 0, social: 0 }
             next_section: section_7
           solved:
             narrative: |-
               The corrected payload works, clean mode turns on, and the shell suddenly looks useful instead of dangerous.
-              
+
               The outer hatch is ready, and Ray is already clipped in like this was always going to happen.
+            metric_delta: { technical: 2, dedication: 1, social: 0 }
             next_section: section_7
           override:
             narrative: |-
               Alex forces the shell into a manual fallback that works right away and inspires no long-term confidence at all.
-              
+
               The hatch is ready, but the outside segment now begins with one more procedural compromise.
+            metric_delta: { technical: 1, dedication: -1, social: -1 }
             next_section: section_7
     - id: section_7
       title: 'Section 7: Outer Hull Plan'
@@ -942,10 +972,12 @@ scenario:
             text: Shared Tether with Ray
             description: Take Ray on support and split the outside work.
             sets_flag: 'eva_mode: team'
+            metric_delta: { technical: 0, dedication: 1, social: 2 }
           - id: solo_eva
             text: Solo Tether
             description: Go alone and keep every decision in one suit.
             sets_flag: 'eva_mode: solo'
+            metric_delta: { technical: 1, dedication: 0, social: -1 }
       conclusion:
         by_action:
           team_eva:
@@ -987,21 +1019,23 @@ scenario:
             text: My shift is over, I've had enough for tonight!
             description: End the incident here and hand the rest to the next shift.
             sets_flag: 'accepted_exit_7: true'
+            metric_delta: { technical: 0, dedication: -1, social: 0 }
             next: ending_1
           - id: continue_after_7
             text: Duty calls! Who will fix this mess if not me?! I carry on
             description: Keep the shift and move deeper into the hull gap.
+            metric_delta: { technical: 0, dedication: 1, social: 0 }
       conclusion:
         by_action:
           stop_after_7:
             narrative: |-
               Alex closes the emergency session while freight keeps breathing and the audit trail keeps waiting.
-              
+
               The ship survives the night, though not cleanly and not entirely because of Alex.
           continue_after_7:
             narrative: |-
               Alex dismisses the handoff notice and moves farther out along the hull.
-              
+
               The software path is alive, but the next scene depends on how much bad certainty Alex has already borrowed.
             next_section_when:
               - if: debt_count >= 2
@@ -1028,10 +1062,12 @@ scenario:
             text: My shift is over, I've had enough for tonight!
             description: End the incident here and hand the rest to the next shift.
             sets_flag: 'accepted_exit_7: true'
+            metric_delta: { technical: 0, dedication: -1, social: 0 }
             next: ending_1
           - id: continue_after_7
             text: Duty calls! Who will fix this mess if not me?! I carry on
             description: Keep the shift and move into the hull gap.
+            metric_delta: { technical: 0, dedication: 1, social: 0 }
       conclusion:
         by_action:
           stop_after_7:
@@ -1089,20 +1125,23 @@ scenario:
           incorrect:
             narrative: |-
               The switch reboot adds noise, the static shortcut adds future pain, and Alex still ends up correcting the boundary before the segment behaves.
-              
+
               Connectivity is back, but the hull repair ahead no longer feels like the only fragile thing on the ship.
+            metric_delta: { technical: -1, dedication: 0, social: 0 }
             next_section: section_8_exit_clean
           solved:
             narrative: |-
               The route settles the moment the farm segment gets the boundary it should have had from the start.
-              
+
               Backbone service is mostly restored, and the burned connector is now the last obvious wound.
+            metric_delta: { technical: 2, dedication: 1, social: 0 }
             next_section: section_8_exit_clean
           override:
             narrative: |-
               Alex forces a direct tunnel through the gap and gets traffic moving again under a layer of technical debt thin enough to hear creak.
-              
+
               The ship can breathe, but it has started depending on one more bad secret.
+            metric_delta: { technical: 1, dedication: -1, social: -1 }
             next_section: section_8_exit_clean
     - id: section_8_debt
       title: 'Section 8D: Hull Gap - Debt Recovery Route'
@@ -1141,20 +1180,23 @@ scenario:
           incorrect:
             narrative: |-
               The tunnel thrash proves motion is not the same as progress, and Alex has to narrow the route properly while the whole hull bus complains.
-              
+
               Connectivity is back, but the system now feels like it survived by accumulation rather than design.
+            metric_delta: { technical: -1, dedication: 0, social: 0 }
             next_section: section_8_exit_debt
           solved:
             narrative: |-
               The broad tunnel stops stealing traffic the moment Alex restores a sane boundary around it.
-              
+
               The farm path holds, the debt stack quiets down a little, and the burned connector becomes the last obvious threat.
+            metric_delta: { technical: 2, dedication: 1, social: 0 }
             next_section: section_8_exit_debt
           override:
             narrative: |-
               Alex pins the forced tunnel in place with one more manual rule and gets the sector stable in the least comforting possible way.
-              
+
               The ship is moving again, but not because the software has learned anything.
+            metric_delta: { technical: 1, dedication: -1, social: -1 }
             next_section: section_8_exit_debt
     - id: section_8_exit_clean
       title: 'Section 8 Exit: Partial Recovery Offer'
@@ -1177,10 +1219,12 @@ scenario:
             text: Stop With Partial Recovery
             description: End the field operation and leave the physical fault for another shift.
             sets_flag: 'accepted_exit_8: true'
+            metric_delta: { technical: 0, dedication: -1, social: 0 }
             next: ending_2
           - id: continue_after_8
             text: Continue To The Connector
             description: Keep moving toward the hardware fault.
+            metric_delta: { technical: 0, dedication: 1, social: 0 }
             next: section_9
       conclusion:
         by_action:
@@ -1215,10 +1259,12 @@ scenario:
             text: Stop With Partial Recovery
             description: Freeze the current state and leave the physical fault for another shift.
             sets_flag: 'accepted_exit_8: true'
+            metric_delta: { technical: 0, dedication: -1, social: 0 }
             next: ending_2
           - id: continue_after_8
             text: Continue To The Connector
             description: Keep moving and try to replace the physical failure before the debt stack shifts again.
+            metric_delta: { technical: 0, dedication: 1, social: 0 }
             next: section_9
       conclusion:
         by_action:
@@ -1253,10 +1299,12 @@ scenario:
             text: Hot Swap
             description: Keep the line energized and move quickly.
             sets_flag: 'swap_mode: hot'
+            metric_delta: { technical: -1, dedication: 1, social: 0 }
           - id: full_drain
             text: Drain Then Replace
             description: Quiet the line first, then take the slower route.
             sets_flag: 'swap_mode: drain'
+            metric_delta: { technical: 1, dedication: 0, social: 0 }
       conclusion:
         by_action:
           hot_swap:
@@ -1292,10 +1340,12 @@ scenario:
             text: Stop Before The Core
             description: Stabilize the situation and leave the core for another shift.
             sets_flag: 'accepted_exit_9: true'
+            metric_delta: { technical: 0, dedication: -1, social: 0 }
             next: ending_3
           - id: continue_after_9
             text: Continue Into The Core
             description: Finish the job tonight.
+            metric_delta: { technical: 0, dedication: 1, social: 0 }
       conclusion:
         by_action:
           stop_after_9:
@@ -1353,20 +1403,23 @@ scenario:
           incorrect:
             narrative: |-
               Firmware guesses and unsafe lock removal waste time, then Alex restores a consistent acquisition order before the core can behave.
-              
+
               Full power returns, and one last choice remains about the new anomaly rising beside the repair.
+            metric_delta: { technical: -1, dedication: 0, social: 0 }
             next_section: section_10_exit
           solved:
             narrative: |-
               The core comes back cleanly once both paths stop fighting over the same resources in opposite order.
-              
+
               Sector power is restored, and a fresh log anomaly points back toward Incubator #4.
+            metric_delta: { technical: 2, dedication: 1, social: 0 }
             next_section: section_10_exit
           override:
             narrative: |-
               Alex forces the core into emergency single-thread mode and gets power back at once, steady only in the way a tired compromise can look steady.
-              
+
               Power is restored, but the recovery logs now contain something larger than a plant incident.
+            metric_delta: { technical: 1, dedication: -1, social: -1 }
             next_section: section_10_exit
     - id: section_10_debt
       title: 'Section 10D: Distributor Core - Debt-Tangled Lock Order'
@@ -1407,20 +1460,23 @@ scenario:
           incorrect:
             narrative: |-
               Wrapper redeploys and lock removal only make the core louder. Alex still has to unify the acquisition order before the sector will stay up.
-              
+
               Power returns, but the logs now read like a confession written in stack traces.
+            metric_delta: { technical: -1, dedication: 0, social: 0 }
             next_section: section_10_exit
           solved:
             narrative: |-
               The debt-tangled core settles once Alex forces both paths to obey the same lock order again.
-              
+
               Full power returns, and the resulting logs point toward an anomaly that was never supposed to be visible.
+            metric_delta: { technical: 2, dedication: 1, social: 0 }
             next_section: section_10_exit
           override:
             narrative: |-
               Alex pins the core in emergency mode and gets power back through one last intentional compromise.
-              
+
               The sector is alive, but the recovery logs now contain a larger problem than the one Alex came here to solve.
+            metric_delta: { technical: 1, dedication: -1, social: -1 }
             next_section: section_10_exit
     - id: section_10_exit
       title: 'Section 10 Exit: Sign Off Or Pull The Thread'
@@ -1443,10 +1499,12 @@ scenario:
             text: Sign Off Now
             description: End the incident with the sector restored and leave the new logs untouched.
             sets_flag: 'accepted_exit_10: true'
+            metric_delta: { technical: 0, dedication: -1, social: 0 }
             next: ending_4
           - id: continue_after_10
             text: Keep Digging
             description: Follow the fresh anomaly into whatever the ship has been hiding.
+            metric_delta: { technical: 0, dedication: 1, social: 0 }
             next: ending_5
       conclusion:
         by_action:

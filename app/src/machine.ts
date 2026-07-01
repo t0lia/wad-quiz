@@ -1,4 +1,4 @@
-import { createMachine } from 'xstate'
+import { createMachine, assign } from 'xstate'
 import type { ChallengeSceneData } from './types/story'
 import { allMachineStates } from './machine/index'
 
@@ -23,13 +23,25 @@ import { allMachineStates } from './machine/index'
  *  problem_*_result (solved | incorrect | override)
  *  debt_count (derived from overrides)
  *  accepted_exit_* (early exit decisions)
+ *  score (technical | dedication | social — see data/02-metrics.md)
+ *
+ * Every state-node transition can carry two action types:
+ *  { type: 'set', params: {...} }   — merges params into context
+ *  { type: 'score', params: {...} } — adds a delta to context.score
+ * Both are implemented below via .provide() since the section files are
+ * authored with loosely-typed (`any`) guards/actions.
  */
-export const hydroMachine = createMachine<
+type ScoreDelta = { technical?: number; dedication?: number; social?: number }
+
+const initialScore = { technical: 0, dedication: 0, social: 0 }
+
+const baseMachine = createMachine<
   {
     boot_mode?: 'standard' | 'unsigned'
     route_choice?: 'cargo' | 'medical'
     eva_mode?: 'team' | 'solo'
     swap_mode?: 'hot' | 'drain'
+    drone_mode?: 'patch' | 'override'
     problem_2_result?: 'solved' | 'incorrect' | 'override'
     problem_4_result?: 'solved' | 'incorrect' | 'override'
     problem_6_result?: 'solved' | 'incorrect' | 'override'
@@ -41,6 +53,7 @@ export const hydroMachine = createMachine<
     accepted_exit_10?: boolean
     debt_count?: number
     ending_tier?: string
+    score: { technical: number; dedication: number; social: number }
   },
   { type: 'NEXT'; answer?: string },
   any,
@@ -60,6 +73,7 @@ export const hydroMachine = createMachine<
     route_choice: undefined,
     eva_mode: undefined,
     swap_mode: undefined,
+    drone_mode: undefined,
     problem_2_result: undefined,
     problem_4_result: undefined,
     problem_6_result: undefined,
@@ -71,10 +85,27 @@ export const hydroMachine = createMachine<
     accepted_exit_10: false,
     debt_count: 0,
     ending_tier: undefined,
+    score: initialScore,
   },
   types: {} as {
     events: { type: 'NEXT'; answer?: string }
   },
   states: allMachineStates as any,
+})
+
+export const hydroMachine = baseMachine.provide({
+  actions: {
+    set: assign(({ context }: any, params: Record<string, unknown>) => ({
+      ...context,
+      ...params,
+    })),
+    score: assign(({ context }: any, params: ScoreDelta) => ({
+      score: {
+        technical: context.score.technical + (params.technical ?? 0),
+        dedication: context.score.dedication + (params.dedication ?? 0),
+        social: context.score.social + (params.social ?? 0),
+      },
+    })),
+  } as any,
 })
 

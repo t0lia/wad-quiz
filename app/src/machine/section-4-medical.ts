@@ -55,16 +55,16 @@ export const section4MedicalStates = {
         {
           guard: ({ event }: any) => event.answer === 'align_access_check',
           target: 'section_4_medical_conclusion_solved',
-          actions: [{ type: 'set', params: { problem_4_result: 'solved' } }],
+          actions: [{ type: 'set', params: { problem_4_result: 'solved' } }, { type: 'score', params: { technical: 2, dedication: 1, social: 0 } }],
         },
         {
           guard: ({ event }: any) => event.answer === 'force_gate_release',
           target: 'section_4_medical_conclusion_override',
-          actions: [{ type: 'set', params: { problem_4_result: 'override' } }],
+          actions: [{ type: 'set', params: { problem_4_result: 'override' } }, { type: 'score', params: { technical: 1, dedication: -1, social: -1 } }],
         },
         {
           target: 'section_4_medical_conclusion_incorrect',
-          actions: [{ type: 'set', params: { problem_4_result: 'incorrect' } }],
+          actions: [{ type: 'set', params: { problem_4_result: 'incorrect' } }, { type: 'score', params: { technical: -1, dedication: 0, social: 0 } }],
         },
       ],
     },

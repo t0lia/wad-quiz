@@ -20,8 +20,8 @@ export const section7States = {
     } as ChallengeSceneData,
     on: {
       NEXT: [
-        { guard: ({ event }: any) => event.answer === 'team', target: 'section_7_exit', actions: [{ type: 'set', params: { eva_mode: 'team' } }] },
-        { guard: ({ event }: any) => event.answer === 'solo', target: 'section_7_exit', actions: [{ type: 'set', params: { eva_mode: 'solo' } }] },
+        { guard: ({ event }: any) => event.answer === 'team', target: 'section_7_exit', actions: [{ type: 'set', params: { eva_mode: 'team' } }, { type: 'score', params: { technical: 0, dedication: 1, social: 2 } }] },
+        { guard: ({ event }: any) => event.answer === 'solo', target: 'section_7_exit', actions: [{ type: 'set', params: { eva_mode: 'solo' } }, { type: 'score', params: { technical: 1, dedication: 0, social: -1 } }] },
       ],
     },
   },
@@ -48,15 +48,17 @@ export const section7States = {
         {
           guard: ({ event }: any) => event.answer === 'stop',
           target: 'ending_1',
-          actions: [{ type: 'set', params: { accepted_exit_7: true } }],
+          actions: [{ type: 'set', params: { accepted_exit_7: true } }, { type: 'score', params: { technical: 0, dedication: -1, social: 0 } }],
         },
         {
           guard: ({ event, context }: any) => event.answer === 'continue' && context.debt_count < 2,
           target: 'section_8_clean_intro',
+          actions: [{ type: 'score', params: { technical: 0, dedication: 1, social: 0 } }],
         },
         {
           guard: ({ event, context }: any) => event.answer === 'continue' && context.debt_count >= 2,
           target: 'section_8_debt_intro',
+          actions: [{ type: 'score', params: { technical: 0, dedication: 1, social: 0 } }],
         },
       ],
     },

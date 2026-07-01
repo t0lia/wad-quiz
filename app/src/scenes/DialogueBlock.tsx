@@ -11,9 +11,12 @@ const inlineComponents: Components = {
   p: ({ children }) => <>{children}</>,
 }
 
-type Props = { lines: DialogueLine[]; onComplete?: () => void }
+type Props = { lines: DialogueLine[]; onComplete?: () => void; instant?: boolean }
 
-export default function DialogueBlock({ lines, onComplete }: Props) {
+// `instant` renders every line fully typed immediately, for scenes that have
+// already been resolved (scrolled past) — the ticking effects and onComplete
+// simply no-op in that mode instead of ever running.
+export default function DialogueBlock({ lines, onComplete, instant = false }: Props) {
   const [typingLine, setTypingLine] = useState(0)
   const [charCount, setCharCount] = useState(0)
   const completedRef = useRef(false)
@@ -24,14 +27,14 @@ export default function DialogueBlock({ lines, onComplete }: Props) {
 
   // Tick: advance character count
   useEffect(() => {
-    if (allDone || currentLineDone) return
+    if (instant || allDone || currentLineDone) return
     const t = setTimeout(() => setCharCount(c => c + 1), CHAR_SPEED)
     return () => clearTimeout(t)
-  }, [allDone, currentLineDone, charCount])
+  }, [instant, allDone, currentLineDone, charCount])
 
   // Advance to next line, or fire onComplete when last line finishes
   useEffect(() => {
-    if (!currentLineDone) return
+    if (instant || !currentLineDone) return
     if (typingLine >= lines.length - 1) {
       if (!completedRef.current) {
         completedRef.current = true
@@ -44,7 +47,7 @@ export default function DialogueBlock({ lines, onComplete }: Props) {
       setCharCount(0)
     }, LINE_PAUSE)
     return () => clearTimeout(t)
-  }, [currentLineDone, typingLine, lines.length, onComplete])
+  }, [instant, currentLineDone, typingLine, lines.length, onComplete])
 
   function skipToEnd() {
     setTypingLine(lines.length - 1)
@@ -52,10 +55,10 @@ export default function DialogueBlock({ lines, onComplete }: Props) {
   }
 
   return (
-    <div className="dialogue" onClick={skipToEnd} style={{ cursor: 'pointer' }}>
+    <div className="dialogue" onClick={instant ? undefined : skipToEnd} style={instant ? undefined : { cursor: 'pointer' }}>
       {lines.map((line, i) => {
-        if (i > typingLine) return null
-        const lineDone = i < typingLine || (i === typingLine && currentLineDone)
+        if (!instant && i > typingLine) return null
+        const lineDone = instant || i < typingLine || (i === typingLine && currentLineDone)
         const displayed = lineDone ? line.text : line.text.slice(0, charCount)
 
         return (

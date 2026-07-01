@@ -58,16 +58,16 @@ export const section6MedicalStates = {
         {
           guard: ({ event }: any) => event.answer === 'align_profile_value',
           target: 'section_6_medical_conclusion_solved',
-          actions: [{ type: 'set', params: { problem_6_result: 'solved' } }],
+          actions: [{ type: 'set', params: { problem_6_result: 'solved' } }, { type: 'score', params: { technical: 2, dedication: 1, social: 0 } }],
         },
         {
           guard: ({ event }: any) => event.answer === 'force_profile_override',
           target: 'section_6_medical_conclusion_override',
-          actions: [{ type: 'set', params: { problem_6_result: 'override' } }],
+          actions: [{ type: 'set', params: { problem_6_result: 'override' } }, { type: 'score', params: { technical: 1, dedication: -1, social: -1 } }],
         },
         {
           target: 'section_6_medical_conclusion_incorrect',
-          actions: [{ type: 'set', params: { problem_6_result: 'incorrect' } }],
+          actions: [{ type: 'set', params: { problem_6_result: 'incorrect' } }, { type: 'score', params: { technical: -1, dedication: 0, social: 0 } }],
         },
       ],
     },

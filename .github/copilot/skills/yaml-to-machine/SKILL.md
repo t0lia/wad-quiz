@@ -102,11 +102,20 @@ Map each action to its conclusion or next section.
 on: {
   NEXT: [
     { guard: answer === 'correct_action', target: 'section_N_conclusion_solved', 
-      actions: [{ type: 'set', params: { problem_X_result: 'solved' } }] },
+      actions: [
+        { type: 'set', params: { problem_X_result: 'solved' } },
+        { type: 'score', params: { technical: 2, dedication: 1, social: 0 } },
+      ] },
     { guard: answer === 'override_action', target: 'section_N_conclusion_override',
-      actions: [{ type: 'set', params: { problem_X_result: 'override' } }] },
+      actions: [
+        { type: 'set', params: { problem_X_result: 'override' } },
+        { type: 'score', params: { technical: 1, dedication: -1, social: -1 } },
+      ] },
     { target: 'section_N_conclusion_incorrect',
-      actions: [{ type: 'set', params: { problem_X_result: 'incorrect' } }] },
+      actions: [
+        { type: 'set', params: { problem_X_result: 'incorrect' } },
+        { type: 'score', params: { technical: -1, dedication: 0, social: 0 } },
+      ] },
   ]
 }
 ```
@@ -116,9 +125,15 @@ on: {
 on: {
   NEXT: [
     { guard: answer === 'choice_1', target: 'section_1_conclusion_choice1',
-      actions: [{ type: 'set', params: { context_flag: 'value1' } }] },
+      actions: [
+        { type: 'set', params: { context_flag: 'value1' } },
+        { type: 'score', params: { technical: 0, dedication: 1, social: 0 } },
+      ] },
     { guard: answer === 'choice_2', target: 'section_1_conclusion_choice2',
-      actions: [{ type: 'set', params: { context_flag: 'value2' } }] },
+      actions: [
+        { type: 'set', params: { context_flag: 'value2' } },
+        { type: 'score', params: { technical: 1, dedication: -1, social: 0 } },
+      ] },
   ]
 }
 ```
@@ -220,6 +235,33 @@ actions: [{ type: 'set', params: { flag_name: 'value' } }]
 - `swap_mode`: 'hot' | 'drain'
 - `problem_X_result`: 'solved' | 'incorrect' | 'override'
 - `drone_mode`: 'patch' | 'override'
+
+Both `set` and `score` are real action implementations wired via `.provide()` in `machine.ts` (not no-ops) — every guarded `NEXT` rule that represents a player choice should carry both.
+
+---
+
+## Reference: Score Deltas
+
+Every decision node (branch or problem) also carries a `{ type: 'score', params: {...} }` action per choice/outcome, tracking 3 metrics defined in `data/02-metrics.md`: `technical`, `dedication`, `social`. Deltas accumulate into `context.score` for the whole playthrough and are shown on the final screen.
+
+When `interaction.actions[].metric_delta` (branch) or `conclusion.by_outcome.*.metric_delta` (problem) appears in the YAML:
+
+```yaml
+metric_delta: { technical: 1, dedication: 1, social: 0 }  # YAML format
+```
+
+Convert to:
+
+```typescript
+{ type: 'score', params: { technical: 1, dedication: 1, social: 0 } }
+```
+
+**Convention for assigning values** (small integers, roughly ±1..2):
+- Problem `solved`: `{ technical: 2, dedication: 1, social: 0 }` — clean, correct fix
+- Problem `override`: `{ technical: 1, dedication: -1, social: -1 }` — works but cuts corners, creates debt
+- Problem `incorrect` (guardless fallback): `{ technical: -1, dedication: 0, social: 0 }` — wasted time
+- Branch choices: judge from narrative framing (teamwork/patience → `social`/`dedication` up; solo/reckless/shortcut → `technical` or `dedication` trade-offs; "stop"/"continue" exit gates: `stop` → `dedication: -1`, `continue` → `dedication: 1`)
+- When a single player choice is split across multiple guarded rules for routing reasons (e.g. by `debt_count`), duplicate the same `score` action on every rule for that choice — the delta must not depend on where the choice routes.
 
 ---
 

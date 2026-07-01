@@ -55,16 +55,16 @@ export const section8CleanStates = {
         {
           guard: ({ event }: any) => event.answer === 'correct_network_boundary',
           target: 'section_8_clean_conclusion_solved',
-          actions: [{ type: 'set', params: { problem_8_result: 'solved' } }],
+          actions: [{ type: 'set', params: { problem_8_result: 'solved' } }, { type: 'score', params: { technical: 2, dedication: 1, social: 0 } }],
         },
         {
           guard: ({ event }: any) => event.answer === 'force_recovery_tunnel',
           target: 'section_8_clean_conclusion_override',
-          actions: [{ type: 'set', params: { problem_8_result: 'override' } }],
+          actions: [{ type: 'set', params: { problem_8_result: 'override' } }, { type: 'score', params: { technical: 1, dedication: -1, social: -1 } }],
         },
         {
           target: 'section_8_clean_conclusion_incorrect',
-          actions: [{ type: 'set', params: { problem_8_result: 'incorrect' } }],
+          actions: [{ type: 'set', params: { problem_8_result: 'incorrect' } }, { type: 'score', params: { technical: -1, dedication: 0, social: 0 } }],
         },
       ],
     },
@@ -125,9 +125,9 @@ export const section8CleanStates = {
         {
           guard: ({ event }: any) => event.answer === 'stop',
           target: 'ending_2',
-          actions: [{ type: 'set', params: { accepted_exit_8: true } }],
+          actions: [{ type: 'set', params: { accepted_exit_8: true } }, { type: 'score', params: { technical: 0, dedication: -1, social: 0 } }],
         },
-        { guard: ({ event }: any) => event.answer === 'continue', target: 'section_9' },
+        { guard: ({ event }: any) => event.answer === 'continue', target: 'section_9', actions: [{ type: 'score', params: { technical: 0, dedication: 1, social: 0 } }] },
       ],
     },
   },

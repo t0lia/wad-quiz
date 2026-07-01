@@ -26,8 +26,8 @@ export const section3States = {
     } as ChallengeSceneData,
     on: {
       NEXT: [
-        { guard: ({ event }: any) => event.answer === 'cargo', target: 'section_3_conclusion_cargo', actions: [{ type: 'set', params: { route_choice: 'cargo' } }] },
-        { guard: ({ event }: any) => event.answer === 'medical', target: 'section_3_conclusion_medical', actions: [{ type: 'set', params: { route_choice: 'medical' } }] },
+        { guard: ({ event }: any) => event.answer === 'cargo', target: 'section_3_conclusion_cargo', actions: [{ type: 'set', params: { route_choice: 'cargo' } }, { type: 'score', params: { technical: 1, dedication: 0, social: 0 } }] },
+        { guard: ({ event }: any) => event.answer === 'medical', target: 'section_3_conclusion_medical', actions: [{ type: 'set', params: { route_choice: 'medical' } }, { type: 'score', params: { technical: 0, dedication: 0, social: 1 } }] },
       ],
     },
   },

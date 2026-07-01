@@ -56,16 +56,16 @@ export const section2UnsignedStates = {
         {
           guard: ({ event }: any) => event.answer === 'await_service_barrier',
           target: 'section_2_unsigned_conclusion_solved',
-          actions: [{ type: 'set', params: { problem_2_result: 'solved' } }],
+          actions: [{ type: 'set', params: { problem_2_result: 'solved' } }, { type: 'score', params: { technical: 2, dedication: 1, social: 0 } }],
         },
         {
           guard: ({ event }: any) => event.answer === 'force_sector_link',
           target: 'section_2_unsigned_conclusion_override',
-          actions: [{ type: 'set', params: { problem_2_result: 'override' } }],
+          actions: [{ type: 'set', params: { problem_2_result: 'override' } }, { type: 'score', params: { technical: 1, dedication: -1, social: -1 } }],
         },
         {
           target: 'section_2_unsigned_conclusion_incorrect',
-          actions: [{ type: 'set', params: { problem_2_result: 'incorrect' } }],
+          actions: [{ type: 'set', params: { problem_2_result: 'incorrect' } }, { type: 'score', params: { technical: -1, dedication: 0, social: 0 } }],
         },
       ],
     },

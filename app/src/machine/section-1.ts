@@ -26,8 +26,8 @@ export const section1States = {
     } as ChallengeSceneData,
     on: {
       NEXT: [
-        { guard: ({ event }: any) => event.answer === 'standard', target: 'section_1_conclusion_standard', actions: [{ type: 'set', params: { boot_mode: 'standard' } }] },
-        { guard: ({ event }: any) => event.answer === 'unsigned', target: 'section_1_conclusion_unsigned', actions: [{ type: 'set', params: { boot_mode: 'unsigned' } }] },
+        { guard: ({ event }: any) => event.answer === 'standard', target: 'section_1_conclusion_standard', actions: [{ type: 'set', params: { boot_mode: 'standard' } }, { type: 'score', params: { technical: 0, dedication: 1, social: 0 } }] },
+        { guard: ({ event }: any) => event.answer === 'unsigned', target: 'section_1_conclusion_unsigned', actions: [{ type: 'set', params: { boot_mode: 'unsigned' } }, { type: 'score', params: { technical: 1, dedication: -1, social: 0 } }] },
       ],
     },
   },

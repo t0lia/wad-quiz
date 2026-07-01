@@ -19,8 +19,8 @@ export const section9States = {
     } as ChallengeSceneData,
     on: {
       NEXT: [
-        { guard: ({ event }: any) => event.answer === 'hot', target: 'section_9_exit', actions: [{ type: 'set', params: { swap_mode: 'hot' } }] },
-        { guard: ({ event }: any) => event.answer === 'drain', target: 'section_9_exit', actions: [{ type: 'set', params: { swap_mode: 'drain' } }] },
+        { guard: ({ event }: any) => event.answer === 'hot', target: 'section_9_exit', actions: [{ type: 'set', params: { swap_mode: 'hot' } }, { type: 'score', params: { technical: -1, dedication: 1, social: 0 } }] },
+        { guard: ({ event }: any) => event.answer === 'drain', target: 'section_9_exit', actions: [{ type: 'set', params: { swap_mode: 'drain' } }, { type: 'score', params: { technical: 1, dedication: 0, social: 0 } }] },
       ],
     },
   },
@@ -46,15 +46,17 @@ export const section9States = {
         {
           guard: ({ event }: any) => event.answer === 'stop',
           target: 'ending_3',
-          actions: [{ type: 'set', params: { accepted_exit_9: true } }],
+          actions: [{ type: 'set', params: { accepted_exit_9: true } }, { type: 'score', params: { technical: 0, dedication: -1, social: 0 } }],
         },
         {
           guard: ({ event, context }: any) => event.answer === 'continue' && context.debt_count < 2,
           target: 'section_10_clean_intro',
+          actions: [{ type: 'score', params: { technical: 0, dedication: 1, social: 0 } }],
         },
         {
           guard: ({ event, context }: any) => event.answer === 'continue' && context.debt_count >= 2,
           target: 'section_10_debt_intro',
+          actions: [{ type: 'score', params: { technical: 0, dedication: 1, social: 0 } }],
         },
       ],
     },
