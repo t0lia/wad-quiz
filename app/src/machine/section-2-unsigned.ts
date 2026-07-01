@@ -5,7 +5,7 @@ export const section2UnsignedStates = {
   section_2_unsigned_intro: {
     meta: {
       id: 'section_2_unsigned_intro',
-      title: 'Section 2 Unsigned: Sector A - Missing Dependencies',
+      title: 'Sector A - Missing Dependencies',
       text: 'Alex barely taps the confirm key before the experimental build jumps to the desktop. The quick boot looks great for about three seconds. Then the status panel fills with yellow warnings instead of green INFOs. Most of the console is awake, but currently it looks like a traffic light with big red, medium amber and a small touch of green.',
       dialogue: [
         { speaker: 'lina', text: 'That was fast. So why is Sector A still dead?' },
@@ -27,9 +27,8 @@ export const section2UnsignedStates = {
   section_2_unsigned_task: {
     meta: {
       id: 'section_2_unsigned_task',
-      title: 'Section 2 Unsigned: Sector A - Missing Dependencies',
+      title: 'Sector A - Missing Dependencies',
       text:
-        'Problem 2 Unsigned: Sector Link Race Condition\n\n' +
         'The unsigned build skips its normal startup barrier, so the race is visible immediately. Services start in chaotic parallel, and the interface boots before the foundation is ready.\n\n' +
         '```javascript\n' +
         'async function bootSectorLink(services) {\n' +
@@ -74,7 +73,7 @@ export const section2UnsignedStates = {
   section_2_unsigned_conclusion_incorrect: {
     meta: {
       id: 'section_2_unsigned_conclusion_incorrect',
-      title: 'Section 2 Unsigned: Sector A - Missing Dependencies',
+      title: 'Sector A - Missing Dependencies',
       text: 'The first guesses waste another minute. Whether Alex reboots the room or leans on a delay, `sector-link` only behaves after the startup race is actually brought under control.\n\nWater starts moving again, but the main valve farther down the ship is still blocked.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
@@ -84,7 +83,7 @@ export const section2UnsignedStates = {
   section_2_unsigned_conclusion_solved: {
     meta: {
       id: 'section_2_unsigned_conclusion_solved',
-      title: 'Section 2 Unsigned: Sector A - Missing Dependencies',
+      title: 'Sector A - Missing Dependencies',
       text: 'The startup order settles down, `sector-link` comes up cleanly, and the controller answers at last. The fast build keeps its speed, but only after Alex forces it to finish one conversation before starting the next.\n\nSector A finally responds, but the command path still points toward the next blocked compartment. Alex grabs the PDA and moves on before the experimental build finds a new way to surprise him.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
@@ -94,7 +93,7 @@ export const section2UnsignedStates = {
   section_2_unsigned_conclusion_override: {
     meta: {
       id: 'section_2_unsigned_conclusion_override',
-      title: 'Section 2 Unsigned: Sector A - Missing Dependencies',
+      title: 'Sector A - Missing Dependencies',
       text: 'Alex shoves sector-link past its checks and the controller answers with visible bad temper. The dashboard turns green faster than it turns trustworthy.\n\nWater moves again, but the ship now owes Alex one hidden failure and the main valve is still ahead.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,

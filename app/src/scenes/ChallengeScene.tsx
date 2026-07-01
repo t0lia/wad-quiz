@@ -99,7 +99,6 @@ type ActiveProps = {
 function ActiveSegment({ scene, onSubmit, bottomRef }: ActiveProps) {
   const [submitted, setSubmitted] = useState(false)
   const [revealedContent, setRevealedContent] = useState(1) // text always shown first
-  const [taskRevealed, setTaskRevealed] = useState(false)
   const [dialogueDone, setDialogueDone] = useState(false)
 
   const contentBlocks: ContentBlock[] = scene.dialogue?.length ? ['text', 'dialogue'] : ['text']
@@ -111,7 +110,10 @@ function ActiveSegment({ scene, onSubmit, bottomRef }: ActiveProps) {
   const allContentRevealed = revealedContent >= contentBlocks.length
   const lastContent = contentBlocks[revealedContent - 1]
   const waitingForDialogue = lastContent === 'dialogue' && !dialogueDone
-  const showHint = !submitted && !taskRevealed && !waitingForDialogue
+  // The task widget appears as soon as its supporting text/dialogue is fully
+  // revealed — no extra tap needed to summon the answer options.
+  const showTask = allContentRevealed && !waitingForDialogue && !isTapTask
+  const showHint = !submitted && !waitingForDialogue && (!allContentRevealed || isTapTask)
 
   function handleSubmit(a?: string) {
     setSubmitted(true)
@@ -124,14 +126,12 @@ function ActiveSegment({ scene, onSubmit, bottomRef }: ActiveProps) {
       setRevealedContent(c => c + 1)
     } else if (isTapTask) {
       handleSubmit()
-    } else {
-      setTaskRevealed(true)
     }
   }
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
-  }, [revealedContent, taskRevealed, dialogueDone, bottomRef])
+  }, [revealedContent, showTask, dialogueDone, bottomRef])
 
   return (
     <>
@@ -149,8 +149,8 @@ function ActiveSegment({ scene, onSubmit, bottomRef }: ActiveProps) {
         </div>
       )}
 
-      {/* Task — revealed after all content, only for non-tap tasks */}
-      {taskRevealed && (
+      {/* Task — appears as soon as its text/dialogue is fully revealed */}
+      {showTask && (
         <div className="block-enter">
           <TaskRouter task={scene.task} submitted={submitted} onSubmit={handleSubmit} />
         </div>
