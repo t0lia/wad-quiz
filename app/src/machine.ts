@@ -24,6 +24,7 @@ import { allMachineStates } from './machine/index'
  *  debt_count (derived from overrides)
  *  accepted_exit_* (early exit decisions)
  */
+
 export const hydroMachine = createMachine<
   {
     boot_mode?: 'standard' | 'unsigned'
@@ -42,6 +43,9 @@ export const hydroMachine = createMachine<
     accepted_exit_10?: boolean
     debt_count?: number
     ending_tier?: string
+    tek_score?: number
+    ded_score?: number
+    soc_score?: number
   },
   { type: 'NEXT'; answer?: string; rand?: number },
   any,
@@ -73,10 +77,12 @@ export const hydroMachine = createMachine<
     accepted_exit_10: false,
     debt_count: 0,
     ending_tier: undefined,
+    tek_score: 0,
+    ded_score: 0,
+    soc_score: 0,
   },
   types: {} as {
     events: { type: 'NEXT'; answer?: string; rand?: 0 | 1 }
   },
   states: allMachineStates as any,
 })
-

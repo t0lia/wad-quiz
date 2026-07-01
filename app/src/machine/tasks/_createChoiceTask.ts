@@ -1,6 +1,8 @@
+import { assign } from 'xstate'
 import type { ChallengeSceneData } from '../../types/story'
+import type { MetricsDelta } from '../../types/story'
 
-type Choice = { id: string; content: string }
+type Choice = { id: string; content: string; description?: string; metrics?: MetricsDelta }
 
 type ChoiceTaskConfig = {
   stateId: string
@@ -12,6 +14,22 @@ type ChoiceTaskConfig = {
   solvedTarget: string
   overrideTarget: string
   incorrectTarget: string
+}
+
+function createAddMetricsAction(options: Choice[]) {
+  return assign(({ context, event }: any) => {
+    const selectedOption = options.find((opt: Choice) => opt.id === event.answer)
+
+    if (selectedOption?.metrics) {
+      const metrics = selectedOption.metrics
+      return {
+        tek_score: (context.tek_score || 0) + (metrics.tek || 0),
+        ded_score: (context.ded_score || 0) + (metrics.ded || 0),
+        soc_score: (context.soc_score || 0) + (metrics.soc || 0),
+      }
+    }
+    return {}
+  })
 }
 
 export function createChoiceTaskState(config: ChoiceTaskConfig) {
@@ -30,16 +48,25 @@ export function createChoiceTaskState(config: ChoiceTaskConfig) {
           {
             guard: ({ event }: any) => event.answer === config.correctAnswer,
             target: config.solvedTarget,
-            actions: [{ type: 'set', params: { [config.resultFlag]: 'solved' } }],
+            actions: [
+              { type: 'set', params: { [config.resultFlag]: 'solved' } },
+              createAddMetricsAction(config.options),
+            ],
           },
           {
             guard: ({ event }: any) => event.answer === config.overrideAnswer,
             target: config.overrideTarget,
-            actions: [{ type: 'set', params: { [config.resultFlag]: 'override' } }],
+            actions: [
+              { type: 'set', params: { [config.resultFlag]: 'override' } },
+              createAddMetricsAction(config.options),
+            ],
           },
           {
             target: config.incorrectTarget,
-            actions: [{ type: 'set', params: { [config.resultFlag]: 'incorrect' } }],
+            actions: [
+              { type: 'set', params: { [config.resultFlag]: 'incorrect' } },
+              createAddMetricsAction(config.options),
+            ],
           },
         ],
       },

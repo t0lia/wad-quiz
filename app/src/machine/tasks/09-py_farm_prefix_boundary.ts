@@ -9,7 +9,7 @@ export function pyFarmPrefixBoundaryTaskState(config: {
   return createChoiceTaskState({
     ...config,
     text:
-      'Task 4A: Farm Segment Prefix\n\n' +
+      'Farm Segment Prefix\n\n' +
       'The interface is configured with a network prefix that is too broad. Traffic for the farm switch leaks into unrelated segments instead of staying inside the correct boundary. The sector switch responds, but traffic keeps wandering off into the wrong network.\n\n' +
       '```python\n' +
       'def configure_interface(iface):\n' +
@@ -20,10 +20,30 @@ export function pyFarmPrefixBoundaryTaskState(config: {
       '    return verify_link(iface)\n' +
       '```',
     options: [
-      { id: 'blame_switch', content: 'Treat the failure like stubborn hardware and bounce the switch path' },
-      { id: 'add_shortcut_route', content: 'Add a shortcut route without fixing the real network scope' },
-      { id: 'correct_network_boundary', content: 'Narrow the boundary to the segment the repair actually needs' },
-      { id: 'force_recovery_tunnel', content: 'Force a direct recovery path and accept the debt' },
+      {
+        id: 'blame_switch',
+        content: 'Treat the failure like stubborn hardware and bounce the switch path',
+        description: 'Treat the failure like stubborn hardware and bounce the switch path',
+        metrics: { tek: 0, ded: 0, soc: 0 },
+      },
+      {
+        id: 'add_shortcut_route',
+        content: 'Add a shortcut route without fixing the real network scope',
+        description: 'Add a shortcut route without fixing the real network scope',
+        metrics: { tek: 0, ded: 0, soc: 1 },
+      },
+      {
+        id: 'correct_network_boundary',
+        content: 'Narrow the boundary to the segment the repair actually needs',
+        description: 'Narrow the boundary to the segment the repair actually needs',
+        metrics: { tek: 1, ded: 1, soc: 1 },
+      },
+      {
+        id: 'force_recovery_tunnel',
+        content: 'Force a direct recovery path and accept the debt',
+        description: 'Force a direct recovery path and accept the debt',
+        metrics: { tek: 0, ded: 1, soc: 0 },
+      },
     ],
     correctAnswer: 'correct_network_boundary',
     overrideAnswer: 'force_recovery_tunnel',
