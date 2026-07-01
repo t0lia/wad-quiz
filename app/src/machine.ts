@@ -1,6 +1,5 @@
-import { createMachine, assign } from 'xstate'
+import { createMachine } from 'xstate'
 import type { ChallengeSceneData } from './types/story'
-import type { MetricsDelta } from './types/story'
 import { allMachineStates } from './machine/index'
 
 /**
@@ -25,23 +24,6 @@ import { allMachineStates } from './machine/index'
  *  debt_count (derived from overrides)
  *  accepted_exit_* (early exit decisions)
  */
-
-type Option = { id: string; content: string; description?: string; metrics?: MetricsDelta }
-
-export const addMetricsAction = (optionId: string, options: Option[]) =>
-  assign(({ context }: any) => {
-    const selectedOption = options.find((opt: Option) => opt.id === optionId)
-
-    if (selectedOption?.metrics) {
-      const metrics = selectedOption.metrics
-      return {
-        tek_score: (context.tek_score || 0) + (metrics.tek || 0),
-        ded_score: (context.ded_score || 0) + (metrics.ded || 0),
-        soc_score: (context.soc_score || 0) + (metrics.soc || 0),
-      }
-    }
-    return {}
-  })
 
 export const hydroMachine = createMachine<
   {
