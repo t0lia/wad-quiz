@@ -1,5 +1,6 @@
 import type { ChallengeSceneData } from '../../types/story'
 import type { MetricsDelta } from '../../types/story'
+import { addMetricsAction } from '../../machine'
 
 type Choice = { id: string; content: string; description?: string; metrics?: MetricsDelta }
 
@@ -33,10 +34,7 @@ export function createChoiceTaskState(config: ChoiceTaskConfig) {
             target: config.solvedTarget,
             actions: [
               { type: 'set', params: { [config.resultFlag]: 'solved' } },
-              {
-                type: 'addMetrics',
-                params: { optionId: config.correctAnswer, options: config.options },
-              },
+              addMetricsAction(config.correctAnswer, config.options),
             ],
           },
           {
@@ -44,20 +42,14 @@ export function createChoiceTaskState(config: ChoiceTaskConfig) {
             target: config.overrideTarget,
             actions: [
               { type: 'set', params: { [config.resultFlag]: 'override' } },
-              {
-                type: 'addMetrics',
-                params: { optionId: config.overrideAnswer, options: config.options },
-              },
+              addMetricsAction(config.overrideAnswer, config.options),
             ],
           },
           {
             target: config.incorrectTarget,
             actions: [
               { type: 'set', params: { [config.resultFlag]: 'incorrect' } },
-              {
-                type: 'addMetrics',
-                params: { optionId: event.answer, options: config.options },
-              },
+              ({ event }: any) => addMetricsAction(event?.answer, config.options),
             ],
           },
         ],

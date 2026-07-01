@@ -11,9 +11,6 @@ type Archetype = {
 }
 
 function calculateArchetype(tek: number, ded: number, soc: number): Archetype {
-  // Find max score to determine threshold
-  const maxScore = Math.max(tek, ded, soc) * 2 // assume max is 2x current if all at 0
-
   // Convert to boolean (1 if >= threshold, 0 if < threshold)
   // Using a simple heuristic: if value > 0, treat as true
   const tekBool = tek > 0 ? 1 : 0

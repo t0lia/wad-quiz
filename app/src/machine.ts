@@ -1,4 +1,4 @@
-import { createMachine } from 'xstate'
+import { createMachine, assign } from 'xstate'
 import type { ChallengeSceneData } from './types/story'
 import type { MetricsDelta } from './types/story'
 import { allMachineStates } from './machine/index'
@@ -27,6 +27,21 @@ import { allMachineStates } from './machine/index'
  */
 
 type Option = { id: string; content: string; description?: string; metrics?: MetricsDelta }
+
+export const addMetricsAction = (optionId: string, options: Option[]) =>
+  assign(({ context }: any) => {
+    const selectedOption = options.find((opt: Option) => opt.id === optionId)
+
+    if (selectedOption?.metrics) {
+      const metrics = selectedOption.metrics
+      return {
+        tek_score: (context.tek_score || 0) + (metrics.tek || 0),
+        ded_score: (context.ded_score || 0) + (metrics.ded || 0),
+        soc_score: (context.soc_score || 0) + (metrics.soc || 0),
+      }
+    }
+    return {}
+  })
 
 export const hydroMachine = createMachine<
   {
@@ -87,23 +102,5 @@ export const hydroMachine = createMachine<
   types: {} as {
     events: { type: 'NEXT'; answer?: string; rand?: 0 | 1 }
   },
-  on: {
-    addMetrics: {
-      actions: ({ context, event }: any) => {
-        const params = event.params
-        const optionId = params.optionId
-        const options: Option[] = params.options || []
-        const selectedOption = options.find((opt: Option) => opt.id === optionId)
-
-        if (selectedOption?.metrics) {
-          const metrics = selectedOption.metrics
-          context.tek_score = (context.tek_score || 0) + (metrics.tek || 0)
-          context.ded_score = (context.ded_score || 0) + (metrics.ded || 0)
-          context.soc_score = (context.soc_score || 0) + (metrics.soc || 0)
-        }
-      },
-    },
-  },
   states: allMachineStates as any,
 })
-
