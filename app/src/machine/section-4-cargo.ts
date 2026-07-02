@@ -47,63 +47,36 @@ export const section4CargoStates = {
 
   ...javaAccessLevelCompareTaskState({
     stateId: 'section_4_cargo_task_1',
-    solvedTarget: 'section_4_cargo_conclusion_solved',
-    overrideTarget: 'section_4_cargo_conclusion_override',
-    incorrectTarget: 'section_4_cargo_conclusion_incorrect',
+    solvedTarget: 'section_5_cargo',
+    overrideTarget: 'section_5_cargo_fallout',
+    incorrectTarget: 'section_5_cargo_fallout',
   }),
 
   ...javaWaiverFieldAlignmentTaskState({
     stateId: 'section_4_cargo_task_2',
-    solvedTarget: 'section_4_cargo_conclusion_solved',
-    overrideTarget: 'section_4_cargo_conclusion_override',
-    incorrectTarget: 'section_4_cargo_conclusion_incorrect',
+    solvedTarget: 'section_5_cargo',
+    overrideTarget: 'section_5_cargo_fallout',
+    incorrectTarget: 'section_5_cargo_fallout',
   }),
 
   ...javaBadgeCaseNormalizationTaskState({
     stateId: 'section_4_cargo_task_3',
-    solvedTarget: 'section_4_cargo_conclusion_solved',
-    overrideTarget: 'section_4_cargo_conclusion_override',
-    incorrectTarget: 'section_4_cargo_conclusion_incorrect',
+    solvedTarget: 'section_5_cargo',
+    overrideTarget: 'section_5_cargo_fallout',
+    incorrectTarget: 'section_5_cargo_fallout',
   }),
 
   ...jsWaiverScopeArrayTaskState({
     stateId: 'section_4_cargo_task_4',
-    solvedTarget: 'section_4_cargo_conclusion_solved',
-    overrideTarget: 'section_4_cargo_conclusion_override',
-    incorrectTarget: 'section_4_cargo_conclusion_incorrect',
+    solvedTarget: 'section_5_cargo',
+    overrideTarget: 'section_5_cargo_fallout',
+    incorrectTarget: 'section_5_cargo_fallout',
   }),
 
   ...javaEscortNullFallbackTaskState({
     stateId: 'section_4_cargo_task_5',
-    solvedTarget: 'section_4_cargo_conclusion_solved',
-    overrideTarget: 'section_4_cargo_conclusion_override',
-    incorrectTarget: 'section_4_cargo_conclusion_incorrect',
+    solvedTarget: 'section_5_cargo',
+    overrideTarget: 'section_5_cargo_fallout',
+    incorrectTarget: 'section_5_cargo_fallout',
   }),
-
-  section_4_cargo_conclusion_incorrect: {
-    meta: {
-      id: 'section_4_cargo_conclusion_incorrect',
-      text: '',
-      task: { type: 'text_scene' },
-    } as ChallengeSceneData,
-    on: { NEXT: 'section_5_cargo_fallout' },
-  },
-
-  section_4_cargo_conclusion_solved: {
-    meta: {
-      id: 'section_4_cargo_conclusion_solved',
-      text: '',
-      task: { type: 'text_scene' },
-    } as ChallengeSceneData,
-    on: { NEXT: 'section_5_cargo' },
-  },
-
-  section_4_cargo_conclusion_override: {
-    meta: {
-      id: 'section_4_cargo_conclusion_override',
-      text: '',
-      task: { type: 'text_scene' },
-    } as ChallengeSceneData,
-    on: { NEXT: 'section_5_cargo_fallout' },
-  },
 }

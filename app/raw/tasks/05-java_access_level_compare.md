@@ -30,12 +30,12 @@ boolean gateAllows(Credential credential) {
 - id: blame_reader
   text: Treat the failure like a scanner problem and retry the hardware path
   description: Spend time on the gate hardware instead of the access check.
-- id: relax_gate_rule
-  text: Flatten the gate rule so every emergency badge gets through
-  description: Open the path by weakening the policy instead of fixing the check.
 - id: align_access_check
   text: Compare the access value the way the gate actually needs
   description: Fix the comparison so valid temporary clearance is recognized.
+- id: relax_gate_rule
+  text: Flatten the gate rule so every emergency badge gets through
+  description: Open the path by weakening the policy instead of fixing the check.
 - id: force_gate_release
   text: Force the gate open through a manual bridge
   description: Move forward quickly by overriding the lock instead of trusting the code.
@@ -45,6 +45,6 @@ boolean gateAllows(Credential credential) {
 | ACTION_ID | TECH | DED | SOC |
 |-----------|------|-----|-----|
 | blame_reader | -0.6 | -0.2 | -0.1 |
-| relax_gate_rule | -0.7 | -0.5 | -0.4 |
 | align_access_check | 1 | 0.4 | 0.2 |
+| relax_gate_rule | -0.7 | -0.5 | -0.4 |
 | force_gate_release | -0.4 | -0.6 | -0.3 |

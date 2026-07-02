@@ -7,7 +7,7 @@ export const section3States = {
       id: 'section_3',
       image: '/locations/cross_ship_route.png',
       title: 'Crossing the Ship',
-      text: 'The terminal is finally holding a live connection to Sector A when a new alert climbs over the recovery logs. Water is not stuck here anymore. The line is blocked farther down the ship at Maintenance Access Gate before Airlock #4, where the supply path narrows into the outer service corridor. The damaged segment is outside the safe interior path, so Alex will need airlock access and a hull-work drone to reach it safely. Alex looks up from the screen and finds himself standing between two doors: the heavier cargo hatch on the left and the cleaner medical passage on the right.',
+      text: 'The terminal is finally holding a live connection to Sector A when a new alert cuts across the recovery logs. Water is not stuck here anymore. The line is blocked farther down the ship at Maintenance Access Gate before Airlock #4, where the supply path narrows into the outer service corridor. The damaged segment is outside the safe interior path, so Alex will need airlock access and a maintenance drone to reach it safely. Alex looks up from the screen and finds himself standing between two doors: the heavier cargo hatch on the left and the cleaner medical passage on the right.',
       dialogue: [
         { speaker: 'lina', text: 'The software side is breathing again. Now go move the part that refuses to move.' },
         { speaker: 'alex', text: 'It\'s like you imply that I have to do something physically?!' },
@@ -26,31 +26,9 @@ export const section3States = {
     } as ChallengeSceneData,
     on: {
       NEXT: [
-        { guard: ({ event }: any) => event.answer === 'cargo', target: 'section_3_conclusion_cargo', actions: [{ type: 'set', params: { route_choice: 'cargo' } }, { type: 'score', params: { technical: 0.1, dedication: 0.2, social: 0 } }] },
-        { guard: ({ event }: any) => event.answer === 'medical', target: 'section_3_conclusion_medical', actions: [{ type: 'set', params: { route_choice: 'medical' } }, { type: 'score', params: { technical: 0, dedication: 0.1, social: 0.3 } }] },
+        { guard: ({ event }: any) => event.answer === 'cargo', target: 'section_4_cargo_intro', actions: [{ type: 'set', params: { route_choice: 'cargo' } }, { type: 'score', params: { technical: 0.1, dedication: 0.2, social: 0 } }] },
+        { guard: ({ event }: any) => event.answer === 'medical', target: 'section_4_medical_intro', actions: [{ type: 'set', params: { route_choice: 'medical' } }, { type: 'score', params: { technical: 0, dedication: 0.1, social: 0.3 } }] },
       ],
     },
-  },
-
-  section_3_conclusion_cargo: {
-    meta: {
-      id: 'section_3_conclusion_cargo',
-      image: '/locations/cross_ship_route.png',
-      title: 'Crossing the Ship',
-      text: '',
-      task: { type: 'text_scene' },
-    } as ChallengeSceneData,
-    on: { NEXT: 'section_4_cargo_intro' },
-  },
-
-  section_3_conclusion_medical: {
-    meta: {
-      id: 'section_3_conclusion_medical',
-      image: '/locations/cross_ship_route.png',
-      title: 'Crossing the Ship',
-      text: '',
-      task: { type: 'text_scene' },
-    } as ChallengeSceneData,
-    on: { NEXT: 'section_4_medical_intro' },
   },
 }

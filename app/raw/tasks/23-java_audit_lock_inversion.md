@@ -30,15 +30,15 @@ void auditSwap(Lock main, Lock audit) {
 
 ## Actions
 ```yaml
+- id: normalize_concurrency_rule
+  text: Make the audit and live paths acquire shared locks in the same order
+  description: Restore one consistent lock rule so the core can run under load.
 - id: pin_emergency_execution
   text: Pin the core to an emergency path and accept the narrower throughput
   description: Recover quickly by accepting a slower, brittle execution mode.
 - id: blame_deploy
   text: Treat the stall like packaging fallout and redeploy around it
   description: Spend time on release symptoms instead of the lock rule.
-- id: normalize_concurrency_rule
-  text: Make the audit and live paths acquire shared locks in the same order
-  description: Restore one consistent lock rule so the core can run under load.
 - id: remove_safety_lock
   text: Drop one lock and hope lighter traffic hides the deadlock
   description: Escape the stall by removing protection instead of fixing order.
@@ -47,7 +47,7 @@ void auditSwap(Lock main, Lock audit) {
 ## Scoring
 | ACTION_ID | TECH | DED | SOC |
 |-----------|------|-----|-----|
+| normalize_concurrency_rule | 1 | 0.4 | 0.2 |
 | pin_emergency_execution | -0.2 | -0.4 | -0.2 |
 | blame_deploy | -0.6 | -0.2 | -0.1 |
-| normalize_concurrency_rule | 1 | 0.4 | 0.2 |
 | remove_safety_lock | -0.9 | -0.6 | -0.5 |

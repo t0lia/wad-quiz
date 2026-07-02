@@ -27,15 +27,15 @@ function canOpen(record) {
 
 ## Actions
 ```yaml
+- id: align_access_check
+  text: Check the waiver scopes in the structure the gate actually receives
+  description: Read the approved scope list correctly so the valid waiver is recognized.
 - id: relax_gate_rule
   text: Bypass the scope list and approve every waived record
   description: Open the path by weakening the policy instead of fixing the scope check.
 - id: blame_reader
   text: Retry the scanner because the badge payload probably arrived corrupted
   description: Treat the symptom as hardware noise instead of a logic mismatch.
-- id: align_access_check
-  text: Check the waiver scopes in the structure the gate actually receives
-  description: Read the approved scope list correctly so the valid waiver is recognized.
 - id: force_gate_release
   text: Force the side gate open through the maintenance bridge
   description: Move forward quickly by overriding the lock instead of trusting the code.
@@ -44,7 +44,7 @@ function canOpen(record) {
 ## Scoring
 | ACTION_ID | TECH | DED | SOC |
 |-----------|------|-----|-----|
+| align_access_check | 1 | 0.4 | 0.2 |
 | relax_gate_rule | -0.7 | -0.5 | -0.4 |
 | blame_reader | -0.6 | -0.2 | -0.1 |
-| align_access_check | 1 | 0.4 | 0.2 |
 | force_gate_release | -0.4 | -0.6 | -0.3 |

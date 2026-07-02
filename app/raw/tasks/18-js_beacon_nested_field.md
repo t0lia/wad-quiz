@@ -28,9 +28,6 @@ function buildProfile(mode) {
 
 ## Actions
 ```yaml
-- id: align_profile_value
-  text: Write the follow flag in the nested EVA field the drone actually reads
-  description: Fix the payload shape so outside mode gets both required signals.
 - id: blame_hardware
   text: Assume the antenna is drifting and replace external parts first
   description: Spend time on hardware symptoms instead of the profile structure.
@@ -40,12 +37,15 @@ function buildProfile(mode) {
 - id: fake_safe_mode
   text: Keep the wrong payload and add a rough backup behavior around it
   description: Work around the issue instead of fixing the field placement.
+- id: align_profile_value
+  text: Write the follow flag in the nested EVA field the drone actually reads
+  description: Fix the payload shape so outside mode gets both required signals.
 ```
 
 ## Scoring
 | ACTION_ID | TECH | DED | SOC |
 |-----------|------|-----|-----|
-| align_profile_value | 1 | 0.4 | 0.2 |
 | blame_hardware | -0.6 | -0.2 | -0.1 |
 | force_profile_override | -0.4 | -0.6 | -0.4 |
 | fake_safe_mode | -0.7 | -0.4 | -0.3 |
+| align_profile_value | 1 | 0.4 | 0.2 |

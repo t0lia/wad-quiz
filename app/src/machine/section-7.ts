@@ -6,7 +6,7 @@ export const section7States = {
     meta: {
       id: 'section_7',
       text:
-        'The outer hatch grinds open and the dark hull gap answers with silence. Ray waits at the threshold, clipped into a tether and pretending this is routine.\n\n' +
+        'The outer hatch grinds open and the dark gap outside the ship answers with silence. Ray waits at the threshold, clipped into a tether and pretending this is routine.\n\n' +
         'RAY: I can stay on the inner panel and work the checklist with you, or you can go solo and enjoy pure professional freedom.\n' +
         'ALEX: Your definition of freedom feels hostile.\n' +
         'RAY: Vacuum improves honesty.',
@@ -20,36 +20,10 @@ export const section7States = {
     } as ChallengeSceneData,
     on: {
       NEXT: [
-        { guard: ({ event }: any) => event.answer === 'team_eva', target: 'section_7_conclusion_team', actions: [{ type: 'set', params: { eva_mode: 'team' } }, { type: 'score', params: { technical: 0.1, dedication: 0.2, social: 0.7 } }] },
-        { guard: ({ event }: any) => event.answer === 'solo_eva', target: 'section_7_conclusion_solo', actions: [{ type: 'set', params: { eva_mode: 'solo' } }, { type: 'score', params: { technical: 0.2, dedication: 0.1, social: -0.5 } }] },
-      ],
-    },
-  },
-
-  section_7_conclusion_team: {
-    meta: {
-      id: 'section_7_conclusion_team',
-      text: 'Ray clips into the shared plan and starts mirroring Alex\'s checklist from the inner panel.\n\nThe ship offers one polite chance to stop before the deeper hull work begins.',
-      task: { type: 'text_scene' },
-    } as ChallengeSceneData,
-    on: {
-      NEXT: [
-        { guard: ({ context }: any) => context.route_choice === 'cargo', target: 'section_7_exit_cargo' },
-        { guard: ({ context }: any) => context.route_choice === 'medical', target: 'section_7_exit_medical' },
-      ],
-    },
-  },
-
-  section_7_conclusion_solo: {
-    meta: {
-      id: 'section_7_conclusion_solo',
-      text: 'Alex takes the single tether and leaves Ray at the hatch with a look that means I told you so in advance.\n\nThe ship offers one polite chance to stop before Alex has to earn the rest of the night.',
-      task: { type: 'text_scene' },
-    } as ChallengeSceneData,
-    on: {
-      NEXT: [
-        { guard: ({ context }: any) => context.route_choice === 'cargo', target: 'section_7_exit_cargo' },
-        { guard: ({ context }: any) => context.route_choice === 'medical', target: 'section_7_exit_medical' },
+        { guard: ({ event, context }: any) => event.answer === 'team_eva' && context.route_choice === 'cargo', target: 'section_7_exit_cargo', actions: [{ type: 'set', params: { eva_mode: 'team' } }, { type: 'score', params: { technical: 0.1, dedication: 0.2, social: 0.7 } }] },
+        { guard: ({ event, context }: any) => event.answer === 'team_eva' && context.route_choice === 'medical', target: 'section_7_exit_medical', actions: [{ type: 'set', params: { eva_mode: 'team' } }, { type: 'score', params: { technical: 0.1, dedication: 0.2, social: 0.7 } }] },
+        { guard: ({ event, context }: any) => event.answer === 'solo_eva' && context.route_choice === 'cargo', target: 'section_7_exit_cargo', actions: [{ type: 'set', params: { eva_mode: 'solo' } }, { type: 'score', params: { technical: 0.2, dedication: 0.1, social: -0.5 } }] },
+        { guard: ({ event, context }: any) => event.answer === 'solo_eva' && context.route_choice === 'medical', target: 'section_7_exit_medical', actions: [{ type: 'set', params: { eva_mode: 'solo' } }, { type: 'score', params: { technical: 0.2, dedication: 0.1, social: -0.5 } }] },
       ],
     },
   },

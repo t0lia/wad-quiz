@@ -26,15 +26,15 @@ String bootSectorLink(List<Service> services) throws Exception {
 
 ## Actions
 ```yaml
+- id: await_service_barrier
+  text: Join the startup futures before sector-link handshakes
+  description: Wait for all startup futures so the dependency chain is actually ready.
 - id: blame_controller
   text: Reboot the controller rack and treat the symptom as a room failure
   description: Spend time on the wall panel instead of fixing the missing startup join.
 - id: sleep_then_retry
   text: Add a retry delay before the handshake call
   description: Hope the futures finish by chance before the next attempt.
-- id: await_service_barrier
-  text: Join the startup futures before sector-link handshakes
-  description: Wait for all startup futures so the dependency chain is actually ready.
 - id: force_sector_link
   text: Bypass readiness checks and bring sector-link up immediately
   description: Force the link to green even though the startup graph is still incomplete.
@@ -43,7 +43,7 @@ String bootSectorLink(List<Service> services) throws Exception {
 ## Scoring
 | ACTION_ID | TECH | DED | SOC |
 |-----------|------|-----|-----|
+| await_service_barrier | 1 | 0.4 | 0.2 |
 | blame_controller | -0.6 | -0.2 | -0.1 |
 | sleep_then_retry | -0.7 | -0.4 | 0 |
-| await_service_barrier | 1 | 0.4 | 0.2 |
 | force_sector_link | -0.4 | -0.7 | -0.4 |

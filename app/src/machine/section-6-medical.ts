@@ -10,9 +10,9 @@ export const section6MedicalStates = {
     meta: {
       id: 'section_6_medical_intro',
       text:
-        'The medical corridor reaches Airlock #4, where Vex already has Shmiel waiting. The drone is on site, but its current profile still thinks this is a routine indoor maintenance job, and sterile hull work is not known for forgiving that kind of confusion.\n\n' +
-        'VEX: You made good time. Meet Shmiel - general purpose maintenance drone. Last time it was used for routine indoor cleanup, so its software may be a little confused by sterile hull work.\n' +
-        'ALEX: So we have a medical EVA and a drone that still thinks this is housekeeping.\n' +
+        'The medical corridor reaches Airlock #4, where Vex already has Shmiel waiting. The maintenance drone is on site, but its current profile still thinks this is a routine indoor maintenance job, and outside work is not known for forgiving that kind of confusion.\n\n' +
+        'VEX: You made good time. Meet Shmiel, a maintenance drone. Last time it was used for routine indoor cleanup, so its software may be a bit confused by your mission outside.\n' +
+        'ALEX: So we have an outside repair job and a drone that still thinks this is housekeeping.\n' +
         'VEX: Exactly. We can patch the profile properly, or bully it into follow mode and hope contamination rules stay theoretical.\n' +
         'ALEX: Then let us choose whether to improve it or frighten it.',
       task: {
@@ -41,63 +41,36 @@ export const section6MedicalStates = {
 
   ...jsClampBooleanPayloadTaskState({
     stateId: 'section_6_medical_task_1',
-    solvedTarget: 'section_6_medical_conclusion_solved',
-    overrideTarget: 'section_6_medical_conclusion_override',
-    incorrectTarget: 'section_6_medical_conclusion_incorrect',
+    solvedTarget: 'section_7',
+    overrideTarget: 'section_7',
+    incorrectTarget: 'section_7',
   }),
 
   ...javaShellFieldAlignmentTaskState({
     stateId: 'section_6_medical_task_2',
-    solvedTarget: 'section_6_medical_conclusion_solved',
-    overrideTarget: 'section_6_medical_conclusion_override',
-    incorrectTarget: 'section_6_medical_conclusion_incorrect',
+    solvedTarget: 'section_7',
+    overrideTarget: 'section_7',
+    incorrectTarget: 'section_7',
   }),
 
   ...javaProfileMergeResetTaskState({
     stateId: 'section_6_medical_task_3',
-    solvedTarget: 'section_6_medical_conclusion_solved',
-    overrideTarget: 'section_6_medical_conclusion_override',
-    incorrectTarget: 'section_6_medical_conclusion_incorrect',
+    solvedTarget: 'section_7',
+    overrideTarget: 'section_7',
+    incorrectTarget: 'section_7',
   }),
 
   ...jsBeaconNestedFieldTaskState({
     stateId: 'section_6_medical_task_4',
-    solvedTarget: 'section_6_medical_conclusion_solved',
-    overrideTarget: 'section_6_medical_conclusion_override',
-    incorrectTarget: 'section_6_medical_conclusion_incorrect',
+    solvedTarget: 'section_7',
+    overrideTarget: 'section_7',
+    incorrectTarget: 'section_7',
   }),
 
   ...javaModeSuffixAlignmentTaskState({
     stateId: 'section_6_medical_task_5',
-    solvedTarget: 'section_6_medical_conclusion_solved',
-    overrideTarget: 'section_6_medical_conclusion_override',
-    incorrectTarget: 'section_6_medical_conclusion_incorrect',
+    solvedTarget: 'section_7',
+    overrideTarget: 'section_7',
+    incorrectTarget: 'section_7',
   }),
-
-  section_6_medical_conclusion_incorrect: {
-    meta: {
-      id: 'section_6_medical_conclusion_incorrect',
-      text: '',
-      task: { type: 'text_scene' },
-    } as ChallengeSceneData,
-    on: { NEXT: 'section_7' },
-  },
-
-  section_6_medical_conclusion_solved: {
-    meta: {
-      id: 'section_6_medical_conclusion_solved',
-      text: '',
-      task: { type: 'text_scene' },
-    } as ChallengeSceneData,
-    on: { NEXT: 'section_7' },
-  },
-
-  section_6_medical_conclusion_override: {
-    meta: {
-      id: 'section_6_medical_conclusion_override',
-      text: '',
-      task: { type: 'text_scene' },
-    } as ChallengeSceneData,
-    on: { NEXT: 'section_7' },
-  },
 }

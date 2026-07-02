@@ -11,11 +11,19 @@ Choose how Alex prepares Shmiel for the outside medical-side segment after the q
 ## Actions
 ```yaml
 - id: patch_drone
-  text: Software Patch
-  description: Update the drone properly before opening the hatch.
+  text: 'Software Patch'
+  description: 'Update the drone properly before opening the hatch.'
+  conclusion: |-
+    Alex finally takes the careful option, and everyone in the room notices.
+    
+    The shell profile still needs one real fix before the outer hatch can open without embarrassment.
 - id: override_drone
-  text: Hard Override
-  description: Force the drone into follow mode and accept one more shortcut.
+  text: 'Hard Override'
+  description: 'Force the drone into follow mode and accept one more shortcut.'
+  conclusion: |-
+    Alex doubles down on urgency, and even the drone seems to find that suspicious.
+    
+    The airlock can cycle, but the next payload problem will now arrive inside a far less patient atmosphere.
 ```
 
 ## Scoring

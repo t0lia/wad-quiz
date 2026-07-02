@@ -28,15 +28,15 @@ function buildClampProfile(mode) {
 
 ## Actions
 ```yaml
+- id: align_profile_value
+  text: Send the activation value in the format the drone actually expects
+  description: Fix the payload so the outside mode can turn on properly.
 - id: blame_hardware
   text: Treat the failure like hardware drift and swap components first
   description: Spend time on the physical layer instead of the bad payload.
 - id: fake_safe_mode
   text: Work around the setting with a rough fallback behavior
   description: Push the drone forward without fixing the real activation field.
-- id: align_profile_value
-  text: Send the activation value in the format the drone actually expects
-  description: Fix the payload so the outside mode can turn on properly.
 - id: force_profile_override
   text: Override the profile and force a manual backup mode
   description: Skip the normal checks and rely on a more brittle fallback.
@@ -45,7 +45,7 @@ function buildClampProfile(mode) {
 ## Scoring
 | ACTION_ID | TECH | DED | SOC |
 |-----------|------|-----|-----|
+| align_profile_value | 1 | 0.4 | 0.2 |
 | blame_hardware | -0.6 | -0.2 | -0.1 |
 | fake_safe_mode | -0.7 | -0.4 | -0.3 |
-| align_profile_value | 1 | 0.4 | 0.2 |
 | force_profile_override | -0.4 | -0.6 | -0.4 |

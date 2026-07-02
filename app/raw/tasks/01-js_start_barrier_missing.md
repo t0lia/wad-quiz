@@ -29,12 +29,12 @@ async function bootSectorLink(services) {
 - id: blame_controller
   text: Blame the controller rack and restart it from the wall panel
   description: Treat the issue as external hardware trouble and reset the room.
-- id: sleep_then_retry
-  text: Add a fixed delay before the handshake
-  description: Wait a few seconds and hope the service chain happens to finish in time.
 - id: await_service_barrier
   text: Wait for all service startups before sector-link handshakes
   description: Hold the handshake until the dependency chain reports ready.
+- id: sleep_then_retry
+  text: Add a fixed delay before the handshake
+  description: Wait a few seconds and hope the service chain happens to finish in time.
 - id: force_sector_link
   text: Override startup checks and force sector-link online
   description: Skip the safety barrier and bring the link up dirty but fast.
@@ -44,6 +44,6 @@ async function bootSectorLink(services) {
 | ACTION_ID | TECH | DED | SOC |
 |-----------|------|-----|-----|
 | blame_controller | -0.6 | -0.2 | -0.1 |
-| sleep_then_retry | -0.7 | -0.4 | 0 |
 | await_service_barrier | 1 | 0.4 | 0.2 |
+| sleep_then_retry | -0.7 | -0.4 | 0 |
 | force_sector_link | -0.4 | -0.7 | -0.4 |

@@ -11,7 +11,7 @@ export const section8DebtStates = {
     meta: {
       id: 'section_8_debt_intro',
       text:
-        'The technical gap is no longer polite. Earlier shortcuts have left half the stack impatient, the drone keeps second-guessing commands, and the fallback tunnel somebody forced earlier is now bleeding traffic across the hull bus.\n\n' +
+        'The technical gap is no longer polite. Earlier shortcuts have left half the stack impatient, the maintenance drone keeps second-guessing commands, and the fallback tunnel somebody forced earlier is now bleeding traffic across the exterior network.\n\n' +
         'RAY: We are not fixing one clean route anymore. We are fixing the bad rescue path on top of it.\n' +
         'ALEX: Good. I was worried the night might become straightforward.\n' +
         'RAY: That concern has passed.',
@@ -82,7 +82,7 @@ export const section8DebtStates = {
     section_8_debt_conclusion_incorrect: {
       meta: {
         id: 'section_8_debt_conclusion_incorrect',
-        text: 'The tunnel thrash proves motion is not the same as progress, and Alex has to narrow the route properly while the whole hull bus complains.\n\nConnectivity is back, but the system now feels like it survived by accumulation rather than design.',
+        text: 'The tunnel thrash proves motion is not the same as progress, and Alex has to narrow the route properly while the whole exterior network complains.\n\nConnectivity is back, but the system now feels like it survived by accumulation rather than design.',
         task: { type: 'text_scene' },
       } as ChallengeSceneData,
       on: { NEXT: 'section_8_exit_debt' },
@@ -110,7 +110,7 @@ export const section8DebtStates = {
       meta: {
         id: 'section_8_exit_debt',
         text:
-          'The next notice arrives with the nervous politeness of people who know the system is technically up and emotionally one sharp tap from another incident. Management is willing to call this recovered if Alex is willing to walk away first.',
+          'The PDA receives a second notice. This one sounds almost optimistic, which is how Alex knows it was written far away from the outside repair site.',
         task: {
           type: 'single_choice', variant: 'problem',
           options: [

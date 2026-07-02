@@ -11,11 +11,19 @@ Choose how Alex prepares Shmiel for the outside cargo-side segment.
 ## Actions
 ```yaml
 - id: patch_drone
-  text: Software Patch
-  description: Update the drone properly before opening the hatch.
+  text: 'Software Patch'
+  description: 'Update the drone properly before opening the hatch.'
+  conclusion: |-
+    Vex loads a careful patch and the drone settles into a less offended idle pattern.
+    
+    The hatch can cycle once the outside follow profile stops arguing with the cargo clamp package.
 - id: override_drone
-  text: Hard Override
-  description: Force the drone into follow mode and deal with side effects later.
+  text: 'Hard Override'
+  description: 'Force the drone into follow mode and deal with side effects later.'
+  conclusion: |-
+    Vex slams the override path through and the drone obeys with the nervous energy of a badly supervised forklift.
+    
+    The hatch can cycle, provided Alex fixes the follow profile before the override starts improvising.
 ```
 
 ## Scoring

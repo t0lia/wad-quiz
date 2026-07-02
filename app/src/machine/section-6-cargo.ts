@@ -10,9 +10,9 @@ export const section6CargoStates = {
     meta: {
       id: 'section_6_cargo_intro',
       text:
-        'The cargo lane reaches Airlock #4, where Vex already has Shmiel waiting. The drone is on site, but its current profile still thinks this is an indoor freight job, and space has very strict feedback about that kind of mistake.\n\n' +
-        'VEX: You made good time. Meet Shmiel - general purpose maintenance drone. Last time it was used for some inside dust removal so his software might be a bit surprised by your open space mission.\n' +
-        'ALEX: So we have a hull job and a drone that still thinks in vacuum cleaner terms.\n' +
+        'The cargo lane reaches Airlock #4, where Vex already has Shmiel waiting. The maintenance drone is on site, but its current profile still thinks this is an indoor freight job, and space has very strict feedback about that kind of mistake.\n\n' +
+        'VEX: You made good time. Meet Shmiel, a maintenance drone. Last time it was used for inside dust removal, so its software might be a bit surprised by your mission outside.\n' +
+        'ALEX: So we have an outside repair job and a drone that still thinks in vacuum cleaner terms.\n' +
         'VEX: Exactly. We can patch the profile properly, or bully it into follow mode and hope space stays patient.\n' +
         'ALEX: Then let us choose what kind of bad idea it becomes.',
       task: {
@@ -41,63 +41,36 @@ export const section6CargoStates = {
 
   ...jsClampBooleanPayloadTaskState({
     stateId: 'section_6_cargo_task_1',
-    solvedTarget: 'section_6_cargo_conclusion_solved',
-    overrideTarget: 'section_6_cargo_conclusion_override',
-    incorrectTarget: 'section_6_cargo_conclusion_incorrect',
+    solvedTarget: 'section_7',
+    overrideTarget: 'section_7',
+    incorrectTarget: 'section_7',
   }),
 
   ...javaShellFieldAlignmentTaskState({
     stateId: 'section_6_cargo_task_2',
-    solvedTarget: 'section_6_cargo_conclusion_solved',
-    overrideTarget: 'section_6_cargo_conclusion_override',
-    incorrectTarget: 'section_6_cargo_conclusion_incorrect',
+    solvedTarget: 'section_7',
+    overrideTarget: 'section_7',
+    incorrectTarget: 'section_7',
   }),
 
   ...javaProfileMergeResetTaskState({
     stateId: 'section_6_cargo_task_3',
-    solvedTarget: 'section_6_cargo_conclusion_solved',
-    overrideTarget: 'section_6_cargo_conclusion_override',
-    incorrectTarget: 'section_6_cargo_conclusion_incorrect',
+    solvedTarget: 'section_7',
+    overrideTarget: 'section_7',
+    incorrectTarget: 'section_7',
   }),
 
   ...jsBeaconNestedFieldTaskState({
     stateId: 'section_6_cargo_task_4',
-    solvedTarget: 'section_6_cargo_conclusion_solved',
-    overrideTarget: 'section_6_cargo_conclusion_override',
-    incorrectTarget: 'section_6_cargo_conclusion_incorrect',
+    solvedTarget: 'section_7',
+    overrideTarget: 'section_7',
+    incorrectTarget: 'section_7',
   }),
 
   ...javaModeSuffixAlignmentTaskState({
     stateId: 'section_6_cargo_task_5',
-    solvedTarget: 'section_6_cargo_conclusion_solved',
-    overrideTarget: 'section_6_cargo_conclusion_override',
-    incorrectTarget: 'section_6_cargo_conclusion_incorrect',
+    solvedTarget: 'section_7',
+    overrideTarget: 'section_7',
+    incorrectTarget: 'section_7',
   }),
-
-  section_6_cargo_conclusion_incorrect: {
-    meta: {
-      id: 'section_6_cargo_conclusion_incorrect',
-      text: '',
-      task: { type: 'text_scene' },
-    } as ChallengeSceneData,
-    on: { NEXT: 'section_7' },
-  },
-
-  section_6_cargo_conclusion_solved: {
-    meta: {
-      id: 'section_6_cargo_conclusion_solved',
-      text: '',
-      task: { type: 'text_scene' },
-    } as ChallengeSceneData,
-    on: { NEXT: 'section_7' },
-  },
-
-  section_6_cargo_conclusion_override: {
-    meta: {
-      id: 'section_6_cargo_conclusion_override',
-      text: '',
-      task: { type: 'text_scene' },
-    } as ChallengeSceneData,
-    on: { NEXT: 'section_7' },
-  },
 }

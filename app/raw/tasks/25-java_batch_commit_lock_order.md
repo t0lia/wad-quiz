@@ -33,21 +33,21 @@ void rollbackBatch(Lock live, Lock staging) {
 - id: blame_deploy
   text: Assume the batch freeze came from a bad rollout and redeploy around it
   description: Spend time on release symptoms instead of the lock rule.
+- id: normalize_concurrency_rule
+  text: Make commit and rollback acquire their shared locks in the same order
+  description: Restore one consistent lock rule so batch recovery can complete under load.
 - id: remove_safety_lock
   text: Drop one lock and pray the batch traffic stays polite
   description: Escape the stall by removing protection rather than fixing order.
 - id: pin_emergency_execution
   text: Pin the distributor to the emergency lane and accept the compromise
   description: Recover quickly by relying on a narrower, brittle mode.
-- id: normalize_concurrency_rule
-  text: Make commit and rollback acquire their shared locks in the same order
-  description: Restore one consistent lock rule so batch recovery can complete under load.
 ```
 
 ## Scoring
 | ACTION_ID | TECH | DED | SOC |
 |-----------|------|-----|-----|
 | blame_deploy | -0.6 | -0.2 | -0.1 |
+| normalize_concurrency_rule | 1 | 0.4 | 0.2 |
 | remove_safety_lock | -0.9 | -0.6 | -0.5 |
 | pin_emergency_execution | -0.2 | -0.4 | -0.2 |
-| normalize_concurrency_rule | 1 | 0.4 | 0.2 |

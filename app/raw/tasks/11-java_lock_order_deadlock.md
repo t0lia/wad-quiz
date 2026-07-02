@@ -30,15 +30,15 @@ void restorePower(Lock main, Lock backup) {
 
 ## Actions
 ```yaml
+- id: normalize_concurrency_rule
+  text: Make both paths acquire their shared locks in the same order
+  description: Restore one consistent lock rule so the core can run under load.
 - id: blame_deploy
   text: Treat the stall like a bad deployment and redeploy around it
   description: Spend time on packaging instead of the lock rule.
 - id: remove_safety_lock
   text: Drop one safety lock and trust light traffic
   description: Escape the deadlock by removing protection rather than fixing order.
-- id: normalize_concurrency_rule
-  text: Make both paths acquire their shared locks in the same order
-  description: Restore one consistent lock rule so the core can run under load.
 - id: pin_emergency_execution
   text: Force the core into a narrower fallback execution mode
   description: Recover power quickly by accepting a slower, brittle path.
@@ -47,7 +47,7 @@ void restorePower(Lock main, Lock backup) {
 ## Scoring
 | ACTION_ID | TECH | DED | SOC |
 |-----------|------|-----|-----|
+| normalize_concurrency_rule | 1 | 0.4 | 0.2 |
 | blame_deploy | -0.6 | -0.2 | -0.1 |
 | remove_safety_lock | -0.9 | -0.6 | -0.5 |
-| normalize_concurrency_rule | 1 | 0.4 | 0.2 |
 | pin_emergency_execution | -0.2 | -0.4 | -0.2 |

@@ -33,12 +33,12 @@ RoutePlan recoverTunnel(String iface) {
 - id: add_shortcut_route
   text: Add a shortcut route without fixing the real network scope
   description: Push traffic through temporarily while leaving the boundary wrong.
-- id: correct_network_boundary
-  text: Narrow the boundary to the segment the repair actually needs
-  description: Fix the route scope so unrelated systems stop leaking into it.
 - id: force_recovery_tunnel
   text: Force a direct recovery path and accept the debt
   description: Restore traffic quickly through a brittle temporary route.
+- id: correct_network_boundary
+  text: Narrow the boundary to the segment the repair actually needs
+  description: Fix the route scope so unrelated systems stop leaking into it.
 ```
 
 ## Scoring
@@ -46,5 +46,5 @@ RoutePlan recoverTunnel(String iface) {
 |-----------|------|-----|-----|
 | blame_switch | -0.6 | -0.2 | -0.1 |
 | add_shortcut_route | -0.8 | -0.5 | -0.4 |
-| correct_network_boundary | 1 | 0.4 | 0.2 |
 | force_recovery_tunnel | -0.4 | -0.6 | -0.4 |
+| correct_network_boundary | 1 | 0.4 | 0.2 |

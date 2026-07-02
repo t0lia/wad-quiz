@@ -42,37 +42,37 @@ export const section10DebtStates = {
 
   ...javaLockOrderDeadlockTaskState({
     stateId: 'section_10_debt_task_1',
-    solvedTarget: 'section_10_debt_conclusion_solved',
-    overrideTarget: 'section_10_debt_conclusion_override',
-    incorrectTarget: 'section_10_debt_conclusion_incorrect',
+    solvedTarget: 'section_10_exit',
+    overrideTarget: 'section_10_exit',
+    incorrectTarget: 'section_10_exit',
   }),
 
   ...javaEmergencyLockReversalTaskState({
     stateId: 'section_10_debt_task_2',
-    solvedTarget: 'section_10_debt_conclusion_solved',
-    overrideTarget: 'section_10_debt_conclusion_override',
-    incorrectTarget: 'section_10_debt_conclusion_incorrect',
+    solvedTarget: 'section_10_exit',
+    overrideTarget: 'section_10_exit',
+    incorrectTarget: 'section_10_exit',
   }),
 
   ...javaAuditLockInversionTaskState({
     stateId: 'section_10_debt_task_3',
-    solvedTarget: 'section_10_debt_conclusion_solved',
-    overrideTarget: 'section_10_debt_conclusion_override',
-    incorrectTarget: 'section_10_debt_conclusion_incorrect',
+    solvedTarget: 'section_10_exit',
+    overrideTarget: 'section_10_exit',
+    incorrectTarget: 'section_10_exit',
   }),
 
   ...javaCallbackLockReentryTaskState({
     stateId: 'section_10_debt_task_4',
-    solvedTarget: 'section_10_debt_conclusion_solved',
-    overrideTarget: 'section_10_debt_conclusion_override',
-    incorrectTarget: 'section_10_debt_conclusion_incorrect',
+    solvedTarget: 'section_10_exit',
+    overrideTarget: 'section_10_exit',
+    incorrectTarget: 'section_10_exit',
   }),
 
   ...javaBatchCommitLockOrderTaskState({
     stateId: 'section_10_debt_task_5',
-    solvedTarget: 'section_10_debt_conclusion_solved',
-    overrideTarget: 'section_10_debt_conclusion_override',
-    incorrectTarget: 'section_10_debt_conclusion_incorrect',
+    solvedTarget: 'section_10_exit',
+    overrideTarget: 'section_10_exit',
+    incorrectTarget: 'section_10_exit',
   }),
 
   section_10_debt_conclusion_incorrect: {

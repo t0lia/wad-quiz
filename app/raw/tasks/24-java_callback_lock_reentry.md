@@ -33,12 +33,12 @@ void onRecovery(Lock main, Lock backup) {
 - id: remove_safety_lock
   text: Strip one lock and trust the overlap never gets ugly
   description: Escape the deadlock by removing protection rather than fixing order.
-- id: normalize_concurrency_rule
-  text: Keep the callback and primary path on one shared lock order
-  description: Restore one consistent acquisition rule so the core can survive overlap.
 - id: pin_emergency_execution
   text: Force the distributor into an emergency single-lane mode
   description: Recover power quickly by accepting a slower, brittle path.
+- id: normalize_concurrency_rule
+  text: Keep the callback and primary path on one shared lock order
+  description: Restore one consistent acquisition rule so the core can survive overlap.
 - id: blame_deploy
   text: Call it a deployment issue and redeploy around the stall
   description: Spend time on packaging symptoms instead of the lock inversion.
@@ -48,6 +48,6 @@ void onRecovery(Lock main, Lock backup) {
 | ACTION_ID | TECH | DED | SOC |
 |-----------|------|-----|-----|
 | remove_safety_lock | -0.9 | -0.6 | -0.5 |
-| normalize_concurrency_rule | 1 | 0.4 | 0.2 |
 | pin_emergency_execution | -0.2 | -0.4 | -0.2 |
+| normalize_concurrency_rule | 1 | 0.4 | 0.2 |
 | blame_deploy | -0.6 | -0.2 | -0.1 |

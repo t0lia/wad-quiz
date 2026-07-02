@@ -11,11 +11,19 @@ Sector A is running on recovered software paths. Stop with a partial win, or con
 ## Actions
 ```yaml
 - id: stop_after_8
-  text: Stop With Partial Recovery
-  description: End the field operation and leave the physical fault for another shift.
+  text: 'Stop With Partial Recovery'
+  description: 'End the field operation and leave the physical fault for another shift.'
+  conclusion: |-
+    Alex turns back with the software route alive and the hardware still waiting for a braver or less tired engineer.
+    
+    The ship keeps going on reserve paths, and that has to count for something.
 - id: continue_after_8
-  text: Continue To The Connector
-  description: Keep moving toward the hardware fault.
+  text: 'Continue To The Connector'
+  description: 'Keep moving toward the hardware fault.'
+  conclusion: |-
+    Alex keeps moving deeper into the gap while the switch finally behaves behind.
+    
+    The burned connector is ahead, bright and ugly against the ship's exterior.
 ```
 
 ## Scoring

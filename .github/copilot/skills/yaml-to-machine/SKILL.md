@@ -1,37 +1,90 @@
 ---
 name: yaml-to-machine
-description: 'Convert YAML story sections to XState machine states (intro → task → conclusion pages). Use when adding new story sections, converting YAML to machine.ts, creating branching paths, or implementing problem tasks with multiple outcomes.'
-argument-hint: 'Which YAML section should I convert?'
+description: 'Convert YAML story sections to XState machine states. Map narrative sections (intro → interaction → conclusion) to pages. Handle branch choices and problem tasks with multiple outcomes.'
+argument-hint: 'Which section from 06-gn_structure.yaml should I convert?'
 user-invocable: true
 ---
 
 # YAML to XState Machine Conversion
 
-## When to Use
-- Adding a new section from YAML to machine.ts
-- Converting `interaction.type: branch` (route choices, exits)
-- Converting `interaction.type: problem` (code + multiple choice)
-- Implementing conclusion pages for action outcomes
-- Wiring context flags and conditional transitions
-- Need to verify narrative flows through multiple pages
+## Core Concept
 
-## Quick Outcome
-Each YAML section becomes **3+ separate states** that display as individual pages:
-1. **Intro page** → narrative + dialogue (one_tap_forward)
-2. **Task page** → code + buttons OR branch options (single_choice)
-3. **Conclusion page(s)** → outcome narratives (text_scene, one per action result)
+Hydroworld is a narrative graph. Each section in `06-gn_structure.yaml` maps to a story screen with three phases:
+
+1. **Intro** (problem tasks only) — Read narrative, see dialogue
+2. **Interaction** — Solve code (problem) OR choose a route (branch)
+3. **Conclusion** — See outcome narrative before moving to next section
+
+In XState, each phase becomes a separate state. Most sections generate 3–7 states depending on interaction type.
+
+## Game Design Essentials
+
+### What You're Actually Implementing
+
+- **Choice node** (branch): Player picks a route. Each choice routes to a different next section and may set context flags.
+- **Problem node** (problem): Player solves code. Results in `solved`, `incorrect`, or `override` outcome. Tasks are shuffled at runtime from a pool, so UI binds by `action.id`, not position.
+- **Scoring**: Every choice carries deltas for `technical`, `dedication`, `social`. These accumulate and display on the final screen.
+- **State flags**: Context flags like `boot_mode`, `route_choice`, `problem_X_result` drive later branches and endings.
+
+### What the Player Sees
+
+| Phase | Branch | Problem |
+|-------|--------|---------|
+| Intro | *none* | Narrative + dialogue + Continue button |
+| Task | Options (tappable cards) + prompt | Code snippet + options + Submit button |
+| Conclusion | Outcome narrative + Continue | Outcome narrative + Continue |
+
+**Rendering rules:**
+- Show: section title, location, prompt text, option labels, descriptions, code, dialogue, conclusion narrative
+- Hide: section_id, action.id, pool_ids, result flags (`problem_X_result`), YAML structure keys
+
+### Key Runtime Behavior
+
+- **Task assembly**: One task is selected from the section's mapped pool and shuffled. UI must bind selections to `action.id` under the hood, never to a fixed position.
+- **Modifiers**: Problems can have conditional prompt tweaks (e.g., "You have limited oxygen" if in danger). Apply based on current context flags.
 
 ---
 
-## Step-by-Step Procedure
+## Implementation Workflow
 
-### Step 1: Identify Section Type
-Open `06-gn_structure.yaml` and check `interaction.type`:
-- **`type: branch`** → Route/choice decision (3 states, no intro)
-- **`type: problem`** → Code + multiple choice (5+ states with intro)
+### Step 1: Locate and Analyze YAML Section
+
+Open `06-gn_structure.yaml` and find your section.
+
+```yaml
+- id: section_N
+  title: "Section Title"
+  intro:
+    narrative: "Story text..."
+    dialogue:
+      - speaker: lina
+        text: "Line of dialogue..."
+  interaction:
+    type: branch | problem
+    prompt: "What does the player read?"
+    modifiers: [{ condition: "if debt > 0", effect: "Extra context..." }]
+    snippet: ["code line 1", "code line 2"]  # problems only
+    actions:
+      - id: action_a
+        text: "Choice label shown to player"
+        description: "Help text"
+        sets_flag: "flag_name: value"
+        metric_delta: { technical: 1, dedication: 0, social: -1 }
+        next_section: section_Y
+  conclusion:
+    by_action:
+      action_a:
+        narrative: "Outcome text for this choice..."
+        next_section: section_Z
+```
+
+**Decision**: Is `interaction.type` branch or problem?
+- **Branch** → 2–3 states (no intro, goes: task → conclusions)
+- **Problem** → 5–7 states (goes: intro → task → conclusions)
 
 ### Step 2: Create Intro State (Problem Only)
-Only for problems. Branch sections skip intro.
+
+If problem, create a state for the intro narrative and dialogue.
 
 ```typescript
 section_N: {
@@ -40,8 +93,7 @@ section_N: {
     text: 'intro.narrative',
     dialogue: [
       { speaker: 'lina', text: 'dialogue line text' },
-      { speaker: 'alex', text: 'dialogue line text' },
-      // one entry per intro.dialogue item — speaker name in lowercase
+      { speaker: 'alex', text: 'another line' },
     ],
     task: { type: 'one_tap_forward' },
   } as ChallengeSceneData,
@@ -49,186 +101,170 @@ section_N: {
 },
 ```
 
-**Rules for dialogue:**
-- `text` contains only `intro.narrative` — no speaker lines
-- `dialogue` is a `{ speaker: string; text: string }[]` array
-- Speaker names are **lowercase** (matching YAML exactly: `lina`, `alex`, `tony`, `vex`, `clara`, `ray`, `captain`, `elena`)
-- Omit `dialogue` entirely if the section has no dialogue lines
-
-**Decision Point**: Is this a branch or problem?
-- **Branch** → Skip intro, jump to Step 3
-- **Problem** → Create intro, continue to Step 3
+**Dialogue rules:**
+- One entry per YAML dialogue item
+- Speaker names lowercase: `lina`, `alex`, `tony`, `vex`, `clara`, `ray`, `captain`, `elena`
+- Only omit `dialogue` array if section has no dialogue
+- Do NOT include speaker name in the `text` field
 
 ### Step 3: Create Task State
-All sections (branch and problem) need a task state.
+
+All sections (branch and problem) have a task state. This is where the player makes a decision.
 
 ```typescript
 section_N_task: {
   meta: {
     id: 'section_N_task',
-    text: 'interaction.prompt + matching modifiers + code snippet',
-    // Add dialogue field if this branch/task state has intro.dialogue lines
-    // (branch sections have no separate intro state, so dialogue goes here)
-    dialogue: [
-      { speaker: 'lina', text: 'dialogue line text' },
+    text: 'interaction.prompt + any matching modifiers + code snippet',
+    dialogue: [  // For branch only: dialogue goes here (no intro state for branches)
+      { speaker: 'lina', text: 'dialogue line' },
     ],
-    // branch sections:
     task: {
       type: 'single_choice',
-      variant: 'branch',
-      options: interaction.actions.map(a => ({ id: a.id, content: a.text }))
-    },
-    // problem sections:
-    task: {
-      type: 'single_choice',
-      variant: 'problem',
-      options: interaction.actions.map(a => ({ id: a.id, content: a.text }))
+      variant: 'branch',  // or 'problem'
+      options: interaction.actions.map(a => ({
+        id: a.id,        // Use action.id for runtime binding
+        content: a.text, // Player-facing label
+      })),
     },
   } as ChallengeSceneData,
   on: { NEXT: [...] },  // Step 4
-}
+},
 ```
 
-**Quality Check**: 
-- ✓ Snippet is real, readable code (not pseudo-code)
-- ✓ Button labels match action.text exactly
-- ✓ Modifiers matching context appended to prompt
+**Modifiers** (problems only): If YAML lists conditional modifiers, append the matching ones to the prompt text based on current context.
 
 ### Step 4: Wire Transitions with Guards
-Map each action to its conclusion or next section.
 
-**For problems** (3 outcomes: solved, incorrect, override):
+Each action routes to a conclusion and may set flags or score.
+
+**For problems** (3 outcomes per task):
+
 ```typescript
 on: {
   NEXT: [
-    { guard: answer === 'correct_action', target: 'section_N_conclusion_solved', 
+    {
+      guard: answer === 'correct_action_id',
+      target: 'section_N_conclusion_solved',
       actions: [
-        { type: 'set', params: { problem_X_result: 'solved' } },
+        { type: 'set', params: { problem_N_result: 'solved' } },
         { type: 'score', params: { technical: 2, dedication: 1, social: 0 } },
-      ] },
-    { guard: answer === 'override_action', target: 'section_N_conclusion_override',
+      ],
+    },
+    {
+      guard: answer === 'override_action_id',
+      target: 'section_N_conclusion_override',
       actions: [
-        { type: 'set', params: { problem_X_result: 'override' } },
+        { type: 'set', params: { problem_N_result: 'override' } },
         { type: 'score', params: { technical: 1, dedication: -1, social: -1 } },
-      ] },
-    { target: 'section_N_conclusion_incorrect',
+      ],
+    },
+    {
+      // Fallback (no guard) for incorrect answer
+      target: 'section_N_conclusion_incorrect',
       actions: [
-        { type: 'set', params: { problem_X_result: 'incorrect' } },
+        { type: 'set', params: { problem_N_result: 'incorrect' } },
         { type: 'score', params: { technical: -1, dedication: 0, social: 0 } },
-      ] },
-  ]
+      ],
+    },
+  ],
 }
 ```
 
-**For branches** (2+ choices, each to conclusion then next section):
+**For branches** (2+ choices, one per action):
+
 ```typescript
 on: {
   NEXT: [
-    { guard: answer === 'choice_1', target: 'section_1_conclusion_choice1',
+    {
+      guard: answer === 'cargo_choice_id',
+      target: 'section_N_conclusion_cargo',
       actions: [
-        { type: 'set', params: { context_flag: 'value1' } },
+        { type: 'set', params: { route_choice: 'cargo' } },
         { type: 'score', params: { technical: 0, dedication: 1, social: 0 } },
-      ] },
-    { guard: answer === 'choice_2', target: 'section_1_conclusion_choice2',
+      ],
+    },
+    {
+      guard: answer === 'medical_choice_id',
+      target: 'section_N_conclusion_medical',
       actions: [
-        { type: 'set', params: { context_flag: 'value2' } },
+        { type: 'set', params: { route_choice: 'medical' } },
         { type: 'score', params: { technical: 1, dedication: -1, social: 0 } },
-      ] },
-  ]
+      ],
+    },
+  ],
 }
 ```
+
+**Scoring convention:**
+- `solved` (clean fix): technical +2, dedication +1, social 0
+- `override` (shortcut): technical +1, dedication −1, social −1
+- `incorrect` (wrong): technical −1, dedication 0, social 0
+- Branch choices: match narrative tone (teamwork → social/dedication up; solo/reckless → tech/dedication trade-off)
 
 ### Step 5: Create Conclusion States
-One per action (for problems) or choice (for branches).
+
+One state per outcome. Conclusion shows result narrative, then continues.
 
 ```typescript
 section_N_conclusion_solved: {
   meta: {
     id: 'section_N_conclusion_solved',
-    text: 'conclusion.by_action[action_id].narrative',
+    text: 'conclusion.by_action[correct_action_id].narrative',
     task: { type: 'text_scene' },
   } as ChallengeSceneData,
-  on: { NEXT: 'conclusion.by_action[action_id].next_section' },
+  on: {
+    NEXT: 'section_Y',  // Next section from conclusion.by_action[...].next_section
+  },
+},
+
+section_N_conclusion_override: {
+  meta: {
+    id: 'section_N_conclusion_override',
+    text: 'conclusion.by_action[override_action_id].narrative',
+    task: { type: 'text_scene' },
+  } as ChallengeSceneData,
+  on: { NEXT: 'section_Y' },
+},
+
+section_N_conclusion_incorrect: {
+  meta: {
+    id: 'section_N_conclusion_incorrect',
+    text: 'conclusion.by_action[some_action_id].narrative',
+    task: { type: 'text_scene' },
+  } as ChallengeSceneData,
+  on: { NEXT: 'section_Y' },
 },
 ```
 
-**Quality Check**:
-- ✓ Each outcome has matching narrative
-- ✓ Narrative explains consequence of that choice
-- ✓ Next section from YAML (not hardcoded)
-
-### Step 6: Verify Build
-```bash
-npm run build
-```
-
-**Quality Check**:
-- ✓ No TypeScript errors
-- ✓ All state IDs valid
-- ✓ No circular transitions
-- ✓ All context flags match type definitions
-
 ---
 
-## Reference: YAML Section Structure
+## Reference: State Naming
 
-All sections in `06-gn_structure.yaml` follow this shape:
+Use pattern: `section_N[_variant]_[stage]`
 
-```yaml
-- id: section_N
-  title: string
-  intro:
-    narrative: string
-    dialogue: [{ speaker, text }]
-  interaction:
-    type: branch | problem
-    prompt: string
-    modifiers: [{ condition, effect }]     # Optional, problems only
-    snippet: [code_lines]                   # Optional, problems only
-    actions: [{ id, text, outcome, sets_flag, next }]
-  conclusion:
-    by_action:
-      action_id:
-        narrative: string
-        next_section: section_id
-```
+- **N**: Section number (1–10)
+- **variant** (optional): `_standard`, `_unsigned`, `_cargo`, `_medical`, `_clean`, `_debt`, `_fallout`
+- **stage**: `_intro`, `_task`, `_conclusion_OUTCOME`
 
-**Field Display Rules:**
-- **ALWAYS shown**: intro.narrative, intro.dialogue, prompt, snippet, action.text, conclusion.narrative
-- **CONDITIONAL**: modifiers.effect (shown if condition matches current context)
-- **NEVER shown**: description, location_id, YAML structure keys
+Outcomes:
+- `_solved` — Correct answer
+- `_incorrect` — Wrong answer
+- `_override` — Dirty fix / shortcut
+- `_[choice_id]` — Branch choice (e.g., `_cargo`, `_medical`)
 
----
-
-## Reference: Branch vs Problem Patterns
-
-| Aspect | Branch (Route/Exit) | Problem (Task) |
-|--------|-------------------|---|
-| States created | 2-3 | 5-7 |
-| Has intro? | No | Yes |
-| Page sequence | Task → Conclusions | Intro → Task → Conclusions |
-| Button count | 2-4 choices | 4 actions |
-| Outcomes | 2+ (choice_1, choice_2, ...) | 3 (solved, incorrect, override) |
-| Modifiers | Not used | Used to contextualize prompt |
-| Example | Section 1 boot choice | Section 2 code problem |
+Examples:
+- `section_2_intro` — Standard intro
+- `section_5_cargo_task` — Cargo route variant task
+- `section_7_conclusion_solved` — Conclusion after solving correctly
 
 ---
 
 ## Reference: Context Flags
 
-When `interaction.actions[].sets_flag` appears in YAML:
+These are set by player choices or problem outcomes. Always use the exact flag name from the type definition.
 
-```yaml
-sets_flag: "flag_name: value"  # YAML format
-```
-
-Convert to:
-
-```typescript
-actions: [{ type: 'set', params: { flag_name: 'value' } }]
-```
-
-**Known flags** (from context type definition):
+**Common flags:**
 - `boot_mode`: 'standard' | 'unsigned'
 - `route_choice`: 'cargo' | 'medical'
 - `eva_mode`: 'team' | 'solo'
@@ -236,65 +272,41 @@ actions: [{ type: 'set', params: { flag_name: 'value' } }]
 - `problem_X_result`: 'solved' | 'incorrect' | 'override'
 - `drone_mode`: 'patch' | 'override'
 
-Both `set` and `score` are real action implementations wired via `.provide()` in `machine.ts` (not no-ops) — every guarded `NEXT` rule that represents a player choice should carry both.
-
----
-
-## Reference: Score Deltas
-
-Every decision node (branch or problem) also carries a `{ type: 'score', params: {...} }` action per choice/outcome, tracking 3 metrics defined in `data/02-metrics.md`: `technical`, `dedication`, `social`. Deltas accumulate into `context.score` for the whole playthrough and are shown on the final screen.
-
-When `interaction.actions[].metric_delta` (branch) or `conclusion.by_outcome.*.metric_delta` (problem) appears in the YAML:
-
-```yaml
-metric_delta: { technical: 1, dedication: 1, social: 0 }  # YAML format
-```
-
-Convert to:
-
+Set via:
 ```typescript
-{ type: 'score', params: { technical: 1, dedication: 1, social: 0 } }
+{ type: 'set', params: { flag_name: 'value' } }
 ```
 
-**Convention for assigning values** (small integers, roughly ±1..2):
-- Problem `solved`: `{ technical: 2, dedication: 1, social: 0 }` — clean, correct fix
-- Problem `override`: `{ technical: 1, dedication: -1, social: -1 }` — works but cuts corners, creates debt
-- Problem `incorrect` (guardless fallback): `{ technical: -1, dedication: 0, social: 0 }` — wasted time
-- Branch choices: judge from narrative framing (teamwork/patience → `social`/`dedication` up; solo/reckless/shortcut → `technical` or `dedication` trade-offs; "stop"/"continue" exit gates: `stop` → `dedication: -1`, `continue` → `dedication: 1`)
-- When a single player choice is split across multiple guarded rules for routing reasons (e.g. by `debt_count`), duplicate the same `score` action on every rule for that choice — the delta must not depend on where the choice routes.
+---
+
+## Reference: Score Metrics
+
+Three dimensions accumulate across all choices:
+
+- **technical**: Code quality, technical decisions (problem correct = +2, wrong = −1)
+- **dedication**: Effort, patience, persistence (team choice = +1, shortcut = −1)
+- **social**: Team collaboration, communication (helped others = +1, solo/reckless = −1)
+
+Track in:
+```typescript
+{ type: 'score', params: { technical: 2, dedication: 1, social: 0 } }
+```
+
+All decision branches must include a `score` action; totals display on the final screen.
 
 ---
 
-## Reference: Naming Conventions
+## Verification Checklist
 
-**State IDs** follow pattern: `section_N[_variant]_[stage]`
-- **N**: Section number (1-10)
-- **variant**: `_standard`, `_unsigned`, `_cargo`, `_medical`, `_clean`, `_debt`, `_fallout`
-- **stage**: `_intro`, `_task`, `_conclusion_[outcome]`
+After converting a section:
 
-**Examples**:
-- `section_2_standard_intro` — Sector A intro, standard boot
-- `section_2_standard_task` — Sector A problem, standard boot
-- `section_2_standard_conclusion_solved` — Correct answer outcome
-- `section_3_conclusion_cargo` — Route choice conclusion
-- `section_8_debt_task` — Network problem variant
-
-**Outcomes** (for conclusion suffixes):
-- `_solved` — Problem solved correctly
-- `_incorrect` — Wrong answer (fallback)
-- `_override` — Shortcut/dirty fix taken
-- `_[choice_id]` — Branch choice (e.g., `_cargo`, `_medical`, `_team`)
-
----
-
-## Workflow Checklist
-
-- [ ] **YAML Review**: Open section in 06-gn_structure.yaml
-- [ ] **Type Check**: Identify `interaction.type` (branch or problem)
-- [ ] **Intro State**: Create if problem, skip if branch
-- [ ] **Task State**: Create with prompt + options
-- [ ] **Transitions**: Add guards + actions for each choice
-- [ ] **Conclusions**: Create outcome narrative states
-- [ ] **Build**: Run `npm run build` and verify no errors
-- [ ] **Context**: Ensure all flags match type definition
-- [ ] **Narrative Flow**: Verify all next_section values link correctly
+- [ ] States created match interaction type (2–3 for branch, 5–7 for problem)
+- [ ] All state IDs follow naming convention
+- [ ] Intro state exists only for problems
+- [ ] Task state has correct variant (`branch` or `problem`)
+- [ ] Each action.id appears in exactly one guard (or is the fallback)
+- [ ] All conclusions reference next_section from YAML
+- [ ] Every NEXT transition includes both `set` (flags) and `score` actions
+- [ ] Build succeeds: `npm run build`
+- [ ] No circular transitions
+- [ ] All referenced flags exist in context type definition

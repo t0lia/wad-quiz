@@ -32,12 +32,12 @@ async def boot_sector_link(services):
 - id: sleep_then_retry
   text: Sleep for a few seconds and try the handshake again
   description: Add timing luck instead of a real readiness condition.
-- id: await_service_barrier
-  text: Await the startup tasks before the handshake begins
-  description: Gather the service tasks and let sector-link start only after they report ready.
 - id: force_sector_link
   text: Force sector-link up even if the startup tasks are still racing
   description: Push the link online and accept that the boot sequence is now lying.
+- id: await_service_barrier
+  text: Await the startup tasks before the handshake begins
+  description: Gather the service tasks and let sector-link start only after they report ready.
 ```
 
 ## Scoring
@@ -45,5 +45,5 @@ async def boot_sector_link(services):
 |-----------|------|-----|-----|
 | blame_controller | -0.6 | -0.2 | -0.1 |
 | sleep_then_retry | -0.7 | -0.4 | 0 |
-| await_service_barrier | 1 | 0.4 | 0.2 |
 | force_sector_link | -0.4 | -0.7 | -0.4 |
+| await_service_barrier | 1 | 0.4 | 0.2 |

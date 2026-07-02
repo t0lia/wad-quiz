@@ -111,7 +111,7 @@ export const section8CleanStates = {
     meta: {
       id: 'section_8_exit_clean',
       text:
-        'The PDA receives a second notice. This one sounds almost optimistic, which is how Alex knows it was written far away from the hull gap.',
+        'The PDA receives a second notice. This one sounds almost optimistic, which is how Alex knows it was written far away from the outside repair site.',
       task: {
         type: 'single_choice', variant: 'problem',
         options: [

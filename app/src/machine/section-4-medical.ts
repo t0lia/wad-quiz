@@ -11,11 +11,11 @@ export const section4MedicalStates = {
     meta: {
       id: 'section_4_medical_intro',
       text:
-        'Clara leads Alex through the medical corridor to a quarantine side gate with cleaner walls and angrier software. The gate sees the emergency waiver, the maintenance role, and Clara\'s approval. It still declares the record incomplete and keeps the lock engaged.\n\n' +
+        'Clara leads Alex through the medical corridor to a quarantine side gate with cleaner walls and stricter software. Alex presses the emergency keycard to the reader while Clara adds her medical approval to the request. The gate still marks the record as incomplete and keeps the lock sealed.\n\n' +
         'CLARA: The waiver exists. I signed it myself.\n' +
-        'ALEX: Then the gate is either afraid of doctors or confused by field names.\n' +
+        'ALEX: Then the approval is arriving, but the gate is checking the wrong thing.\n' +
         'CLARA: I can work with either diagnosis.\n' +
-        'ALEX: Let us start with the one that compiles.',
+        'ALEX: Good. Let us fix the check before we argue with the hardware.',
       task: {
         type: 'one_tap_forward',
       },
@@ -47,63 +47,36 @@ export const section4MedicalStates = {
 
   ...javaAccessLevelCompareTaskState({
     stateId: 'section_4_medical_task_1',
-    solvedTarget: 'section_4_medical_conclusion_solved',
-    overrideTarget: 'section_4_medical_conclusion_override',
-    incorrectTarget: 'section_4_medical_conclusion_incorrect',
+    solvedTarget: 'section_5_medical',
+    overrideTarget: 'section_5_medical_fallout',
+    incorrectTarget: 'section_5_medical_fallout',
   }),
 
   ...javaWaiverFieldAlignmentTaskState({
     stateId: 'section_4_medical_task_2',
-    solvedTarget: 'section_4_medical_conclusion_solved',
-    overrideTarget: 'section_4_medical_conclusion_override',
-    incorrectTarget: 'section_4_medical_conclusion_incorrect',
+    solvedTarget: 'section_5_medical',
+    overrideTarget: 'section_5_medical_fallout',
+    incorrectTarget: 'section_5_medical_fallout',
   }),
 
   ...javaBadgeCaseNormalizationTaskState({
     stateId: 'section_4_medical_task_3',
-    solvedTarget: 'section_4_medical_conclusion_solved',
-    overrideTarget: 'section_4_medical_conclusion_override',
-    incorrectTarget: 'section_4_medical_conclusion_incorrect',
+    solvedTarget: 'section_5_medical',
+    overrideTarget: 'section_5_medical_fallout',
+    incorrectTarget: 'section_5_medical_fallout',
   }),
 
   ...jsWaiverScopeArrayTaskState({
     stateId: 'section_4_medical_task_4',
-    solvedTarget: 'section_4_medical_conclusion_solved',
-    overrideTarget: 'section_4_medical_conclusion_override',
-    incorrectTarget: 'section_4_medical_conclusion_incorrect',
+    solvedTarget: 'section_5_medical',
+    overrideTarget: 'section_5_medical_fallout',
+    incorrectTarget: 'section_5_medical_fallout',
   }),
 
   ...javaEscortNullFallbackTaskState({
     stateId: 'section_4_medical_task_5',
-    solvedTarget: 'section_4_medical_conclusion_solved',
-    overrideTarget: 'section_4_medical_conclusion_override',
-    incorrectTarget: 'section_4_medical_conclusion_incorrect',
+    solvedTarget: 'section_5_medical',
+    overrideTarget: 'section_5_medical_fallout',
+    incorrectTarget: 'section_5_medical_fallout',
   }),
-
-  section_4_medical_conclusion_incorrect: {
-    meta: {
-      id: 'section_4_medical_conclusion_incorrect',
-      text: '',
-      task: { type: 'text_scene' },
-    } as ChallengeSceneData,
-    on: { NEXT: 'section_5_medical_fallout' },
-  },
-
-  section_4_medical_conclusion_solved: {
-    meta: {
-      id: 'section_4_medical_conclusion_solved',
-      text: '',
-      task: { type: 'text_scene' },
-    } as ChallengeSceneData,
-    on: { NEXT: 'section_5_medical' },
-  },
-
-  section_4_medical_conclusion_override: {
-    meta: {
-      id: 'section_4_medical_conclusion_override',
-      text: '',
-      task: { type: 'text_scene' },
-    } as ChallengeSceneData,
-    on: { NEXT: 'section_5_medical_fallout' },
-  },
 }

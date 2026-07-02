@@ -32,21 +32,21 @@ CompletableFuture<String> bootSectorLink(Service service, Status status) {
 - id: sleep_then_retry
   text: Wait a few seconds and retry after the dashboard looks calmer
   description: Add timing luck instead of fixing the readiness lie.
+- id: await_service_barrier
+  text: Mark readiness only after registration finishes and then handshake
+  description: Put the readiness signal behind the async registration barrier.
 - id: force_sector_link
   text: Force sector-link online and trust the green light anyway
   description: Skip the safety checks and accept a dirty startup state.
 - id: blame_controller
   text: Restart the controller room and assume the rack is slow again
   description: Treat the symptom like hardware trouble outside the code path.
-- id: await_service_barrier
-  text: Mark readiness only after registration finishes and then handshake
-  description: Put the readiness signal behind the async registration barrier.
 ```
 
 ## Scoring
 | ACTION_ID | TECH | DED | SOC |
 |-----------|------|-----|-----|
 | sleep_then_retry | -0.7 | -0.4 | 0 |
+| await_service_barrier | 1 | 0.4 | 0.2 |
 | force_sector_link | -0.4 | -0.7 | -0.4 |
 | blame_controller | -0.6 | -0.2 | -0.1 |
-| await_service_barrier | 1 | 0.4 | 0.2 |

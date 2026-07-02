@@ -42,63 +42,36 @@ export const section10CleanStates = {
 
   ...javaLockOrderDeadlockTaskState({
     stateId: 'section_10_clean_task_1',
-    solvedTarget: 'section_10_clean_conclusion_solved',
-    overrideTarget: 'section_10_clean_conclusion_override',
-    incorrectTarget: 'section_10_clean_conclusion_incorrect',
+    solvedTarget: 'section_10_exit',
+    overrideTarget: 'section_10_exit',
+    incorrectTarget: 'section_10_exit',
   }),
 
   ...javaEmergencyLockReversalTaskState({
     stateId: 'section_10_clean_task_2',
-    solvedTarget: 'section_10_clean_conclusion_solved',
-    overrideTarget: 'section_10_clean_conclusion_override',
-    incorrectTarget: 'section_10_clean_conclusion_incorrect',
+    solvedTarget: 'section_10_exit',
+    overrideTarget: 'section_10_exit',
+    incorrectTarget: 'section_10_exit',
   }),
 
   ...javaAuditLockInversionTaskState({
     stateId: 'section_10_clean_task_3',
-    solvedTarget: 'section_10_clean_conclusion_solved',
-    overrideTarget: 'section_10_clean_conclusion_override',
-    incorrectTarget: 'section_10_clean_conclusion_incorrect',
+    solvedTarget: 'section_10_exit',
+    overrideTarget: 'section_10_exit',
+    incorrectTarget: 'section_10_exit',
   }),
 
   ...javaCallbackLockReentryTaskState({
     stateId: 'section_10_clean_task_4',
-    solvedTarget: 'section_10_clean_conclusion_solved',
-    overrideTarget: 'section_10_clean_conclusion_override',
-    incorrectTarget: 'section_10_clean_conclusion_incorrect',
+    solvedTarget: 'section_10_exit',
+    overrideTarget: 'section_10_exit',
+    incorrectTarget: 'section_10_exit',
   }),
 
   ...javaBatchCommitLockOrderTaskState({
     stateId: 'section_10_clean_task_5',
-    solvedTarget: 'section_10_clean_conclusion_solved',
-    overrideTarget: 'section_10_clean_conclusion_override',
-    incorrectTarget: 'section_10_clean_conclusion_incorrect',
+    solvedTarget: 'section_10_exit',
+    overrideTarget: 'section_10_exit',
+    incorrectTarget: 'section_10_exit',
   }),
-
-  section_10_clean_conclusion_incorrect: {
-    meta: {
-      id: 'section_10_clean_conclusion_incorrect',
-      text: '',
-      task: { type: 'text_scene' },
-    } as ChallengeSceneData,
-    on: { NEXT: 'section_10_exit' },
-  },
-
-  section_10_clean_conclusion_solved: {
-    meta: {
-      id: 'section_10_clean_conclusion_solved',
-      text: '',
-      task: { type: 'text_scene' },
-    } as ChallengeSceneData,
-    on: { NEXT: 'section_10_exit' },
-  },
-
-  section_10_clean_conclusion_override: {
-    meta: {
-      id: 'section_10_clean_conclusion_override',
-      text: '',
-      task: { type: 'text_scene' },
-    } as ChallengeSceneData,
-    on: { NEXT: 'section_10_exit' },
-  },
 }

@@ -33,12 +33,12 @@ RoutePlan recoverGateway(String iface) {
 - id: blame_switch
   text: Bounce the switch again and assume the routing table is innocent
   description: Spend time on the device instead of the route scope.
-- id: force_recovery_tunnel
-  text: Force a direct tunnel and accept one more brittle rescue path
-  description: Restore traffic quickly through technical debt.
 - id: correct_network_boundary
   text: Constrain the repair to the host or segment it actually needs
   description: Fix the route boundary so unrelated traffic stops leaking into it.
+- id: force_recovery_tunnel
+  text: Force a direct tunnel and accept one more brittle rescue path
+  description: Restore traffic quickly through technical debt.
 ```
 
 ## Scoring
@@ -46,5 +46,5 @@ RoutePlan recoverGateway(String iface) {
 |-----------|------|-----|-----|
 | add_shortcut_route | -0.8 | -0.5 | -0.4 |
 | blame_switch | -0.6 | -0.2 | -0.1 |
-| force_recovery_tunnel | -0.4 | -0.6 | -0.4 |
 | correct_network_boundary | 1 | 0.4 | 0.2 |
+| force_recovery_tunnel | -0.4 | -0.6 | -0.4 |
