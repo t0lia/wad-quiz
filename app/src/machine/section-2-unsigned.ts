@@ -86,7 +86,6 @@ export const section2UnsignedStates = {
     meta: {
       id: 'section_2_unsigned_task_2',
       text:
-        'Problem 2 Unsigned: Missing Gather Barrier\n\n' +
         'The new boot path fans out startup coroutines and then asks sector-link for a handshake before the dependency warmup finishes.\n\n' +
         '```python\n' +
         'async def boot_sector_link(services):\n' +
@@ -132,7 +131,6 @@ export const section2UnsignedStates = {
     meta: {
       id: 'section_2_unsigned_task_3',
       text:
-        'Problem 2 Unsigned: Missing Future Join\n\n' +
         'The experimental build moved startup work into futures, but the terminal still tries to talk to sector-link before those futures finish.\n\n' +
         '```java\n' +
         'String bootSectorLink(List<Service> services) throws Exception {\n' +
@@ -178,7 +176,6 @@ export const section2UnsignedStates = {
     meta: {
       id: 'section_2_unsigned_task_4',
       text:
-        'Problem 2 Unsigned: Registry Readiness Race\n\n' +
         'The unsigned build marks services as running before their async registration finishes, so sector-link reads a healthy dashboard and still fails its first handshake.\n\n' +
         '```javascript\n' +
         'async function startService(service, registry) {\n' +

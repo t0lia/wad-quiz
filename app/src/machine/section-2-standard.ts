@@ -86,7 +86,6 @@ export const section2StandardStates = {
     meta: {
       id: 'section_2_standard_task_2',
       text:
-        'Problem 2 Standard: Missing Gather Barrier\n\n' +
         'The same startup race shows up in a different language, but the fix is still about waiting for readiness instead of guessing.\n\n' +
         '```python\n' +
         'async def boot_sector_link(services):\n' +
@@ -132,7 +131,6 @@ export const section2StandardStates = {
     meta: {
       id: 'section_2_standard_task_3',
       text:
-        'Problem 2 Standard: Missing Future Join\n\n' +
         'The experimental build moved startup work into futures, but the terminal still tries to talk to sector-link before those futures finish.\n\n' +
         '```java\n' +
         'String bootSectorLink(List<Service> services) throws Exception {\n' +
@@ -178,7 +176,6 @@ export const section2StandardStates = {
     meta: {
       id: 'section_2_standard_task_4',
       text:
-        'Problem 2 Standard: Registry Readiness Race\n\n' +
         'The unsigned build marks services as running before registration finishes, so sector-link sees a healthy dashboard and still fails its first handshake.\n\n' +
         '```javascript\n' +
         'async function startService(service, registry) {\n' +
