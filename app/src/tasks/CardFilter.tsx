@@ -171,7 +171,7 @@ export default function CardFilter({ task, submitted, onSubmit }: Props) {
           disabled={!canSubmit}
           onClick={() => onSubmit(JSON.stringify(assignments))}
         >
-          Submit
+          next
         </button>
       )}
     </>

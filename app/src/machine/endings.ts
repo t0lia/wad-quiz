@@ -3,6 +3,7 @@ import type { ChallengeSceneData } from '../types/story'
 export const endingStates = {
   // ── Endings ─────────────────────────────────────────────
   ending_1: {
+    type: 'final',
     meta: {
       id: 'ending_1',
       text:
@@ -15,6 +16,7 @@ export const endingStates = {
   },
 
   ending_2: {
+    type: 'final',
     meta: {
       id: 'ending_2',
       text:
@@ -27,6 +29,7 @@ export const endingStates = {
   },
 
   ending_3: {
+    type: 'final',
     meta: {
       id: 'ending_3',
       text:
@@ -39,6 +42,7 @@ export const endingStates = {
   },
 
   ending_4: {
+    type: 'final',
     meta: {
       id: 'ending_4',
       text:
@@ -51,6 +55,7 @@ export const endingStates = {
   },
 
   ending_5: {
+    type: 'final',
     meta: {
       id: 'ending_5',
       text:

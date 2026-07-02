@@ -1,126 +1,162 @@
+import { useEffect, useState } from 'react'
+import type { Snapshot } from 'xstate'
 import { useMachine } from '@xstate/react'
-import { useState } from 'react'
 import { hydroMachine } from './machine'
+import { sceneGroupId } from './machine/sceneGroup'
 import ChallengeScene from './scenes/ChallengeScene'
 import './App.css'
 
-type Archetype = {
-  name: string
-  grade: string
-  color: string
-}
+const STORAGE_KEY = 'wad-quiz-progress'
 
-function calculateArchetype(tek: number, ded: number, soc: number): Archetype {
-  // Convert to boolean (1 if >= threshold, 0 if < threshold)
-  // Using a simple heuristic: if value > 0, treat as true
-  const tekBool = tek > 0 ? 1 : 0
-  const dedBool = ded > 0 ? 1 : 0
-  const socBool = soc > 0 ? 1 : 0
-
-  // Determine archetype based on combination
-  if (dedBool && tekBool && socBool) {
-    return { name: 'True leader', grade: 'A', color: '#4A90E2' }
-  } else if (dedBool && tekBool && !socBool) {
-    return { name: 'Cyborg', grade: 'A', color: '#4A90E2' }
-  } else if (dedBool && !tekBool && socBool) {
-    return { name: 'Loyalist', grade: 'B', color: '#7CB342' }
-  } else if (dedBool && !tekBool && !socBool) {
-    return { name: 'Workaholic', grade: 'B', color: '#7CB342' }
-  } else if (!dedBool && tekBool && socBool) {
-    return { name: '9-5er', grade: 'B', color: '#7CB342' }
-  } else if (!dedBool && tekBool && !socBool) {
-    return { name: 'Theorist', grade: 'B', color: '#7CB342' }
-  } else if (!dedBool && !tekBool && socBool) {
-    return { name: 'Water cooler dweller', grade: 'C', color: '#FBC02D' }
-  } else {
-    return { name: 'Slacker', grade: 'C', color: '#FBC02D' }
+function loadSnapshot() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY)
+    return saved ? JSON.parse(saved) : undefined
+  } catch {
+    return undefined
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function snapshotHasProgress(s: any): boolean {
+  if (!s || typeof s !== 'object') return false
+  // if state value moved past the initial state
+  if (typeof s.value === 'string' && s.value !== 'section_1') return true
+  // object-valued state (parallel/compound) — assume progress
+  if (s.value && typeof s.value === 'object') return true
+  // non-zero score means progress
+  const score = s.context?.score
+  if (score) {
+    if ((score.technical ?? 0) !== 0) return true
+    if ((score.dedication ?? 0) !== 0) return true
+    if ((score.social ?? 0) !== 0) return true
+  }
+  // other context flags that indicate progress
+  if ((s.context?.debt_count ?? 0) > 0) return true
+  if (s.context?.route_choice) return true
+  if (s.context?.boot_mode) return true
+  return !!(s.context?.accepted_exit_7 || s.context?.accepted_exit_8 || s.context?.accepted_exit_9 || s.context?.accepted_exit_10)
+}
+
+function ContinueDialog({ onContinue, onStartNew }: { onContinue: () => void; onStartNew: () => void }) {
+  return (
+    <div className="dialog-overlay">
+      <div className="dialog-modal">
+        <div className="dialog-media">
+          {/* use Vite base URL so the image works whether app is hosted at root or under a sub-path */}
+          <img src={`${import.meta.env.BASE_URL}locations/exterior_hull.png`} alt="background" />
+        </div>
+        <div className="dialog-content">
+          <h2 className="dialog-title">Welcome back!</h2>
+          <p className="dialog-message">You have a saved progress. Would you like to continue or start from the beginning?</p>
+          <div className="dialog-actions">
+            <button className="dialog-btn dialog-btn--secondary" onClick={onStartNew}>
+              Start from beginning
+            </button>
+            <button className="dialog-btn dialog-btn--primary" onClick={onContinue}>
+              Continue
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export default function App() {
-  const [rand] = useState<number>(() => Math.random())
-  const [state, send] = useMachine(hydroMachine)
+  const [showDialog, setShowDialog] = useState(false)
+  // load snapshot once and keep stable reference so effect doesn't re-run
+  const [savedSnapshot] = useState(() => loadSnapshot())
+
+  useEffect(() => {
+    if (snapshotHasProgress(savedSnapshot)) {
+      // show dialog only when snapshot contains progress
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setShowDialog(true)
+    }
+    // run only on mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  // If dialog is shown, render only the dialog. The machine (which uses hooks)
+  // lives inside `MachineApp` so it is not initialized until after the
+  // user made the choice.
+  if (showDialog) {
+    return (
+      <ContinueDialog
+        onContinue={() => {
+          setShowDialog(false)
+        }}
+        onStartNew={() => {
+          // clear saved progress and reload immediately to ensure the app
+          // starts fresh (avoid mounting MachineApp with the old snapshot)
+          localStorage.removeItem(STORAGE_KEY)
+          location.reload()
+        }}
+      />
+    )
+  }
+
+  return <MachineApp snapshot={savedSnapshot} />
+}
+
+function MachineApp({ snapshot }: { snapshot: unknown }) {
+  const [state, send, actor] = useMachine(hydroMachine, {
+    // cast snapshot to xstate Snapshot type
+    snapshot: snapshot as unknown as Snapshot<unknown>,
+  })
   const stateId = state.value as string
   const scene = Object.values(state.getMeta())[0]
 
+  useEffect(() => {
+    // persist snapshot whenever state changes
+    // include actor in deps if needed by linting rules
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(actor.getPersistedSnapshot()))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state])
+
+  function reset() {
+    localStorage.removeItem(STORAGE_KEY)
+    location.reload()
+  }
+
   // ── Final (ending) states ──────────────────────────────────────────────────
   if (state.status === 'done') {
-    const archetype = calculateArchetype(
-      state.context.tek_score || 0,
-      state.context.ded_score || 0,
-      state.context.soc_score || 0
-    )
-
+    const { technical, dedication, social } = state.context.score
     return (
-      <div className="ending">
+      <div className="ending fade-in">
         <p style={{ whiteSpace: 'pre-line', fontSize: 20, lineHeight: '160%' }}>
           {scene?.text ?? 'The shift is over.'}
         </p>
-        <div
-          style={{
-            marginTop: 40,
-            padding: 20,
-            backgroundColor: '#f5f5f5',
-            borderRadius: 8,
-            textAlign: 'center',
-          }}
-        >
-          <h2 style={{ margin: '0 0 20px 0' }}>Your Profile</h2>
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(3, 1fr)',
-              gap: 20,
-              marginBottom: 30,
-            }}
-          >
-            <div>
-              <div style={{ fontSize: 14, color: '#666' }}>Technical</div>
-              <div style={{ fontSize: 28, fontWeight: 'bold' }}>
-                {state.context.tek_score || 0}
-              </div>
-            </div>
-            <div>
-              <div style={{ fontSize: 14, color: '#666' }}>Dedication</div>
-              <div style={{ fontSize: 28, fontWeight: 'bold' }}>
-                {state.context.ded_score || 0}
-              </div>
-            </div>
-            <div>
-              <div style={{ fontSize: 14, color: '#666' }}>Social Capital</div>
-              <div style={{ fontSize: 28, fontWeight: 'bold' }}>
-                {state.context.soc_score || 0}
-              </div>
-            </div>
+        <dl className="score-summary">
+          <div className="score-summary__row">
+            <dt>Technical</dt>
+            <dd>{technical}</dd>
           </div>
-          <div
-            style={{
-              padding: 20,
-              backgroundColor: archetype.color,
-              color: 'white',
-              borderRadius: 8,
-            }}
-          >
-            <div style={{ fontSize: 12, marginBottom: 8 }}>Archetype</div>
-            <div style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 8 }}>
-              {archetype.name}
-            </div>
-            <div style={{ fontSize: 18 }}>Grade: {archetype.grade}</div>
+          <div className="score-summary__row">
+            <dt>Dedication</dt>
+            <dd>{dedication}</dd>
           </div>
-        </div>
+          <div className="score-summary__row">
+            <dt>Social Capital</dt>
+            <dd>{social}</dd>
+          </div>
+        </dl>
+        <button className="restart-btn" onClick={reset}>Play Again</button>
       </div>
     )
   }
 
-  // ── Task pages ─────────────────────────────────────────────────────────────
   if (!scene) return null
 
   return (
-    <ChallengeScene
-      key={stateId}
-      scene={scene}
-      onComplete={(answer) => send({ type: 'NEXT', answer, rand })}
-    />
+    <>
+      <button className="restart-btn restart-btn--fixed" onClick={reset} aria-label="Restart">↺</button>
+      <ChallengeScene
+        key={sceneGroupId(stateId)}
+        scene={scene}
+        onComplete={(answer) => send({ type: 'NEXT', answer })}
+      />
+    </>
   )
 }
-

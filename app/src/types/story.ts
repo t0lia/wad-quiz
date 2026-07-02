@@ -1,12 +1,9 @@
-export type MetricsDelta = { tek?: number; ded?: number; soc?: number }
-
-export type Option = {
-  id: string
-  content: string
-  description?: string
-  metrics?: MetricsDelta
+export type Option = { id: string; content: string }
+export type SingleChoiceTask = {
+  type: 'single_choice'
+  variant: 'branch' | 'problem'
+  options: Option[]
 }
-export type MultipleChoiceTask = { type: 'multiple_choice'; options: Option[] }
 
 export type DragAndDropItem = { id: string; content: string }
 export type DragAndDropTask = { type: 'drag_and_drop'; items: DragAndDropItem[] }
@@ -64,7 +61,7 @@ export type TextSceneTask = {
 }
 
 export type Task =
-  | MultipleChoiceTask
+  | SingleChoiceTask
   | DragAndDropTask
   | ResourceAllocationTask
   | ClickOnLineTask
@@ -76,4 +73,5 @@ export type Task =
   | DecisionMapTask
   | TextSceneTask
 
-export type ChallengeSceneData = { id: string; text: string; task: Task }
+export type DialogueLine = { speaker: string; text: string }
+export type ChallengeSceneData = { id: string; text: string; image?: string; title?: string; dialogue?: DialogueLine[]; task: Task }

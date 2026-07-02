@@ -18,7 +18,7 @@ user-invocable: true
 ## Quick Outcome
 Each YAML section becomes **3+ separate states** that display as individual pages:
 1. **Intro page** → narrative + dialogue (one_tap_forward)
-2. **Task page** → code + buttons OR branch options (multiple_choice)
+2. **Task page** → code + buttons OR branch options (single_choice)
 3. **Conclusion page(s)** → outcome narratives (text_scene, one per action result)
 
 ---
@@ -37,12 +37,23 @@ Only for problems. Branch sections skip intro.
 section_N: {
   meta: {
     id: 'section_N',
-    text: 'intro.narrative + append dialogue with speaker names',
+    text: 'intro.narrative',
+    dialogue: [
+      { speaker: 'lina', text: 'dialogue line text' },
+      { speaker: 'alex', text: 'dialogue line text' },
+      // one entry per intro.dialogue item — speaker name in lowercase
+    ],
     task: { type: 'one_tap_forward' },
   } as ChallengeSceneData,
   on: { NEXT: 'section_N_task' },
 },
 ```
+
+**Rules for dialogue:**
+- `text` contains only `intro.narrative` — no speaker lines
+- `dialogue` is a `{ speaker: string; text: string }[]` array
+- Speaker names are **lowercase** (matching YAML exactly: `lina`, `alex`, `tony`, `vex`, `clara`, `ray`, `captain`, `elena`)
+- Omit `dialogue` entirely if the section has no dialogue lines
 
 **Decision Point**: Is this a branch or problem?
 - **Branch** → Skip intro, jump to Step 3
@@ -56,12 +67,22 @@ section_N_task: {
   meta: {
     id: 'section_N_task',
     text: 'interaction.prompt + matching modifiers + code snippet',
+    // Add dialogue field if this branch/task state has intro.dialogue lines
+    // (branch sections have no separate intro state, so dialogue goes here)
+    dialogue: [
+      { speaker: 'lina', text: 'dialogue line text' },
+    ],
+    // branch sections:
     task: {
-      type: 'multiple_choice',
-      options: interaction.actions.map(a => ({ 
-        id: a.id, 
-        content: a.text 
-      }))
+      type: 'single_choice',
+      variant: 'branch',
+      options: interaction.actions.map(a => ({ id: a.id, content: a.text }))
+    },
+    // problem sections:
+    task: {
+      type: 'single_choice',
+      variant: 'problem',
+      options: interaction.actions.map(a => ({ id: a.id, content: a.text }))
     },
   } as ChallengeSceneData,
   on: { NEXT: [...] },  // Step 4
@@ -81,11 +102,20 @@ Map each action to its conclusion or next section.
 on: {
   NEXT: [
     { guard: answer === 'correct_action', target: 'section_N_conclusion_solved', 
-      actions: [{ type: 'set', params: { problem_X_result: 'solved' } }] },
+      actions: [
+        { type: 'set', params: { problem_X_result: 'solved' } },
+        { type: 'score', params: { technical: 2, dedication: 1, social: 0 } },
+      ] },
     { guard: answer === 'override_action', target: 'section_N_conclusion_override',
-      actions: [{ type: 'set', params: { problem_X_result: 'override' } }] },
+      actions: [
+        { type: 'set', params: { problem_X_result: 'override' } },
+        { type: 'score', params: { technical: 1, dedication: -1, social: -1 } },
+      ] },
     { target: 'section_N_conclusion_incorrect',
-      actions: [{ type: 'set', params: { problem_X_result: 'incorrect' } }] },
+      actions: [
+        { type: 'set', params: { problem_X_result: 'incorrect' } },
+        { type: 'score', params: { technical: -1, dedication: 0, social: 0 } },
+      ] },
   ]
 }
 ```
@@ -95,9 +125,15 @@ on: {
 on: {
   NEXT: [
     { guard: answer === 'choice_1', target: 'section_1_conclusion_choice1',
-      actions: [{ type: 'set', params: { context_flag: 'value1' } }] },
+      actions: [
+        { type: 'set', params: { context_flag: 'value1' } },
+        { type: 'score', params: { technical: 0, dedication: 1, social: 0 } },
+      ] },
     { guard: answer === 'choice_2', target: 'section_1_conclusion_choice2',
-      actions: [{ type: 'set', params: { context_flag: 'value2' } }] },
+      actions: [
+        { type: 'set', params: { context_flag: 'value2' } },
+        { type: 'score', params: { technical: 1, dedication: -1, social: 0 } },
+      ] },
   ]
 }
 ```
@@ -199,6 +235,33 @@ actions: [{ type: 'set', params: { flag_name: 'value' } }]
 - `swap_mode`: 'hot' | 'drain'
 - `problem_X_result`: 'solved' | 'incorrect' | 'override'
 - `drone_mode`: 'patch' | 'override'
+
+Both `set` and `score` are real action implementations wired via `.provide()` in `machine.ts` (not no-ops) — every guarded `NEXT` rule that represents a player choice should carry both.
+
+---
+
+## Reference: Score Deltas
+
+Every decision node (branch or problem) also carries a `{ type: 'score', params: {...} }` action per choice/outcome, tracking 3 metrics defined in `data/02-metrics.md`: `technical`, `dedication`, `social`. Deltas accumulate into `context.score` for the whole playthrough and are shown on the final screen.
+
+When `interaction.actions[].metric_delta` (branch) or `conclusion.by_outcome.*.metric_delta` (problem) appears in the YAML:
+
+```yaml
+metric_delta: { technical: 1, dedication: 1, social: 0 }  # YAML format
+```
+
+Convert to:
+
+```typescript
+{ type: 'score', params: { technical: 1, dedication: 1, social: 0 } }
+```
+
+**Convention for assigning values** (small integers, roughly ±1..2):
+- Problem `solved`: `{ technical: 2, dedication: 1, social: 0 }` — clean, correct fix
+- Problem `override`: `{ technical: 1, dedication: -1, social: -1 }` — works but cuts corners, creates debt
+- Problem `incorrect` (guardless fallback): `{ technical: -1, dedication: 0, social: 0 }` — wasted time
+- Branch choices: judge from narrative framing (teamwork/patience → `social`/`dedication` up; solo/reckless/shortcut → `technical` or `dedication` trade-offs; "stop"/"continue" exit gates: `stop` → `dedication: -1`, `continue` → `dedication: 1`)
+- When a single player choice is split across multiple guarded rules for routing reasons (e.g. by `debt_count`), duplicate the same `score` action on every rule for that choice — the delta must not depend on where the choice routes.
 
 ---
 
