@@ -101,9 +101,11 @@ export default function App() {
 }
 
 function MachineApp({ snapshot }: { snapshot: unknown }) {
+  const [rand] = useState(() => Math.random())
   const [state, send, actor] = useMachine(hydroMachine, {
     // cast snapshot to xstate Snapshot type
     snapshot: snapshot as unknown as Snapshot<unknown>,
+    input: { rand },
   })
   const stateId = state.value as string
   const scene = Object.values(state.getMeta())[0]

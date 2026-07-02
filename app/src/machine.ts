@@ -65,35 +65,38 @@ const baseMachine = createMachine<
   any,
   unknown,
   any,
-  ChallengeSceneData
->({
-  id: 'hydroworld',
-  initial: 'section_1',
-  context: {
-    boot_mode: undefined,
-    route_choice: undefined,
-    eva_mode: undefined,
-    swap_mode: undefined,
-    drone_mode: undefined,
-    problem_2_result: undefined,
-    problem_4_result: undefined,
-    problem_6_result: undefined,
-    problem_8_result: undefined,
-    problem_10_result: undefined,
-    accepted_exit_7: false,
-    accepted_exit_8: false,
-    accepted_exit_9: false,
-    accepted_exit_10: false,
-    debt_count: 0,
-    ending_tier: undefined,
-    rand: Math.random(),
-    score: initialScore,
-  },
-  types: {} as {
-    events: { type: 'NEXT'; answer?: string }
-  },
-  states: allMachineStates as any,
-})
+  ChallengeSceneData,
+  { rand: number }
+>(
+  {
+    id: 'hydroworld',
+    initial: 'section_1',
+    context: ({ input }: { input: { rand: number } }) => ({
+      boot_mode: undefined,
+      route_choice: undefined,
+      eva_mode: undefined,
+      swap_mode: undefined,
+      drone_mode: undefined,
+      problem_2_result: undefined,
+      problem_4_result: undefined,
+      problem_6_result: undefined,
+      problem_8_result: undefined,
+      problem_10_result: undefined,
+      accepted_exit_7: false,
+      accepted_exit_8: false,
+      accepted_exit_9: false,
+      accepted_exit_10: false,
+      debt_count: 0,
+      ending_tier: undefined,
+      rand: input.rand,
+      score: initialScore,
+    }),
+    types: {} as {
+      events: { type: 'NEXT'; answer?: string }
+    },
+    states: allMachineStates as any,
+  }
+)
 
 export const hydroMachine = baseMachine.provide({
   actions: {
