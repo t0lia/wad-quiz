@@ -3,6 +3,7 @@ import { jsStartBarrierMissingTaskState } from './tasks/01-js_start_barrier_miss
 import { pyReadinessGatherMissingTaskState } from './tasks/02-py_readiness_gather_missing'
 import { javaFutureJoinMissingTaskState } from './tasks/03-java_future_join_missing'
 import { jsRegistryRaceTaskState } from './tasks/04-js_registry_race'
+import { javaReadinessFlagPrematureTaskState } from './tasks/13-java_readiness_flag_premature'
 
 export const section2UnsignedStates = {
   // ── Section 2 Unsigned: Intro ────────────────────────────
@@ -23,19 +24,23 @@ export const section2UnsignedStates = {
     on: {
       NEXT: [
         {
-          guard: ({ event }: any) => event.rand < 0.25,
+          guard: ({ event }: any) => event.rand < 0.2,
           target: 'section_2_unsigned_task_1',
         },
         {
-          guard: ({ event }: any) => event.rand < 0.5,
+          guard: ({ event }: any) => event.rand < 0.4,
           target: 'section_2_unsigned_task_2',
         },
         {
-          guard: ({ event }: any) => event.rand < 0.75,
+          guard: ({ event }: any) => event.rand < 0.6,
           target: 'section_2_unsigned_task_3',
         },
         {
+          guard: ({ event }: any) => event.rand < 0.8,
           target: 'section_2_unsigned_task_4',
+        },
+        {
+          target: 'section_2_unsigned_task_5',
         },
       ],
     },
@@ -64,6 +69,13 @@ export const section2UnsignedStates = {
 
   ...jsRegistryRaceTaskState({
     stateId: 'section_2_unsigned_task_4',
+    solvedTarget: 'section_2_unsigned_conclusion_solved',
+    overrideTarget: 'section_2_unsigned_conclusion_override',
+    incorrectTarget: 'section_2_unsigned_conclusion_incorrect',
+  }),
+
+  ...javaReadinessFlagPrematureTaskState({
+    stateId: 'section_2_unsigned_task_5',
     solvedTarget: 'section_2_unsigned_conclusion_solved',
     overrideTarget: 'section_2_unsigned_conclusion_override',
     incorrectTarget: 'section_2_unsigned_conclusion_incorrect',

@@ -1,5 +1,9 @@
 import type { ChallengeSceneData } from '../types/story'
+import { jsClampBooleanPayloadTaskState } from './tasks/07-js_clamp_boolean_payload'
 import { javaShellFieldAlignmentTaskState } from './tasks/08-java_shell_field_alignment'
+import { javaProfileMergeResetTaskState } from './tasks/17-java_profile_merge_reset'
+import { jsBeaconNestedFieldTaskState } from './tasks/18-js_beacon_nested_field'
+import { javaModeSuffixAlignmentTaskState } from './tasks/19-java_mode_suffix_alignment'
 
 export const section6MedicalStates = {
   section_6_medical_intro: {
@@ -21,14 +25,50 @@ export const section6MedicalStates = {
     } as ChallengeSceneData,
     on: {
       NEXT: [
-        { guard: ({ event }: any) => event.answer === 'patch_drone', target: 'section_6_medical_task', actions: [{ type: 'set', params: { drone_mode: 'patch' } }] },
-        { guard: ({ event }: any) => event.answer === 'override_drone', target: 'section_6_medical_task', actions: [{ type: 'set', params: { drone_mode: 'override' } }] },
+        { guard: ({ event }: any) => event.answer === 'patch_drone' && event.rand < 0.2, target: 'section_6_medical_task_1', actions: [{ type: 'set', params: { drone_mode: 'patch' } }] },
+        { guard: ({ event }: any) => event.answer === 'patch_drone' && event.rand < 0.4, target: 'section_6_medical_task_2', actions: [{ type: 'set', params: { drone_mode: 'patch' } }] },
+        { guard: ({ event }: any) => event.answer === 'patch_drone' && event.rand < 0.6, target: 'section_6_medical_task_3', actions: [{ type: 'set', params: { drone_mode: 'patch' } }] },
+        { guard: ({ event }: any) => event.answer === 'patch_drone' && event.rand < 0.8, target: 'section_6_medical_task_4', actions: [{ type: 'set', params: { drone_mode: 'patch' } }] },
+        { guard: ({ event }: any) => event.answer === 'patch_drone', target: 'section_6_medical_task_5', actions: [{ type: 'set', params: { drone_mode: 'patch' } }] },
+        { guard: ({ event }: any) => event.answer === 'override_drone' && event.rand < 0.2, target: 'section_6_medical_task_1', actions: [{ type: 'set', params: { drone_mode: 'override' } }] },
+        { guard: ({ event }: any) => event.answer === 'override_drone' && event.rand < 0.4, target: 'section_6_medical_task_2', actions: [{ type: 'set', params: { drone_mode: 'override' } }] },
+        { guard: ({ event }: any) => event.answer === 'override_drone' && event.rand < 0.6, target: 'section_6_medical_task_3', actions: [{ type: 'set', params: { drone_mode: 'override' } }] },
+        { guard: ({ event }: any) => event.answer === 'override_drone' && event.rand < 0.8, target: 'section_6_medical_task_4', actions: [{ type: 'set', params: { drone_mode: 'override' } }] },
+        { guard: ({ event }: any) => event.answer === 'override_drone', target: 'section_6_medical_task_5', actions: [{ type: 'set', params: { drone_mode: 'override' } }] },
       ],
     },
   },
 
+  ...jsClampBooleanPayloadTaskState({
+    stateId: 'section_6_medical_task_1',
+    solvedTarget: 'section_6_medical_conclusion_solved',
+    overrideTarget: 'section_6_medical_conclusion_override',
+    incorrectTarget: 'section_6_medical_conclusion_incorrect',
+  }),
+
   ...javaShellFieldAlignmentTaskState({
-    stateId: 'section_6_medical_task',
+    stateId: 'section_6_medical_task_2',
+    solvedTarget: 'section_6_medical_conclusion_solved',
+    overrideTarget: 'section_6_medical_conclusion_override',
+    incorrectTarget: 'section_6_medical_conclusion_incorrect',
+  }),
+
+  ...javaProfileMergeResetTaskState({
+    stateId: 'section_6_medical_task_3',
+    solvedTarget: 'section_6_medical_conclusion_solved',
+    overrideTarget: 'section_6_medical_conclusion_override',
+    incorrectTarget: 'section_6_medical_conclusion_incorrect',
+  }),
+
+  ...jsBeaconNestedFieldTaskState({
+    stateId: 'section_6_medical_task_4',
+    solvedTarget: 'section_6_medical_conclusion_solved',
+    overrideTarget: 'section_6_medical_conclusion_override',
+    incorrectTarget: 'section_6_medical_conclusion_incorrect',
+  }),
+
+  ...javaModeSuffixAlignmentTaskState({
+    stateId: 'section_6_medical_task_5',
     solvedTarget: 'section_6_medical_conclusion_solved',
     overrideTarget: 'section_6_medical_conclusion_override',
     incorrectTarget: 'section_6_medical_conclusion_incorrect',
