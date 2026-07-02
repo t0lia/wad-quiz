@@ -1,0 +1,46 @@
+task_pools:
+  boot_terminal_concurrency:
+    title: Experimental terminal boot under pressure
+    slot_theme: boot-time system initialization under pressure
+    task_ids:
+    - js_start_barrier_missing
+    - py_readiness_gather_missing
+    - java_future_join_missing
+    - js_registry_race
+    - java_readiness_flag_premature
+  access_gate_integrity:
+    title: Gate access validation under pressure
+    slot_theme: emergency access checks under operational pressure
+    task_ids:
+    - java_access_level_compare
+    - java_waiver_field_alignment
+    - java_badge_case_normalization
+    - js_waiver_scope_array
+    - java_escort_null_fallback
+  drone_profile_payloads:
+    title: Drone profile activation under EVA pressure
+    slot_theme: payload activation for EVA support systems
+    task_ids:
+    - js_clamp_boolean_payload
+    - java_shell_field_alignment
+    - java_profile_merge_reset
+    - js_beacon_nested_field
+    - java_mode_suffix_alignment
+  network_route_boundaries:
+    title: Hull route boundary recovery
+    slot_theme: network boundary repair under incident pressure
+    task_ids:
+    - py_farm_prefix_boundary
+    - java_route_scope_boundary
+    - java_gateway_host_route_boundary
+    - py_hull_vlan_prefix_overlap
+    - js_tunnel_prefix_fallback
+  distributor_lock_order:
+    title: Distributor concurrency stabilization
+    slot_theme: lock-order recovery under final-stage load
+    task_ids:
+    - java_lock_order_deadlock
+    - java_emergency_lock_reversal
+    - java_audit_lock_inversion
+    - java_callback_lock_reentry
+    - java_batch_commit_lock_order
