@@ -136,12 +136,35 @@ function collectYamlStrings(value: unknown): string[] {
   return Object.values(value).flatMap(collectYamlStrings)
 }
 
+function extractYamlFromMarkdown(markdown: string): string {
+  // Extract YAML code blocks from markdown and parse them
+  const yamlCodeBlocks = markdown.match(/```(?:yaml|yml)\s([\s\S]*?)```/g) || []
+  const yamlStrings = yamlCodeBlocks
+    .map((block) => {
+      const yamlContent = block.replace(/```(?:yaml|yml)\s/, '').replace(/```$/, '')
+      try {
+        return collectYamlStrings(parseYaml(yamlContent)).join(' ')
+      } catch {
+        return ''
+      }
+    })
+    .filter(Boolean)
+  
+  return yamlStrings.join(' ')
+}
+
 const rawTexts = unique(
   listRawFiles(rawRoot).map((filePath) => {
     const fileContents = readFileSync(filePath, 'utf8')
 
     if (/\.(ya?ml)$/i.test(filePath)) {
       return collectYamlStrings(parseYaml(fileContents)).join(' ')
+    }
+
+    // For markdown files, also extract and parse YAML code blocks
+    if (/\.md$/i.test(filePath)) {
+      const yamlFromMarkdown = extractYamlFromMarkdown(fileContents)
+      return yamlFromMarkdown ? `${fileContents} ${yamlFromMarkdown}` : fileContents
     }
 
     return fileContents

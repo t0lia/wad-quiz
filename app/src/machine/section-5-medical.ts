@@ -10,6 +10,7 @@ export const section5MedicalStates = {
       text: 'The medical corridor reaches Airlock #4, where Vex already has Shmiel waiting. The maintenance drone is on site, but its current profile still thinks this is a routine indoor maintenance job, and sterile outside work is not known for forgiving that kind of confusion.',
       dialogue: [
         { speaker: 'vex', text: 'You made good time. Meet Shmiel, a maintenance drone. Last time it was used for routine indoor cleanup, so its software may be a little confused by sterile outside work.' },
+        { speaker: 'clara', text: 'I am staying until the shell profile behaves. Medical does not sign off on improvisation in vacuum.' },
         { speaker: 'alex', text: 'So we have a medical EVA and a drone that still thinks this is housekeeping.' },
         { speaker: 'vex', text: 'Exactly. We can patch the profile properly, or bully it into follow mode and hope contamination rules stay theoretical.' },
         { speaker: 'alex', text: 'Then let us choose whether to improve it or frighten it.' },

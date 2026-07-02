@@ -10,31 +10,36 @@ export const section6MedicalStates = {
     meta: {
       id: 'section_6_medical_intro',
       text:
-        'The medical corridor reaches Airlock #4, where Vex already has Shmiel waiting. The maintenance drone is on site, but its current profile still thinks this is a routine indoor maintenance job, and outside work is not known for forgiving that kind of confusion.\n\n' +
-        'VEX: You made good time. Meet Shmiel, a maintenance drone. Last time it was used for routine indoor cleanup, so its software may be a bit confused by your mission outside.\n' +
-        'ALEX: So we have an outside repair job and a drone that still thinks this is housekeeping.\n' +
-        'VEX: Exactly. We can patch the profile properly, or bully it into follow mode and hope contamination rules stay theoretical.\n' +
-        'ALEX: Then let us choose whether to improve it or frighten it.',
+        'The medical shell closes around Shmiel with a soft click. The drone gets the new settings, but once it moves into outside mode, it never turns on the clean shell setting.\n\n' +
+        'VEX: The drone gets the message, but it never sees the switch that should turn the clean shell on.\n' +
+        'ALEX: So the message arrives, but the important bit is written the wrong way.\n' +
+        'CLARA: That is a much friendlier sentence than the one you usually say.\n' +
+        'ALEX: I contain multitudes.',
       task: {
-        type: 'single_choice', variant: 'problem',
-        options: [
-          { id: 'patch_drone', content: 'Software Patch' },
-          { id: 'override_drone', content: 'Hard Override' },
-        ]
+        type: 'one_tap_forward',
       },
     } as ChallengeSceneData,
     on: {
       NEXT: [
-        { guard: ({ event }: any) => event.answer === 'patch_drone' && event.rand < 0.2, target: 'section_6_medical_task_1', actions: [{ type: 'set', params: { drone_mode: 'patch' } }] },
-        { guard: ({ event }: any) => event.answer === 'patch_drone' && event.rand < 0.4, target: 'section_6_medical_task_2', actions: [{ type: 'set', params: { drone_mode: 'patch' } }] },
-        { guard: ({ event }: any) => event.answer === 'patch_drone' && event.rand < 0.6, target: 'section_6_medical_task_3', actions: [{ type: 'set', params: { drone_mode: 'patch' } }] },
-        { guard: ({ event }: any) => event.answer === 'patch_drone' && event.rand < 0.8, target: 'section_6_medical_task_4', actions: [{ type: 'set', params: { drone_mode: 'patch' } }] },
-        { guard: ({ event }: any) => event.answer === 'patch_drone', target: 'section_6_medical_task_5', actions: [{ type: 'set', params: { drone_mode: 'patch' } }] },
-        { guard: ({ event }: any) => event.answer === 'override_drone' && event.rand < 0.2, target: 'section_6_medical_task_1', actions: [{ type: 'set', params: { drone_mode: 'override' } }] },
-        { guard: ({ event }: any) => event.answer === 'override_drone' && event.rand < 0.4, target: 'section_6_medical_task_2', actions: [{ type: 'set', params: { drone_mode: 'override' } }] },
-        { guard: ({ event }: any) => event.answer === 'override_drone' && event.rand < 0.6, target: 'section_6_medical_task_3', actions: [{ type: 'set', params: { drone_mode: 'override' } }] },
-        { guard: ({ event }: any) => event.answer === 'override_drone' && event.rand < 0.8, target: 'section_6_medical_task_4', actions: [{ type: 'set', params: { drone_mode: 'override' } }] },
-        { guard: ({ event }: any) => event.answer === 'override_drone', target: 'section_6_medical_task_5', actions: [{ type: 'set', params: { drone_mode: 'override' } }] },
+        {
+          guard: ({ event }: any) => event.rand < 0.2,
+          target: 'section_6_medical_task_1',
+        },
+        {
+          guard: ({ event }: any) => event.rand < 0.4,
+          target: 'section_6_medical_task_2',
+        },
+        {
+          guard: ({ event }: any) => event.rand < 0.6,
+          target: 'section_6_medical_task_3',
+        },
+        {
+          guard: ({ event }: any) => event.rand < 0.8,
+          target: 'section_6_medical_task_4',
+        },
+        {
+          target: 'section_6_medical_task_5',
+        },
       ],
     },
   },
