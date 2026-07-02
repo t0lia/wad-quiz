@@ -1,10 +1,14 @@
 # How to develop scenarios
 
-- Regenerate the machine from raw2 with `cd app && npm run generate-machine1`
+- `app/src/machine1` is generated output and should not be committed
+- `cd app && npm run test` and `cd app && npm run build` regenerate `machine1` automatically before validation
+- You can still regenerate manually with `cd app && npm run generate-machine1`
 
 - Checkout from main
 
-- Edit scenario in file app/src/machine.ts
+- Edit the raw2 source content and parser/generator inputs
+
+- Run validation locally; `machine1` is regenerated on demand and stays ignored by git
 
 - Push to your branch <branch name>
 
