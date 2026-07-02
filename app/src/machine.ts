@@ -53,6 +53,7 @@ const baseMachine = createMachine<
     accepted_exit_10?: boolean
     debt_count?: number
     ending_tier?: string
+    rand: number
     score: { technical: number; dedication: number; social: number }
   },
   { type: 'NEXT'; answer?: string },
@@ -85,6 +86,7 @@ const baseMachine = createMachine<
     accepted_exit_10: false,
     debt_count: 0,
     ending_tier: undefined,
+    rand: Math.random(),
     score: initialScore,
   },
   types: {} as {
