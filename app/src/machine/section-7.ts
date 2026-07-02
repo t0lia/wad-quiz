@@ -32,7 +32,12 @@ export const section7States = {
       text: 'Ray clips into the shared plan and starts mirroring Alex\'s checklist from the inner panel.\n\nThe ship offers one polite chance to stop before the deeper hull work begins.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
-    on: { NEXT: ({ context }: any) => context.route_choice === 'cargo' ? 'section_7_exit_cargo' : 'section_7_exit_medical' },
+    on: {
+      NEXT: [
+        { guard: ({ context }: any) => context.route_choice === 'cargo', target: 'section_7_exit_cargo' },
+        { guard: ({ context }: any) => context.route_choice === 'medical', target: 'section_7_exit_medical' },
+      ],
+    },
   },
 
   section_7_conclusion_solo: {
@@ -41,7 +46,12 @@ export const section7States = {
       text: 'Alex takes the single tether and leaves Ray at the hatch with a look that means I told you so in advance.\n\nThe ship offers one polite chance to stop before Alex has to earn the rest of the night.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
-    on: { NEXT: ({ context }: any) => context.route_choice === 'cargo' ? 'section_7_exit_cargo' : 'section_7_exit_medical' },
+    on: {
+      NEXT: [
+        { guard: ({ context }: any) => context.route_choice === 'cargo', target: 'section_7_exit_cargo' },
+        { guard: ({ context }: any) => context.route_choice === 'medical', target: 'section_7_exit_medical' },
+      ],
+    },
   },
 
   // ── Section 7 Exit: Cargo Route ────────────────────────────
