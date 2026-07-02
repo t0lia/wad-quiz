@@ -1,5 +1,5 @@
 import { useMemo, useLayoutEffect, useRef, useState } from 'react'
-import { hydroMachine } from '../machine'
+import type { AnyStateMachine } from 'xstate'
 import ChallengeScene from '../scenes/ChallengeScene'
 import type { ChallengeSceneData } from '../types/story'
 
@@ -44,7 +44,7 @@ function shortStateId(fullId: string): string {
   return dot >= 0 ? fullId.slice(dot + 1) : fullId
 }
 
-export default function StateTreeVisualization() {
+export default function StateTreeVisualization({ hydroMachine }: { hydroMachine: AnyStateMachine }) {
   const measureRef = useRef<Map<string, number>>(new Map())
   const [_measured, setMeasured] = useState(false)
 
@@ -257,7 +257,7 @@ export default function StateTreeVisualization() {
                   >
                     {scene ? (
                       <div style={{ height: '100%', overflow: 'auto', fontSize: '11px' }}>
-                        <ChallengeScene scene={scene} onComplete={() => {}} />
+                        <ChallengeScene scene={scene} context={{}} onComplete={() => {}} />
                       </div>
                     ) : (
                       <div style={{ padding: '12px', color: '#999', fontSize: '12px' }}>

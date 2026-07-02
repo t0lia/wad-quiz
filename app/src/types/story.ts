@@ -60,6 +60,8 @@ export type TextSceneTask = {
   choices?: { label: string; event: 'NEXT' }[]
 }
 
+export type ConditionalText = { condition: string; text: string }
+
 export type Task =
   | SingleChoiceTask
   | DragAndDropTask
@@ -74,4 +76,13 @@ export type Task =
   | TextSceneTask
 
 export type DialogueLine = { speaker: string; text: string }
-export type ChallengeSceneData = { id: string; text: string; image?: string; title?: string; dialogue?: DialogueLine[]; task: Task }
+export type ChallengeSceneData = {
+  id: string
+  text: string
+  image?: string
+  title?: string
+  dialogue?: DialogueLine[]
+  taskIntro?: string
+  conditionalTaskIntro?: ConditionalText[]
+  task: Task
+}

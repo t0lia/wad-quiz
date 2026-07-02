@@ -9,6 +9,7 @@
     "test": "node --import tsx --test src/machine/hydromachine-raw.test.ts",
     "lint": "eslint .",
     "preview": "vite preview",
+    "generate-machine1": "python raw2/generate_machine1.py",
     "generate-diagram": "echo 'Skipped'"
   },
   "dependencies": {

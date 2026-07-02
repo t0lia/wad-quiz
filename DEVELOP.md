@@ -1,5 +1,7 @@
 # How to develop scenarios
 
+- Regenerate the machine from raw2 with `cd app && npm run generate-machine1`
+
 - Checkout from main
 
 - Edit scenario in file app/src/machine.ts

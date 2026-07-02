@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
 import type { Snapshot } from 'xstate'
 import { useMachine } from '@xstate/react'
-import { hydroMachine } from './machine'
+import { hydroMachine } from './machine1'
 import { sceneGroupId } from './machine/sceneGroup'
 import ChallengeScene from './scenes/ChallengeScene'
 import './App.css'
+
+export { hydroMachine } from './machine1'
 
 const STORAGE_KEY = 'wad-quiz-progress'
 
@@ -156,6 +158,7 @@ function MachineApp({ snapshot }: { snapshot: unknown }) {
       <ChallengeScene
         key={sceneGroupId(stateId)}
         scene={scene}
+        context={state.context as Record<string, unknown>}
         onComplete={(answer) => send({ type: 'NEXT', answer, rand })}
       />
     </>
