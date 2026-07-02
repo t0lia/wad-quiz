@@ -12,7 +12,6 @@ REPO_ROOT = WORLD_DIR.parents[1]
 sys.path.insert(0, str(WORLD_DIR))
 sys.path.insert(0, str(REPO_ROOT))
 
-from scripts.hydroworld_content import parse_choice_markdown, parse_task_markdown
 from pydto.render_hw2 import Hw2Renderer, RenderState
 
 from pydto import (
@@ -25,9 +24,11 @@ from pydto import (
 )
 from pydto.parsers import (
     parse_choice_asset,
+    parse_choice_markdown,
     parse_navigation_document,
     parse_stage_config_document,
     parse_task_asset,
+    parse_task_markdown,
     parse_task_pools_document,
 )
 

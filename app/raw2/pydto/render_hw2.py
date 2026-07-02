@@ -32,8 +32,7 @@ from pydto.models import (  # noqa: E402
     TaskStage,
     TransitionCondition,
 )
-from pydto.parsers import parse_choice_asset, parse_navigation_document, parse_stage_config_document, parse_task_asset, parse_task_pools_document  # noqa: E402
-from scripts.hydroworld_content import parse_choice_markdown, parse_task_markdown  # noqa: E402
+from pydto.parsers import parse_choice_asset, parse_choice_markdown, parse_navigation_document, parse_stage_config_document, parse_task_asset, parse_task_markdown, parse_task_pools_document  # noqa: E402
 
 
 CONDITION_RE = re.compile(r"^([A-Za-z0-9_]+)\s*(==|!=|>=|<=|>|<)\s*(.+)$")

@@ -1,8 +1,129 @@
 from __future__ import annotations
 
+import re
 from typing import Any, cast
 
+import yaml
+
 from .models import ChoiceAction, ChoiceAsset, ChoiceStage, ConclusionStage, DialogueLine, FlagModification, FlagOperation, Modifier, NavigationDocument, NavigationStage, ScoreValues, Stage, StageConfigDocument, StageType, TaskAnswer, TaskAsset, TaskOutcome, TaskPoolDefinition, TaskPoolsDocument, TaskStage, TaskStageConclusion, TransitionCondition, TransitionTarget
+
+
+FRONTMATTER_RE = re.compile(r"^---\s*\n(.*?)\n---\s*(?:\n|$)", re.DOTALL)
+HEADING_RE = re.compile(r"^##\s+(.+?)\s*$", re.MULTILINE)
+CODE_BLOCK_RE = re.compile(r"^```(?:[A-Za-z0-9_+\-]+)?\n(.*?)\n```\s*$", re.DOTALL)
+
+
+def _read_markdown_text(path: Any) -> str:
+    if hasattr(path, "read_text"):
+        return str(path.read_text(encoding="utf-8"))
+    raise TypeError(f"Expected path-like object with read_text(), got {path!r}")
+
+
+def _split_markdown_document(text: str) -> tuple[dict[str, Any], dict[str, str]]:
+    match = FRONTMATTER_RE.match(text)
+    if not match:
+        raise ValueError("Markdown asset is missing YAML frontmatter")
+
+    frontmatter = cast(dict[str, Any], yaml.safe_load(match.group(1)) or {})
+    body = text[match.end():].strip()
+
+    sections: dict[str, str] = {}
+    heading_matches = list(HEADING_RE.finditer(body))
+    for index, heading_match in enumerate(heading_matches):
+        section_name = heading_match.group(1).strip()
+        section_start = heading_match.end()
+        section_end = heading_matches[index + 1].start() if index + 1 < len(heading_matches) else len(body)
+        sections[section_name] = body[section_start:section_end].strip()
+
+    title = ""
+    if body.startswith("# "):
+        first_newline = body.find("\n")
+        title = body[2:first_newline if first_newline != -1 else None].strip()
+    sections["__title__"] = title
+
+    return frontmatter, sections
+
+
+def _extract_code_block(section_text: str) -> list[str]:
+    match = CODE_BLOCK_RE.match(section_text.strip())
+    if not match:
+        raise ValueError("Expected fenced code block")
+    return match.group(1).splitlines()
+
+
+def _extract_yaml_block(section_text: str) -> Any:
+    match = CODE_BLOCK_RE.match(section_text.strip())
+    if not match:
+        raise ValueError("Expected fenced YAML block")
+    return yaml.safe_load(match.group(1))
+
+
+def _score_values_to_dict(score_values: ScoreValues) -> dict[str, float]:
+    return {
+        "technical_skills": score_values.technical_skills,
+        "dedication": score_values.dedication,
+        "social_capital": score_values.social_capital,
+    }
+
+
+def _parse_scoring_table(section_text: str) -> dict[str, ScoreValues]:
+    lines = [line.strip() for line in section_text.splitlines() if line.strip()]
+    if len(lines) < 3:
+        return {}
+
+    scores_by_action: dict[str, ScoreValues] = {}
+    for row in lines[2:]:
+        if not row.startswith("|"):
+            continue
+        cells = [cell.strip() for cell in row.strip("|").split("|")]
+        if len(cells) < 4:
+            continue
+        action_id, tech, dedication, social = cells[:4]
+        scores_by_action[action_id] = ScoreValues(
+            technical_skills=float(tech),
+            dedication=float(dedication),
+            social_capital=float(social),
+        )
+    return scores_by_action
+
+
+def parse_choice_markdown(path: Any) -> dict[str, Any]:
+    frontmatter, sections = _split_markdown_document(_read_markdown_text(path))
+    scores_by_action = _parse_scoring_table(sections.get("Scoring", ""))
+    actions = cast(list[dict[str, Any]], _extract_yaml_block(sections["Actions"]))
+
+    return {
+        **frontmatter,
+        "title": sections.get("__title__", ""),
+        "prompt": sections.get("Prompt", "").strip(),
+        "actions": [
+            {
+                **action,
+                "scores": _score_values_to_dict(scores_by_action.get(str(action["id"]), ScoreValues())),
+            }
+            for action in actions
+        ],
+    }
+
+
+def parse_task_markdown(path: Any) -> dict[str, Any]:
+    frontmatter, sections = _split_markdown_document(_read_markdown_text(path))
+    scores_by_action = _parse_scoring_table(sections.get("Scoring", ""))
+    actions = cast(list[dict[str, Any]], _extract_yaml_block(sections["Actions"]))
+
+    return {
+        **frontmatter,
+        "title": sections.get("__title__", ""),
+        "prompt": sections.get("Prompt", "").strip(),
+        "snippet": _extract_code_block(sections["Snippet"]),
+        "actions": [
+            {
+                **action,
+                "scores": _score_values_to_dict(scores_by_action.get(str(action["id"]), ScoreValues())),
+            }
+            for action in actions
+        ],
+    }
 
 
 def parse_score_values(data: dict[str, Any]) -> ScoreValues:
