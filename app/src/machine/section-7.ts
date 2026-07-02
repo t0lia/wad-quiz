@@ -57,7 +57,7 @@ export const section7States = {
   section_7_exit_cargo_stop: {
     meta: {
       id: 'section_7_exit_cargo_stop',
-      text: '',
+      text: 'Alex closes the emergency session while freight keeps breathing and the audit trail keeps waiting.\n\nThe ship survives the night, though not cleanly and not entirely because of Alex.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'ending_1' },
@@ -67,7 +67,10 @@ export const section7States = {
   section_7_exit_medical: {
     meta: {
       id: 'section_7_exit_medical',
-      text: '',
+      text: 'As Alex reaches the first stable foothold outside, the PDA projects a medical risk waiver across the visor. Someone in Compliance has concluded that partial recovery plus distance from liability now counts as a plan.\n\n' +
+        'RAY: Medical is offering you a respectable retreat while everyone is still technically safe.\n' +
+        'ALEX: Respectable is doing a lot of work there.\n' +
+        'RAY: That is why they let the form write itself.',
       task: {
         type: 'single_choice', variant: 'problem',
         options: [
@@ -88,7 +91,7 @@ export const section7States = {
   section_7_exit_medical_stop: {
     meta: {
       id: 'section_7_exit_medical_stop',
-      text: '',
+      text: 'Alex takes the respectable retreat and lets a future shift inherit the part that still involves vacuum and regret.\n\nThe ship survives the night, and Clara gets a cleaner report than she expected.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'ending_1' },
