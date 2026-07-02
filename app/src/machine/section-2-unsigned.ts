@@ -218,7 +218,7 @@ export const section2UnsignedStates = {
   section_2_unsigned_conclusion_incorrect: {
     meta: {
       id: 'section_2_unsigned_conclusion_incorrect',
-      text: '',
+      text: 'The first guesses waste another minute. Whether Alex reboots the room or leans on a delay, `sector-link` only behaves after the startup race is actually brought under control.\n\nWater starts moving again, but the main valve farther down the ship is still blocked.',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_3' },
