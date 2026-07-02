@@ -12,7 +12,7 @@ export const section6MedicalStates = {
         'VEX: Exactly. We can patch the profile properly, or bully it into follow mode and hope contamination rules stay theoretical.\n' +
         'ALEX: Then let us choose whether to improve it or frighten it.',
       task: {
-        type: 'multiple_choice',
+        type: 'single_choice', variant: 'problem',
         options: [
           { id: 'patch_drone', content: 'Software Patch' },
           { id: 'override_drone', content: 'Hard Override' },

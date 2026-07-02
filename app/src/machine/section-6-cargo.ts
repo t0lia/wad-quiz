@@ -12,7 +12,7 @@ export const section6CargoStates = {
         'VEX: Exactly. We can patch the profile properly, or bully it into follow mode and hope space stays patient.\n' +
         'ALEX: Then let us choose what kind of bad idea it becomes.',
       task: {
-        type: 'multiple_choice',
+        type: 'single_choice', variant: 'problem',
         options: [
           { id: 'patch_drone', content: 'Software Patch' },
           { id: 'override_drone', content: 'Hard Override' },

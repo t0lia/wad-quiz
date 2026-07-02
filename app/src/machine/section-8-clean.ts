@@ -61,7 +61,7 @@ export const section8CleanStates = {
       text:
         'The PDA receives a second notice. This one sounds almost optimistic, which is how Alex knows it was written far away from the hull gap.',
       task: {
-        type: 'multiple_choice',
+        type: 'single_choice', variant: 'problem',
         options: [
           { id: 'stop', content: 'Stop and sign off' },
           { id: 'continue', content: 'Continue to distributor' },

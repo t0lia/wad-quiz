@@ -11,7 +11,7 @@ export const section7States = {
         'ALEX: Your definition of freedom feels hostile.\n' +
         'RAY: Vacuum improves honesty.',
       task: {
-        type: 'multiple_choice',
+        type: 'single_choice', variant: 'problem',
         options: [
           { id: 'team_eva', content: 'Shared Tether with Ray' },
           { id: 'solo_eva', content: 'Solo Tether' },
@@ -54,7 +54,7 @@ export const section7States = {
         'ALEX: That is a strangely persuasive sales pitch.\n' +
         'RAY: It comes from experience and lower optimism.',
       task: {
-        type: 'multiple_choice',
+        type: 'single_choice', variant: 'problem',
         options: [
           { id: 'stop_after_7', content: 'My shift is over, I\'ve had enough for tonight!' },
           { id: 'continue_after_7', content: 'Duty calls! Who will fix this mess if not me?! I carry on' },
@@ -89,7 +89,7 @@ export const section7States = {
         'ALEX: Stopping never felt like surrender before.\n' +
         'RAY: This is the time to learn.',
       task: {
-        type: 'multiple_choice',
+        type: 'single_choice', variant: 'problem',
         options: [
           { id: 'stop_after_7', content: 'My shift is over, I\'ve had enough for tonight!' },
           { id: 'continue_after_7', content: 'Duty calls! Who will fix this mess if not me?! I carry on' },

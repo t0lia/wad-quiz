@@ -86,7 +86,7 @@ export const section2StandardStates = {
         '```\n\n' +
         'How should Alex fix this?',
       task: {
-        type: 'multiple_choice',
+        type: 'single_choice', variant: 'problem',
         options: [
           { id: 'blame_controller', content: 'Blame the controller rack and restart it from the wall panel' },
           { id: 'sleep_then_retry', content: 'Add a fixed delay before the handshake' },
@@ -132,7 +132,7 @@ export const section2StandardStates = {
         '```\n\n' +
         'How should Alex fix this?',
       task: {
-        type: 'multiple_choice',
+        type: 'single_choice', variant: 'problem',
         options: [
           { id: 'blame_controller', content: 'Reboot the controller rack and treat the symptom as a room failure' },
           { id: 'sleep_then_retry', content: 'Add a retry delay before the handshake call' },
@@ -180,7 +180,7 @@ export const section2StandardStates = {
         '```\n\n' +
         'How should Alex fix this?',
       task: {
-        type: 'multiple_choice',
+        type: 'single_choice', variant: 'problem',
         options: [
           { id: 'blame_controller', content: 'Treat the warning panel as a controller problem and restart the room' },
           { id: 'sleep_then_retry', content: 'Add a delay and retry once the panel looks calmer' },

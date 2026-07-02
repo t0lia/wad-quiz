@@ -66,7 +66,7 @@ export const section8DebtStates = {
         text:
           'The next notice arrives with the nervous politeness of people who know the system is technically up and emotionally one sharp tap from another incident. Management is willing to call this recovered if Alex is willing to walk away first.',
         task: {
-          type: 'multiple_choice',
+          type: 'single_choice', variant: 'problem',
           options: [
             { id: 'stop', content: 'Stop and sign off' },
             { id: 'continue', content: 'Continue to distributor' },
