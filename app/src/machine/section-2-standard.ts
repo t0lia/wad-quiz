@@ -23,15 +23,15 @@ export const section2StandardStates = {
     on: {
       NEXT: [
         {
-          guard: ({ context }: any) => context.rand < 0.25,
+          guard: ({ event }: any) => event.rand < 0.25,
           target: 'section_2_standard_task_1',
         },
         {
-          guard: ({ context }: any) => context.rand < 0.5,
+          guard: ({ event }: any) => event.rand < 0.5,
           target: 'section_2_standard_task_2',
         },
         {
-          guard: ({ context }: any) => context.rand < 0.75,
+          guard: ({ event }: any) => event.rand < 0.75,
           target: 'section_2_standard_task_3',
         },
         {

@@ -53,10 +53,9 @@ const baseMachine = createMachine<
     accepted_exit_10?: boolean
     debt_count?: number
     ending_tier?: string
-    rand: number
     score: { technical: number; dedication: number; social: number }
   },
-  { type: 'NEXT'; answer?: string },
+  { type: 'NEXT'; answer?: string; rand?: number },
   any,
   any,
   any,
@@ -71,7 +70,7 @@ const baseMachine = createMachine<
   {
     id: 'hydroworld',
     initial: 'section_1',
-    context: ({ input }: { input: { rand: number } }) => ({
+    context: {
       boot_mode: undefined,
       route_choice: undefined,
       eva_mode: undefined,
@@ -88,12 +87,11 @@ const baseMachine = createMachine<
       accepted_exit_10: false,
       debt_count: 0,
       ending_tier: undefined,
-      rand: input.rand,
       score: initialScore,
-    }),
-    types: {} as {
-      events: { type: 'NEXT'; answer?: string }
     },
+  types: {} as {
+    events: { type: 'NEXT'; answer?: string; rand?: number }
+  },
     states: allMachineStates as any,
   }
 )

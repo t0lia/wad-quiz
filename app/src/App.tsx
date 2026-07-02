@@ -105,7 +105,6 @@ function MachineApp({ snapshot }: { snapshot: unknown }) {
   const [state, send, actor] = useMachine(hydroMachine, {
     // cast snapshot to xstate Snapshot type
     snapshot: snapshot as unknown as Snapshot<unknown>,
-    input: { rand },
   })
   const stateId = state.value as string
   const scene = Object.values(state.getMeta())[0]
@@ -157,7 +156,7 @@ function MachineApp({ snapshot }: { snapshot: unknown }) {
       <ChallengeScene
         key={sceneGroupId(stateId)}
         scene={scene}
-        onComplete={(answer) => send({ type: 'NEXT', answer })}
+        onComplete={(answer) => send({ type: 'NEXT', answer, rand })}
       />
     </>
   )
