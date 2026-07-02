@@ -9,7 +9,6 @@ export function jsClampBooleanPayloadTaskState(config: {
   return createChoiceTaskState({
     ...config,
     text:
-      'Clamp Mode Typing\n\n' +
       'The cargo kit clicks onto Shmiel with a sharp snap. The drone accepts the new settings, but once it starts the outside setup, it acts like the magnetic clamp is optional.\n\n' +
       '```javascript\n' +
       'function buildClampProfile(mode) {\n' +

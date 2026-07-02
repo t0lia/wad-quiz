@@ -9,7 +9,6 @@ export function javaLockOrderDeadlockTaskState(config: {
   return createChoiceTaskState({
     ...config,
     text:
-      'Distributor Lock Ordering\n\n' +
       'Two power routines grab the same locks in opposite order. Under load they freeze each other and stall the whole sector. The remaining fault is at least honest.\n\n' +
       '```java\n' +
       'void distributePower(Lock main, Lock backup) {\n' +

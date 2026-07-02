@@ -9,7 +9,6 @@ export function javaModeSuffixAlignmentTaskState(config: {
   return createChoiceTaskState({
     ...config,
     text:
-      'Mode Suffix Alignment\n\n' +
       'The drone only enables protected outside behavior for one exact EVA mode name, but the profile builder sends a shortened value and never trips the activation field.\n\n' +
       '```java\n' +
       'Map<String, Object> buildProfile(String mode) {\n' +

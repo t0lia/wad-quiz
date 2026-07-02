@@ -9,7 +9,6 @@ export function pyReadinessGatherMissingTaskState(config: {
   return createChoiceTaskState({
     ...config,
     text:
-      'Missing Gather Barrier\n\n' +
       'The same startup race shows up in a different language, but the fix is still about waiting for readiness instead of guessing.\n\n' +
       '```python\n' +
       'async def boot_sector_link(services):\n' +

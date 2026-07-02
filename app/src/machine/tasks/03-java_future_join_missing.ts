@@ -9,7 +9,6 @@ export function javaFutureJoinMissingTaskState(config: {
   return createChoiceTaskState({
     ...config,
     text:
-      'Future Join Missing\n\n' +
       'The experimental build moved startup work into futures, but the terminal still tries to talk to sector-link before those futures finish.\n\n' +
       '```java\n' +
       'String bootSectorLink(List<Service> services) throws Exception {\n' +

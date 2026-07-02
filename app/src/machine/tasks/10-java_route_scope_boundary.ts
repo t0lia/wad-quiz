@@ -9,7 +9,6 @@ export function javaRouteScopeBoundaryTaskState(config: {
   return createChoiceTaskState({
     ...config,
     text:
-      'Debt Tunnel Prefix Leak\n\n' +
       'The recovery path builds a tunnel route with a boundary so wide that unrelated systems start following it.\n\n' +
       '```java\n' +
       'RoutePlan recoverTunnel(String iface) {\n' +

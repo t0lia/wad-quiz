@@ -9,7 +9,6 @@ export function javaBatchCommitLockOrderTaskState(config: {
   return createChoiceTaskState({
     ...config,
     text:
-      'Batch Commit Lock Order\n\n' +
       'The power batch commit path takes the staging and live locks in one order, while rollback reaches for them in reverse and freezes both flows.\n\n' +
       '```java\n' +
       'void commitBatch(Lock live, Lock staging) {\n' +

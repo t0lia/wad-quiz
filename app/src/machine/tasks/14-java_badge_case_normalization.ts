@@ -9,7 +9,6 @@ export function javaBadgeCaseNormalizationTaskState(config: {
   return createChoiceTaskState({
     ...config,
     text:
-      'Badge Case Normalization\n\n' +
       'The gate reads the emergency badge correctly, but the unlock rule compares a mixed-case value against one exact spelling and rejects the pass.\n\n' +
       '```java\n' +
       'boolean allows(Credential credential) {\n' +

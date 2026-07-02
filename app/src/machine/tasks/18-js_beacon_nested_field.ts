@@ -9,7 +9,6 @@ export function jsBeaconNestedFieldTaskState(config: {
   return createChoiceTaskState({
     ...config,
     text:
-      'Beacon Nested Field\n\n' +
       'The drone reads follow settings from a nested EVA block, but the profile writes the beacon flag at the top level where outside mode never looks.\n\n' +
       '```javascript\n' +
       'function buildProfile(mode) {\n' +

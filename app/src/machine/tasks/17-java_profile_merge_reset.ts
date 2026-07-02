@@ -9,7 +9,6 @@ export function javaProfileMergeResetTaskState(config: {
   return createChoiceTaskState({
     ...config,
     text:
-      'Profile Merge Reset\n\n' +
       'The drone profile sets the EVA flag correctly, then merges defaults afterward and quietly turns the activation field off again.\n\n' +
       '```java\n' +
       'Map<String, Object> buildProfile(String mode) {\n' +

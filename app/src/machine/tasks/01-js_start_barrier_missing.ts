@@ -9,7 +9,6 @@ export function jsStartBarrierMissingTaskState(config: {
   return createChoiceTaskState({
     ...config,
     text:
-      'Sector Link Race Condition\n\n' +
       'Even the standard build carries one rushed startup module from the latest station-wide update. The race is less flashy, but no less real.\n\n' +
       '```javascript\n' +
       'async function bootSectorLink(services) {\n' +

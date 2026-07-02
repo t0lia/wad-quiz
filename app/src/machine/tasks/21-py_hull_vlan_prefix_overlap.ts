@@ -9,7 +9,6 @@ export function pyHullVlanPrefixOverlapTaskState(config: {
   return createChoiceTaskState({
     ...config,
     text:
-      'Hull VLAN Prefix Overlap\n\n' +
       'The repair script assigns a VLAN address with a prefix so broad that traffic for neighboring hull segments starts following the emergency path.\n\n' +
       '```python\n' +
       'def recover_vlan(iface):\n' +

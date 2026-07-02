@@ -9,7 +9,6 @@ export function pyFarmPrefixBoundaryTaskState(config: {
   return createChoiceTaskState({
     ...config,
     text:
-      'Farm Segment Prefix\n\n' +
       'The interface is configured with a network prefix that is too broad. Traffic for the farm switch leaks into unrelated segments instead of staying inside the correct boundary. The sector switch responds, but traffic keeps wandering off into the wrong network.\n\n' +
       '```python\n' +
       'def configure_interface(iface):\n' +

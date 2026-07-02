@@ -9,7 +9,6 @@ export function jsWaiverScopeArrayTaskState(config: {
   return createChoiceTaskState({
     ...config,
     text:
-      'Waiver Scope Array\n\n' +
       'The gate receives a waiver with multiple approved areas, but the unlock check treats the whole list like one exact string and denies the corridor.\n\n' +
       '```javascript\n' +
       'function canOpen(record) {\n' +

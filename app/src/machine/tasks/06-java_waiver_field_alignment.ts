@@ -9,7 +9,6 @@ export function javaWaiverFieldAlignmentTaskState(config: {
   return createChoiceTaskState({
     ...config,
     text:
-      'Waiver Field Mismatch\n\n' +
       'The gate builds a clearance payload, but the approval flag lands under a field name the unlock logic never reads.\n\n' +
       '```java\n' +
       'Map<String, Object> buildClearance(Record record) {\n' +

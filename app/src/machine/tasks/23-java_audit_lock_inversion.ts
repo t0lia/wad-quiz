@@ -9,7 +9,6 @@ export function javaAuditLockInversionTaskState(config: {
   return createChoiceTaskState({
     ...config,
     text:
-      'Audit Lock Inversion\n\n' +
       'The live repair path locks distributor state one way, but the audit path grabs the same locks in reverse order and jams the core under load.\n\n' +
       '```java\n' +
       'void applySwap(Lock main, Lock audit) {\n' +

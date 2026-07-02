@@ -9,7 +9,6 @@ export function jsTunnelPrefixFallbackTaskState(config: {
   return createChoiceTaskState({
     ...config,
     text:
-      'Tunnel Prefix Fallback\n\n' +
       'The recovery helper picks a fallback prefix when none is passed, but that default is much wider than the one hull segment Alex is trying to restore.\n\n' +
       '```javascript\n' +
       'function buildTunnel(prefix = "10.90.0.0/8") {\n' +

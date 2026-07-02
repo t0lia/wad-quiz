@@ -9,7 +9,6 @@ export function jsRegistryRaceTaskState(config: {
   return createChoiceTaskState({
     ...config,
     text:
-      'Registry Readiness Race\n\n' +
       'The unsigned build marks services as running before their async registration finishes, so sector-link sees a healthy dashboard and still fails its first handshake.\n\n' +
       '```javascript\n' +
       'async function startService(service, registry) {\n' +

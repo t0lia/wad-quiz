@@ -9,7 +9,6 @@ export function javaReadinessFlagPrematureTaskState(config: {
   return createChoiceTaskState({
     ...config,
     text:
-      'Premature Readiness Flag\n\n' +
       'The boot controller marks the startup phase ready before the async connector actually finishes registering with sector-link.\n\n' +
       '```java\n' +
       'CompletableFuture<String> bootSectorLink(Service service, Status status) {\n' +

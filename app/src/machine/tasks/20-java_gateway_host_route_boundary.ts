@@ -9,7 +9,6 @@ export function javaGatewayHostRouteBoundaryTaskState(config: {
   return createChoiceTaskState({
     ...config,
     text:
-      'Gateway Host Route Boundary\n\n' +
       'The repair should pin one gateway host through the hull link, but the route builder widens that path into a whole subnet and drags unrelated traffic with it.\n\n' +
       '```java\n' +
       'RoutePlan recoverGateway(String iface) {\n' +

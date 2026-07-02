@@ -9,7 +9,6 @@ export function javaCallbackLockReentryTaskState(config: {
   return createChoiceTaskState({
     ...config,
     text:
-      'Callback Lock Reentry\n\n' +
       'The distributor stabilizer locks the main path first, but its recovery callback reenters through the backup lock and deadlocks whenever both flows overlap.\n\n' +
       '```java\n' +
       'void stabilize(Lock main, Lock backup) {\n' +

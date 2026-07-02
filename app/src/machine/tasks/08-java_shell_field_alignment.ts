@@ -9,7 +9,6 @@ export function javaShellFieldAlignmentTaskState(config: {
   return createChoiceTaskState({
     ...config,
     text:
-      'Shell Profile Field Name\n\n' +
       'The medical shell closes around Shmiel with a soft click. The drone gets the new settings, but once it moves into outside mode, it never turns on the clean shell setting.\n\n' +
       '```java\n' +
       'Map<String, Object> buildShellProfile(String mode) {\n' +

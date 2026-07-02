@@ -9,7 +9,6 @@ export function javaEscortNullFallbackTaskState(config: {
   return createChoiceTaskState({
     ...config,
     text:
-      'Escort Null Fallback\n\n' +
       'The gate falls back to supervisor escort when emergency clearance is absent, but the escort flag can be null and the rule trips over it instead of using the valid access data.\n\n' +
       '```java\n' +
       'boolean allows(Credential credential) {\n' +

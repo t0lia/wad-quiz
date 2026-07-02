@@ -9,7 +9,6 @@ export function javaAccessLevelCompareTaskState(config: {
   return createChoiceTaskState({
     ...config,
     text:
-      'Freight Pass Comparison\n\n' +
       'Tony, being a very persistent man, tries to apply his pass to card reader from all the sides: backwards, sideways, even flips it at the reader. Still - all the same - ACCESS DENIED. Alex patiently examines the code of yet another service he has never seen before.\n\n' +
       '```java\n' +
       'boolean gateAllows(Credential credential) {\n' +
