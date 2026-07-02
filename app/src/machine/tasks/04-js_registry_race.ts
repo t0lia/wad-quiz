@@ -9,7 +9,7 @@ export function jsRegistryRaceTaskState(config: {
   return createChoiceTaskState({
     ...config,
     text:
-      'The unsigned build marks services as running before their async registration finishes, so sector-link sees a healthy dashboard and still fails its first handshake.\n\n' +
+      'The unsigned build marks services as running before their async registration finishes, so sector-link reads a healthy dashboard and still fails its first handshake.\n\n' +
       '```javascript\n' +
       'async function startService(service, registry) {\n' +
       '  registry[service.name] = "running";\n' +
@@ -20,7 +20,7 @@ export function jsRegistryRaceTaskState(config: {
       '  return sectorLink.handshake(registry);\n' +
       '}\n' +
       '```\n\n' +
-      'How should Alex fix this?',
+      '```',
     options: [
       {
         id: 'blame_controller',

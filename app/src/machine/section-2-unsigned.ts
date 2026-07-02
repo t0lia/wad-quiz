@@ -94,8 +94,7 @@ export const section2UnsignedStates = {
         '    if not link.ok:\n' +
         '        raise RuntimeError("sector-link offline")\n' +
         '    return "ready"\n' +
-        '```\n\n' +
-        'How should Alex fix this?',
+        '```',
       task: {
         type: 'single_choice', variant: 'problem',
         options: [
@@ -139,8 +138,7 @@ export const section2UnsignedStates = {
         '    if (!link.ok()) throw new IllegalStateException("sector-link offline");\n' +
         '    return "ready";\n' +
         '}\n' +
-        '```\n\n' +
-        'How should Alex fix this?',
+        '```',
       task: {
         type: 'single_choice', variant: 'problem',
         options: [
@@ -176,7 +174,7 @@ export const section2UnsignedStates = {
     meta: {
       id: 'section_2_unsigned_task_4',
       text:
-        'The unsigned build marks services as running before their async registration finishes, so sector-link reads a healthy dashboard and still fails its first handshake.\n\n' +
+        '' +
         '```javascript\n' +
         'async function startService(service, registry) {\n' +
         '  registry[service.name] = "running";\n' +
@@ -186,8 +184,7 @@ export const section2UnsignedStates = {
         '  services.forEach((service) => startService(service, registry));\n' +
         '  return sectorLink.handshake(registry);\n' +
         '}\n' +
-        '```\n\n' +
-        'How should Alex fix this?',
+        '```',
       task: {
         type: 'single_choice', variant: 'problem',
         options: [
@@ -221,7 +218,7 @@ export const section2UnsignedStates = {
   section_2_unsigned_conclusion_incorrect: {
     meta: {
       id: 'section_2_unsigned_conclusion_incorrect',
-      text: 'The controller room reboots, loses another minute, and comes back exactly as stubborn as before. Alex pokes the service order until the link finally answers.\n\nWater starts moving again, but the main valve farther down the ship is still blocked.',
+      text: '',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_3' },

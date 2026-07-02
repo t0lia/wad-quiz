@@ -82,7 +82,7 @@ export const section8CleanStates = {
   section_8_clean_conclusion_incorrect: {
     meta: {
       id: 'section_8_clean_conclusion_incorrect',
-      text: 'The workaround holds right up to the next stress test, then something else breaks under the weight. Alex fixes the mask under the accumulated frustration.\n\nThe interface stabilizes but carries the smell of all the shortcuts that came before it.',
+      text: '',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_8_exit_clean' },
@@ -91,7 +91,7 @@ export const section8CleanStates = {
   section_8_clean_conclusion_solved: {
     meta: {
       id: 'section_8_clean_conclusion_solved',
-      text: 'The prefix correction lands cleanly, traffic routes stay inside their boundaries, and the farm switch finally behaves.\n\nThe hull path is stable now, held by one honest configuration in a night full of shortcuts.',
+      text: '',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_8_exit_clean' },
@@ -100,7 +100,7 @@ export const section8CleanStates = {
   section_8_clean_conclusion_override: {
     meta: {
       id: 'section_8_clean_conclusion_override',
-      text: 'Alex forces a tunnel bridge that bypasses the real fix, and it works immediately but looks fundamentally dishonest.\n\nThe hull route is open now, but one more promise is being kept by borrowed certainty.',
+      text: '',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_8_exit_clean' },
@@ -115,8 +115,8 @@ export const section8CleanStates = {
       task: {
         type: 'single_choice', variant: 'problem',
         options: [
-          { id: 'stop', content: 'Stop and sign off' },
-          { id: 'continue', content: 'Continue to distributor' },
+          { id: 'stop', content: 'Stop With Partial Recovery' },
+          { id: 'continue', content: 'Continue To The Connector' },
         ]
       },
     } as ChallengeSceneData,

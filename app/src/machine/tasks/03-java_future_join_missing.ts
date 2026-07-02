@@ -17,8 +17,7 @@ export function javaFutureJoinMissingTaskState(config: {
       '    if (!link.ok()) throw new IllegalStateException("sector-link offline");\n' +
       '    return "ready";\n' +
       '}\n' +
-      '```\n\n' +
-      'How should Alex fix this?',
+      '```',
     options: [
       {
         id: 'blame_controller',

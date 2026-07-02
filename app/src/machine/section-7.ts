@@ -83,7 +83,7 @@ export const section7States = {
   section_7_exit_cargo_stop: {
     meta: {
       id: 'section_7_exit_cargo_stop',
-      text: 'Alex closes the emergency session while freight keeps breathing and the audit trail keeps waiting.\n\nThe ship survives the night, though not cleanly and not entirely because of Alex.',
+      text: '',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'ending_1' },
@@ -93,11 +93,7 @@ export const section7States = {
   section_7_exit_medical: {
     meta: {
       id: 'section_7_exit_medical',
-      text:
-        'As Alex reaches the first stable foothold outside, the PDA projects a medical risk waiver across the visor. Someone in Compliance has concluded that proceeding deeper carries liability.\n\n' +
-        'RAY: Medical cleared you to stop now and pass the rest along. That notation actually makes sense for once.\n' +
-        'ALEX: Stopping never felt like surrender before.\n' +
-        'RAY: This is the time to learn.',
+      text: '',
       task: {
         type: 'single_choice', variant: 'problem',
         options: [
@@ -118,7 +114,7 @@ export const section7States = {
   section_7_exit_medical_stop: {
     meta: {
       id: 'section_7_exit_medical_stop',
-      text: 'Alex accepts the medical waiver and cycles back through the lock, passing the hull segment off to the next shift.\n\nThe ship stays breathing, though medical will have questions about the approach that led here.',
+      text: '',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'ending_1' },

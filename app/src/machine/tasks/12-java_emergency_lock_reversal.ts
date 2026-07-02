@@ -9,7 +9,7 @@ export function javaEmergencyLockReversalTaskState(config: {
   return createChoiceTaskState({
     ...config,
     text:
-      'Earlier shortcuts are still echoing through the control layer. The emergency path and the nominal path now grab the same locks in opposite order, creating a deadlock whenever nominal and emergency restoration overlap. Too many explicit shortcuts have turned the final console into a map of past compromises.\n\n' +
+      'The rescue path introduced during recovery grabs the same locks in reverse order, so nominal and emergency traffic deadlock each other.\n\n' +
       '```java\n' +
       'void distributeEmergency(Lock main, Lock backup) {\n' +
       '    synchronized (backup) {\n' +

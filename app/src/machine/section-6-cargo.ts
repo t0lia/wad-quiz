@@ -77,7 +77,7 @@ export const section6CargoStates = {
   section_6_cargo_conclusion_incorrect: {
     meta: {
       id: 'section_6_cargo_conclusion_incorrect',
-      text: 'Battery guesses and rough fallback behavior waste time. Alex still has to correct the profile value the drone actually reads before the outside setup behaves.\n\nHull movement is possible now, and the only remaining question is whether Alex takes Ray along.',
+      text: '',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_7' },
@@ -86,7 +86,7 @@ export const section6CargoStates = {
   section_6_cargo_conclusion_solved: {
     meta: {
       id: 'section_6_cargo_conclusion_solved',
-      text: 'The corrected profile goes in cleanly, the clamp behaves, and Shmiel suddenly looks much more useful.\n\nThe outer hatch is ready, and Ray is already waiting with a new definition of teamwork.',
+      text: '',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_7' },
@@ -95,7 +95,7 @@ export const section6CargoStates = {
   section_6_cargo_conclusion_override: {
     meta: {
       id: 'section_6_cargo_conclusion_override',
-      text: 'Alex forces the drone into a manual support mode that works right away and looks very temporary. The hatch is ready, but Alex steps outside relying on another temporary fix. However he\'s feeling lucky.\n\nThe outer hatch is ready, and Ray is waiting with questions about exactly how confident Alex is today.',
+      text: '',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_7' },

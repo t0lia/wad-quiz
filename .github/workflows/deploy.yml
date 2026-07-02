@@ -26,6 +26,9 @@ jobs:
       - name: Install dependencies
         working-directory: app
         run: npm ci
+      - name: Test machine validation
+        working-directory: app
+        run: npm test
       - name: Build app
         working-directory: app
         env:

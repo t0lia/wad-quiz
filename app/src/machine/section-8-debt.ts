@@ -114,8 +114,8 @@ export const section8DebtStates = {
         task: {
           type: 'single_choice', variant: 'problem',
           options: [
-            { id: 'stop', content: 'Stop and sign off' },
-            { id: 'continue', content: 'Continue to distributor' },
+              { id: 'stop', content: 'Stop With Partial Recovery' },
+              { id: 'continue', content: 'Continue To The Connector' },
           ]
         },
       } as ChallengeSceneData,

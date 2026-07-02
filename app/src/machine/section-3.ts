@@ -19,8 +19,8 @@ export const section3States = {
         type: 'single_choice',
         variant: 'branch',
         options: [
-          { id: 'cargo', content: 'Through Cargo management compartment' },
-          { id: 'medical', content: 'Through Medical passage' },
+          { id: 'cargo', content: 'Alex will see his luck through the Cargo management compartment' },
+          { id: 'medical', content: 'None has been sick lately so route through Medical looks like a safer bet' },
         ]
       },
     } as ChallengeSceneData,
@@ -37,7 +37,7 @@ export const section3States = {
       id: 'section_3_conclusion_cargo',
       image: '/locations/cross_ship_route.png',
       title: 'Crossing the Ship',
-      text: 'Alex cuts through freight corridors where everything smells like dust, metal, and accounting.\n\nTony is already waiting by the freight checkpoint with a pass that should have worked the first time.',
+      text: '',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_4_cargo_intro' },
@@ -48,7 +48,7 @@ export const section3States = {
       id: 'section_3_conclusion_medical',
       image: '/locations/cross_ship_route.png',
       title: 'Crossing the Ship',
-      text: 'Alex cuts through steam, vending noise, and medical scanners that look too awake for this hour.\n\nClara gets Alex to the quarantine side gate, where the paperwork is failing in a more creative way.',
+      text: '',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_4_medical_intro' },

@@ -9,7 +9,7 @@ export function jsStartBarrierMissingTaskState(config: {
   return createChoiceTaskState({
     ...config,
     text:
-      'Even the standard build carries one rushed startup module from the latest station-wide update. The race is less flashy, but no less real.\n\n' +
+      'The experimental build is lightning fast because it starts services in parallel. One dependency reaches for sector-link before the rest of startup is actually ready.\n\n' +
       '```javascript\n' +
       'async function bootSectorLink(services) {\n' +
       '  services.map((service) => service.start());\n' +
@@ -17,8 +17,7 @@ export function jsStartBarrierMissingTaskState(config: {
       '  if (!link.ok) throw new Error("sector-link offline");\n' +
       '  return "ready";\n' +
       '}\n' +
-      '```\n\n' +
-      'How should Alex fix this?',
+      '```',
     options: [
       {
         id: 'blame_controller',

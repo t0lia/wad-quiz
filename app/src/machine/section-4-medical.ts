@@ -83,7 +83,7 @@ export const section4MedicalStates = {
   section_4_medical_conclusion_incorrect: {
     meta: {
       id: 'section_4_medical_conclusion_incorrect',
-      text: 'The first guesses never reach the real gate logic. Whether Alex blames the scanner or weakens quarantine policy, the side gate only opens once he fixes the check it actually reads.\n\nThe quarantine lane opens, but only after the medical side learns exactly how avoidable this was.',
+      text: '',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_5_medical_fallout' },
@@ -92,7 +92,7 @@ export const section4MedicalStates = {
   section_4_medical_conclusion_solved: {
     meta: {
       id: 'section_4_medical_conclusion_solved',
-      text: 'The gate unlocks the moment Alex aligns the access check with the field it was always supposed to read. Clara gives the panel a look usually reserved for contagious stupidity.\n\nThe decontamination corridor clears cleanly toward Airlock #4.',
+      text: '',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_5_medical' },
@@ -101,7 +101,7 @@ export const section4MedicalStates = {
   section_4_medical_conclusion_override: {
     meta: {
       id: 'section_4_medical_conclusion_override',
-      text: 'Alex trips the manual release, the seal cycles open, and quarantine policy becomes an abstract concept for thirty uncomfortable seconds.\n\nThe route is open, but medical now owes itself a serious internal conversation.',
+      text: '',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_5_medical_fallout' },

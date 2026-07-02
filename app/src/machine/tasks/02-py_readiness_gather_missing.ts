@@ -9,7 +9,7 @@ export function pyReadinessGatherMissingTaskState(config: {
   return createChoiceTaskState({
     ...config,
     text:
-      'The same startup race shows up in a different language, but the fix is still about waiting for readiness instead of guessing.\n\n' +
+      'The new boot path fans out startup coroutines and then asks sector-link for a handshake before the dependency warmup finishes.\n\n' +
       '```python\n' +
       'async def boot_sector_link(services):\n' +
       '    tasks = [asyncio.create_task(service.start()) for service in services]\n' +
@@ -17,8 +17,7 @@ export function pyReadinessGatherMissingTaskState(config: {
       '    if not link.ok:\n' +
       '        raise RuntimeError("sector-link offline")\n' +
       '    return "ready"\n' +
-      '```\n\n' +
-      'How should Alex fix this?',
+      '```',
     options: [
       {
         id: 'blame_controller',

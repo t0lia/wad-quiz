@@ -9,7 +9,7 @@ export function javaAccessLevelCompareTaskState(config: {
   return createChoiceTaskState({
     ...config,
     text:
-      'Tony, being a very persistent man, tries to apply his pass to card reader from all the sides: backwards, sideways, even flips it at the reader. Still - all the same - ACCESS DENIED. Alex patiently examines the code of yet another service he has never seen before.\n\n' +
+      'The gate reads a temporary access level, but the unlock path checks it the wrong way and rejects a valid emergency pass.\n\n' +
       '```java\n' +
       'boolean gateAllows(Credential credential) {\n' +
       '    String level = credential.getAccessLevel();\n' +
@@ -32,8 +32,8 @@ export function javaAccessLevelCompareTaskState(config: {
       },
       {
         id: 'align_access_check',
-        content: 'Compare the access level by value instead of by reference',
-        description: 'Compare the access level by value instead of by reference',
+        content: 'Compare the access value the way the gate actually needs',
+        description: 'Fix the comparison so valid temporary clearance is recognized.',
       },
       {
         id: 'force_gate_release',

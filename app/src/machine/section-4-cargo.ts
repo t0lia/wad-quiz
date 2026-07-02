@@ -83,7 +83,7 @@ export const section4CargoStates = {
   section_4_cargo_conclusion_incorrect: {
     meta: {
       id: 'section_4_cargo_conclusion_incorrect',
-      text: 'The reboot wastes time and proves that the gate remembers its bad decisions perfectly. Alex fixes the comparison under Tony\'s increasingly educational silence.\n\nThe freight corridor opens, but everyone in it now knows Alex needed a second argument with a door.',
+      text: '',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_5_cargo_fallout' },
@@ -92,7 +92,7 @@ export const section4CargoStates = {
   section_4_cargo_conclusion_solved: {
     meta: {
       id: 'section_4_cargo_conclusion_solved',
-      text: 'The scanner stops lying as soon as the code starts comparing what it actually read. Tony gives the gate a look usually reserved for delayed shipments.\n\nThe freight lane stays orderly all the way to Airlock #4.',
+      text: '',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_5_cargo' },
@@ -101,7 +101,7 @@ export const section4CargoStates = {
   section_4_cargo_conclusion_override: {
     meta: {
       id: 'section_4_cargo_conclusion_override',
-      text: 'Alex bridges the freight lock, the door jerks open, and three compliance policies quietly die inside the wall.\n\nThe path is open, but the override smell follows Alex toward the airlock like a second tether.',
+      text: '',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_5_cargo_fallout' },

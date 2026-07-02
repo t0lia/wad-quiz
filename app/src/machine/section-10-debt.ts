@@ -10,12 +10,7 @@ export const section10DebtStates = {
   section_10_debt_intro: {
     meta: {
       id: 'section_10_debt_intro',
-      text:
-        'Inside the distributor core, earlier shortcuts are still echoing through the control layer. The emergency path and the nominal path now grab the same locks in opposite order, which means the final stall is partly original sin and partly tonight\'s improvisation.\n\n' +
-        'CAPTAIN: Engineer, tell me this is still one bug.\n' +
-        'ALEX: It is one bug with excellent networking skills.\n' +
-        'ELENA: Can you stabilize it without creating a sequel?\n' +
-        'ALEX: That depends on whether everyone can survive me refusing the fastest wrong answer.',
+      text: '',
       task: {
         type: 'one_tap_forward',
       },
@@ -83,7 +78,7 @@ export const section10DebtStates = {
   section_10_debt_conclusion_incorrect: {
     meta: {
       id: 'section_10_debt_conclusion_incorrect',
-      text: 'The wrapper redeploy wastes time and leaves the deadlock untouched. Alex fixes the lock order under the accumulated memory of all the shortcuts that built up to this moment.\n\nThe distributor stabilizes, but it now runs with the weight of every compromise that brought it here.',
+      text: '',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_10_exit' },
@@ -92,7 +87,7 @@ export const section10DebtStates = {
   section_10_debt_conclusion_solved: {
     meta: {
       id: 'section_10_debt_conclusion_solved',
-      text: 'Both paths now acquire locks in the same order, the deadlock dissolves, and the distributor finally breathes despite all the shortcuts that tried to break it.\n\nThe final fault is fixed, held by one honest synchronization in a night of compromises.',
+      text: '',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_10_exit' },
@@ -101,7 +96,7 @@ export const section10DebtStates = {
   section_10_debt_conclusion_override: {
     meta: {
       id: 'section_10_debt_conclusion_override',
-      text: 'Alex pins the core in emergency mode and the deadlock stops appearing but so does most of the system\'s capacity.\n\nPower flows again, but the distributor now runs in emergency mode, carrying one final compromise.',
+      text: '',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_10_exit' },
@@ -116,8 +111,8 @@ export const section10DebtStates = {
       task: {
         type: 'single_choice', variant: 'problem',
         options: [
-          { id: 'stop', content: 'Sign off - repair complete' },
-          { id: 'continue', content: 'Investigate ORION warnings' },
+          { id: 'stop', content: 'Sign Off Now' },
+          { id: 'continue', content: 'Keep Digging' },
         ]
       },
     } as ChallengeSceneData,

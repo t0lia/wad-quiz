@@ -12,8 +12,8 @@ export const section9States = {
         type: 'single_choice',
         variant: 'branch',
         options: [
-          { id: 'hot', content: 'Hot swap' },
-          { id: 'drain', content: 'Drain first' },
+          { id: 'hot', content: 'Hot Swap' },
+          { id: 'drain', content: 'Drain Then Replace' },
         ]
       },
     } as ChallengeSceneData,
@@ -36,8 +36,8 @@ export const section9States = {
         type: 'single_choice',
         variant: 'branch',
         options: [
-          { id: 'stop', content: 'Stop and sign off' },
-          { id: 'continue', content: 'Continue to distributor' },
+          { id: 'stop', content: 'Stop Before The Core' },
+          { id: 'continue', content: 'Continue Into The Core' },
         ]
       },
     } as ChallengeSceneData,

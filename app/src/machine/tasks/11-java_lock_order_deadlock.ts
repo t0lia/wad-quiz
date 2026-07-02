@@ -9,7 +9,7 @@ export function javaLockOrderDeadlockTaskState(config: {
   return createChoiceTaskState({
     ...config,
     text:
-      'Two power routines grab the same locks in opposite order. Under load they freeze each other and stall the whole sector. The remaining fault is at least honest.\n\n' +
+      'Two recovery paths take the same resources in opposite order, so the core stalls as soon as they overlap under load.\n\n' +
       '```java\n' +
       'void distributePower(Lock main, Lock backup) {\n' +
       '    synchronized (main) {\n' +

@@ -86,7 +86,7 @@ export const section2StandardStates = {
     meta: {
       id: 'section_2_standard_task_2',
       text:
-        'The same startup race shows up in a different language, but the fix is still about waiting for readiness instead of guessing.\n\n' +
+        '' +
         '```python\n' +
         'async def boot_sector_link(services):\n' +
         '    tasks = [asyncio.create_task(service.start()) for service in services]\n' +
@@ -94,8 +94,7 @@ export const section2StandardStates = {
         '    if not link.ok:\n' +
         '        raise RuntimeError("sector-link offline")\n' +
         '    return "ready"\n' +
-        '```\n\n' +
-        'How should Alex fix this?',
+        '```',
       task: {
         type: 'single_choice', variant: 'problem',
         options: [
@@ -139,8 +138,7 @@ export const section2StandardStates = {
         '    if (!link.ok()) throw new IllegalStateException("sector-link offline");\n' +
         '    return "ready";\n' +
         '}\n' +
-        '```\n\n' +
-        'How should Alex fix this?',
+        '```',
       task: {
         type: 'single_choice', variant: 'problem',
         options: [
@@ -176,7 +174,7 @@ export const section2StandardStates = {
     meta: {
       id: 'section_2_standard_task_4',
       text:
-        'The unsigned build marks services as running before registration finishes, so sector-link sees a healthy dashboard and still fails its first handshake.\n\n' +
+        '' +
         '```javascript\n' +
         'async function startService(service, registry) {\n' +
         '  registry[service.name] = "running";\n' +
@@ -186,8 +184,7 @@ export const section2StandardStates = {
         '  services.forEach((service) => startService(service, registry));\n' +
         '  return sectorLink.handshake(registry);\n' +
         '}\n' +
-        '```\n\n' +
-        'How should Alex fix this?',
+        '```',
       task: {
         type: 'single_choice', variant: 'problem',
         options: [
@@ -221,7 +218,7 @@ export const section2StandardStates = {
   section_2_standard_conclusion_incorrect: {
     meta: {
       id: 'section_2_standard_conclusion_incorrect',
-      text: 'The controller room reboots, loses another minute, and comes back exactly as stubborn as before. Alex pokes the service order until the link finally answers.\n\nWater starts moving again, but the main valve farther down the ship is still blocked.',
+      text: '',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_3' },

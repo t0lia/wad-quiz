@@ -77,7 +77,7 @@ export const section6MedicalStates = {
   section_6_medical_conclusion_incorrect: {
     meta: {
       id: 'section_6_medical_conclusion_incorrect',
-      text: 'Guesses about hardware or emergency overrides do not fix what the drone actually reads. Alex has to correct the seal comparison before the sterile containment behaves.\n\nHull movement is finally possible, and Ray is waiting for Alex outside, along with medical\'s persistent question about whether Alex took sterility seriously.',
+      text: '',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_7' },
@@ -86,7 +86,7 @@ export const section6MedicalStates = {
   section_6_medical_conclusion_solved: {
     meta: {
       id: 'section_6_medical_conclusion_solved',
-      text: 'The corrected seal comparison goes in cleanly, the containment stabilizes, and Shmiel suddenly looks properly sterile.\n\nThe outer hatch is ready, and Ray is already waiting with a new definition of medical teamwork.',
+      text: '',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_7' },
@@ -95,7 +95,7 @@ export const section6MedicalStates = {
   section_6_medical_conclusion_override: {
     meta: {
       id: 'section_6_medical_conclusion_override',
-      text: 'Alex overrides the containment check and forces Shmiel into manual mode that ignores the sterility warnings. It works immediately and looks extremely temporary.\n\nThe outer hatch is ready, but medical sterility is now an optimistic concept. Ray is waiting with questions about how confident Alex is in this approach.',
+      text: '',
       task: { type: 'text_scene' },
     } as ChallengeSceneData,
     on: { NEXT: 'section_7' },
