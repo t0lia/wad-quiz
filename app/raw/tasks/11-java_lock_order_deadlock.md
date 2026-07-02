@@ -43,3 +43,11 @@ void restorePower(Lock main, Lock backup) {
   text: Force the core into a narrower fallback execution mode
   description: Recover power quickly by accepting a slower, brittle path.
 ```
+
+## Scoring
+| ACTION_ID | TECH | DED | SOC |
+|-----------|------|-----|-----|
+| blame_deploy | -0.6 | -0.2 | -0.1 |
+| remove_safety_lock | -0.9 | -0.6 | -0.5 |
+| normalize_concurrency_rule | 1 | 0.4 | 0.2 |
+| pin_emergency_execution | -0.2 | -0.4 | -0.2 |

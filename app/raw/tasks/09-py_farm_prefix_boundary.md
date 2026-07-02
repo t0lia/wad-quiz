@@ -39,3 +39,11 @@ def configure_interface(iface):
   text: Force a direct recovery path and accept the debt
   description: Restore traffic quickly through a brittle temporary route.
 ```
+
+## Scoring
+| ACTION_ID | TECH | DED | SOC |
+|-----------|------|-----|-----|
+| blame_switch | -0.6 | -0.2 | -0.1 |
+| add_shortcut_route | -0.8 | -0.5 | -0.4 |
+| correct_network_boundary | 1 | 0.4 | 0.2 |
+| force_recovery_tunnel | -0.4 | -0.6 | -0.4 |

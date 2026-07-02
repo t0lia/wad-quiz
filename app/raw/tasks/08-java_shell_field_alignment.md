@@ -44,3 +44,11 @@ Map<String, Object> buildShellProfile(String mode) {
   text: Override the profile and force a manual backup mode
   description: Skip the normal checks and rely on a more brittle fallback.
 ```
+
+## Scoring
+| ACTION_ID | TECH | DED | SOC |
+|-----------|------|-----|-----|
+| blame_hardware | -0.6 | -0.2 | -0.1 |
+| fake_safe_mode | -0.7 | -0.4 | -0.3 |
+| align_profile_value | 1 | 0.4 | 0.2 |
+| force_profile_override | -0.4 | -0.6 | -0.4 |

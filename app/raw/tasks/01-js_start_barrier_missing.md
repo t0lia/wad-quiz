@@ -39,3 +39,11 @@ async function bootSectorLink(services) {
   text: Override startup checks and force sector-link online
   description: Skip the safety barrier and bring the link up dirty but fast.
 ```
+
+## Scoring
+| ACTION_ID | TECH | DED | SOC |
+|-----------|------|-----|-----|
+| blame_controller | -0.6 | -0.2 | -0.1 |
+| sleep_then_retry | -0.7 | -0.4 | 0 |
+| await_service_barrier | 1 | 0.4 | 0.2 |
+| force_sector_link | -0.4 | -0.7 | -0.4 |

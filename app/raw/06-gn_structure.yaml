@@ -98,6 +98,10 @@ state_model:
         value: early_tier_4
       - else: endgame
 scoring:
+  axes:
+    dedication: how much a player keeps doing the right thing despite circumstances
+    social_capital: how much a player considers people around them in decision making
+    technical_skills: how well a player solves technical problems
   outcomes:
     solved: clean progress with low fallout
     incorrect: progress with hidden instability
@@ -389,16 +393,12 @@ scenario:
     interaction:
       type: branch
       title: Console Build Decision
-      prompt: Choose which console build Alex starts on the terminal to reconnect Sector A control.
+      choice_source: file
       actions:
       - id: choose_standard
-        text: V9 Enterprise
-        description: Boot the standard console profile with the full startup checklist and logging.
         sets_flag: 'boot_mode: standard'
         next: section_2_standard
       - id: choose_unsigned
-        text: V10.0037.custom.experimental.unsigned
-        description: If this is a new build it probably has tons of new cool features.
         sets_flag: 'boot_mode: unsigned'
         next: section_2_unsigned
     conclusion:
@@ -534,16 +534,12 @@ scenario:
     interaction:
       type: branch
       title: Bandages or cargo containers?
-      prompt: 'Guide Alex towards Airlock #4'
+      choice_source: file
       actions:
       - id: take_cargo_route
-        text: Alex will see his luck through the Cargo management compartment
-        description: Pass through freight operations and lean on Tony for access.
         sets_flag: 'route_choice: cargo'
         next: section_4_cargo
       - id: take_medical_route
-        text: None has been sick lately so route through Medical looks like a safer bet
-        description: Cut through the food block and let Clara solve the human paperwork.
         sets_flag: 'route_choice: medical'
         next: section_4_medical
     conclusion:
@@ -557,7 +553,7 @@ scenario:
           narrative: |-
             Alex cuts through steam, vending noise, and medical scanners that look too awake for this hour.
 
-            Clara gets Alex to the quarantine side gate, where the paperwork is failing in a more creative way.
+            Clara gets Alex to the quarantine side gate, where the paperwork is present, signed, and still somehow failing to unlock the door.
   - id: section_4_cargo
     title: 'Section 4 Cargo: Freight Gate Permission Check'
     location_id: access_gate
@@ -575,7 +571,7 @@ scenario:
     interaction:
       type: problem
       task_source: pool
-      title: 'Problem 2 Cargo: Freight Pass Comparison'
+      title: 'Problem 2 Cargo: Freight Gate Validation'
       result_flag: problem_4_result
       action_outcomes:
         incorrect:
@@ -625,16 +621,12 @@ scenario:
     interaction:
       type: branch
       title: Drone Preparation
-      prompt: Choose how Alex prepares Shmiel for the outside cargo-side segment.
+      choice_source: file
       actions:
       - id: patch_drone
-        text: Software Patch
-        description: Update the drone properly before opening the hatch.
         sets_flag: 'drone_mode: patch'
         next: section_6_cargo
       - id: override_drone
-        text: Hard Override
-        description: Force the drone into follow mode and deal with side effects later.
         sets_flag: 'drone_mode: override'
         next: section_6_cargo
     conclusion:
@@ -666,16 +658,12 @@ scenario:
     interaction:
       type: branch
       title: Drone Preparation
-      prompt: Choose how Alex prepares Shmiel for the outside cargo-side segment after the messy gate entry.
+      choice_source: file
       actions:
       - id: patch_drone
-        text: Software Patch
-        description: Update the drone properly before opening the hatch.
         sets_flag: 'drone_mode: patch'
         next: section_6_cargo
       - id: override_drone
-        text: Hard Override
-        description: Force the drone into follow mode and accept one more shortcut.
         sets_flag: 'drone_mode: override'
         next: section_6_cargo
     conclusion:
@@ -705,7 +693,7 @@ scenario:
     interaction:
       type: problem
       task_source: pool
-      title: 'Problem 3 Cargo: Clamp Mode Typing'
+      title: 'Problem 3 Cargo: EVA Drone Profile'
       result_flag: problem_6_result
       action_outcomes:
         incorrect:
@@ -754,7 +742,7 @@ scenario:
     interaction:
       type: problem
       task_source: pool
-      title: 'Problem 2 Medical: Waiver Field Mismatch'
+      title: 'Problem 2 Medical: Quarantine Gate Validation'
       result_flag: problem_4_result
       action_outcomes:
         incorrect:
@@ -795,6 +783,8 @@ scenario:
       dialogue:
       - speaker: vex
         text: You made good time. Meet Shmiel - general purpose maintenance drone. Last time it was used for routine indoor cleanup, so its software may be a little confused by sterile hull work.
+      - speaker: clara
+        text: I am staying until the shell profile behaves. Medical does not sign off on improvisation in vacuum.
       - speaker: alex
         text: So we have a medical EVA and a drone that still thinks this is housekeeping.
       - speaker: vex
@@ -804,16 +794,12 @@ scenario:
     interaction:
       type: branch
       title: Drone Preparation
-      prompt: Choose how Alex prepares Shmiel for the outside medical-side segment.
+      choice_source: file
       actions:
       - id: patch_drone
-        text: Software Patch
-        description: Update the drone properly before opening the hatch.
         sets_flag: 'drone_mode: patch'
         next: section_6_medical
       - id: override_drone
-        text: Hard Override
-        description: Force the drone into follow mode and deal with side effects later.
         sets_flag: 'drone_mode: override'
         next: section_6_medical
     conclusion:
@@ -845,16 +831,12 @@ scenario:
     interaction:
       type: branch
       title: Drone Preparation
-      prompt: Choose how Alex prepares Shmiel for the outside medical-side segment after the quarantine mess.
+      choice_source: file
       actions:
       - id: patch_drone
-        text: Software Patch
-        description: Update the drone properly before opening the hatch.
         sets_flag: 'drone_mode: patch'
         next: section_6_medical
       - id: override_drone
-        text: Hard Override
-        description: Force the drone into follow mode and accept one more shortcut.
         sets_flag: 'drone_mode: override'
         next: section_6_medical
     conclusion:
@@ -886,7 +868,7 @@ scenario:
     interaction:
       type: problem
       task_source: pool
-      title: 'Problem 3 Medical: Shell Profile Field Name'
+      title: 'Problem 3 Medical: EVA Shell Profile'
       result_flag: problem_6_result
       action_outcomes:
         incorrect:
@@ -936,15 +918,11 @@ scenario:
     interaction:
       type: branch
       title: EVA Plan
-      prompt: Choose how Alex handles the outside segment.
+      choice_source: file
       actions:
       - id: team_eva
-        text: Shared Tether with Ray
-        description: Take Ray on support and split the outside work.
         sets_flag: 'eva_mode: team'
       - id: solo_eva
-        text: Solo Tether
-        description: Go alone and keep every decision in one suit.
         sets_flag: 'eva_mode: solo'
     conclusion:
       by_action:
@@ -981,16 +959,12 @@ scenario:
     interaction:
       type: branch
       title: Stop Or Continue
-      prompt: The cargo lane is stable enough to hand off. Stop now, or continue outside?
+      choice_source: file
       actions:
       - id: stop_after_7
-        text: My shift is over, I've had enough for tonight!
-        description: End the incident here and hand the rest to the next shift.
         sets_flag: 'accepted_exit_7: true'
         next: ending_1
       - id: continue_after_7
-        text: Duty calls! Who will fix this mess if not me?! I carry on
-        description: Keep the shift and move deeper into the hull gap.
     conclusion:
       by_action:
         stop_after_7:
@@ -1022,16 +996,12 @@ scenario:
     interaction:
       type: branch
       title: Stop Or Continue
-      prompt: Sector A is stable enough to hand off. Stop now, or continue outside?
+      choice_source: file
       actions:
       - id: stop_after_7
-        text: My shift is over, I've had enough for tonight!
-        description: End the incident here and hand the rest to the next shift.
         sets_flag: 'accepted_exit_7: true'
         next: ending_1
       - id: continue_after_7
-        text: Duty calls! Who will fix this mess if not me?! I carry on
-        description: Keep the shift and move into the hull gap.
     conclusion:
       by_action:
         stop_after_7:
@@ -1063,7 +1033,7 @@ scenario:
     interaction:
       type: problem
       task_source: pool
-      title: 'Task 4A: Farm Segment Prefix'
+      title: 'Task 4A: Hull Segment Route Repair'
       result_flag: problem_8_result
       action_outcomes:
         incorrect:
@@ -1119,7 +1089,7 @@ scenario:
     interaction:
       type: problem
       task_source: pool
-      title: 'Task 4B: Debt Tunnel Prefix Leak'
+      title: 'Task 4B: Debt Route Containment'
       result_flag: problem_8_result
       action_outcomes:
         incorrect:
@@ -1171,16 +1141,12 @@ scenario:
     interaction:
       type: branch
       title: Partial Recovery Decision
-      prompt: Sector A is running on recovered software paths. Stop with a partial win, or continue to the burned connector?
+      choice_source: file
       actions:
       - id: stop_after_8
-        text: Stop With Partial Recovery
-        description: End the field operation and leave the physical fault for another shift.
         sets_flag: 'accepted_exit_8: true'
         next: ending_2
       - id: continue_after_8
-        text: Continue To The Connector
-        description: Keep moving toward the hardware fault.
         next: section_9
     conclusion:
       by_action:
@@ -1209,16 +1175,12 @@ scenario:
     interaction:
       type: branch
       title: Contain Or Continue
-      prompt: The recovery path works, but only with visible debt. Stop now, or continue to the burned connector?
+      choice_source: file
       actions:
       - id: stop_after_8
-        text: Stop With Partial Recovery
-        description: Freeze the current state and leave the physical fault for another shift.
         sets_flag: 'accepted_exit_8: true'
         next: ending_2
       - id: continue_after_8
-        text: Continue To The Connector
-        description: Keep moving and try to replace the physical failure before the debt stack shifts again.
         next: section_9
     conclusion:
       by_action:
@@ -1247,15 +1209,11 @@ scenario:
     interaction:
       type: branch
       title: Swap Method
-      prompt: Choose how Alex prepares the cable replacement.
+      choice_source: file
       actions:
       - id: hot_swap
-        text: Hot Swap
-        description: Keep the line energized and move quickly.
         sets_flag: 'swap_mode: hot'
       - id: full_drain
-        text: Drain Then Replace
-        description: Quiet the line first, then take the slower route.
         sets_flag: 'swap_mode: drain'
     conclusion:
       by_action:
@@ -1286,16 +1244,12 @@ scenario:
     interaction:
       type: branch
       title: Continue Or Retreat
-      prompt: Stop before touching the distributor core, or continue into the final repair?
+      choice_source: file
       actions:
       - id: stop_after_9
-        text: Stop Before The Core
-        description: Stabilize the situation and leave the core for another shift.
         sets_flag: 'accepted_exit_9: true'
         next: ending_3
       - id: continue_after_9
-        text: Continue Into The Core
-        description: Finish the job tonight.
     conclusion:
       by_action:
         stop_after_9:
@@ -1329,7 +1283,7 @@ scenario:
     interaction:
       type: problem
       task_source: pool
-      title: 'Task 5A: Distributor Lock Ordering'
+      title: 'Task 5A: Distributor Concurrency Recovery'
       result_flag: problem_10_result
       action_outcomes:
         incorrect:
@@ -1385,7 +1339,7 @@ scenario:
     interaction:
       type: problem
       task_source: pool
-      title: 'Task 5B: Emergency Path Lock Reversal'
+      title: 'Task 5B: Debt-Tangled Concurrency Recovery'
       result_flag: problem_10_result
       action_outcomes:
         incorrect:
@@ -1437,16 +1391,12 @@ scenario:
     interaction:
       type: branch
       title: Final Decision
-      prompt: Sector A is alive again. Sign off now, or keep digging into the new anomaly?
+      choice_source: file
       actions:
       - id: stop_after_10
-        text: Sign Off Now
-        description: End the incident with the sector restored and leave the new logs untouched.
         sets_flag: 'accepted_exit_10: true'
         next: ending_4
       - id: continue_after_10
-        text: Keep Digging
-        description: Follow the fresh anomaly into whatever the ship has been hiding.
         next: ending_5
     conclusion:
       by_action:

@@ -39,3 +39,11 @@ String bootSectorLink(List<Service> services) throws Exception {
   text: Bypass readiness checks and bring sector-link up immediately
   description: Force the link to green even though the startup graph is still incomplete.
 ```
+
+## Scoring
+| ACTION_ID | TECH | DED | SOC |
+|-----------|------|-----|-----|
+| blame_controller | -0.6 | -0.2 | -0.1 |
+| sleep_then_retry | -0.7 | -0.4 | 0 |
+| await_service_barrier | 1 | 0.4 | 0.2 |
+| force_sector_link | -0.4 | -0.7 | -0.4 |
