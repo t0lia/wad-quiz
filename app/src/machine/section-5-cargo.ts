@@ -25,8 +25,8 @@ export const section5CargoStates = {
     } as ChallengeSceneData,
     on: {
       NEXT: [
-        { guard: ({ event }: any) => event.answer === 'patch_drone', target: 'section_5_cargo_conclusion_patch', actions: [{ type: 'set', params: { drone_mode: 'patch' } }, { type: 'score', params: { technical: 1, dedication: 1, social: 1 } }] },
-        { guard: ({ event }: any) => event.answer === 'override_drone', target: 'section_5_cargo_conclusion_override', actions: [{ type: 'set', params: { drone_mode: 'override' } }, { type: 'score', params: { technical: 0, dedication: -1, social: -1 } }] },
+        { guard: ({ event }: any) => event.answer === 'patch_drone', target: 'section_5_cargo_conclusion_patch', actions: [{ type: 'set', params: { drone_mode: 'patch' } }, { type: 'score', params: { technical: 0.5, dedication: 0.4, social: 0.1 } }] },
+        { guard: ({ event }: any) => event.answer === 'override_drone', target: 'section_5_cargo_conclusion_override', actions: [{ type: 'set', params: { drone_mode: 'override' } }, { type: 'score', params: { technical: -0.4, dedication: -0.5, social: -0.2 } }] },
       ],
     },
   },
@@ -77,8 +77,8 @@ export const section5CargoStates = {
     } as ChallengeSceneData,
     on: {
       NEXT: [
-        { guard: ({ event }: any) => event.answer === 'patch_drone', target: 'section_5_cargo_fallout_conclusion_patch', actions: [{ type: 'set', params: { drone_mode: 'patch' } }, { type: 'score', params: { technical: 1, dedication: 1, social: 1 } }] },
-        { guard: ({ event }: any) => event.answer === 'override_drone', target: 'section_5_cargo_fallout_conclusion_override', actions: [{ type: 'set', params: { drone_mode: 'override' } }, { type: 'score', params: { technical: 0, dedication: -1, social: -1 } }] },
+        { guard: ({ event }: any) => event.answer === 'patch_drone', target: 'section_5_cargo_fallout_conclusion_patch', actions: [{ type: 'set', params: { drone_mode: 'patch' } }, { type: 'score', params: { technical: 0.5, dedication: 0.4, social: 0.1 } }] },
+        { guard: ({ event }: any) => event.answer === 'override_drone', target: 'section_5_cargo_fallout_conclusion_override', actions: [{ type: 'set', params: { drone_mode: 'override' } }, { type: 'score', params: { technical: -0.4, dedication: -0.5, social: -0.2 } }] },
       ],
     },
   },

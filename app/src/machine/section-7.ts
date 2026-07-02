@@ -20,8 +20,8 @@ export const section7States = {
     } as ChallengeSceneData,
     on: {
       NEXT: [
-        { guard: ({ event }: any) => event.answer === 'team_eva', target: 'section_7_conclusion_team', actions: [{ type: 'set', params: { eva_mode: 'team' } }] },
-        { guard: ({ event }: any) => event.answer === 'solo_eva', target: 'section_7_conclusion_solo', actions: [{ type: 'set', params: { eva_mode: 'solo' } }] },
+        { guard: ({ event }: any) => event.answer === 'team_eva', target: 'section_7_conclusion_team', actions: [{ type: 'set', params: { eva_mode: 'team' } }, { type: 'score', params: { technical: 0.1, dedication: 0.2, social: 0.7 } }] },
+        { guard: ({ event }: any) => event.answer === 'solo_eva', target: 'section_7_conclusion_solo', actions: [{ type: 'set', params: { eva_mode: 'solo' } }, { type: 'score', params: { technical: 0.2, dedication: 0.1, social: -0.5 } }] },
       ],
     },
   },
@@ -63,9 +63,9 @@ export const section7States = {
     } as ChallengeSceneData,
     on: {
       NEXT: [
-        { guard: ({ event }: any) => event.answer === 'stop_after_7', target: 'section_7_exit_cargo_stop', actions: [{ type: 'set', params: { accepted_exit_7: true } }] },
-        { guard: ({ event, context }: any) => event.answer === 'continue_after_7' && context.debt_count >= 2, target: 'section_8_debt_intro', actions: [{ type: 'set', params: { accepted_exit_7: false } }] },
-        { guard: ({ event, context }: any) => event.answer === 'continue_after_7' && context.debt_count < 2, target: 'section_8_clean_intro', actions: [{ type: 'set', params: { accepted_exit_7: false } }] },
+        { guard: ({ event }: any) => event.answer === 'stop_after_7', target: 'section_7_exit_cargo_stop', actions: [{ type: 'set', params: { accepted_exit_7: true } }, { type: 'score', params: { technical: 0, dedication: -0.6, social: 0.4 } }] },
+        { guard: ({ event, context }: any) => event.answer === 'continue_after_7' && context.debt_count >= 2, target: 'section_8_debt_intro', actions: [{ type: 'set', params: { accepted_exit_7: false } }, { type: 'score', params: { technical: 0, dedication: 0.5, social: -0.2 } }] },
+        { guard: ({ event, context }: any) => event.answer === 'continue_after_7' && context.debt_count < 2, target: 'section_8_clean_intro', actions: [{ type: 'set', params: { accepted_exit_7: false } }, { type: 'score', params: { technical: 0, dedication: 0.5, social: -0.2 } }] },
       ],
     },
   },
@@ -98,9 +98,9 @@ export const section7States = {
     } as ChallengeSceneData,
     on: {
       NEXT: [
-        { guard: ({ event }: any) => event.answer === 'stop_after_7', target: 'section_7_exit_medical_stop', actions: [{ type: 'set', params: { accepted_exit_7: true } }] },
-        { guard: ({ event, context }: any) => event.answer === 'continue_after_7' && context.debt_count >= 2, target: 'section_8_debt_intro', actions: [{ type: 'set', params: { accepted_exit_7: false } }] },
-        { guard: ({ event, context }: any) => event.answer === 'continue_after_7' && context.debt_count < 2, target: 'section_8_clean_intro', actions: [{ type: 'set', params: { accepted_exit_7: false } }] },
+        { guard: ({ event }: any) => event.answer === 'stop_after_7', target: 'section_7_exit_medical_stop', actions: [{ type: 'set', params: { accepted_exit_7: true } }, { type: 'score', params: { technical: 0, dedication: -0.6, social: 0.4 } }] },
+        { guard: ({ event, context }: any) => event.answer === 'continue_after_7' && context.debt_count >= 2, target: 'section_8_debt_intro', actions: [{ type: 'set', params: { accepted_exit_7: false } }, { type: 'score', params: { technical: 0, dedication: 0.5, social: -0.2 } }] },
+        { guard: ({ event, context }: any) => event.answer === 'continue_after_7' && context.debt_count < 2, target: 'section_8_clean_intro', actions: [{ type: 'set', params: { accepted_exit_7: false } }, { type: 'score', params: { technical: 0, dedication: 0.5, social: -0.2 } }] },
       ],
     },
   },

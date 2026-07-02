@@ -74,11 +74,12 @@ export const section10DebtStates = {
         {
           guard: ({ event }: any) => event.answer === 'stop',
           target: 'ending_4',
-          actions: [{ type: 'set', params: { accepted_exit_10: true } }],
+          actions: [{ type: 'set', params: { accepted_exit_10: true } }, { type: 'score', params: { technical: 0, dedication: -0.2, social: 0.2 } }],
         },
         {
           guard: ({ event }: any) => event.answer === 'continue',
           target: 'ending_5',
+          actions: [{ type: 'score', params: { technical: 0.3, dedication: 0.3, social: -0.1 } }],
         },
       ],
     },

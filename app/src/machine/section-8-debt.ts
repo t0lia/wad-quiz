@@ -78,9 +78,9 @@ export const section8DebtStates = {
           {
             guard: ({ event }: any) => event.answer === 'stop',
             target: 'ending_2',
-            actions: [{ type: 'set', params: { accepted_exit_8: true } }],
+            actions: [{ type: 'set', params: { accepted_exit_8: true } }, { type: 'score', params: { technical: 0, dedication: -0.4, social: 0.3 } }],
           },
-          { guard: ({ event }: any) => event.answer === 'continue', target: 'section_9' },
+          { guard: ({ event }: any) => event.answer === 'continue', target: 'section_9', actions: [{ type: 'score', params: { technical: 0.1, dedication: 0.4, social: -0.1 } }] },
         ],
       },
     },
