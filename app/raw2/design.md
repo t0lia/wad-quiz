@@ -98,7 +98,7 @@ Task answers can also mutate flags, and those flags can drive later navigation o
 - render intro
 - render dialogue
 - render continue button and wait for user tap
-- render choice title
+- render choice prompt only
 - render choice options as single choice - text comes from choice action text
 - render "Next" button and wait for user to make a selection and tap next
 - render conclusion for the choice action selected by user
@@ -110,7 +110,7 @@ Task answers can also mutate flags, and those flags can drive later navigation o
 - render dialogue
 - render continue button and wait for user tap
 - pick a random task from task pool
-- render task intro
+- render task prompt only
 - render code snippet
 - render answers as single choice
 - render "Next" button and wait for user to make a selection and tap next

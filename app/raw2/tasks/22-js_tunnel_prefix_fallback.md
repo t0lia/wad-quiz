@@ -1,4 +1,3 @@
----
 id: js_tunnel_prefix_fallback
 pool: network_route_boundaries
 language: javascript
@@ -7,26 +6,18 @@ mechanic_type: debug_decision
 slot_theme_fit: network boundary repair under incident pressure
 prompt_surface: four-option incident response
 answer_shape: action_id
----
-
-# Tunnel Prefix Fallback
-
-## Prompt
-The recovery helper picks a fallback prefix when none is passed, but that default is much wider than the one hull segment Alex is trying to restore.
-
-## Snippet
-```javascript
-function buildTunnel(prefix = "10.90.0.0/8") {
-  return {
-    address: "10.90.4.12/24",
-    route: prefix,
-    gateway: "10.90.4.1"
-  };
-}
-```
-
-## Actions
-```yaml
+title: Tunnel Prefix Fallback
+prompt: The recovery helper picks a fallback prefix when none is passed, but that
+  default is much wider than the one hull segment Alex is trying to restore.
+snippet:
+- function buildTunnel(prefix = "10.90.0.0/8") {
+- '  return {'
+- '    address: "10.90.4.12/24",'
+- '    route: prefix,'
+- '    gateway: "10.90.4.1"'
+- '  };'
+- '}'
+actions:
 - id: blame_switch
   text: Treat the bleed like switch instability and restart the device path
   description: Spend time on hardware symptoms instead of the route scope.
@@ -38,6 +29,10 @@ function buildTunnel(prefix = "10.90.0.0/8") {
     operation: add
     value: 1
   outcome: incorrect
+  scores:
+    technical_skills: -0.6
+    dedication: -0.2
+    social_capital: -0.1
 - id: add_shortcut_route
   text: Add another route on top without fixing the bad fallback scope
   description: Push traffic through temporarily while keeping the wrong boundary.
@@ -49,6 +44,10 @@ function buildTunnel(prefix = "10.90.0.0/8") {
     operation: add
     value: 1
   outcome: incorrect
+  scores:
+    technical_skills: -0.8
+    dedication: -0.5
+    social_capital: -0.4
 - id: force_recovery_tunnel
   text: Force a direct tunnel and accept one more brittle workaround
   description: Restore traffic quickly through a temporary rescue path.
@@ -63,6 +62,10 @@ function buildTunnel(prefix = "10.90.0.0/8") {
     operation: add
     value: 1
   outcome: override
+  scores:
+    technical_skills: -0.4
+    dedication: -0.6
+    social_capital: -0.4
 - id: correct_network_boundary
   text: Use the specific tunnel prefix the hull repair actually needs
   description: Narrow the boundary so unrelated systems stop following the recovery
@@ -75,12 +78,7 @@ function buildTunnel(prefix = "10.90.0.0/8") {
     operation: add
     value: 1
   outcome: solved
-```
-
-## Scoring
-| ACTION_ID | TECH | DED | SOC |
-|-----------|------|-----|-----|
-| blame_switch | -0.6 | -0.2 | -0.1 |
-| add_shortcut_route | -0.8 | -0.5 | -0.4 |
-| force_recovery_tunnel | -0.4 | -0.6 | -0.4 |
-| correct_network_boundary | 1 | 0.4 | 0.2 |
+  scores:
+    technical_skills: 1.0
+    dedication: 0.4
+    social_capital: 0.2
