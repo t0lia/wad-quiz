@@ -4,6 +4,7 @@ import { useMachine } from '@xstate/react'
 import { hydroMachine } from './machine'
 import { sceneGroupId } from './machine/sceneGroup'
 import ChallengeScene from './scenes/ChallengeScene'
+import ProgressBar from './components/ProgressBar'
 import './App.css'
 
 const STORAGE_KEY = 'wad-quiz-progress'
@@ -152,6 +153,7 @@ function MachineApp({ snapshot }: { snapshot: unknown }) {
   return (
     <>
       <button className="restart-btn restart-btn--fixed" onClick={reset} aria-label="Restart">↺</button>
+      <ProgressBar currentState={stateId} routeChoice={state.context.route_choice} />
       <ChallengeScene
         key={sceneGroupId(stateId)}
         scene={scene}
