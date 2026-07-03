@@ -49,7 +49,11 @@ export default function ProgressBar({ currentState, routeChoice }: Props) {
 
   return (
     <div className="progress-bar">
-      <div className="progress-bar__track">
+      <div
+        className="progress-bar__track"
+        style={{ '--progress': progress } as React.CSSProperties}
+      >
+        <div className="progress-bar__fill" />
         <div
           ref={dotRef}
           className="progress-bar__dot"

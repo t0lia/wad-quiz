@@ -1104,6 +1104,16 @@
   background: var(--border);
 }
 
+.progress-bar__fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: calc(var(--progress, 0) * 100%);
+  background: var(--accent);
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 .progress-bar__dot {
   position: absolute;
   top: 50%;
