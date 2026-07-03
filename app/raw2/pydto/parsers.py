@@ -87,53 +87,22 @@ def _parse_scoring_table(section_text: str) -> dict[str, ScoreValues]:
     return scores_by_action
 
 
-def parse_choice_markdown(path: Any) -> dict[str, Any]:
+def parse_choice_yaml(path: Any) -> dict[str, Any]:
     text = _read_markdown_text(path)
-    if text.lstrip().startswith('---'):
-        frontmatter, sections = _split_markdown_document(text)
-        scores_by_action = _parse_scoring_table(sections.get("Scoring", ""))
-        actions = cast(list[dict[str, Any]], _extract_yaml_block(sections["Actions"]))
+    return cast(dict[str, Any], yaml.safe_load(text) or {})
 
-        return {
-            **frontmatter,
-            "title": sections.get("__title__", ""),
-            "prompt": sections.get("Prompt", "").strip(),
-            "actions": [
-                {
-                    **action,
-                    "scores": _score_values_to_dict(scores_by_action.get(str(action["id"]), ScoreValues())),
-                }
-                for action in actions
-            ],
-        }
 
-    data = cast(dict[str, Any], yaml.safe_load(text) or {})
-    return data
+def parse_task_yaml(path: Any) -> dict[str, Any]:
+    text = _read_markdown_text(path)
+    return cast(dict[str, Any], yaml.safe_load(text) or {})
+
+
+def parse_choice_markdown(path: Any) -> dict[str, Any]:
+    return parse_choice_yaml(path)
 
 
 def parse_task_markdown(path: Any) -> dict[str, Any]:
-    text = _read_markdown_text(path)
-    if text.lstrip().startswith('---'):
-        frontmatter, sections = _split_markdown_document(text)
-        scores_by_action = _parse_scoring_table(sections.get("Scoring", ""))
-        actions = cast(list[dict[str, Any]], _extract_yaml_block(sections["Actions"]))
-
-        return {
-            **frontmatter,
-            "title": sections.get("__title__", ""),
-            "prompt": sections.get("Prompt", "").strip(),
-            "snippet": _extract_code_block(sections["Snippet"]),
-            "actions": [
-                {
-                    **action,
-                    "scores": _score_values_to_dict(scores_by_action.get(str(action["id"]), ScoreValues())),
-                }
-                for action in actions
-            ],
-        }
-
-    data = cast(dict[str, Any], yaml.safe_load(text) or {})
-    return data
+    return parse_task_yaml(path)
 
 
 def parse_score_values(data: dict[str, Any]) -> ScoreValues:

@@ -77,14 +77,14 @@ class Hw2Renderer:
             task.id: task
             for task in (
                 parse_task_asset(parse_task_markdown(path))
-                for path in sorted((world_dir / "tasks").glob("[0-9][0-9]-*.md"))
+                for path in sorted((world_dir / "tasks").glob("[0-9][0-9]-*.yaml"))
             )
         }
         choices = {
             choice.id: choice
             for choice in (
                 parse_choice_asset(parse_choice_markdown(path))
-                for path in sorted((world_dir / "choices").glob("[0-9][0-9]-*.md"))
+                for path in sorted((world_dir / "choices").glob("[0-9][0-9]-*.yaml"))
             )
         }
         return navigation, stage_config, task_pools, choices, tasks

@@ -48,12 +48,12 @@ def load_world(world_dir: Path) -> LoadedWorld:
     task_pools = parse_task_pools_document(yaml.safe_load((world_dir / "02_taskpools.yaml").read_text(encoding="utf-8")))
 
     choices: dict[str, ChoiceAsset] = {}
-    for path in sorted((world_dir / "choices").glob("[0-9][0-9]-*.md")):
+    for path in sorted((world_dir / "choices").glob("[0-9][0-9]-*.yaml")):
         asset = parse_choice_asset(parse_choice_markdown(path))
         choices[asset.id] = asset
 
     tasks: dict[str, LoadedTask] = {}
-    for path in sorted((world_dir / "tasks").glob("[0-9][0-9]-*.md")):
+    for path in sorted((world_dir / "tasks").glob("[0-9][0-9]-*.yaml")):
         asset = parse_task_asset(parse_task_markdown(path))
         tasks[asset.id] = LoadedTask(asset=asset, source_stem=path.stem)
 
