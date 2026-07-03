@@ -1088,15 +1088,16 @@
   right: 0;
   z-index: 100;
   pointer-events: none;
-  padding: 8px 20px;
 }
 
 .progress-bar__track {
-  position: relative;
-  width: 100%;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
   height: 2px;
   background: var(--border);
-  border-radius: 1px;
 }
 
 .progress-bar__dot {
