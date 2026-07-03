@@ -4,6 +4,7 @@ import { useMachine } from '@xstate/react'
 import { hydroMachine } from './machine1'
 import { sceneGroupId } from './machine/sceneGroup'
 import ChallengeScene from './scenes/ChallengeScene'
+import { formatEndingProfileLine, resolveEndingProfile } from './storyLogic'
 import './App.css'
 
 export { hydroMachine } from './machine1'
@@ -125,26 +126,15 @@ function MachineApp({ snapshot }: { snapshot: unknown }) {
 
   // ── Final (ending) states ──────────────────────────────────────────────────
   if (state.status === 'done') {
-    const { technical, dedication, social } = state.context.score
+    const endingProfile = resolveEndingProfile(state.context.score)
     return (
       <div className="ending fade-in">
         <p style={{ whiteSpace: 'pre-line', fontSize: 20, lineHeight: '160%' }}>
           {scene?.text ?? 'The shift is over.'}
         </p>
-        <dl className="score-summary">
-          <div className="score-summary__row">
-            <dt>Technical</dt>
-            <dd>{technical}</dd>
-          </div>
-          <div className="score-summary__row">
-            <dt>Dedication</dt>
-            <dd>{dedication}</dd>
-          </div>
-          <div className="score-summary__row">
-            <dt>Social Capital</dt>
-            <dd>{social}</dd>
-          </div>
-        </dl>
+        <div className="ending-profile">
+          {formatEndingProfileLine(endingProfile)}
+        </div>
         <button className="restart-btn" onClick={reset}>Play Again</button>
       </div>
     )
