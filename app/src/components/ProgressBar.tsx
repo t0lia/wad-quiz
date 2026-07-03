@@ -1,31 +1,14 @@
 import { useEffect, useRef } from 'react'
 
 // Milestones per major story section (collapsed from full state names)
-// These are the "scene groups" that represent meaningful progress steps
 const CARGO_PATH = [
-  'section_1',
-  'section_2',
-  'section_3',
-  'section_4',
-  'section_5',
-  'section_6',
-  'section_7',
-  'section_8',
-  'section_9',
-  'section_10',
+  'section_1', 'section_2', 'section_3', 'section_4', 'section_5',
+  'section_6', 'section_7', 'section_8', 'section_9', 'section_10',
 ]
 
 const MEDICAL_PATH = [
-  'section_1',
-  'section_2',
-  'section_3',
-  'section_4',
-  'section_5',
-  'section_6',
-  'section_7',
-  'section_8',
-  'section_9',
-  'section_10',
+  'section_1', 'section_2', 'section_3', 'section_4', 'section_5',
+  'section_6', 'section_7', 'section_8', 'section_9', 'section_10',
 ]
 
 const ENDINGS = ['ending_1', 'ending_2', 'ending_3', 'ending_4', 'ending_5']
@@ -37,7 +20,7 @@ function milestone(stateId: string): string {
     .replace(/_intro$/, '')
     .replace(/_task$/, '')
     .replace(/_cargo$|_medical$/, '')
-    .replace(/_[a-z]+$/, '') // remove last _word suffix (fallout, solved, etc.)
+    .replace(/_[a-z]+$/, '')
 }
 
 type Props = {
@@ -49,14 +32,11 @@ export default function ProgressBar({ currentState, routeChoice }: Props) {
   const dotRef = useRef<HTMLDivElement>(null)
   const path = routeChoice === 'medical' ? MEDICAL_PATH : CARGO_PATH
 
-  // Find milestone index (or ending)
   const ms = milestone(currentState)
   let idx = path.indexOf(ms)
-  let isEnding = false
 
   if (idx === -1 && ENDINGS.includes(ms)) {
     idx = path.length
-    isEnding = true
   }
 
   const progress = idx === -1 ? 0 : idx / path.length
