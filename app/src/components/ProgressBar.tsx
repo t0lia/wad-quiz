@@ -52,6 +52,8 @@ export default function ProgressBar({ currentState, routeChoice }: Props) {
       <div
         className="progress-bar__track"
         style={{ '--progress': progress } as React.CSSProperties}
+        data-state={currentState}
+        data-ms={ms}
       >
         <div className="progress-bar__fill" />
         <div
