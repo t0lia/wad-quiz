@@ -159,7 +159,7 @@ function ActiveSegment({ scene, onSubmit, bottomRef }: ActiveProps) {
       {/* Tap hint — full-width button, safe tap target on mobile */}
       {showHint && (
         <button className="tap-hint" onClick={advanceBlock}>
-          {allContentRevealed && isTapTask ? 'next' : 'tap to continue'}
+          {allContentRevealed && scene.task.type === 'text_scene' ? 'next' : 'tap to continue'}
         </button>
       )}
     </>
