@@ -5,7 +5,7 @@ export const section7States = {
   section_7: {
     meta: {
       id: 'section_7',
-      image: '/locations/exterior_hull.png',
+      image: '/locations/exterior_hull.webp',
       title: 'Outer Hull Plan',
       text:
         'The outer hatch grinds open and the dark hull gap answers with silence. Ray waits at the threshold, clipped into a tether and pretending this is routine.',
@@ -30,7 +30,7 @@ export const section7States = {
   section_7_exit: {
     meta: {
       id: 'section_7_exit',
-      image: '/locations/exterior_hull.png',
+      image: '/locations/exterior_hull.webp',
       title: 'Handoff Offer',
       text:
         'A legal handoff notice appears on the PDA. Behind you, the support line steadies. This is the first moment to hand off and stop, or push deeper into the hull repair.',
