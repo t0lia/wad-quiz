@@ -26,6 +26,9 @@
   font-size: 18px;
   line-height: 160%;
   color: var(--text-h);
+  text-align: justify;
+  -webkit-hyphens: auto;
+  hyphens: auto;
 }
 
 .scene-image {
