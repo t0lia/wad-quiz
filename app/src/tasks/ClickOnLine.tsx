@@ -30,7 +30,7 @@ export default function ClickOnLine({ task, submitted, onSubmit }: Props) {
           disabled={selectedId === null}
           onClick={() => onSubmit(selectedId ?? undefined)}
         >
-          next
+          submit
         </button>
       )}
     </>

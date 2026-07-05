@@ -107,7 +107,7 @@ export default function DecisionMap({ task, submitted, onSubmit }: Props) {
           disabled={selectedId === null}
           onClick={() => onSubmit(selectedId ?? undefined)}
         >
-          Submit
+          submit
         </button>
       )}
     </>
