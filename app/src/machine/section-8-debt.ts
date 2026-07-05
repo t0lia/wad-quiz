@@ -5,7 +5,7 @@ export const section8DebtStates = {
   section_8_debt_intro: {
     meta: {
       id: 'section_8_debt_intro',
-      image: '/locations/technical_gap.png',
+      image: '/locations/technical_gap.webp',
       title: 'Hull Gap - Debt Recovery Route',
       text: 'The technical gap is no longer polite. Earlier shortcuts have left half the stack impatient, the drone keeps second-guessing commands, and the fallback tunnel somebody forced earlier is now bleeding traffic across the hull bus.',
       dialogue: [
@@ -26,7 +26,7 @@ export const section8DebtStates = {
   section_8_debt_task: {
     meta: {
       id: 'section_8_debt_task',
-      image: '/locations/technical_gap.png',
+      image: '/locations/technical_gap.webp',
       title: 'Hull Gap - Debt Recovery Route',
       text:
         'The emergency tunnel path uses an address boundary that is far too broad. Too many earlier shortcuts have made the whole stack impatient and brittle, and the fallback tunnel is now bleeding traffic across the hull bus. The rescue route keeps stealing traffic from unrelated hull systems.\n\n' +
@@ -71,7 +71,7 @@ export const section8DebtStates = {
   section_8_debt_conclusion_incorrect: {
     meta: {
       id: 'section_8_debt_conclusion_incorrect',
-      image: '/locations/technical_gap.png',
+      image: '/locations/technical_gap.webp',
       title: 'Hull Gap - Debt Recovery Route',
       text: 'The tunnel thrash proves motion is not the same as progress, and Alex has to narrow the route properly while the whole hull bus complains.\n\nConnectivity is back, but the system now feels like it survived by accumulation rather than design.',
       task: { type: 'text_scene' },
@@ -82,7 +82,7 @@ export const section8DebtStates = {
   section_8_debt_conclusion_solved: {
     meta: {
       id: 'section_8_debt_conclusion_solved',
-      image: '/locations/technical_gap.png',
+      image: '/locations/technical_gap.webp',
       title: 'Hull Gap - Debt Recovery Route',
       text: 'The broad tunnel stops stealing traffic the moment Alex restores a sane boundary around it.\n\nThe farm path holds, the debt stack quiets down a little, and the burned connector becomes the last obvious threat.',
       task: { type: 'text_scene' },
@@ -93,7 +93,7 @@ export const section8DebtStates = {
   section_8_debt_conclusion_override: {
     meta: {
       id: 'section_8_debt_conclusion_override',
-      image: '/locations/technical_gap.png',
+      image: '/locations/technical_gap.webp',
       title: 'Hull Gap - Debt Recovery Route',
       text: 'Alex pins the forced tunnel in place with one more manual rule and gets the sector stable in the least comforting possible way.\n\nThe ship is moving again, but not because the software has learned anything.',
       task: { type: 'text_scene' },
@@ -104,7 +104,7 @@ export const section8DebtStates = {
   section_8_exit_debt: {
     meta: {
       id: 'section_8_exit_debt',
-      image: '/locations/technical_gap.png',
+      image: '/locations/technical_gap.webp',
       title: 'Containment Offer',
       text:
         'The next notice arrives with the nervous politeness of people who know the system is technically up and emotionally one sharp tap from another incident. Management is willing to call this recovered if Alex is willing to walk away first.',
