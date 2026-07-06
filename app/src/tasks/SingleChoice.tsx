@@ -40,7 +40,7 @@ export default function SingleChoice({ task, submitted, onSubmit, readOnly = fal
           disabled={selected === null}
           onClick={() => onSubmit(selected!)}
         >
-          {task.variant === 'problem' ? 'apply' : 'next'}
+          submit
         </button>
       )}
     </>
