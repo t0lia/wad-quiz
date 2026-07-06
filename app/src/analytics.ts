@@ -8,11 +8,26 @@ declare global {
 const GA_MEASUREMENT_ID = 'G-1Z0TTXQ098'
 const isProd = import.meta.env.PROD
 
+// gtag.js only reliably picks up custom `event` calls once its own script has
+// actually loaded and started watching the dataLayer — events pushed in the
+// same tick as the initial `config` call (e.g. from a React effect firing on
+// first mount) can race the script's network fetch and get silently dropped,
+// even though the automatic Enhanced Measurement events (page_view, etc.)
+// still show up because the library fires those itself only once ready.
+// Buffer calls made before `onload` and flush them once it's safe to send.
+let gtagReady = false
+let pendingCalls: Array<() => void> = []
+
 export function initAnalytics(): void {
   if (!isProd) return
   const script = document.createElement('script')
   script.async = true
   script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`
+  script.onload = () => {
+    gtagReady = true
+    pendingCalls.forEach((fn) => fn())
+    pendingCalls = []
+  }
   document.head.appendChild(script)
 
   window.dataLayer = window.dataLayer || []
@@ -24,8 +39,12 @@ export function initAnalytics(): void {
 }
 
 function trackEvent(name: string, params?: Record<string, unknown>): void {
-  if (!isProd || typeof window.gtag !== 'function') return
-  window.gtag('event', name, params)
+  if (!isProd) return
+  const fire = () => {
+    if (typeof window.gtag === 'function') window.gtag('event', name, params)
+  }
+  if (gtagReady) fire()
+  else pendingCalls.push(fire)
 }
 
 function sectionNumber(groupId: string): number | undefined {
