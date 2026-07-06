@@ -25,3 +25,5 @@ dist-ssr
 /data/
 /CLAUDE.md
 /text/
+**__pycache__**
+machine1_artifacts/

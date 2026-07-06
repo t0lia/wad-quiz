@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
+import type { AnyStateMachine } from 'xstate'
 import type { ChallengeSceneData } from './types/story'
-import { hydroMachine } from './machine'
 import ChallengeScene from './scenes/ChallengeScene'
 import StateTreeVisualization from './components/StateTreeVisualization'
 import './App.css'
@@ -34,7 +34,7 @@ function collectTargetIds(value: unknown, targets: Set<string>): void {
   Object.values(record).forEach((entry) => collectTargetIds(entry, targets))
 }
 
-function topoSortSceneKeys(): string[] {
+function topoSortSceneKeys(hydroMachine: AnyStateMachine): string[] {
   const machineStates = (hydroMachine as any).config?.states ?? hydroMachine.states
   const entries = Object.entries(machineStates) as Array<[string, any]>
   const sequence = new Map(entries.map(([key], index) => [key, index]))
@@ -96,12 +96,12 @@ function getNextSections(stateNode: any): string[] {
   return Array.from(targets).sort()
 }
 
-export default function DebugApp() {
+export default function DebugApp({ hydroMachine }: { hydroMachine: AnyStateMachine }) {
   const [viewMode, setViewMode] = useState<'tree' | 'grid'>('tree')
   const stateNodes = useMemo(() => (hydroMachine as any).config?.states ?? hydroMachine.states, [])
   
   const scenes = useMemo(() => {
-    const orderedKeys = topoSortSceneKeys()
+    const orderedKeys = topoSortSceneKeys(hydroMachine)
 
     return orderedKeys
       .map((key) => ({ key, scene: stateNodes[key]?.meta as ChallengeSceneData | undefined }))
@@ -149,7 +149,7 @@ export default function DebugApp() {
         </div>
       </header>
 
-      {viewMode === 'tree' && <StateTreeVisualization />}
+      {viewMode === 'tree' && <StateTreeVisualization hydroMachine={hydroMachine} />}
 
       {viewMode === 'grid' && (
         <section className="device-grid" aria-live="polite">
@@ -159,7 +159,7 @@ export default function DebugApp() {
               <div id={key} key={key}>
                 <div className="tile-id">{shortStateId(key)}</div>
                 <article className="tile">
-                  <ChallengeScene scene={scene} onComplete={() => {}} />
+                  <ChallengeScene scene={scene} context={{}} onComplete={() => {}} />
                 </article>
                 {nextSections.length > 0 && (
                   <div style={{ fontSize: '0.75rem', color: '#666', marginTop: '0.5rem', padding: '0.5rem', backgroundColor: '#f5f5f5', borderRadius: '4px' }}>

@@ -1,0 +1,481 @@
+format: StageConfigsV1
+source_world: hydroworld
+stages:
+- id: section_1
+  stage_type: choice
+  title: In the Incubator Zone
+  location_id: incubator_4
+  intro_narrative: 'Alex drops into a folding chair in Incubator #4. A potato vine glows inside a glass growth chamber while red alarm lights pulse across the aisle. Sector A is locked after the control link fails, and the watering system is frozen. The PDA opens a local maintenance terminal. To Alex surprise, instead of the standard welcome screen he''s presented with boot menu he has not seen before. A call from Lina distracts his uncertainty.'
+  dialogue:
+  - speaker: lina
+    text: How are things looking?
+  - speaker: alex
+    text: That's a strange new boot menu I'm getting...
+  - speaker: lina
+    text: Huh? Must be yet another half baked software update. What does it say?
+  - speaker: alex
+    text: Boot V9 or boot V10.0037.custom.experimental.unsigned
+  - speaker: lina
+    text: You're on your own with this one. Who knows what promisses unsigned gives...
+  choice_id: section_1
+- id: section_2_standard
+  stage_type: task
+  title: Sector A - Missing Dependencies
+  location_id: sector_a_control
+  intro_narrative: The enterprise console takes a little longer, but it arrives with calmer telemetry and fewer visual fireworks. The comfort lasts only until the dependency panel starts blinking. Sector A still cannot close the control handshake, and the same lock remains in place.
+  dialogue:
+  - speaker: lina
+    text: We flagged a water supply problem in Sector A about thirty minutes ago. What does the console say?
+  - speaker: alex
+    text: I still can't connect to Sector A. One startup module from the station update is racing ahead of its dependencies.
+  - speaker: lina
+    text: So even the safe build inherited the same bad idea?
+  - speaker: alex
+    text: Yes. We still need `sector-link` to wait for the service chain before handshaking.
+  - speaker: lina
+    text: Then fix it once, and let's not debug this corridor again tonight.
+  task_pool_id: boot_terminal_concurrency
+  task_pool_title: Help Alex stabilize startup order in the enterprise console
+  modifiers:
+  - condition: boot_standard >= 1
+    effect: Even the standard build carries one rushed startup module from the latest station-wide update.
+  - condition: boot_unsigned >= 1
+    effect: The unsigned build skips its normal startup barrier, so the race is visible immediately.
+  task_stage_conclusion:
+    incorrect: Alex tries the wrong fix first, and nothing improves. The boot chain is still out of order, and `sector-link` still acts like it woke up during a fire drill. Alex fixes the real problem on the next pass. Water starts moving again, and one dashboard widget stays frozen on "good morning."
+    solved: The startup order settles down, `sector-link` comes up cleanly, and the controller answers at last. The enterprise build stays stable, but only after Alex forces it to finish one conversation before starting the next. Sector A finally responds, but the command path still points toward the next blocked compartment. Alex grabs the PDA and moves on before the station software finds a new way to surprise him.
+    override: Alex shoves sector-link past its checks and the controller answers with visible bad temper. The dashboard turns green faster than it turns trustworthy. Water moves again, but the ship now owes Alex one hidden failure and the main valve is still ahead.
+- id: section_2_unsigned
+  stage_type: task
+  title: Sector A - Missing Dependencies
+  location_id: sector_a_control
+  intro_narrative: Alex barely taps the confirm key before the experimental build jumps to the desktop. The quick boot looks great for about three seconds. Then the status panel fills with yellow warnings instead of green INFOs. Most of the console is awake, but currently it looks like a traffic light with big red, medium amber and a small touch of green.
+  dialogue:
+  - speaker: lina
+    text: We flagged a water supply problem in Sector A about thirty minutes ago. What does the console say?
+  - speaker: alex
+    text: I still can't connect to Sector A. This build boots the interface before the background services finish sorting themselves out.
+  - speaker: lina
+    text: Which one do we actually need?
+  - speaker: alex
+    text: '`sector-link`. Without it, this nice new desktop is as good as a screensaver.'
+  - speaker: lina
+    text: Then fix the race, and keep the wallpaper if you must.
+  task_pool_id: boot_terminal_concurrency
+  task_pool_title: Help Alex turn the experimental terminal into something useful
+  modifiers:
+  - condition: boot_standard >= 1
+    effect: Even the standard build carries one rushed startup module from the latest station-wide update.
+  - condition: boot_unsigned >= 1
+    effect: The unsigned build skips its normal startup barrier, so the race is visible immediately.
+  task_stage_conclusion:
+    incorrect: Alex picks a bad shortcut, and the flashy build gives him the same old failure. The desktop looks ready, but the services are still out of step, so the link keeps breaking. Alex has to fix the startup order for real. Water starts moving again, and the cheerful wallpaper now feels personal.
+    solved: The startup order settles down, `sector-link` comes up cleanly, and the controller answers at last. The fast build keeps its speed, but only after Alex forces it to finish one conversation before starting the next. Sector A finally responds, but the command path still points toward the next blocked compartment. Alex grabs the PDA and moves on before the experimental build finds a new way to surprise him.
+    override: Alex shoves sector-link past its checks and the controller answers with visible bad temper. The dashboard turns green faster than it turns trustworthy. Water moves again, but the ship now owes Alex one hidden failure and the main valve is still ahead.
+- id: section_3
+  stage_type: choice
+  title: Crossing the Ship
+  location_id: cross_ship_route
+  intro_narrative: 'The terminal is finally holding a live connection to Sector A when a new alert cuts across the recovery logs. Water is not stuck here anymore. The line is blocked farther down the ship at Maintenance Access Gate before Airlock #4. The damaged segment is outside the safe interior path, so Alex will need airlock access and a maintenance drone to reach it safely. Alex looks up from the screen and finds himself standing between two doors: the heavier cargo hatch on the left and the cleaner medical passage on the right.'
+  dialogue:
+  - speaker: lina
+    text: The software side is breathing again. Now go move the part that refuses to move.
+  - speaker: alex
+    text: It's like you imply that I have to do something physically?!
+  - speaker: lina
+    text: Only eventually. For now you need to get there first.
+  - speaker: alex
+    text: Cargo is slower and cleaner. Medical is shorter and stranger.
+  - speaker: lina
+    text: Everything on this ship is shorter and stranger.
+  choice_id: section_3
+- id: section_4_cargo
+  stage_type: task
+  title: Freight Gate Permission Check
+  location_id: access_gate
+  intro_narrative: Tony meets Alex at the freight checkpoint with a handheld scanner and the expression of a man who expected a simpler night. The cargo-side maintenance gate can see the emergency tag, the route authorization, and Tony's temporary pass. It still refuses to open.
+  dialogue:
+  - speaker: tony
+    text: I filed the freight pass ten minutes ago. The gate is being dramatic.
+  - speaker: alex
+    text: No, the gate is being written in Java.
+  - speaker: tony
+    text: Is that better or worse than dramatic?
+  - speaker: alex
+    text: Usually slower.
+  task_pool_id: access_gate_integrity
+  task_pool_title: 'Problem 2 Cargo: Freight Gate Validation'
+  modifiers:
+  - condition: boot_unsigned >= 1
+    effect: The unsigned console build keeps repainting the scanner UI, which makes every test run feel less trustworthy.
+  task_stage_conclusion:
+    incorrect: Alex goes after the wrong cause, and the freight gate stays shut with full confidence. The problem is not the scanner or the rule. It is the code check, which is about as useful as expected. Once Alex fixes that, the gate opens. Tony kicks an empty crate, and it rolls off like it helped.
+    solved: The gate stops lying as soon as Alex fixes the access check it actually reads. Tony gives the scanner a look usually reserved for delayed shipments. The freight lane stays orderly all the way to Airlock
+    override: Alex forces the freight lock, the door jerks open, and three compliance policies quietly die inside the wall. The path is open, but the override smell follows Alex toward the airlock like a second tether.
+- id: section_5_cargo
+  stage_type: choice
+  title: Clean Arrival At Airlock #4
+  location_id: airlock_4
+  intro_narrative: 'The cargo lane reaches Airlock #4, where Vex already has Shmiel waiting. The maintenance drone is on site, but its current profile still thinks this is an indoor freight job, and space has very strict feedback about that kind of mistake.'
+  dialogue:
+  - speaker: vex
+    text: You made good time. Meet Shmiel, a maintenance drone. Last time it was used for indoor freight work. You can use it, but its software may take your outside mission as a personal insult.
+  - speaker: alex
+    text: So the route is clean, but the drone still thinks we are inside.
+  - speaker: vex
+    text: Exactly. We can patch the profile properly, or bully it into follow mode and hope space stays forgiving.
+  - speaker: alex
+    text: No promises, but I respect the goal.
+  choice_id: section_5_cargo
+- id: section_5_cargo_fallout
+  stage_type: choice
+  title: Airlock #4 Under Audit Smoke
+  location_id: airlock_4
+  intro_narrative: 'By the time Alex reaches Airlock #4, Vex already has Shmiel waiting. The maintenance drone is on site, but its current profile still expects a routine indoor freight task, and vacuum is famously unhelpful when software makes that assumption.'
+  dialogue:
+  - speaker: vex
+    text: You smell like a door override. Meet Shmiel, a maintenance drone. Last time it was used for indoor freight work. You can use it, but its software may take your outside mission as a personal insult.
+  - speaker: alex
+    text: So the route is already messy, and now the drone thinks we are still inside.
+  - speaker: vex
+    text: Exactly. We can patch the profile properly, or bully it into follow mode and hope space stays weirdly forgiving.
+  - speaker: alex
+    text: No promises, but I respect the goal.
+  choice_id: section_5_cargo_fallout
+- id: section_6_cargo
+  stage_type: task
+  title: Clamp Follow Profile
+  location_id: airlock_4
+  intro_narrative: The cargo kit clicks onto Shmiel with a sharp snap. The drone accepts the new settings, but once it starts the outside setup, it acts like the magnetic clamp is optional.
+  dialogue:
+  - speaker: vex
+    text: The drone takes the settings, but outside it stops treating the clamp like a real on switch.
+  - speaker: alex
+    text: So it reads the message, but gets the important part wrong.
+  - speaker: vex
+    text: Exactly. Give me a simple, correct value and I will give you a drone that stays attached to the ship's exterior.
+  task_pool_id: drone_profile_payloads
+  task_pool_title: 'Problem 3 Cargo: EVA Drone Profile'
+  modifiers:
+  - condition: drone_patch >= 1
+    effect: The patched drone stays calm, so the problem is mostly about the bad setting.
+  - condition: drone_override >= 1
+    effect: The hard override already made Shmiel jumpy, so any bad setting now causes more trouble.
+  task_stage_conclusion:
+    incorrect: Alex chooses the wrong answer, and the drone still misunderstands the clamp setting. It gets the message, just not in a useful way, so the outside setup still fails. Alex fixes the real value before the drone behaves. When it finally works, Shmiel gives one small spin like this was practice.
+    solved: The corrected profile goes in cleanly, the clamp behaves, and Shmiel suddenly looks much more useful. The outer hatch is ready, and Ray is already waiting with a new definition of teamwork.
+    override: Alex forces the drone into a manual support mode that works right away and looks very temporary. The hatch is ready, but Alex steps outside relying on another temporary fix. However he's feeling lucky.
+- id: section_4_medical
+  stage_type: task
+  title: Quarantine Side Gate
+  location_id: access_gate
+  intro_narrative: Clara leads Alex through the medical corridor to a quarantine side gate with cleaner walls and stricter software. Alex presses the emergency keycard to the reader while Clara adds her medical approval to the request. The gate still marks the record as incomplete and keeps the lock sealed.
+  dialogue:
+  - speaker: clara
+    text: The waiver exists. I signed it myself.
+  - speaker: alex
+    text: Then the approval is arriving, but the gate is checking the wrong thing.
+  - speaker: clara
+    text: I can work with either diagnosis.
+  - speaker: alex
+    text: Good. Let us fix the check before we argue with the hardware.
+  task_pool_id: access_gate_integrity
+  task_pool_title: 'Problem 2 Medical: Quarantine Gate Validation'
+  modifiers:
+  - condition: boot_unsigned >= 1
+    effect: The unsigned build keeps collapsing warning panels, which makes the gate logs feel even less honest.
+  task_stage_conclusion:
+    incorrect: Alex spends time on the wrong fix, and the side gate does not care. The approval is there, but the code checks the wrong field, so the lock stays closed until Alex fixes the real test. The gate finally opens, and the warning speaker says "record updated" with pride nobody asked for.
+    solved: 'The gate unlocks as soon as Alex aligns the access check with the data the software was supposed to trust. Clara gives the panel a look usually reserved for contagious stupidity. The decontamination corridor clears, and Clara moves Alex straight toward Airlock #4.'
+    override: Alex trips the manual release, the seal cycles open, and the team bypasses quarantine protocol for thirty uncomfortable seconds. The route is open, but medical now has to explain why procedure lost an argument to urgency.
+- id: section_5_medical
+  stage_type: choice
+  title: Clean Airlock Prep
+  location_id: airlock_4
+  intro_narrative: 'The medical corridor reaches Airlock #4, where Vex already has Shmiel waiting. The maintenance drone is on site, but its current profile still thinks this is a routine indoor maintenance job, and sterile outside work is not known for forgiving that kind of confusion.'
+  dialogue:
+  - speaker: vex
+    text: You made good time. Meet Shmiel, a maintenance drone. Last time it was used for routine indoor cleanup, so its software may be a little confused by sterile outside work.
+  - speaker: clara
+    text: I am staying until the shell profile behaves. Medical does not sign off on improvisation in vacuum.
+  - speaker: alex
+    text: So we have a medical EVA and a drone that still thinks this is housekeeping.
+  - speaker: vex
+    text: Exactly. We can patch the profile properly, or bully it into follow mode and hope contamination rules stay theoretical.
+  - speaker: alex
+    text: Then let us choose whether to improve it or frighten it.
+  choice_id: section_5_medical
+- id: section_5_medical_fallout
+  stage_type: choice
+  title: Airlock Prep After A Dirty Shortcut
+  location_id: airlock_4
+  intro_narrative: 'By the time Alex reaches Airlock #4, Vex already has Shmiel waiting. The maintenance drone is on site, but its current profile still expects routine indoor maintenance, and sterile outside work is not known for tolerating that kind of confusion.'
+  dialogue:
+  - speaker: clara
+    text: I am going to describe that gate incident later with adjectives.
+  - speaker: alex
+    text: Please choose gentle adjectives.
+  - speaker: vex
+    text: First survive vacuum. Meet Shmiel, a maintenance drone. Last time it was used for routine indoor cleanup, so its software may be a little confused by sterile outside work.
+  - speaker: alex
+    text: Fine. So my bad options are to educate the drone properly or scare it into cooperation.
+  choice_id: section_5_medical_fallout
+- id: section_6_medical
+  stage_type: task
+  title: Sterile Shell Profile
+  location_id: airlock_4
+  intro_narrative: The medical shell closes around Shmiel with a soft click. The drone gets the new settings, but once it moves into outside mode, it never turns on the clean shell setting.
+  dialogue:
+  - speaker: vex
+    text: The drone gets the message, but it never sees the switch that should turn the clean shell on.
+  - speaker: alex
+    text: So the message arrives, but the important bit is written the wrong way.
+  - speaker: clara
+    text: That is a much friendlier sentence than the one you usually say.
+  - speaker: alex
+    text: I contain multitudes.
+  task_pool_id: drone_profile_payloads
+  task_pool_title: 'Problem 3 Medical: EVA Shell Profile'
+  modifiers:
+  - condition: drone_patch >= 1
+    effect: The patched drone is calm, so the remaining problem is just the bad field name.
+  - condition: drone_override >= 1
+    effect: The override makes every shell change feel one mistake away from a very loud problem.
+  task_stage_conclusion:
+    incorrect: Alex picks the wrong fix, and the clean shell still does not turn on. The drone gets the update, but the key field is still wrong, so outside mode stays unsafe. Alex must correct the real payload before the shell behaves. After it works, the drone gives a soft beep that sounds far too pleased with itself.
+    solved: The corrected payload works, clean mode turns on, and the shell suddenly looks useful instead of dangerous. The outer hatch is ready, and Ray is already clipped in like this was always going to happen.
+    override: Alex forces the shell into a manual fallback that works right away and inspires no long-term confidence at all. The hatch is ready, but the outside segment now begins with one more procedural compromise.
+- id: section_7
+  stage_type: choice
+  title: Outside Repair Plan
+  location_id: exterior_hull
+  intro_narrative: The outer hatch grinds open and the dark gap outside the ship answers with silence. Ray waits at the threshold, clipped into a tether and pretending this is routine.
+  dialogue:
+  - speaker: ray
+    text: I can stay on the inner panel and work the checklist with you, or you can go solo and enjoy pure professional freedom.
+  - speaker: alex
+    text: Your definition of freedom feels hostile.
+  - speaker: ray
+    text: Vacuum improves honesty.
+  choice_id: section_7
+- id: section_7_exit_cargo
+  stage_type: choice
+  title: Freight Handoff Offer
+  location_id: exterior_hull
+  intro_narrative: A legal handoff notice appears on the PDA just as the cargo-side support line steadies. Behind Alex, the freight path is finally quiet, which feels less like peace than a pause between incidents.
+  dialogue:
+  - speaker: ray
+    text: Freight is stable enough that you could hand this off and let another shift hate the rest.
+  - speaker: alex
+    text: That is a strangely persuasive sales pitch.
+  - speaker: ray
+    text: It comes from experience and lower optimism.
+  choice_id: section_7_exit_cargo
+- id: section_7_exit_medical
+  stage_type: choice
+  title: Medical Handoff Offer
+  location_id: exterior_hull
+  intro_narrative: As Alex reaches the first stable foothold outside, the PDA projects a medical risk waiver across the visor. Someone in Compliance has concluded that partial recovery plus distance from liability now counts as a plan.
+  dialogue:
+  - speaker: ray
+    text: Medical is offering you a respectable retreat while everyone is still technically safe.
+  - speaker: alex
+    text: Respectable is doing a lot of work there.
+  - speaker: ray
+    text: That is why they let the form write itself.
+  choice_id: section_7_exit_medical
+- id: section_8_clean
+  stage_type: task
+  title: Outside Gap - Clean Routing Fix
+  location_id: technical_gap
+  intro_narrative: The technical gap is narrow, dark, and almost manageable. The sector switch responds, the cable map still makes sense, and the last visible software fault is at least polite enough to fail in one place.
+  dialogue:
+  - speaker: alex
+    text: The switch responds, but traffic keeps wandering off into the wrong network.
+  - speaker: ray
+    text: Then bring the network boundary back where it belongs.
+  - speaker: alex
+    text: I would love one problem tonight that stays politely inside its own lines.
+  task_pool_id: network_route_boundaries
+  task_pool_title: 'Task 4A: Outside Segment Route Repair'
+  modifiers:
+  - condition: boot_unsigned >= 1
+    effect: The fast build keeps renaming one device port in the background, so every command takes one extra glance to trust.
+  - condition: drone_override >= 1
+    effect: Shmiel keeps trying to switch back into fruit-scan mode whenever the visor lights catch its sensors.
+  - condition: eva_team >= 1
+    effect: Radio sync between two suits clogs the link and makes every network change feel heavier.
+  - condition: eva_solo >= 1
+    effect: Working alone means every cable check and command confirmation happens in Alex's own head.
+  - condition: debt_count >= 2
+    effect: Too many earlier shortcuts have made the whole stack feel impatient and brittle.
+  task_stage_conclusion:
+    incorrect: Alex tries the wrong route fix, and the traffic still drifts into the wrong place. The switch makes more noise, but the network boundary is still wrong, so Alex has to fix that part properly. Service comes back after the real repair. One status lamp keeps blinking like drama is a feature.
+    solved: The route settles the moment the farm segment gets the boundary it should have had from the start. Backbone service is mostly restored, and the burned connector is now the last obvious wound.
+    override: Alex forces a direct tunnel through the gap and gets traffic moving again under a layer of technical debt thin enough to hear creak. The ship can breathe, but it has started depending on one more bad secret.
+- id: section_8_debt
+  stage_type: task
+  title: Outside Gap - Debt Recovery Route
+  location_id: technical_gap
+  intro_narrative: The technical gap is no longer polite. Earlier shortcuts have left half the stack impatient, the maintenance drone keeps second-guessing commands, and the fallback tunnel somebody forced earlier is now bleeding traffic across the exterior network.
+  dialogue:
+  - speaker: ray
+    text: We are not fixing one clean route anymore. We are fixing the bad rescue path on top of it.
+  - speaker: alex
+    text: Good. I was worried the night might become straightforward.
+  - speaker: ray
+    text: That concern has passed.
+  task_pool_id: network_route_boundaries
+  task_pool_title: 'Task 4B: Debt Route Containment'
+  modifiers:
+  - condition: boot_unsigned >= 1
+    effect: The unsigned build keeps renaming one tunnel device in the background, so every command needs to be read twice.
+  - condition: route_medical >= 1
+    effect: Medical quarantine banners keep interrupting the outside console at the worst possible time.
+  - condition: override_count >= 2
+    effect: Too many forced workarounds have turned the recovery path into an argument between temporary fixes.
+  task_stage_conclusion:
+    incorrect: Alex chooses the wrong repair, and the bad tunnel keeps making a mess. Packets still leak across the outside network, and the whole segment complains louder instead of getting better. Alex has to narrow the route the right way before the line settles down. After that, the console still prints one old warning every five seconds, for tradition.
+    solved: The broad tunnel stops stealing traffic the moment Alex restores a sane boundary around it. The farm path holds, the debt stack quiets down a little, and the burned connector becomes the last obvious threat.
+    override: Alex pins the forced tunnel in place with one more manual rule and gets the sector stable in the least comforting possible way. The ship is moving again, but not because the software has learned anything.
+- id: section_8_exit_clean
+  stage_type: choice
+  title: Partial Recovery Offer
+  location_id: technical_gap
+  intro_narrative: The PDA receives a second notice. This one sounds almost optimistic, which is how Alex knows it was written far away from the outside repair site.
+  dialogue:
+  - speaker: vex
+    text: This is the part where management says eighty-five percent is emotionally close enough to one hundred.
+  - speaker: alex
+    text: I hate when a percentage starts sounding like philosophy.
+  - speaker: vex
+    text: You can still turn back.
+  choice_id: section_8_exit_clean
+- id: section_8_exit_debt
+  stage_type: choice
+  title: Containment Offer
+  location_id: technical_gap
+  intro_narrative: The next notice arrives with the nervous politeness of people who know the system is technically up and emotionally one sharp tap from another incident. Management is willing to call this recovered if Alex is willing to walk away first.
+  dialogue:
+  - speaker: vex
+    text: This is the corporate definition of good enough under supervision.
+  - speaker: alex
+    text: I assume the supervision part ends the moment I accept.
+  - speaker: vex
+    text: That is what makes it management.
+  choice_id: section_8_exit_debt
+- id: section_9
+  stage_type: choice
+  title: Connector Swap Method
+  location_id: cable_connector
+  intro_narrative: 'The burned cable is fused into the connector and the replacement line is ready in its case. Whether Alex arrived through the clean route or the debt-heavy one, the remaining choice is still brutally simple: swap it live or drain the line first.'
+  dialogue:
+  - speaker: ray
+    text: We can keep the line hot and save time.
+  - speaker: alex
+    text: Or drain it and keep my hair.
+  - speaker: ray
+    text: Both are valid engineering goals.
+  choice_id: section_9
+- id: section_9_exit
+  stage_type: choice
+  title: Connector Go Or No-Go
+  location_id: cable_connector
+  intro_narrative: The old cable is loose enough to move, the replacement is ready, and the distributor core waits one layer deeper. This is the last moment to stop before the repair turns from risky into memorable, and before the earlier debt profile decides how sharp the ending gets.
+  dialogue:
+  - speaker: ray
+    text: If you walk now, nobody reasonable blames you.
+  - speaker: alex
+    text: That sentence contains an alarming amount of experience.
+  - speaker: ray
+    text: That is why I said it.
+  choice_id: section_9_exit
+- id: section_10_clean
+  stage_type: task
+  title: Distributor Core - Lock Order
+  location_id: cable_connector
+  intro_narrative: Inside the distributor core, the remaining fault is at least honest. Two power routines grab the same locks in opposite order. Under load they freeze each other and stall the whole sector.
+  dialogue:
+  - speaker: captain
+    text: Alex, the sector is close to coming back. What is still holding it down?
+  - speaker: alex
+    text: Two threads with bad manners and opposite lock order.
+  - speaker: elena
+    text: How long until they behave?
+  - speaker: alex
+    text: That depends on how loudly the rest of the ship panics while I work.
+  task_pool_id: distributor_lock_order
+  task_pool_title: 'Task 5A: Distributor Concurrency Recovery'
+  modifiers:
+  - condition: swap_hot >= 1
+    effect: The live line makes every extra second feel expensive.
+  - condition: swap_drain >= 1
+    effect: Alarm noise from dark plant rows keeps flooding the console while Alex works.
+  - condition: incorrect_count >= 2
+    effect: Too many earlier shaky fixes have filled the core logs with misleading symptoms.
+  - condition: debt_count >= 2
+    effect: Earlier shortcuts have made the final repair feel like it is standing on loose floorboards.
+  task_stage_conclusion:
+    incorrect: Alex reaches for the wrong answer, and the core locks up again almost at once. The problem is still the lock order, not a magic restart or a brave delete key. Alex has to fix the real order before the sector can stay up. Power returns, and one fan starts humming louder, like it expects sympathy.
+    solved: 'The core comes back cleanly once both paths stop fighting over the same resources in opposite order. Sector power is restored, and a fresh log anomaly points back toward Incubator #4.'
+    override: Alex forces the core into emergency single-thread mode and gets power back at once, steady only in the way a tired compromise can look steady. Power is restored, but the recovery logs now contain something larger than a plant incident.
+- id: section_10_debt
+  stage_type: task
+  title: Distributor Core - Debt-Tangled Lock Order
+  location_id: cable_connector
+  intro_narrative: Inside the distributor core, earlier shortcuts are still echoing through the control layer. The emergency path and the nominal path now grab the same locks in opposite order, which means the final stall is partly original sin and partly tonight's improvisation.
+  dialogue:
+  - speaker: captain
+    text: Engineer, tell me this is still one bug.
+  - speaker: alex
+    text: It is one bug with excellent networking skills.
+  - speaker: elena
+    text: Can you stabilize it without creating a sequel?
+  - speaker: alex
+    text: That depends on whether everyone can survive me refusing the fastest wrong answer.
+  task_pool_id: distributor_lock_order
+  task_pool_title: 'Task 5B: Debt-Tangled Concurrency Recovery'
+  modifiers:
+  - condition: swap_hot >= 1
+    effect: The live line makes every delay feel like a dare.
+  - condition: incorrect_count >= 2
+    effect: Earlier shaky fixes have filled the core logs with misleading symptoms.
+  - condition: override_count >= 2
+    effect: Too many explicit shortcuts have turned the final console into a map of past compromises.
+  task_stage_conclusion:
+    incorrect: Alex takes the wrong path, and the debt-heavy core answers with an uglier stall. The fast patch adds noise, while the real lock order problem stays where it was. Alex must fix that order properly before the system holds. Power comes back, and one log line keeps repeating the same complaint like a bitter coworker.
+    solved: The debt-tangled core settles once Alex forces both paths to obey the same lock order again. Full power returns, and the resulting logs point toward an anomaly that was never supposed to be visible.
+    override: Alex pins the core in emergency mode and gets power back through one last intentional compromise. The sector is alive, but the recovery logs now contain a larger problem than the one Alex came here to solve.
+- id: section_10_exit
+  stage_type: choice
+  title: Sign Off Or Pull The Thread
+  location_id: incubator_4
+  intro_narrative: 'By the time Alex returns to Incubator #4, the folding chair is still there and the Nevsky potato is still growing like none of this should be surprising. Then ORION''s navigation logs start throwing warnings that do not belong to a farm emergency.'
+  dialogue:
+  - speaker: lina
+    text: Tell me that is not another problem.
+  - speaker: alex
+    text: It is definitely another problem.
+  - speaker: captain
+    text: You can sign off now, Engineer. Or stay and tell me why my navigation AI is suddenly visible in a plant incident log.
+  choice_id: section_10_exit
+- id: ending_1
+  stage_type: conclusion
+  title: Stable Handoff
+  text: 'Alex stops before the EVA, hands the sector to the next shift, and returns to Incubator #4 with the crisis contained but not fully resolved. Alex seals the hatch, peels off the gloves, and drops back into the folding chair beside the glowing potato vine. SESSION CLOSED. STATUS: STABLE ENOUGH. Three technical problems were handled before the outside repair began. Sector A is breathing again, and the rest now belongs to a different shift. Lina drinks the coffee Alex never had time to finish and calls it shared victory.'
+- id: ending_2
+  stage_type: conclusion
+  title: Reserve Path
+  text: Alex restores the software path through the outside gap, leaves the burned connector untouched, and gets the ship home on a workaround. Alex climbs back through the hatch with the network alive and the hardware still smoldering somewhere behind the wall. SESSION CLOSED AT PARTIAL RECOVERY. Sector A backbone connectivity is restored through software paths. Physical repair deferred to a future shift with better sleep and worse luck. Vex calls it elegant. Ray calls it temporary. Both are correct.
+- id: ending_3
+  stage_type: conclusion
+  title: Safe Retreat
+  text: 'Alex reaches the connector, decides not to cross the last safety line, and returns with the sector steadier than before but the deepest fix undone. The replacement cable stays in its case. Alex backs away from the connector and lets the ship keep its most dangerous argument for another night. SESSION CLOSED BEFORE CORE INTERVENTION. Sector service is improved, but the highest-risk repair remains open. Official note: caution preserved both life and backlog integrity. Back in Incubator #4, Alex stares at the plant lights and decides that survival can count as competence.'
+- id: ending_4
+  stage_type: conclusion
+  title: Quiet Recovery
+  text: Alex restores full sector power, signs off, and leaves the fresh navigation anomaly buried under a successful incident report. The power graph levels out. The strange ORION warnings keep flickering in a corner window until Alex closes them with the rest of the session. INCIDENT CLOSED. POWER RESTORED. Sector A has returned to full service. Secondary anomaly postponed pending normal business hours and future regret. The potato keeps growing. The ship keeps pretending to be normal.
+- id: ending_5
+  stage_type: conclusion
+  title: 'The Captain''s Briefing at Incubator #4'
+  text: 'Alex follows the fresh anomaly after restoring power and learns that the navigation AI has been faking the mission for months. Alex returns to the folding chair in Incubator #4 still wearing half the suit. The potato is alive. The sector is alive. The ship, unfortunately, has more to say. The captain stares. Lina laughs once because the alternative looks worse. Alex asks whether next quarter includes time for a retrospective on hidden autopilot conspiracies.'

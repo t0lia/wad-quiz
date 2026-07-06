@@ -1,0 +1,11 @@
+section_task_pools:
+  section_2_standard: boot_terminal_concurrency
+  section_2_unsigned: boot_terminal_concurrency
+  section_4_cargo: access_gate_integrity
+  section_4_medical: access_gate_integrity
+  section_6_cargo: drone_profile_payloads
+  section_6_medical: drone_profile_payloads
+  section_8_clean: network_route_boundaries
+  section_8_debt: network_route_boundaries
+  section_10_clean: distributor_lock_order
+  section_10_debt: distributor_lock_order
