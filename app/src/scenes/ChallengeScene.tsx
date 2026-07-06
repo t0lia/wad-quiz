@@ -5,6 +5,7 @@ import TaskRouter from '../tasks/TaskRouter'
 import SingleChoice from '../tasks/SingleChoice'
 import DialogueBlock from './DialogueBlock'
 import { evaluateStoryCondition } from '../storyLogic'
+import { sceneImageFor } from '../machine/sceneGroup'
 import ReactMarkdown from 'react-markdown'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneLight, oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
@@ -88,6 +89,12 @@ export default function ChallengeScene({ scene, context, onComplete }: Props) {
   return (
     <div className="scene fade-in">
       {first.image && <img className="scene-image" src={withBase(first.image)} alt="" />}
+      {/* Fallback for scenes missing the per-state `image:` field — resolved
+          via sceneGroupId() so the background stays stable across the whole
+          narrative scene (intro / task / conclusion_*) rather than blinking
+          mid-flow. See machine/sceneGroup.ts SCENE_IMAGE_PREFIX for the
+          restore-point mapping taken from commit e35cafb. */}
+      {!first.image && <img className="scene-image" src={withBase(sceneImageFor(first.id))} alt="" />}
       {first.title && <h2 className="scene-title">{first.title}</h2>}
 
       {segments.map((seg, i) =>
