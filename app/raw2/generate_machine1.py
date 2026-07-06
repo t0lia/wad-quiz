@@ -20,6 +20,50 @@ PUBLIC_LOCATIONS_DIR = APP_DIR / "public" / "locations"
 OUTPUT_DIR = SRC_DIR / "machine1"
 OUTPUT_TASKS_DIR = OUTPUT_DIR / "tasks"
 
+# Single source of truth for the public URL prefix under which stage artwork
+# is served in the production build. The bundle world (`World/`) declares
+# each stage's image by its bare filename; the engine prepends this prefix
+# at build time so YAML stays asset-root-agnostic. See
+# World/BUNDLE_CHANGE_SUMMARY.md "Bundle Contract".
+IMAGE_PREFIX = "/locations/"
+
+# Default world source. If app/raw2/World/ exists, treat it as the drop-in
+# bundle (Kirill's authoring layout: World/{stages,images,tasks,choices,
+# 01_structure.yaml,...}); otherwise fall back to legacy raw2/*.
+WORLD_BUNDLE_DIR = ROOT / "World"
+LEGACY_WORLD_DIR = ROOT
+DEFAULT_WORLD_DIR = WORLD_BUNDLE_DIR if (WORLD_BUNDLE_DIR / "01_structure.yaml").is_file() else LEGACY_WORLD_DIR
+
+
+def resolve_world_dir(cli_value: Path | None) -> Path:
+    """Pick the world to generate from. Priority: --world-dir CLI > bundle
+    drop-in > legacy. The bundle drop-in wins by presence, so authoring
+    authors just unzip their archive into raw2/ and rebuild."""
+    if cli_value is not None and cli_value != ROOT:
+        return cli_value
+    if (WORLD_BUNDLE_DIR / "01_structure.yaml").is_file():
+        return WORLD_BUNDLE_DIR
+    return LEGACY_WORLD_DIR
+
+
+def sync_world_images(world_dir: Path) -> list[str]:
+    """Copy every *.webp from `<world>/images/` into
+    `app/public/locations/`. Returns the list of filenames copied. The
+    bundle world is never modified — only the public/ mirror is. We only
+    overwrite when the source mtime is newer than (or missing from) the
+    destination, so a no-change rebuild doesn't churn file timestamps."""
+    images_dir = world_dir / "images"
+    if not images_dir.is_dir():
+        return []
+    PUBLIC_LOCATIONS_DIR.mkdir(parents=True, exist_ok=True)
+    copied: list[str] = []
+    for src in sorted(images_dir.glob("*.webp")):
+        dst = PUBLIC_LOCATIONS_DIR / src.name
+        if not dst.exists() or src.stat().st_mtime > dst.stat().st_mtime:
+            shutil.copyfile(src, dst)
+            copied.append(src.name)
+    return copied
+
 
 @dataclass(slots=True)
 class LoadedTask:
@@ -242,22 +286,32 @@ def stage_file_name(stage_id: str) -> str:
     return stage_id.replace("_", "-") + ".ts"
 
 
-def location_image_for_stage(stage: Stage) -> str | None:
-    location_id = getattr(stage, "location_id", None)
-    if not location_id:
-        return None
+def resolve_stage_image(stage: Stage) -> str:
+    """Resolve a stage's bare image filename to a public URL.
 
-    candidates = [f"{location_id}.png"]
-    if location_id == "access_gate":
-        if stage.id.endswith("_cargo"):
-            candidates.insert(0, "access_gate-cargo.png")
-        if stage.id.endswith("_medical"):
-            candidates.insert(0, "access_gate-medical.png")
-
-    for candidate in candidates:
-        if (PUBLIC_LOCATIONS_DIR / candidate).exists():
-            return f"/locations/{candidate}"
-    return None
+    Contract (World/BUNDLE_CHANGE_SUMMARY.md): every stage must declare its
+    `image:` in the world YAML; the world owns the filename, the engine
+    owns the URL prefix. We do NOT invent a location_id-based fallback
+    here — the bundle is the source of truth and missing artwork must
+    fail loudly so authors notice immediately rather than ship blank
+    backgrounds.
+    """
+    raw = getattr(stage, "image", "") or ""
+    if not raw.strip():
+        raise ValueError(
+            f"stage {stage.id!r} ({type(stage).__name__}) is missing `image:` "
+            f"in its YAML entry; every stage must declare one (see "
+            f"World/BUNDLE_CHANGE_SUMMARY.md)"
+        )
+    image = raw.strip().lstrip("/")
+    on_disk = PUBLIC_LOCATIONS_DIR / image
+    if not on_disk.is_file():
+        raise FileNotFoundError(
+            f"stage {stage.id!r} declares image {image!r} but it is missing "
+            f"from {PUBLIC_LOCATIONS_DIR}. Did you forget to copy the new "
+            f".webp from World/images/ into the public mirror?"
+        )
+    return IMAGE_PREFIX + image
 
 
 def choice_task_intro(choice: ChoiceAsset) -> str:
@@ -277,7 +331,7 @@ def task_intro_markdown(task: TaskAsset) -> str:
 def render_choice_stage(world: LoadedWorld, stage: ChoiceStage) -> str:
     choice = world.choices[stage.choice_id]
     nav_stage = next(item for item in world.navigation.stages if item.id == stage.id)
-    image = location_image_for_stage(stage)
+    image = resolve_stage_image(stage)
 
     imports = ["import type { ChallengeSceneData } from '../types/story'"]
     needs_condition_helper = any(not isinstance(nav_stage.next_by_action[action.id], str) for action in choice.actions)
@@ -322,7 +376,7 @@ def render_choice_stage(world: LoadedWorld, stage: ChoiceStage) -> str:
 def render_task_stage(world: LoadedWorld, stage: TaskStage) -> str:
     nav_stage = next(item for item in world.navigation.stages if item.id == stage.id)
     pool = world.task_pools.task_pools[stage.task_pool_id]
-    image = location_image_for_stage(stage)
+    image = resolve_stage_image(stage)
     imported_tasks = [world.tasks[task_id] for task_id in pool.task_ids]
 
     imports = ["import type { ChallengeSceneData } from '../types/story'"]
@@ -395,7 +449,7 @@ def render_endings(stages: list[ConclusionStage]) -> str:
         blocks.append(
             f"  {stage.id}: {{\n"
             f"    type: 'final',\n"
-            f"    {render_meta(stage.id, title=stage.title, text=stage.text, task=render_task_descriptor('text_scene'))},\n"
+            f"    {render_meta(stage.id, image=resolve_stage_image(stage), title=stage.title, text=stage.text, task=render_task_descriptor('text_scene'))},\n"
             f"  }},"
         )
     return (
@@ -671,12 +725,37 @@ def generate_machine(world: LoadedWorld, output_dir: Path) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Generate src/machine1 from raw2 narrative assets")
-    parser.add_argument("--world-dir", type=Path, default=ROOT, help="Path to the raw2 world directory")
+    parser.add_argument(
+        "--world-dir",
+        type=Path,
+        default=None,
+        help=(
+            "Path to the world directory holding 01_structure.yaml + "
+            "stages/, choices/, tasks/. If omitted, the engine picks "
+            "raw2/World/ when present (drop-in bundle) and falls back to "
+            "raw2/ itself (legacy world)."
+        ),
+    )
     parser.add_argument("--output-dir", type=Path, default=OUTPUT_DIR, help="Path to the machine1 output directory")
     args = parser.parse_args()
 
-    world = load_world(args.world_dir)
-    generate_machine(world, args.output_dir)
+    world_dir = resolve_world_dir(args.world_dir)
+    # Defaults below use the resolved world so the CLI override path still
+    # works the same way as the no-args discovery path.
+    args_with_defaults = argparse.Namespace(
+        world_dir=world_dir,
+        output_dir=args.output_dir,
+    )
+
+    # Stage artwork is authored inside the world bundle (World/images/) but
+    # served from a public path under Vite base. Mirror the bundle's image
+    # directory into the public/ tree so the production build can find it.
+    copied = sync_world_images(world_dir)
+    if copied:
+        print(f"synced {len(copied)} image(s) from {world_dir / 'images'} -> {PUBLIC_LOCATIONS_DIR}")
+
+    world = load_world(world_dir)
+    generate_machine(world, args_with_defaults.output_dir)
 
 
 if __name__ == "__main__":

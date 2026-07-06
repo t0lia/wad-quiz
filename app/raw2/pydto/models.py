@@ -124,6 +124,10 @@ class ChoiceStage:
     id: str
     stage_type: Literal[StageType.CHOICE] = StageType.CHOICE
     title: str = ""
+    # Bare image filename (e.g. "incubator_4.webp"). Bundle-world owns the
+    # name; the engine resolves it against IMAGE_PREFIX at build time.
+    # See World/BUNDLE_CHANGE_SUMMARY.md "Bundle Contract".
+    image: str = ""
     location_id: str | None = None
     intro_narrative: str = ""
     dialogue: list[DialogueLine] = field(default_factory=list)
@@ -135,6 +139,7 @@ class TaskStage:
     id: str
     stage_type: Literal[StageType.TASK] = StageType.TASK
     title: str = ""
+    image: str = ""
     location_id: str | None = None
     intro_narrative: str = ""
     dialogue: list[DialogueLine] = field(default_factory=list)
@@ -149,6 +154,7 @@ class ConclusionStage:
     id: str
     stage_type: Literal[StageType.CONCLUSION] = StageType.CONCLUSION
     title: str = ""
+    image: str = ""
     text: str = ""
 
 

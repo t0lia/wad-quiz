@@ -207,6 +207,7 @@ def parse_choice_stage(data: dict[str, Any]) -> ChoiceStage:
     return ChoiceStage(
         id=str(data["id"]),
         title=str(data.get("title", "")),
+        image=str(data.get("image", "")),
         location_id=str(data["location_id"]) if data.get("location_id") is not None else None,
         intro_narrative=str(data.get("intro_narrative", "")),
         dialogue=[parse_dialogue_line(item) for item in data.get("dialogue", [])],
@@ -219,6 +220,7 @@ def parse_task_stage(data: dict[str, Any]) -> TaskStage:
     return TaskStage(
         id=str(data["id"]),
         title=str(data.get("title", "")),
+        image=str(data.get("image", "")),
         location_id=str(data["location_id"]) if data.get("location_id") is not None else None,
         intro_narrative=str(data.get("intro_narrative", "")),
         dialogue=[parse_dialogue_line(item) for item in data.get("dialogue", [])],
@@ -230,7 +232,12 @@ def parse_task_stage(data: dict[str, Any]) -> TaskStage:
 
 
 def parse_conclusion_stage(data: dict[str, Any]) -> ConclusionStage:
-    return ConclusionStage(id=str(data["id"]), title=str(data.get("title", "")), text=str(data.get("text", "")))
+    return ConclusionStage(
+        id=str(data["id"]),
+        title=str(data.get("title", "")),
+        image=str(data.get("image", "")),
+        text=str(data.get("text", "")),
+    )
 
 
 def parse_stage(data: dict[str, Any]) -> Stage:
