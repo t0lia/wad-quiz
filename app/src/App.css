@@ -1083,16 +1083,17 @@
   height: 8px;
   z-index: 100;
   pointer-events: none;
+  display: flex;
+  align-items: center;
 }
 
 .progress-bar__track {
-  position: absolute;
+  position: relative;
   left: 0;
   right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  height: 2px;
-  background: var(--border);
+  height: 4px;
+  /* transparent border removed per request */
+  background: transparent;
 }
 
 .progress-bar__fill {

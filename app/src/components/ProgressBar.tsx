@@ -1,52 +1,22 @@
-import { useEffect, useRef } from 'react'
-
-// Milestones per major story section (collapsed from full state names)
-const CARGO_PATH = [
-  'section_1', 'section_2', 'section_3', 'section_4', 'section_5',
-  'section_6', 'section_7', 'section_8', 'section_9', 'section_10',
-]
-
-const MEDICAL_PATH = [
-  'section_1', 'section_2', 'section_3', 'section_4', 'section_5',
-  'section_6', 'section_7', 'section_8', 'section_9', 'section_10',
-]
-
-const ENDINGS = ['ending_1', 'ending_2', 'ending_3', 'ending_4', 'ending_5']
-
-/** Collapse a full state id to its narrative "scene group" milestone */
-function milestone(stateId: string): { group: string; isConclusion: boolean } {
-  const isConclusion = /_conclusion_[a-z]+$/.test(stateId)
-  const group = stateId
-    .replace(/_conclusion_[a-z]+$/, '')
-    .replace(/_intro$/, '')
-    .replace(/_task$/, '')
-    .replace(/_cargo$|_medical$/, '')
-    .replace(/_[a-z]+$/, '')
-  return { group, isConclusion }
-}
+import { useEffect, useMemo, useRef } from 'react'
+import { hydroMachine } from '../machine1'
+import { resolveProgress, type MachineConfigLike } from './progressGraph'
 
 type Props = {
   currentState: string
+  /** kept for API compatibility with App.tsx; not needed any more */
   routeChoice?: 'cargo' | 'medical'
 }
 
 export default function ProgressBar({ currentState, routeChoice }: Props) {
+  // routeChoice intentionally ignored — order is now graph-derived.
+  void routeChoice
   const dotRef = useRef<HTMLDivElement>(null)
-  const path = routeChoice === 'medical' ? MEDICAL_PATH : CARGO_PATH
 
-  const { group: ms, isConclusion } = milestone(currentState)
-  let idx = path.indexOf(ms)
-
-  // conclusion states sit at the END of their section, not the start
-  if (idx !== -1 && isConclusion) {
-    idx = idx + 1
-  }
-
-  if (idx === -1 && ENDINGS.includes(ms)) {
-    idx = path.length
-  }
-
-  const progress = idx === -1 ? 0 : idx / path.length
+  const { idx, total, progress } = useMemo(
+    () => resolveProgress(hydroMachine as unknown as MachineConfigLike, currentState),
+    [currentState],
+  )
 
   useEffect(() => {
     if (dotRef.current) {
@@ -55,19 +25,12 @@ export default function ProgressBar({ currentState, routeChoice }: Props) {
   }, [progress])
 
   return (
-    <div className="progress-bar">
+    <div className="progress-bar" data-state={currentState} data-idx={idx} data-pages={total}>
       <div
         className="progress-bar__track"
         style={{ '--progress': progress } as React.CSSProperties}
-        data-state={currentState}
-        data-ms={ms}
       >
         <div className="progress-bar__fill" />
-        <div
-          ref={dotRef}
-          className="progress-bar__dot"
-          style={{ left: `${progress * 100}%` }}
-        />
       </div>
     </div>
   )
