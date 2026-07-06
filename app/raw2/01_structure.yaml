@@ -1,62 +1,83 @@
 format: StageNavigationV1
 source_world: hydroworld
 start_stage: section_1
+
+# Image is the per-stage location illustration. Temporary fit (Kirill is
+# reloading a fresh mapping yaml); kept consistent with the per-state
+# image: field that lived in e35cafb's section-*.ts files before the
+# Hydroworld2 -> main merge dropped it. Producer
+# (raw2/generate_machine1.py -> state.meta.image) reads this so each
+# spawned state can inherit its stage's background without hard-coding
+# scene-id matching in ChallengeScene.
 stages:
 - id: section_1
+  image: /locations/incubator_4.webp
   next_by_action:
     choose_standard: section_2_standard
     choose_unsigned: section_2_unsigned
 - id: section_2_standard
+  image: /locations/exterior_hull.webp
   next_by_outcome:
     incorrect: section_3
     solved: section_3
     override: section_3
 - id: section_2_unsigned
+  image: /locations/exterior_hull.webp
   next_by_outcome:
     incorrect: section_3
     solved: section_3
     override: section_3
 - id: section_3
+  image: /locations/cross_ship_route.webp
   next_by_action:
     take_cargo_route: section_4_cargo
     take_medical_route: section_4_medical
 - id: section_4_cargo
+  image: /locations/access_gate-cargo.webp
   next_by_outcome:
     incorrect: section_5_cargo_fallout
     solved: section_5_cargo
     override: section_5_cargo_fallout
-- id: section_5_cargo
-  next_by_action:
-    patch_drone: section_6_cargo
-    override_drone: section_6_cargo
-- id: section_5_cargo_fallout
-  next_by_action:
-    patch_drone: section_6_cargo
-    override_drone: section_6_cargo
-- id: section_6_cargo
-  next_by_outcome:
-    incorrect: section_7
-    solved: section_7
-    override: section_7
 - id: section_4_medical
+  image: /locations/access_gate-medical.webp
   next_by_outcome:
     incorrect: section_5_medical_fallout
     solved: section_5_medical
     override: section_5_medical_fallout
+- id: section_5_cargo
+  image: /locations/airlock_4.webp
+  next_by_action:
+    patch_drone: section_6_cargo
+    override_drone: section_6_cargo
+- id: section_5_cargo_fallout
+  image: /locations/airlock_4.webp
+  next_by_action:
+    patch_drone: section_6_cargo
+    override_drone: section_6_cargo
 - id: section_5_medical
+  image: /locations/airlock_4.webp
   next_by_action:
     patch_drone: section_6_medical
     override_drone: section_6_medical
 - id: section_5_medical_fallout
+  image: /locations/airlock_4.webp
   next_by_action:
     patch_drone: section_6_medical
     override_drone: section_6_medical
+- id: section_6_cargo
+  image: /locations/airlock_4.webp
+  next_by_outcome:
+    incorrect: section_7
+    solved: section_7
+    override: section_7
 - id: section_6_medical
+  image: /locations/airlock_4.webp
   next_by_outcome:
     incorrect: section_7
     solved: section_7
     override: section_7
 - id: section_7
+  image: /locations/exterior_hull.webp
   next_by_action:
     team_eva:
     - if: route_cargo >= 1
@@ -67,6 +88,7 @@ stages:
       value: section_7_exit_cargo
     - else: section_7_exit_medical
 - id: section_7_exit_cargo
+  image: /locations/exterior_hull.webp
   next_by_action:
     stop_after_7: ending_1
     continue_after_7:
@@ -74,6 +96,7 @@ stages:
       value: section_8_debt
     - else: section_8_clean
 - id: section_7_exit_medical
+  image: /locations/exterior_hull.webp
   next_by_action:
     stop_after_7: ending_1
     continue_after_7:
@@ -81,28 +104,34 @@ stages:
       value: section_8_debt
     - else: section_8_clean
 - id: section_8_clean
+  image: /locations/technical_gap.webp
   next_by_outcome:
     incorrect: section_8_exit_clean
     solved: section_8_exit_clean
     override: section_8_exit_clean
 - id: section_8_debt
+  image: /locations/technical_gap.webp
   next_by_outcome:
     incorrect: section_8_exit_debt
     solved: section_8_exit_debt
     override: section_8_exit_debt
 - id: section_8_exit_clean
+  image: /locations/technical_gap.webp
   next_by_action:
     stop_after_8: ending_2
     continue_after_8: section_9
 - id: section_8_exit_debt
+  image: /locations/technical_gap.webp
   next_by_action:
     stop_after_8: ending_2
     continue_after_8: section_9
 - id: section_9
+  image: /locations/incubator_4.webp
   next_by_action:
     hot_swap: section_9_exit
     full_drain: section_9_exit
 - id: section_9_exit
+  image: /locations/incubator_4.webp
   next_by_action:
     stop_after_9: ending_3
     continue_after_9:
@@ -110,16 +139,19 @@ stages:
       value: section_10_debt
     - else: section_10_clean
 - id: section_10_clean
+  image: /locations/incubator_4.webp
   next_by_outcome:
     incorrect: section_10_exit
     solved: section_10_exit
     override: section_10_exit
 - id: section_10_debt
+  image: /locations/incubator_4.webp
   next_by_outcome:
     incorrect: section_10_exit
     solved: section_10_exit
     override: section_10_exit
 - id: section_10_exit
+  image: /locations/incubator_4.webp
   next_by_action:
     stop_after_10: ending_4
     continue_after_10: ending_5

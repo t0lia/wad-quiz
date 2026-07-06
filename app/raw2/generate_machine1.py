@@ -243,16 +243,33 @@ def stage_file_name(stage_id: str) -> str:
 
 
 def location_image_for_stage(stage: Stage) -> str | None:
+    # Explicit per-stage override (see stages/01-stages.yaml #image comment).
+    # Use this when location_id is a logical name that has no 1:1 webp
+    # (e.g. sector_a_control -> exterior_hull for the boot screen,
+    # cable_connector -> incubator_4 for the vignette closer at section 10).
+    explicit = getattr(stage, "image", None)
+    if explicit:
+        return explicit
+
     location_id = getattr(stage, "location_id", None)
     if not location_id:
         return None
 
-    candidates = [f"{location_id}.png"]
+    # Logical-id -> on-disk webp overrides. Add new entries here when a
+    # `location_id` doesn't match a file in app/public/locations/*.webp.
+    LOGICAL_ID_TO_IMAGE: dict[str, str] = {
+        "sector_a_control": "/locations/exterior_hull.webp",
+        "cable_connector": "/locations/incubator_4.webp",
+    }
+    if location_id in LOGICAL_ID_TO_IMAGE:
+        return LOGICAL_ID_TO_IMAGE[location_id]
+
+    candidates = [f"{location_id}.webp"]
     if location_id == "access_gate":
         if stage.id.endswith("_cargo"):
-            candidates.insert(0, "access_gate-cargo.png")
+            candidates.insert(0, "access_gate-cargo.webp")
         if stage.id.endswith("_medical"):
-            candidates.insert(0, "access_gate-medical.png")
+            candidates.insert(0, "access_gate-medical.webp")
 
     for candidate in candidates:
         if (PUBLIC_LOCATIONS_DIR / candidate).exists():

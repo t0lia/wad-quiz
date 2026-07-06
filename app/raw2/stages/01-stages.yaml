@@ -5,6 +5,7 @@ stages:
   stage_type: choice
   title: In the Incubator Zone
   location_id: incubator_4
+  image: /locations/incubator_4.webp
   intro_narrative: 'Alex drops into a folding chair in Incubator #4. A potato vine glows inside a glass growth chamber while red alarm lights pulse across the aisle. Sector A is locked after the control link fails, and the watering system is frozen. The PDA opens a local maintenance terminal. To Alex surprise, instead of the standard welcome screen he''s presented with boot menu he has not seen before. A call from Lina distracts his uncertainty.'
   dialogue:
   - speaker: lina
@@ -22,6 +23,7 @@ stages:
   stage_type: task
   title: Sector A - Missing Dependencies
   location_id: sector_a_control
+  image: /locations/exterior_hull.webp
   intro_narrative: The enterprise console takes a little longer, but it arrives with calmer telemetry and fewer visual fireworks. The comfort lasts only until the dependency panel starts blinking. Sector A still cannot close the control handshake, and the same lock remains in place.
   dialogue:
   - speaker: lina
@@ -49,6 +51,7 @@ stages:
   stage_type: task
   title: Sector A - Missing Dependencies
   location_id: sector_a_control
+  image: /locations/exterior_hull.webp
   intro_narrative: Alex barely taps the confirm key before the experimental build jumps to the desktop. The quick boot looks great for about three seconds. Then the status panel fills with yellow warnings instead of green INFOs. Most of the console is awake, but currently it looks like a traffic light with big red, medium amber and a small touch of green.
   dialogue:
   - speaker: lina
@@ -76,6 +79,7 @@ stages:
   stage_type: choice
   title: Crossing the Ship
   location_id: cross_ship_route
+  image: /locations/cross_ship_route.webp
   intro_narrative: 'The terminal is finally holding a live connection to Sector A when a new alert cuts across the recovery logs. Water is not stuck here anymore. The line is blocked farther down the ship at Maintenance Access Gate before Airlock #4. The damaged segment is outside the safe interior path, so Alex will need airlock access and a maintenance drone to reach it safely. Alex looks up from the screen and finds himself standing between two doors: the heavier cargo hatch on the left and the cleaner medical passage on the right.'
   dialogue:
   - speaker: lina
@@ -93,6 +97,7 @@ stages:
   stage_type: task
   title: Freight Gate Permission Check
   location_id: access_gate
+  image: /locations/access_gate-cargo.webp
   intro_narrative: Tony meets Alex at the freight checkpoint with a handheld scanner and the expression of a man who expected a simpler night. The cargo-side maintenance gate can see the emergency tag, the route authorization, and Tony's temporary pass. It still refuses to open.
   dialogue:
   - speaker: tony
@@ -116,6 +121,7 @@ stages:
   stage_type: choice
   title: Clean Arrival At Airlock #4
   location_id: airlock_4
+  image: /locations/airlock_4.webp
   intro_narrative: 'The cargo lane reaches Airlock #4, where Vex already has Shmiel waiting. The maintenance drone is on site, but its current profile still thinks this is an indoor freight job, and space has very strict feedback about that kind of mistake.'
   dialogue:
   - speaker: vex
@@ -131,6 +137,7 @@ stages:
   stage_type: choice
   title: Airlock #4 Under Audit Smoke
   location_id: airlock_4
+  image: /locations/airlock_4.webp
   intro_narrative: 'By the time Alex reaches Airlock #4, Vex already has Shmiel waiting. The maintenance drone is on site, but its current profile still expects a routine indoor freight task, and vacuum is famously unhelpful when software makes that assumption.'
   dialogue:
   - speaker: vex
@@ -146,6 +153,7 @@ stages:
   stage_type: task
   title: Clamp Follow Profile
   location_id: airlock_4
+  image: /locations/airlock_4.webp
   intro_narrative: The cargo kit clicks onto Shmiel with a sharp snap. The drone accepts the new settings, but once it starts the outside setup, it acts like the magnetic clamp is optional.
   dialogue:
   - speaker: vex
@@ -169,6 +177,7 @@ stages:
   stage_type: task
   title: Quarantine Side Gate
   location_id: access_gate
+  image: /locations/access_gate-medical.webp
   intro_narrative: Clara leads Alex through the medical corridor to a quarantine side gate with cleaner walls and stricter software. Alex presses the emergency keycard to the reader while Clara adds her medical approval to the request. The gate still marks the record as incomplete and keeps the lock sealed.
   dialogue:
   - speaker: clara
@@ -192,6 +201,7 @@ stages:
   stage_type: choice
   title: Clean Airlock Prep
   location_id: airlock_4
+  image: /locations/airlock_4.webp
   intro_narrative: 'The medical corridor reaches Airlock #4, where Vex already has Shmiel waiting. The maintenance drone is on site, but its current profile still thinks this is a routine indoor maintenance job, and sterile outside work is not known for forgiving that kind of confusion.'
   dialogue:
   - speaker: vex
@@ -209,6 +219,7 @@ stages:
   stage_type: choice
   title: Airlock Prep After A Dirty Shortcut
   location_id: airlock_4
+  image: /locations/airlock_4.webp
   intro_narrative: 'By the time Alex reaches Airlock #4, Vex already has Shmiel waiting. The maintenance drone is on site, but its current profile still expects routine indoor maintenance, and sterile outside work is not known for tolerating that kind of confusion.'
   dialogue:
   - speaker: clara
@@ -224,6 +235,7 @@ stages:
   stage_type: task
   title: Sterile Shell Profile
   location_id: airlock_4
+  image: /locations/airlock_4.webp
   intro_narrative: The medical shell closes around Shmiel with a soft click. The drone gets the new settings, but once it moves into outside mode, it never turns on the clean shell setting.
   dialogue:
   - speaker: vex
@@ -249,6 +261,7 @@ stages:
   stage_type: choice
   title: Outside Repair Plan
   location_id: exterior_hull
+  image: /locations/exterior_hull.webp
   intro_narrative: The outer hatch grinds open and the dark gap outside the ship answers with silence. Ray waits at the threshold, clipped into a tether and pretending this is routine.
   dialogue:
   - speaker: ray
@@ -262,6 +275,7 @@ stages:
   stage_type: choice
   title: Freight Handoff Offer
   location_id: exterior_hull
+  image: /locations/exterior_hull.webp
   intro_narrative: A legal handoff notice appears on the PDA just as the cargo-side support line steadies. Behind Alex, the freight path is finally quiet, which feels less like peace than a pause between incidents.
   dialogue:
   - speaker: ray
@@ -275,6 +289,7 @@ stages:
   stage_type: choice
   title: Medical Handoff Offer
   location_id: exterior_hull
+  image: /locations/exterior_hull.webp
   intro_narrative: As Alex reaches the first stable foothold outside, the PDA projects a medical risk waiver across the visor. Someone in Compliance has concluded that partial recovery plus distance from liability now counts as a plan.
   dialogue:
   - speaker: ray
@@ -288,6 +303,7 @@ stages:
   stage_type: task
   title: Outside Gap - Clean Routing Fix
   location_id: technical_gap
+  image: /locations/technical_gap.webp
   intro_narrative: The technical gap is narrow, dark, and almost manageable. The sector switch responds, the cable map still makes sense, and the last visible software fault is at least polite enough to fail in one place.
   dialogue:
   - speaker: alex
@@ -317,6 +333,7 @@ stages:
   stage_type: task
   title: Outside Gap - Debt Recovery Route
   location_id: technical_gap
+  image: /locations/technical_gap.webp
   intro_narrative: The technical gap is no longer polite. Earlier shortcuts have left half the stack impatient, the maintenance drone keeps second-guessing commands, and the fallback tunnel somebody forced earlier is now bleeding traffic across the exterior network.
   dialogue:
   - speaker: ray
@@ -342,6 +359,7 @@ stages:
   stage_type: choice
   title: Partial Recovery Offer
   location_id: technical_gap
+  image: /locations/technical_gap.webp
   intro_narrative: The PDA receives a second notice. This one sounds almost optimistic, which is how Alex knows it was written far away from the outside repair site.
   dialogue:
   - speaker: vex
@@ -355,6 +373,7 @@ stages:
   stage_type: choice
   title: Containment Offer
   location_id: technical_gap
+  image: /locations/technical_gap.webp
   intro_narrative: The next notice arrives with the nervous politeness of people who know the system is technically up and emotionally one sharp tap from another incident. Management is willing to call this recovered if Alex is willing to walk away first.
   dialogue:
   - speaker: vex
@@ -368,6 +387,7 @@ stages:
   stage_type: choice
   title: Connector Swap Method
   location_id: cable_connector
+  image: /locations/technical_gap.webp
   intro_narrative: 'The burned cable is fused into the connector and the replacement line is ready in its case. Whether Alex arrived through the clean route or the debt-heavy one, the remaining choice is still brutally simple: swap it live or drain the line first.'
   dialogue:
   - speaker: ray
@@ -381,6 +401,7 @@ stages:
   stage_type: choice
   title: Connector Go Or No-Go
   location_id: cable_connector
+  image: /locations/technical_gap.webp
   intro_narrative: The old cable is loose enough to move, the replacement is ready, and the distributor core waits one layer deeper. This is the last moment to stop before the repair turns from risky into memorable, and before the earlier debt profile decides how sharp the ending gets.
   dialogue:
   - speaker: ray
@@ -394,6 +415,7 @@ stages:
   stage_type: task
   title: Distributor Core - Lock Order
   location_id: cable_connector
+  image: /locations/incubator_4.webp
   intro_narrative: Inside the distributor core, the remaining fault is at least honest. Two power routines grab the same locks in opposite order. Under load they freeze each other and stall the whole sector.
   dialogue:
   - speaker: captain
@@ -423,6 +445,7 @@ stages:
   stage_type: task
   title: Distributor Core - Debt-Tangled Lock Order
   location_id: cable_connector
+  image: /locations/incubator_4.webp
   intro_narrative: Inside the distributor core, earlier shortcuts are still echoing through the control layer. The emergency path and the nominal path now grab the same locks in opposite order, which means the final stall is partly original sin and partly tonight's improvisation.
   dialogue:
   - speaker: captain
@@ -450,6 +473,7 @@ stages:
   stage_type: choice
   title: Sign Off Or Pull The Thread
   location_id: incubator_4
+  image: /locations/incubator_4.webp
   intro_narrative: 'By the time Alex returns to Incubator #4, the folding chair is still there and the Nevsky potato is still growing like none of this should be surprising. Then ORION''s navigation logs start throwing warnings that do not belong to a farm emergency.'
   dialogue:
   - speaker: lina

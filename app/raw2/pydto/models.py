@@ -125,6 +125,13 @@ class ChoiceStage:
     stage_type: Literal[StageType.CHOICE] = StageType.CHOICE
     title: str = ""
     location_id: str | None = None
+    # Optional explicit illustration for this stage. When set, the generator
+    # writes it straight into state.meta.image (and through withBase() into the
+    # scene-image <img>). When unset, the generator falls back to deriving a
+    # webp from `location_id` via location_image_for_stage(). Use this for
+    # stages whose location_id maps to a webp that doesn't exist on disk
+    # (sector_a_control, cable_connector) or for narrative overrides.
+    image: str | None = None
     intro_narrative: str = ""
     dialogue: list[DialogueLine] = field(default_factory=list)
     choice_id: str = ""
@@ -136,6 +143,7 @@ class TaskStage:
     stage_type: Literal[StageType.TASK] = StageType.TASK
     title: str = ""
     location_id: str | None = None
+    image: str | None = None
     intro_narrative: str = ""
     dialogue: list[DialogueLine] = field(default_factory=list)
     task_pool_id: str = ""
