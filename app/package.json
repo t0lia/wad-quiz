@@ -5,9 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
+    "prebuild": "npm run generate-machine1",
     "build": "tsc -b && vite build",
+    "pretest": "npm run generate-machine1",
+    "test": "node --import tsx --test src/generated-machine.test.ts",
     "lint": "eslint .",
     "preview": "vite preview",
+    "generate-machine1": "python raw2/generate_machine1.py",
     "generate-diagram": "echo 'Skipped'"
   },
   "dependencies": {
@@ -20,7 +24,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@types/node": "^24.12.3",
+    "@types/node": "^24.13.2",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@types/react-syntax-highlighter": "^15.5.13",
@@ -32,6 +36,7 @@
     "tsx": "^4.20.6",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.59.2",
-    "vite": "^8.0.12"
+    "vite": "^8.0.12",
+    "yaml": "^2.9.0"
   }
 }

@@ -26,6 +26,18 @@ jobs:
       - name: Install dependencies
         working-directory: app
         run: npm ci
+      - name: Generate machine1
+        working-directory: app
+        # PyYAML is needed by app/raw2/generate_machine1.py and is not part
+        # of every ubuntu-latest runner's default Python install. The
+        # generator also self-bootstraps it as a fallback, but preinstalling
+        # here keeps the deploy log quieter and saves ~3s of pip churn.
+        run: |
+          python3 -m pip install --quiet pyyaml==6.0.2
+          npm run generate-machine1
+      - name: Test machine validation
+        working-directory: app
+        run: npm test
       - name: Build app
         working-directory: app
         env:

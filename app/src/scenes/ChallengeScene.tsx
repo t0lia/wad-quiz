@@ -4,6 +4,7 @@ import type { ChallengeSceneData } from '../types/story'
 import TaskRouter from '../tasks/TaskRouter'
 import SingleChoice from '../tasks/SingleChoice'
 import DialogueBlock from './DialogueBlock'
+import { evaluateStoryCondition } from '../storyLogic'
 import ReactMarkdown from 'react-markdown'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneLight, oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
@@ -11,6 +12,7 @@ import type { Components } from 'react-markdown'
 
 type Props = {
   scene: ChallengeSceneData
+  context: Record<string, unknown>
   onComplete: (answer?: string) => void
 }
 
@@ -46,7 +48,20 @@ type Segment = { scene: ChallengeSceneData; answer?: string }
 // moves to a genuinely different scene (see machine/sceneGroup.ts), so image
 // and title — identical across every state within one scene — are rendered
 // once from the first segment rather than repeated per segment.
-export default function ChallengeScene({ scene, onComplete }: Props) {
+function buildTaskIntro(scene: ChallengeSceneData, context: Record<string, unknown>) {
+  const conditionalText = (scene.conditionalTaskIntro ?? [])
+    .filter((entry) => evaluateStoryCondition(context, entry.condition))
+    .map((entry) => entry.text)
+
+  const parts = [...conditionalText]
+  if (scene.taskIntro) {
+    parts.push(scene.taskIntro)
+  }
+
+  return parts.join('\n\n')
+}
+
+export default function ChallengeScene({ scene, context, onComplete }: Props) {
   const [segments, setSegments] = useState<Segment[]>(() => [{ scene }])
   const bottomRef = useRef<HTMLDivElement>(null)
 
@@ -77,9 +92,9 @@ export default function ChallengeScene({ scene, onComplete }: Props) {
 
       {segments.map((seg, i) =>
         i === segments.length - 1 ? (
-          <ActiveSegment key={seg.scene.id} scene={seg.scene} onSubmit={handleSegmentComplete} bottomRef={bottomRef} />
+          <ActiveSegment key={seg.scene.id} scene={seg.scene} context={context} onSubmit={handleSegmentComplete} bottomRef={bottomRef} />
         ) : (
-          <ResolvedSegment key={seg.scene.id} scene={seg.scene} answer={seg.answer} />
+          <ResolvedSegment key={seg.scene.id} scene={seg.scene} context={context} answer={seg.answer} />
         )
       )}
 
@@ -90,16 +105,18 @@ export default function ChallengeScene({ scene, onComplete }: Props) {
 
 type ActiveProps = {
   scene: ChallengeSceneData
+  context: Record<string, unknown>
   onSubmit: (answer?: string) => void
   bottomRef: RefObject<HTMLDivElement | null>
 }
 
 // The current, interactive segment — tap reveals text, then dialogue, then
 // the task widget (or submits directly for tap-only tasks).
-function ActiveSegment({ scene, onSubmit, bottomRef }: ActiveProps) {
+function ActiveSegment({ scene, context, onSubmit, bottomRef }: ActiveProps) {
   const [submitted, setSubmitted] = useState(false)
   const [revealedContent, setRevealedContent] = useState(1) // text always shown first
   const [dialogueDone, setDialogueDone] = useState(false)
+  const taskIntro = buildTaskIntro(scene, context)
 
   const contentBlocks: ContentBlock[] = scene.dialogue?.length ? ['text', 'dialogue'] : ['text']
 
@@ -152,6 +169,11 @@ function ActiveSegment({ scene, onSubmit, bottomRef }: ActiveProps) {
       {/* Task — appears as soon as its text/dialogue is fully revealed */}
       {showTask && (
         <div className="block-enter">
+          {taskIntro ? (
+            <div className="scene-text">
+              <ReactMarkdown components={mdComponents}>{taskIntro}</ReactMarkdown>
+            </div>
+          ) : null}
           <TaskRouter task={scene.task} submitted={submitted} onSubmit={handleSubmit} />
         </div>
       )}
@@ -159,25 +181,32 @@ function ActiveSegment({ scene, onSubmit, bottomRef }: ActiveProps) {
       {/* Tap hint — full-width button, safe tap target on mobile */}
       {showHint && (
         <button className="tap-hint" onClick={advanceBlock}>
-          {allContentRevealed && isTapTask ? 'next' : 'tap to continue'}
+          {allContentRevealed && scene.task.type === 'text_scene' ? 'next' : 'tap to continue'}
         </button>
       )}
     </>
   )
 }
 
-type ResolvedProps = { scene: ChallengeSceneData; answer?: string }
+type ResolvedProps = { scene: ChallengeSceneData; context: Record<string, unknown>; answer?: string }
 
 // A past segment within the current scene — fully revealed, frozen in place.
 // Only single_choice tasks (the only interactive task type actually in use)
 // render a widget here, disabled and showing the answer that was picked.
-function ResolvedSegment({ scene, answer }: ResolvedProps) {
+function ResolvedSegment({ scene, context, answer }: ResolvedProps) {
+  const taskIntro = buildTaskIntro(scene, context)
+
   return (
     <div className="segment-resolved">
       <div className="scene-text">
         <ReactMarkdown components={mdComponents}>{scene.text}</ReactMarkdown>
       </div>
       {scene.dialogue?.length ? <DialogueBlock lines={scene.dialogue} instant /> : null}
+      {taskIntro ? (
+        <div className="scene-text">
+          <ReactMarkdown components={mdComponents}>{taskIntro}</ReactMarkdown>
+        </div>
+      ) : null}
       {scene.task.type === 'single_choice' && (
         <SingleChoice task={scene.task} submitted readOnly selectedAnswer={answer} onSubmit={() => {}} />
       )}
