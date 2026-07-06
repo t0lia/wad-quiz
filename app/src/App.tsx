@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { Snapshot } from 'xstate'
 import { useMachine } from '@xstate/react'
 import { hydroMachine } from './machine1'
 import { sceneGroupId } from './machine/sceneGroup'
 import ChallengeScene from './scenes/ChallengeScene'
 import { formatEndingProfileLine, resolveEndingProfile } from './storyLogic'
+import { trackEndingReached, trackLevelEnd, trackLevelStart, trackTutorialBegin, trackTutorialComplete } from './analytics'
 import './App.css'
 
 export { hydroMachine } from './machine1'
@@ -111,6 +112,7 @@ function MachineApp({ snapshot }: { snapshot: unknown }) {
   })
   const stateId = state.value as string
   const scene = Object.values(state.getMeta())[0]
+  const groupId = sceneGroupId(stateId)
 
   useEffect(() => {
     // persist snapshot whenever state changes
@@ -118,6 +120,25 @@ function MachineApp({ snapshot }: { snapshot: unknown }) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(actor.getPersistedSnapshot()))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state])
+
+  const prevGroupRef = useRef<string | null>(null)
+  useEffect(() => {
+    if (state.status === 'done') return
+    if (prevGroupRef.current === groupId) return
+    if (prevGroupRef.current === 'section_1') trackTutorialComplete()
+    if (prevGroupRef.current !== null) trackLevelEnd(prevGroupRef.current)
+    if (groupId === 'section_1') trackTutorialBegin()
+    trackLevelStart(groupId)
+    prevGroupRef.current = groupId
+  }, [state.status, groupId])
+
+  const endingTrackedRef = useRef<string | null>(null)
+  useEffect(() => {
+    if (state.status !== 'done' || !scene) return
+    if (endingTrackedRef.current === scene.id) return
+    endingTrackedRef.current = scene.id
+    trackEndingReached(scene.id, scene.title, state.context.score)
+  }, [state.status, scene, state.context.score])
 
   function reset() {
     localStorage.removeItem(STORAGE_KEY)
@@ -146,7 +167,7 @@ function MachineApp({ snapshot }: { snapshot: unknown }) {
     <>
       <button className="restart-btn restart-btn--fixed" onClick={reset} aria-label="Restart">↺</button>
       <ChallengeScene
-        key={sceneGroupId(stateId)}
+        key={groupId}
         scene={scene}
         context={state.context as Record<string, unknown>}
         onComplete={(answer) => send({ type: 'NEXT', answer, rand })}
