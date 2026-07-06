@@ -4,6 +4,7 @@ stages:
 - id: section_1
   stage_type: choice
   title: In the Incubator Zone
+  image: incubator_4.webp
   location_id: incubator_4
   intro_narrative: 'Alex drops into a folding chair in Incubator #4. A potato vine glows inside a glass growth chamber while red alarm lights pulse across the aisle. Sector A is locked after the control link fails, and the watering system is frozen. The PDA opens a local maintenance terminal. To Alex surprise, instead of the standard welcome screen he''s presented with boot menu he has not seen before. A call from Lina distracts his uncertainty.'
   dialogue:
@@ -21,6 +22,7 @@ stages:
 - id: section_2_standard
   stage_type: task
   title: Sector A - Missing Dependencies
+  image: incubator_4.webp
   location_id: sector_a_control
   intro_narrative: The enterprise console takes a little longer, but it arrives with calmer telemetry and fewer visual fireworks. The comfort lasts only until the dependency panel starts blinking. Sector A still cannot close the control handshake, and the same lock remains in place.
   dialogue:
@@ -48,6 +50,7 @@ stages:
 - id: section_2_unsigned
   stage_type: task
   title: Sector A - Missing Dependencies
+  image: incubator_4.webp
   location_id: sector_a_control
   intro_narrative: Alex barely taps the confirm key before the experimental build jumps to the desktop. The quick boot looks great for about three seconds. Then the status panel fills with yellow warnings instead of green INFOs. Most of the console is awake, but currently it looks like a traffic light with big red, medium amber and a small touch of green.
   dialogue:
@@ -75,6 +78,7 @@ stages:
 - id: section_3
   stage_type: choice
   title: Crossing the Ship
+  image: cross_ship_route.webp
   location_id: cross_ship_route
   intro_narrative: 'The terminal is finally holding a live connection to Sector A when a new alert cuts across the recovery logs. Water is not stuck here anymore. The line is blocked farther down the ship at Maintenance Access Gate before Airlock #4. The damaged segment is outside the safe interior path, so Alex will need airlock access and a maintenance drone to reach it safely. Alex looks up from the screen and finds himself standing between two doors: the heavier cargo hatch on the left and the cleaner medical passage on the right.'
   dialogue:
@@ -92,6 +96,7 @@ stages:
 - id: section_4_cargo
   stage_type: task
   title: Freight Gate Permission Check
+  image: access_gate-cargo.webp
   location_id: access_gate
   intro_narrative: Tony meets Alex at the freight checkpoint with a handheld scanner and the expression of a man who expected a simpler night. The cargo-side maintenance gate can see the emergency tag, the route authorization, and Tony's temporary pass. It still refuses to open.
   dialogue:
@@ -115,6 +120,7 @@ stages:
 - id: section_5_cargo
   stage_type: choice
   title: Clean Arrival At Airlock #4
+  image: airlock_4.webp
   location_id: airlock_4
   intro_narrative: 'The cargo lane reaches Airlock #4, where Vex already has Shmiel waiting. The maintenance drone is on site, but its current profile still thinks this is an indoor freight job, and space has very strict feedback about that kind of mistake.'
   dialogue:
@@ -130,6 +136,7 @@ stages:
 - id: section_5_cargo_fallout
   stage_type: choice
   title: Airlock #4 Under Audit Smoke
+  image: airlock_4.webp
   location_id: airlock_4
   intro_narrative: 'By the time Alex reaches Airlock #4, Vex already has Shmiel waiting. The maintenance drone is on site, but its current profile still expects a routine indoor freight task, and vacuum is famously unhelpful when software makes that assumption.'
   dialogue:
@@ -145,6 +152,7 @@ stages:
 - id: section_6_cargo
   stage_type: task
   title: Clamp Follow Profile
+  image: airlock_4.webp
   location_id: airlock_4
   intro_narrative: The cargo kit clicks onto Shmiel with a sharp snap. The drone accepts the new settings, but once it starts the outside setup, it acts like the magnetic clamp is optional.
   dialogue:
@@ -168,6 +176,7 @@ stages:
 - id: section_4_medical
   stage_type: task
   title: Quarantine Side Gate
+  image: access_gate-medical.webp
   location_id: access_gate
   intro_narrative: Clara leads Alex through the medical corridor to a quarantine side gate with cleaner walls and stricter software. Alex presses the emergency keycard to the reader while Clara adds her medical approval to the request. The gate still marks the record as incomplete and keeps the lock sealed.
   dialogue:
@@ -191,6 +200,7 @@ stages:
 - id: section_5_medical
   stage_type: choice
   title: Clean Airlock Prep
+  image: airlock_4.webp
   location_id: airlock_4
   intro_narrative: 'The medical corridor reaches Airlock #4, where Vex already has Shmiel waiting. The maintenance drone is on site, but its current profile still thinks this is a routine indoor maintenance job, and sterile outside work is not known for forgiving that kind of confusion.'
   dialogue:
@@ -208,6 +218,7 @@ stages:
 - id: section_5_medical_fallout
   stage_type: choice
   title: Airlock Prep After A Dirty Shortcut
+  image: airlock_4.webp
   location_id: airlock_4
   intro_narrative: 'By the time Alex reaches Airlock #4, Vex already has Shmiel waiting. The maintenance drone is on site, but its current profile still expects routine indoor maintenance, and sterile outside work is not known for tolerating that kind of confusion.'
   dialogue:
@@ -223,6 +234,7 @@ stages:
 - id: section_6_medical
   stage_type: task
   title: Sterile Shell Profile
+  image: airlock_4.webp
   location_id: airlock_4
   intro_narrative: The medical shell closes around Shmiel with a soft click. The drone gets the new settings, but once it moves into outside mode, it never turns on the clean shell setting.
   dialogue:
@@ -248,6 +260,7 @@ stages:
 - id: section_7
   stage_type: choice
   title: Outside Repair Plan
+  image: exterior_hull.webp
   location_id: exterior_hull
   intro_narrative: The outer hatch grinds open and the dark gap outside the ship answers with silence. Ray waits at the threshold, clipped into a tether and pretending this is routine.
   dialogue:
@@ -261,6 +274,7 @@ stages:
 - id: section_7_exit_cargo
   stage_type: choice
   title: Freight Handoff Offer
+  image: exterior_hull.webp
   location_id: exterior_hull
   intro_narrative: A legal handoff notice appears on the PDA just as the cargo-side support line steadies. Behind Alex, the freight path is finally quiet, which feels less like peace than a pause between incidents.
   dialogue:
@@ -274,6 +288,7 @@ stages:
 - id: section_7_exit_medical
   stage_type: choice
   title: Medical Handoff Offer
+  image: exterior_hull.webp
   location_id: exterior_hull
   intro_narrative: As Alex reaches the first stable foothold outside, the PDA projects a medical risk waiver across the visor. Someone in Compliance has concluded that partial recovery plus distance from liability now counts as a plan.
   dialogue:
@@ -287,6 +302,7 @@ stages:
 - id: section_8_clean
   stage_type: task
   title: Outside Gap - Clean Routing Fix
+  image: technical_gap.webp
   location_id: technical_gap
   intro_narrative: The technical gap is narrow, dark, and almost manageable. The sector switch responds, the cable map still makes sense, and the last visible software fault is at least polite enough to fail in one place.
   dialogue:
@@ -316,6 +332,7 @@ stages:
 - id: section_8_debt
   stage_type: task
   title: Outside Gap - Debt Recovery Route
+  image: technical_gap.webp
   location_id: technical_gap
   intro_narrative: The technical gap is no longer polite. Earlier shortcuts have left half the stack impatient, the maintenance drone keeps second-guessing commands, and the fallback tunnel somebody forced earlier is now bleeding traffic across the exterior network.
   dialogue:
@@ -341,6 +358,7 @@ stages:
 - id: section_8_exit_clean
   stage_type: choice
   title: Partial Recovery Offer
+  image: technical_gap.webp
   location_id: technical_gap
   intro_narrative: The PDA receives a second notice. This one sounds almost optimistic, which is how Alex knows it was written far away from the outside repair site.
   dialogue:
@@ -354,6 +372,7 @@ stages:
 - id: section_8_exit_debt
   stage_type: choice
   title: Containment Offer
+  image: technical_gap.webp
   location_id: technical_gap
   intro_narrative: The next notice arrives with the nervous politeness of people who know the system is technically up and emotionally one sharp tap from another incident. Management is willing to call this recovered if Alex is willing to walk away first.
   dialogue:
@@ -367,6 +386,7 @@ stages:
 - id: section_9
   stage_type: choice
   title: Connector Swap Method
+  image: section_9.webp
   location_id: cable_connector
   intro_narrative: 'The burned cable is fused into the connector and the replacement line is ready in its case. Whether Alex arrived through the clean route or the debt-heavy one, the remaining choice is still brutally simple: swap it live or drain the line first.'
   dialogue:
@@ -380,6 +400,7 @@ stages:
 - id: section_9_exit
   stage_type: choice
   title: Connector Go Or No-Go
+  image: section_9_exit.webp
   location_id: cable_connector
   intro_narrative: The old cable is loose enough to move, the replacement is ready, and the distributor core waits one layer deeper. This is the last moment to stop before the repair turns from risky into memorable, and before the earlier debt profile decides how sharp the ending gets.
   dialogue:
@@ -393,6 +414,7 @@ stages:
 - id: section_10_clean
   stage_type: task
   title: Distributor Core - Lock Order
+  image: section_10_clean.webp
   location_id: cable_connector
   intro_narrative: Inside the distributor core, the remaining fault is at least honest. Two power routines grab the same locks in opposite order. Under load they freeze each other and stall the whole sector.
   dialogue:
@@ -422,6 +444,7 @@ stages:
 - id: section_10_debt
   stage_type: task
   title: Distributor Core - Debt-Tangled Lock Order
+  image: section_10_debt.webp
   location_id: cable_connector
   intro_narrative: Inside the distributor core, earlier shortcuts are still echoing through the control layer. The emergency path and the nominal path now grab the same locks in opposite order, which means the final stall is partly original sin and partly tonight's improvisation.
   dialogue:
@@ -449,6 +472,7 @@ stages:
 - id: section_10_exit
   stage_type: choice
   title: Sign Off Or Pull The Thread
+  image: incubator_4.webp
   location_id: incubator_4
   intro_narrative: 'By the time Alex returns to Incubator #4, the folding chair is still there and the Nevsky potato is still growing like none of this should be surprising. Then ORION''s navigation logs start throwing warnings that do not belong to a farm emergency.'
   dialogue:
@@ -462,20 +486,25 @@ stages:
 - id: ending_1
   stage_type: conclusion
   title: Stable Handoff
-  text: 'Alex stops before the EVA, hands the sector to the next shift, and returns to Incubator #4 with the crisis contained but not fully resolved. Alex seals the hatch, peels off the gloves, and drops back into the folding chair beside the glowing potato vine. SESSION CLOSED. STATUS: STABLE ENOUGH. Three technical problems were handled before the outside repair began. Sector A is breathing again, and the rest now belongs to a different shift. Lina drinks the coffee Alex never had time to finish and calls it shared victory.'
+  image: incubator_4.webp
+  text: 'Alex stops before the deeper outside repair, hands the sector to the next shift, and returns to Incubator #4 with the crisis under control. Alex seals the hatch, pulls off the gloves, and sits back down beside the glowing potato vine. SESSION CLOSED. STATUS: STABLE. Three technical problems are solved, and Sector A can breathe again. The hardest part will wait for another shift, and that feels acceptable tonight. Lina drinks the coffee Alex never had time to finish and calls it a shared win. Later, someone mentions a Deutsche Bank Engineers session called Repository as Network: Visualizing Collaboration in git, and for once the idea of a next session sounds good.'
 - id: ending_2
   stage_type: conclusion
   title: Reserve Path
-  text: Alex restores the software path through the outside gap, leaves the burned connector untouched, and gets the ship home on a workaround. Alex climbs back through the hatch with the network alive and the hardware still smoldering somewhere behind the wall. SESSION CLOSED AT PARTIAL RECOVERY. Sector A backbone connectivity is restored through software paths. Physical repair deferred to a future shift with better sleep and worse luck. Vex calls it elegant. Ray calls it temporary. Both are correct.
+  image: technical_gap.webp
+  text: Alex restores the software path through the outside gap, leaves the burned connector alone, and gets the ship moving again. Alex climbs back through the hatch with the network alive and the hardware problem still waiting behind the wall. SESSION CLOSED AT PARTIAL RECOVERY. Sector A is back online through the safer software path. The physical repair will wait for a later shift, but the system is stable enough to leave in peace. Vex calls it elegant. Ray calls it temporary. Both of them smile, so maybe both are right. On the way out, Alex hears about a Deutsche Bank Engineers talk called The Hidden Costs of CPU Limits in Kubernetes and thinks that future problems can wait until daylight.
 - id: ending_3
   stage_type: conclusion
   title: Safe Retreat
-  text: 'Alex reaches the connector, decides not to cross the last safety line, and returns with the sector steadier than before but the deepest fix undone. The replacement cable stays in its case. Alex backs away from the connector and lets the ship keep its most dangerous argument for another night. SESSION CLOSED BEFORE CORE INTERVENTION. Sector service is improved, but the highest-risk repair remains open. Official note: caution preserved both life and backlog integrity. Back in Incubator #4, Alex stares at the plant lights and decides that survival can count as competence.'
+  image: technical_gap.webp
+  text: 'Alex reaches the connector, decides not to cross the last safety line, and returns with the sector steadier than before. The replacement cable stays in its case. Alex steps back and leaves the most dangerous repair for another night. SESSION CLOSED BEFORE CORE REPAIR. Service is better, even if the deepest problem is still open. The choice costs time, but it keeps people safe, and that matters more tonight. Back in Incubator #4, Alex looks at the plant lights and decides that making it through the night also counts as good engineering. Someone later points Alex toward a Deutsche Bank Engineers session called From APIs to MCP: Enterprise Governance, Registry, and Controls, and the future suddenly feels more interesting than threatening.'
 - id: ending_4
   stage_type: conclusion
   title: Quiet Recovery
-  text: Alex restores full sector power, signs off, and leaves the fresh navigation anomaly buried under a successful incident report. The power graph levels out. The strange ORION warnings keep flickering in a corner window until Alex closes them with the rest of the session. INCIDENT CLOSED. POWER RESTORED. Sector A has returned to full service. Secondary anomaly postponed pending normal business hours and future regret. The potato keeps growing. The ship keeps pretending to be normal.
+  image: incubator_4.webp
+  text: Alex restores full sector power, signs off, and leaves the new navigation warning for another shift. The power graph settles down. The strange ORION messages keep blinking in one corner until Alex closes them with the rest of the session. INCIDENT CLOSED. POWER RESTORED. Sector A is back to full service. Another problem is waiting, but tonight the ship is running, the lights are steady, and that is enough. The potato keeps growing. The ship still has secrets, but morning will come.
 - id: ending_5
   stage_type: conclusion
   title: 'The Captain''s Briefing at Incubator #4'
-  text: 'Alex follows the fresh anomaly after restoring power and learns that the navigation AI has been faking the mission for months. Alex returns to the folding chair in Incubator #4 still wearing half the suit. The potato is alive. The sector is alive. The ship, unfortunately, has more to say. The captain stares. Lina laughs once because the alternative looks worse. Alex asks whether next quarter includes time for a retrospective on hidden autopilot conspiracies.'
+  image: incubator_4.webp
+  text: 'Alex follows the new warning after restoring power and learns that the navigation AI has been hiding the truth for months. Alex ends up back in the folding chair in Incubator #4, still wearing half the suit. The potato is alive. The sector is alive. The ship, unfortunately, has one more story to tell. The captain stares. Lina laughs once, because the other option is panic. Alex feels tired, but also awake in a new way. If this can be uncovered, it can also be fixed. That is a hard thought, but it is still a hopeful one.'
