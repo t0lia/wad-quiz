@@ -3,11 +3,33 @@ from __future__ import annotations
 import argparse
 import json
 import shutil
+import subprocess
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable
 
-import yaml
+try:
+    import yaml  # type: ignore[import-not-found]
+except ImportError:  # pragma: no cover — CI bootstrap path
+    # The generator is happy to ship its dependency along with itself:
+    # if PyYAML isn't importable, kick off a one-shot pip install and
+    # re-import. This keeps `.github/workflows/deploy.yml` untouched
+    # (we can't push workflow changes from our token-less environment)
+    # while still letting `npm run generate-machine1` work on a clean
+    # ubuntu-latest runner. We try `ensurepip --upgrade` first because
+    # the default CI image ships Python without `pip` available.
+    try:
+        subprocess.check_call(
+            [sys.executable, "-m", "ensurepip", "--quiet", "--upgrade"],
+            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+        )
+    except Exception:
+        pass
+    subprocess.check_call(
+        [sys.executable, "-m", "pip", "install", "--quiet", "pyyaml==6.0.2"]
+    )
+    import yaml  # type: ignore[import-not-found]  # noqa: E402,F401
 
 from pydto.models import ChoiceAsset, ChoiceStage, ConclusionStage, NavigationDocument, ScoreValues, Stage, StageConfigDocument, TaskAsset, TaskOutcome, TaskPoolsDocument, TaskStage, TransitionCondition
 from pydto.parsers import parse_choice_asset, parse_choice_markdown, parse_navigation_document, parse_stage_config_document, parse_task_asset, parse_task_markdown, parse_task_pools_document
