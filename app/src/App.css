@@ -1088,7 +1088,7 @@
 }
 
 .progress-bar__track {
-  position: relative;
+  /* position: relative; */
   left: 0;
   right: 0;
   height: 4px;
