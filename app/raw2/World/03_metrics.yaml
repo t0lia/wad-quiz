@@ -1,0 +1,138 @@
+axes:
+  dedication: how much a player keeps doing the right thing despite pressure, fatigue, and tempting shortcuts.
+  social_capital: how much a player considers teammates, handoffs, operational safety, and the people around the decision.
+  technical_skills: how well a player solves the actual technical problem.
+
+delta_range: [-1.0, 1.0]
+
+categories:
+  sapphire:
+    label: Exceptional
+    meaning: Strong delivery, sound judgment, and low-regret tradeoffs.
+  teal:
+    label: Strong
+    meaning: Dependable performance with one narrow blind spot.
+  green:
+    label: Sound
+    meaning: Credible recovery under pressure with visible limits.
+  amber:
+    label: Mixed
+    meaning: Useful instincts, but not yet consistently reliable.
+  slate:
+    label: Limited
+    meaning: Early-stage performance that needs support and supervision.
+
+bands:
+  signature_strength:
+    min: 2.5
+    meaning: The player repeatedly demonstrates this trait across the run.
+  reliable_positive:
+    min: 0.75
+    max: 2.49
+    meaning: The trait is visible and generally helpful.
+  mixed:
+    min: -0.74
+    max: 0.74
+    meaning: No strong pattern; behavior depends on context.
+  strained:
+    min: -2.49
+    max: -0.75
+    meaning: The player repeatedly undercuts this trait.
+  eroding:
+    max: -2.5
+    meaning: The player actively damages this trait across the run.
+
+archetypes:
+  - when:
+      dedication: ">= 2.5"
+      social_capital: ">= 2.5"
+      technical_skills: ">= 2.5"
+    archetype: Trusted Stabilizer
+    category: sapphire
+    reading: You land the fix, steady the team, and keep the whole machine classy under pressure.
+  - when:
+      dedication: ">= 0.75"
+      social_capital: ">= 0.75"
+      technical_skills: ">= 2.5"
+    archetype: Controlled Expert
+    category: teal
+    reading: You make sharp technical calls and still feel like the calmest person near the blinking lights.
+  - when:
+      dedication: ">= 2.5"
+      social_capital: ">= 0.75"
+      technical_skills: ">= 0.75"
+    archetype: Steady Executor
+    category: teal
+    reading: You keep the work moving with steady hands, practical judgment, and just enough style.
+  - when:
+      dedication: ">= 0.75"
+      social_capital: ">= 2.5"
+      technical_skills: "-0.74..2.49"
+    archetype: Team-First Operator
+    category: teal
+    reading: You make the team stronger, keep trust high, and help everyone move in the same direction.
+  - when:
+      dedication: ">= 0.75"
+      social_capital: ">= 0.75"
+      technical_skills: ">= 0.75"
+    archetype: Balanced Contributor
+    category: green
+    reading: You are the engineer people relax around because everything important keeps quietly working.
+  - when:
+      dedication: ">= 2.5"
+      social_capital: "-0.74..0.74"
+      technical_skills: ">= 0.75"
+    archetype: Relentless Fixer
+    category: green
+    reading: You chase the fix with excellent stamina, and your next power-up is bringing even more people with you.
+  - when:
+      dedication: "-0.74..0.74"
+      social_capital: ">= 0.75"
+      technical_skills: ">= 2.5"
+    archetype: Technical Specialist
+    category: green
+    reading: You speak fluent incident, and the system usually starts behaving once you give it a stern look.
+  - when:
+      dedication: "-0.74..0.74"
+      social_capital: "-0.74..0.74"
+      technical_skills: ">= 0.75"
+    archetype: Narrow Optimizer
+    category: amber
+    reading: You can absolutely produce results, and your next upgrade is turning that one strong lane into a full highway.
+  - when:
+      dedication: ">= 0.75"
+      social_capital: "<= -0.75"
+      technical_skills: ">= 0.75"
+    archetype: Lone Rescuer
+    category: amber
+    reading: You are wonderfully effective in a pinch, and your next level is letting the rescue feel as good as it works.
+  - when:
+      dedication: "<= -0.75"
+      social_capital: ">= 0.75"
+      technical_skills: "-0.74..0.74"
+    archetype: Careful Deferrer
+    category: amber
+    reading: You bring welcome care and good instincts, and your momentum is ready for a little extra engine power.
+  - when:
+      dedication: "<= -2.5"
+      technical_skills: "<= -0.75"
+    archetype: Control Breach Risk
+    category: slate
+    reading: You are discovering just how exciting operations can get, and a bit more structure will turn that energy into wins.
+  - when:
+      social_capital: "<= -2.5"
+    archetype: Trust Erosion Risk
+    category: slate
+    reading: You move fast enough to leave sparks, and your brightest next step is making the people around you feel just as supported as the system.
+  - when:
+      dedication: "<= -0.75"
+      social_capital: "<= -0.75"
+      technical_skills: "<= -0.75"
+    archetype: Unsteady Operator
+    category: slate
+    reading: You are at the start of a very dramatic growth arc, and every future version of you gets sharper from here.
+  - when:
+      default: true
+    archetype: Developing Contributor
+    category: amber
+    reading: You have real promise, and a few more steady reps will make your strengths much louder than the noise.
