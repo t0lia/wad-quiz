@@ -62,7 +62,7 @@ export default function ResourceAllocation({ task, submitted, onSubmit }: Props)
           disabled={remaining !== 0}
           onClick={() => onSubmit(JSON.stringify(allocation))}
         >
-          next
+          submit
         </button>
       )}
     </>

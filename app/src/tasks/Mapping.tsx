@@ -121,7 +121,7 @@ export default function Mapping({ task, submitted, onSubmit }: Props) {
           disabled={!canSubmit}
           onClick={() => onSubmit(JSON.stringify(pairs))}
         >
-          next
+          submit
         </button>
       )}
     </>

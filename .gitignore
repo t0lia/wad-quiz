@@ -27,3 +27,4 @@ dist-ssr
 /text/
 **__pycache__**
 machine1
+machine1_artifacts/
