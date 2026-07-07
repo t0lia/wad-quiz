@@ -118,14 +118,14 @@ function createApp(progressStore = createProgressStore()) {
     if (typeof step !== 'string' || !STEP_PATTERN.test(step)) {
       return res.status(400).json({ error: 'Invalid step' })
     }
-
-    try {
-      await progressStore.save({ uuid, step })
-      return res.status(202).json({ ok: true })
-    } catch (error) {
-      console.error('Failed to store progress', error)
-      return res.status(500).json({ error: 'Failed to store progress' })
-    }
+    console.log(JSON.stringify({uuid: uuid, step: step}))
+    return res.status(202).json({ ok: true })
+    // try {
+    //   await progressStore.save({ uuid, step })
+    // } catch (error) {
+    //   console.error('Failed to store progress', error)
+    //   return res.status(500).json({ error: 'Failed to store progress' })
+    // }
   })
 
   app.get('/api/progress', async (_req, res) => {
