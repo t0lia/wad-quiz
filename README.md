@@ -14,6 +14,39 @@
 - `GCP_WORKLOAD_IDENTITY_PROVIDER`
 - `GCP_SERVICE_ACCOUNT`
 
+### Manual deploy with gcloud
+
+Use this when you want to deploy a local checkout to Cloud Run without going through the GitHub Actions workflow (for example, to verify a change before pushing to `main`).
+
+Prerequisites: `gcloud` CLI installed and authenticated (`gcloud auth login`), the GCP project you want to deploy to set as default (`gcloud config set project <PROJECT_ID>`), and the `roles/run.admin` + `roles/iam.serviceAccountUser` roles on the deployer account.
+
+From the repository root:
+
+```bash
+# 1. Install deps and build the SPA
+(cd app      && npm ci && npm run build)
+
+# 2. Bundle the built SPA into the backend's static dir
+rm -rf backend/public
+mkdir -p backend/public
+cp -R app/dist/. backend/public/
+
+# 3. Deploy to Cloud Run, letting gcloud build the image from ./backend
+gcloud run deploy wad-quiz \
+  --source=backend \
+  --region="$GCP_REGION" \
+  --project="$GCP_PROJECT_ID" \
+  --allow-unauthenticated
+```
+
+Notes:
+
+- `--source=backend` makes gcloud run a Cloud Build on `./backend`, produce a container image, and roll it out to Cloud Run in one step. No `Dockerfile` is required because gcloud auto-detects the Node.js entrypoint (`backend/server.js`).
+- Set `--region` to the same region the workflow uses (the value of the `GCP_REGION` secret).
+- Pass `--set-env-vars=KEY=VALUE` if you need to override runtime config (e.g. `--set-env-vars=PROGRESS_COLLECTION=quiz-progress`).
+- To target a different project, set `CLOUDSDK_CORE_PROJECT` or pass `--project` explicitly.
+- After deploy, gcloud prints the service URL — open it to confirm the SPA loads and `GET /api/health` returns `ok`.
+
 
 ## UI components
 
