@@ -12,7 +12,9 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "generate-machine1": "python raw2/generate_machine1.py",
-    "generate-diagram": "echo 'Skipped'"
+    "generate-diagram": "echo 'Skipped'",
+    "test:e2e:build-graph": "tsx tests/e2e/build-graph.ts",
+    "test:e2e": "npm run test:e2e:build-graph && playwright test"
   },
   "dependencies": {
     "@xstate/react": "^6.1.0",
@@ -24,6 +26,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.61.1",
     "@types/node": "^24.13.2",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
@@ -33,7 +36,7 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.6.0",
-    "tsx": "^4.20.6",
+    "tsx": "^4.23.0",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.59.2",
     "vite": "^8.0.12",

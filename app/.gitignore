@@ -1,0 +1,9 @@
+# Playwright test artifacts (regenerated on every run)
+tests/e2e/.cache/
+playwright-report/
+test-results/
+
+# Local IDE noise
+.vscode/
+.idea/
+.DS_Store

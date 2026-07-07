@@ -1,0 +1,85 @@
+name: e2e full-graph
+
+# Runs the Playwright graph walk against a fresh vite dev server.
+# Separate from deploy.yml so a failing e2e does NOT block Pages deploys.
+#
+# Triggers:
+#   - every push to feat/e2e-full-graph (live signal for the branch)
+#   - every pull_request targeting main (gate signal before merging)
+#   - manual run from the Actions tab
+
+on:
+  push:
+    branches: [feat/e2e-full-graph]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Reasonable default: 15 minutes. The full plan is 28 + 200 tests at ~3s
+# each in serial, plus boot — should comfortably fit.
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      # Chromium downloaded by `playwright install` (not the preinstalled one,
+      # which doesn't ship on every runner image).
+      PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/.pw-browsers
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+
+      - name: Install dependencies
+        working-directory: app
+        run: npm ci
+
+      - name: Install Playwright chromium
+        working-directory: app
+        run: npx playwright install --with-deps chromium
+
+      # Engine needs the generated machine before vite can serve the app.
+      # Same bootstrap as deploy.yml uses.
+      - name: Generate machine1
+        working-directory: app
+        run: |
+          python3 -m pip install --quiet pyyaml==6.0.2
+          npm run generate-machine1
+
+      # NEW STEP — validates the bundle + emits tests/e2e/.cache/graph.json.
+      # If the bundle is structurally broken (unreachable stages, dangling
+      # refs, dead ends) we fail here with a precise message — no need to
+      # boot a browser just to discover the YAML is wrong.
+      - name: Build test graph from World/ bundle
+        working-directory: app
+        run: npm run test:e2e:build-graph
+
+      - name: Run Playwright graph walk
+        working-directory: app
+        run: npx playwright test
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: app/playwright-report/
+          retention-days: 14
+
+      - name: Upload Playwright test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-test-results
+          path: app/test-results/
+          retention-days: 14
