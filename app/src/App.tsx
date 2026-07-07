@@ -5,7 +5,7 @@ import { hydroMachine } from './machine1'
 import { sceneGroupId } from './machine/sceneGroup'
 import ChallengeScene from './scenes/ChallengeScene'
 import ProgressBar from './components/ProgressBar'
-import { formatEndingProfileLine, resolveEndingProfile } from './storyLogic'
+import { formatEndingProfileLine, resolveEndingProfile, categoryBackground } from './storyLogic'
 import { trackEndingReached, trackLevelEnd, trackLevelStart, trackTutorialBegin, trackTutorialComplete } from './analytics'
 import './App.css'
 
@@ -154,7 +154,10 @@ function MachineApp({ snapshot }: { snapshot: unknown }) {
         <p style={{ whiteSpace: 'pre-line', fontSize: 20, lineHeight: '160%' }}>
           {scene?.text ?? 'The shift is over.'}
         </p>
-        <div className="ending-profile">
+        <div
+          className="ending-profile"
+          style={{ background: categoryBackground(endingProfile.category) }}
+        >
           {formatEndingProfileLine(endingProfile)}
         </div>
         <button className="restart-btn" onClick={reset}>Play Again</button>

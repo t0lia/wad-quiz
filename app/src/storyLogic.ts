@@ -219,5 +219,17 @@ export function resolveEndingProfile(score: Score): EndingProfile {
 }
 
 export function formatEndingProfileLine(profile: EndingProfile): string {
-  return `${profile.category}: ${profile.archetype} — ${profile.reading}`
+  return `${profile.archetype} — ${profile.reading}`
+}
+
+const CATEGORY_BG: Record<EndingProfile['category'], string> = {
+  Sapphire: '#1e3a8a',
+  Teal: '#0f766e',
+  Green: '#15803d',
+  Amber: '#b45309',
+  Slate: '#475569',
+}
+
+export function categoryBackground(category: EndingProfile['category']): string {
+  return CATEGORY_BG[category]
 }

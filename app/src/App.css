@@ -937,8 +937,7 @@
   border: 1px solid var(--border);
   border-radius: 999px;
   font-weight: 600;
-  color: var(--accent);
-  background: var(--accent-bg);
+  color: #ffffff;
   text-align: center;
 }
 
