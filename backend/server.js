@@ -5,8 +5,6 @@ const { Firestore, FieldValue } = require('@google-cloud/firestore')
 
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/
 const STEP_PATTERN = /^[A-Za-z0-9_-]{1,100}$/
-const RATE_LIMIT_WINDOW_MS = 60_000
-const RATE_LIMIT_MAX_REQUESTS = 60
 let sharedFirestoreClient
 
 class InMemoryProgressStore {
@@ -19,8 +17,14 @@ class InMemoryProgressStore {
     this.progress.set(uuid, {
       uuid,
       step,
-      updatedAt: new Date().toISOString(),
+      lastVisitedAt: new Date().toISOString(),
     })
+  }
+
+  async list() {
+    const entries = [...this.progress.values()]
+    entries.sort((a, b) => (a.lastVisitedAt < b.lastVisitedAt ? 1 : -1))
+    return entries
   }
 }
 
@@ -39,10 +43,25 @@ class FirestoreProgressStore {
       {
         uuid,
         step,
-        updatedAt: FieldValue.serverTimestamp(),
+        lastVisitedAt: FieldValue.serverTimestamp(),
       },
       { merge: true },
     )
+  }
+
+  async list() {
+    const snapshot = await this.collection.orderBy('lastVisitedAt', 'desc').get()
+    return snapshot.docs.map((doc) => {
+      const data = doc.data()
+      return {
+        uuid: data.uuid,
+        step: data.step,
+        lastVisitedAt:
+          data.lastVisitedAt && typeof data.lastVisitedAt.toDate === 'function'
+            ? data.lastVisitedAt.toDate().toISOString()
+            : null,
+      }
+    })
   }
 }
 
@@ -54,42 +73,25 @@ function createProgressStore() {
   return new InMemoryProgressStore()
 }
 
-function createProgressRateLimiter() {
-  const requestsByIp = new Map()
-  let lastCleanupAt = 0
+function attachMinutesAgo(entries, now = Date.now()) {
+  return entries.map((entry) => {
+    const lastVisitedAt = entry.lastVisitedAt
+    let minutesAgo = null
 
-  return (req, res, next) => {
-    const forwardedFor = typeof req.headers['x-forwarded-for'] === 'string' ? req.headers['x-forwarded-for'].split(',')[0].trim() : null
-    const key = req.ip || forwardedFor
-
-    if (!key) {
-      return res.status(400).json({ error: 'Missing client IP' })
-    }
-
-    const now = Date.now()
-    if (now - lastCleanupAt >= RATE_LIMIT_WINDOW_MS) {
-      for (const [ip, entry] of requestsByIp.entries()) {
-        if (entry.resetAt <= now) {
-          requestsByIp.delete(ip)
-        }
+    if (lastVisitedAt) {
+      const visitedMs = Date.parse(lastVisitedAt)
+      if (!Number.isNaN(visitedMs)) {
+        minutesAgo = Math.max(0, Math.round((now - visitedMs) / 60_000))
       }
-      lastCleanupAt = now
     }
 
-    const entry = requestsByIp.get(key)
-
-    if (!entry || entry.resetAt <= now) {
-      requestsByIp.set(key, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS })
-      return next()
+    return {
+      uuid: entry.uuid,
+      step: entry.step,
+      lastVisitedAt,
+      minutesAgo,
     }
-
-    if (entry.count >= RATE_LIMIT_MAX_REQUESTS) {
-      return res.status(429).json({ error: 'Too many progress updates' })
-    }
-
-    entry.count += 1
-    return next()
-  }
+  })
 }
 
 function createApp(progressStore = createProgressStore()) {
@@ -98,7 +100,6 @@ function createApp(progressStore = createProgressStore()) {
   const indexPath = path.join(publicDir, 'index.html')
   const hasStaticApp = fs.existsSync(indexPath)
   const indexHtml = hasStaticApp ? fs.readFileSync(indexPath, 'utf8') : null
-  const progressRateLimiter = createProgressRateLimiter()
 
   app.set('trust proxy', true)
   app.use(express.json({ limit: '16kb' }))
@@ -107,7 +108,7 @@ function createApp(progressStore = createProgressStore()) {
     res.json({ ok: true, storage: progressStore.kind })
   })
 
-  app.post('/api/progress', progressRateLimiter, async (req, res) => {
+  app.post('/api/progress', async (req, res) => {
     const { uuid, step } = req.body ?? {}
 
     if (typeof uuid !== 'string' || !UUID_PATTERN.test(uuid)) {
@@ -124,6 +125,16 @@ function createApp(progressStore = createProgressStore()) {
     } catch (error) {
       console.error('Failed to store progress', error)
       return res.status(500).json({ error: 'Failed to store progress' })
+    }
+  })
+
+  app.get('/api/progress', async (_req, res) => {
+    try {
+      const entries = await progressStore.list()
+      return res.json({ entries: attachMinutesAgo(entries) })
+    } catch (error) {
+      console.error('Failed to list progress', error)
+      return res.status(500).json({ error: 'Failed to list progress' })
     }
   })
 
@@ -153,4 +164,4 @@ if (require.main === module) {
   })
 }
 
-module.exports = { createApp, createProgressStore }
+module.exports = { createApp, createProgressStore, attachMinutesAgo }
