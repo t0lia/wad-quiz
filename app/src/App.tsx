@@ -4,6 +4,7 @@ import { useMachine } from '@xstate/react'
 import { hydroMachine } from './machine1'
 import { sceneGroupId } from './machine/sceneGroup'
 import ChallengeScene from './scenes/ChallengeScene'
+import ProgressBar from './components/ProgressBar'
 import { formatEndingProfileLine, resolveEndingProfile } from './storyLogic'
 import { trackEndingReached, trackLevelEnd, trackLevelStart, trackTutorialBegin, trackTutorialComplete } from './analytics'
 import './App.css'
@@ -166,6 +167,7 @@ function MachineApp({ snapshot }: { snapshot: unknown }) {
   return (
     <>
       <button className="restart-btn restart-btn--fixed" onClick={reset} aria-label="Restart">↺</button>
+      <ProgressBar currentState={stateId} routeChoice={state.context.route_choice} />
       <ChallengeScene
         key={groupId}
         scene={scene}

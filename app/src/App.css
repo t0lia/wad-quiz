@@ -1073,3 +1073,48 @@
   }
 }
 
+/* ── progress bar ─────────────────────────────────────────── */
+
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 8px;
+  z-index: 100;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+}
+
+.progress-bar__track {
+  /* position: relative; */
+  left: 0;
+  right: 0;
+  height: 4px;
+  /* transparent border removed per request */
+  background: transparent;
+}
+
+.progress-bar__fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: calc(var(--progress, 0) * 100%);
+  background: var(--accent);
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.progress-bar__dot {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translate(-50%, -50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+  transition: left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}

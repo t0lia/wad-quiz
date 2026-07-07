@@ -8,7 +8,7 @@
     "prebuild": "npm run generate-machine1",
     "build": "tsc -b && vite build",
     "pretest": "npm run generate-machine1",
-    "test": "node --import tsx --test src/generated-machine.test.ts",
+    "test": "node --import tsx --test src/generated-machine.test.ts src/components/progressGraph.test.ts",
     "lint": "eslint .",
     "preview": "vite preview",
     "generate-machine1": "python raw2/generate_machine1.py",
