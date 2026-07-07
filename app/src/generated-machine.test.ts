@@ -31,6 +31,6 @@ test('formatEndingProfileLine combines category archetype and reading', () => {
     archetype: 'Developing Contributor',
     reading: 'Mixed signals dominate.',
   })
-  assert.equal(line, 'Amber: Developing Contributor — Mixed signals dominate.')
+  assert.equal(line, 'Developing Contributor — Mixed signals dominate.')
 })
 
