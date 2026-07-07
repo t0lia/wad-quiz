@@ -1,5 +1,11 @@
 const STORAGE_KEY = 'wad-quiz-progress-uuid'
-const API_BASE_URL = (import.meta.env.VITE_PROGRESS_API_URL ?? '').replace(/\/$/, '')
+// `import.meta.env` is a Vite-only construct; fall back to a plain object
+// when the module is loaded outside Vite (e.g. under node:test via tsx).
+const metaEnv: { VITE_PROGRESS_API_URL?: string; DEV?: boolean } =
+  typeof import.meta !== 'undefined' && (import.meta as { env?: typeof metaEnv }).env
+    ? (import.meta as { env: typeof metaEnv }).env
+    : {}
+const API_BASE_URL = (metaEnv.VITE_PROGRESS_API_URL ?? '').replace(/\/$/, '')
 const PROGRESS_ENDPOINT = `${API_BASE_URL}/api/progress`
 
 function createFallbackUuid() {
@@ -53,7 +59,7 @@ export async function reportProgress(step: string) {
       keepalive: true,
     })
   } catch (error) {
-    if (import.meta.env.DEV) {
+    if (metaEnv.DEV) {
       console.error('Failed to report progress', error)
     }
   }
