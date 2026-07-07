@@ -20,7 +20,7 @@ const ENDING_PROFILE_RULES: Array<{ when: Partial<Record<keyof Score, string>>; 
     result: {
       category: 'Sapphire',
       archetype: 'Trusted Stabilizer',
-      reading: 'Delivers the fix, protects the team, and keeps standards intact under pressure.',
+      reading: 'Alex has shown the rare talent of fixing the problem, calming the humans, and making the whole incident look almost professional.',
     },
   },
   {
@@ -28,7 +28,7 @@ const ENDING_PROFILE_RULES: Array<{ when: Partial<Record<keyof Score, string>>; 
     result: {
       category: 'Teal',
       archetype: 'Controlled Expert',
-      reading: 'Technically decisive and still safe to operate around.',
+      reading: 'Alex turned out to be the kind of engineer who makes sharp technical calls while the blinking lights politely fail to cause a panic.',
     },
   },
   {
@@ -36,7 +36,7 @@ const ENDING_PROFILE_RULES: Array<{ when: Partial<Record<keyof Score, string>>; 
     result: {
       category: 'Teal',
       archetype: 'Steady Executor',
-      reading: 'Pushes work through responsibly, even if not always elegantly.',
+      reading: 'Alex has shown steady hands, practical judgment, and the suspicious ability to keep a bad night moving in the right direction.',
     },
   },
   {
@@ -44,7 +44,7 @@ const ENDING_PROFILE_RULES: Array<{ when: Partial<Record<keyof Score, string>>; 
     result: {
       category: 'Teal',
       archetype: 'Team-First Operator',
-      reading: 'Protects trust and shared execution, even when the technical edge is moderate.',
+      reading: 'Alex turned out to be the person who keeps the team together, the trust intact, and the incident from becoming a group hobby.',
     },
   },
   {
@@ -52,7 +52,7 @@ const ENDING_PROFILE_RULES: Array<{ when: Partial<Record<keyof Score, string>>; 
     result: {
       category: 'Green',
       archetype: 'Balanced Contributor',
-      reading: 'A dependable all-round performer without a single standout signature.',
+      reading: 'Alex has shown the comforting habit of making important things work quietly, which is about as close to glamour as operations usually gets.',
     },
   },
   {
@@ -60,7 +60,7 @@ const ENDING_PROFILE_RULES: Array<{ when: Partial<Record<keyof Score, string>>; 
     result: {
       category: 'Green',
       archetype: 'Relentless Fixer',
-      reading: 'Keeps driving toward resolution, but does not consistently widen the circle of trust.',
+      reading: 'Alex turned out to be wonderfully hard to stop once the fix was in sight, and the next upgrade is letting a few more people into the hero shot.',
     },
   },
   {
@@ -68,7 +68,7 @@ const ENDING_PROFILE_RULES: Array<{ when: Partial<Record<keyof Score, string>>; 
     result: {
       category: 'Green',
       archetype: 'Technical Specialist',
-      reading: 'Strong at solving the incident, with enough operational awareness to stay credible.',
+      reading: 'Alex has shown a fluent command of technical chaos, and the system seems to behave better once it realizes it is being judged.',
     },
   },
   {
@@ -76,7 +76,7 @@ const ENDING_PROFILE_RULES: Array<{ when: Partial<Record<keyof Score, string>>; 
     result: {
       category: 'Amber',
       archetype: 'Narrow Optimizer',
-      reading: 'Can produce results, but too much of the success depends on one axis only.',
+      reading: 'Alex turned out to be very capable in a strong lane, and the next step is widening that lane until it stops looking like a tactical side quest.',
     },
   },
   {
@@ -84,7 +84,7 @@ const ENDING_PROFILE_RULES: Array<{ when: Partial<Record<keyof Score, string>>; 
     result: {
       category: 'Amber',
       archetype: 'Lone Rescuer',
-      reading: 'Gets important things done, but leaves avoidable trust damage behind.',
+      reading: 'Alex has shown a real talent for pulling off the rescue, and the next level is making it feel slightly less like everyone else was dragged behind it.',
     },
   },
   {
@@ -92,7 +92,7 @@ const ENDING_PROFILE_RULES: Array<{ when: Partial<Record<keyof Score, string>>; 
     result: {
       category: 'Amber',
       archetype: 'Careful Deferrer',
-      reading: 'Protects people reasonably well, but struggles to carry technical momentum.',
+      reading: 'Alex turned out to have good instincts and welcome caution, and the next boost is trusting that caution to move a little faster.',
     },
   },
   {
@@ -100,7 +100,7 @@ const ENDING_PROFILE_RULES: Array<{ when: Partial<Record<keyof Score, string>>; 
     result: {
       category: 'Slate',
       archetype: 'Control Breach Risk',
-      reading: 'Repeatedly sacrifices discipline and compounds technical risk.',
+      reading: 'Alex has shown that operations can become exciting very quickly, and a little more structure would help keep the excitement in the optional category.',
     },
   },
   {
@@ -108,7 +108,7 @@ const ENDING_PROFILE_RULES: Array<{ when: Partial<Record<keyof Score, string>>; 
     result: {
       category: 'Slate',
       archetype: 'Trust Erosion Risk',
-      reading: 'Progress comes with visible damage to teammates, handoffs, or operational confidence.',
+      reading: 'Alex turned out to move fast enough to leave sparks, and the next win is making the people nearby feel as supported as the machinery eventually does.',
     },
   },
   {
@@ -116,7 +116,7 @@ const ENDING_PROFILE_RULES: Array<{ when: Partial<Record<keyof Score, string>>; 
     result: {
       category: 'Slate',
       archetype: 'Unsteady Operator',
-      reading: 'Harmful patterns show up across all three axes and need intervention.',
+      reading: 'Alex has shown the opening chapter of a very dramatic growth arc, which is a generous way of saying the sequel should go much better.',
     },
   },
 ]
@@ -214,7 +214,7 @@ export function resolveEndingProfile(score: Score): EndingProfile {
   return {
     category: 'Amber',
     archetype: 'Developing Contributor',
-    reading: 'Mixed signals dominate; the player shows potential but not yet a stable profile.',
+    reading: 'Alex turned out to have real promise, and a few more steady reps should make the strengths louder than the general operational nonsense.',
   }
 }
 
