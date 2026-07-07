@@ -151,15 +151,15 @@ function MachineApp({ snapshot }: { snapshot: unknown }) {
     const endingProfile = resolveEndingProfile(state.context.score)
     return (
       <div className="ending fade-in">
-        <p style={{ whiteSpace: 'pre-line', fontSize: 20, lineHeight: '160%' }}>
-          {scene?.text ?? 'The shift is over.'}
-        </p>
         <div
           className="ending-profile"
           style={{ background: categoryBackground(endingProfile.category) }}
         >
           {formatEndingProfileLine(endingProfile)}
         </div>
+        <p style={{ whiteSpace: 'pre-line', fontSize: 20, lineHeight: '160%' }}>
+          {scene?.text ?? 'The shift is over.'}
+        </p>
         <button className="restart-btn" onClick={reset}>Play Again</button>
       </div>
     )
