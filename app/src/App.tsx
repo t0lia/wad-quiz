@@ -148,7 +148,7 @@ function MachineApp({ snapshot }: { snapshot: unknown }) {
             className="ending-btn ending-btn--inactive"
             onClick={() => setShowBooth(true)}
           >
-            Show pdge on booth and take merch
+            CLICK TO GET MERCH
           </button>
           <span className="ending-actions__or">or</span>
           <button
