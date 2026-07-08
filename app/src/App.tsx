@@ -106,7 +106,6 @@ export default function App() {
 
 function MachineApp({ snapshot }: { snapshot: unknown }) {
   const [rand] = useState(() => Math.random())
-  const [showBooth, setShowBooth] = useState(false)
   const [state, send, actor] = useMachine(hydroMachine, {
     // cast snapshot to xstate Snapshot type
     snapshot: snapshot as unknown as Snapshot<unknown>,
@@ -139,17 +138,12 @@ function MachineApp({ snapshot }: { snapshot: unknown }) {
         >
           {formatEndingProfileLine(endingProfile)}
         </div>
-        <p style={{ whiteSpace: 'pre-line', fontSize: 20, lineHeight: '160%' }}>
-          {scene?.text ?? 'The shift is over.'}
-        </p>
+        <img
+          src={`${import.meta.env.BASE_URL}show-me-on-the-booth.jpg?v=2`}
+          alt="Show me on the booth"
+          className="ending-image"
+        />
         <div className="ending-actions">
-          <button
-            type="button"
-            className="ending-btn ending-btn--inactive"
-            onClick={() => setShowBooth(true)}
-          >
-            CLICK TO GET MERCH
-          </button>
           <span className="ending-actions__or">or</span>
           <button
             type="button"
@@ -159,30 +153,6 @@ function MachineApp({ snapshot }: { snapshot: unknown }) {
             Play again
           </button>
         </div>
-        {showBooth && (
-          <div
-            className="booth-overlay"
-            role="dialog"
-            aria-modal="true"
-            aria-label="Show me on the booth"
-            onClick={() => setShowBooth(false)}
-          >
-            <img
-              src={`${import.meta.env.BASE_URL}show-me-on-the-booth.jpg?v=2`}
-              alt="Show me on the booth"
-              className="booth-overlay__image"
-              onClick={(e) => e.stopPropagation()}
-            />
-            <button
-              type="button"
-              className="booth-overlay__close"
-              onClick={() => setShowBooth(false)}
-              aria-label="Close"
-            >
-              ×
-            </button>
-          </div>
-        )}
       </div>
     )
   }
