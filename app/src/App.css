@@ -928,6 +928,21 @@
   text-align: center;
 }
 
+.ending-banner {
+  width: 100%;
+  max-width: 40rem;
+  margin: 0 0 12px;
+  padding: 14px 18px;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  background: #111;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+  box-sizing: border-box;
+}
+
 .ending-profile {
   display: inline-flex;
   align-items: center;

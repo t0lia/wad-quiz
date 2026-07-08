@@ -131,6 +131,10 @@ function MachineApp({ snapshot }: { snapshot: unknown }) {
     const endingProfile = resolveEndingProfile(state.context.score)
     return (
       <div className="ending fade-in">
+        <div className="ending-banner" role="note">
+          {/* KIRILL_BANNER_TEXT — replace with final copy from Kirill */}
+          [PLACEHOLDER: ending banner text]
+        </div>
         <h2 className="scene-title ending-title">{scene?.title}</h2>
         <div
           className="ending-profile"
