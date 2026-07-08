@@ -138,10 +138,21 @@ function MachineApp({ snapshot }: { snapshot: unknown }) {
         >
           {formatEndingProfileLine(endingProfile)}
         </div>
-        <p style={{ whiteSpace: 'pre-line', fontSize: 20, lineHeight: '160%' }}>
-          {scene?.text ?? 'The shift is over.'}
-        </p>
-        <button className="restart-btn" onClick={reset}>Play Again</button>
+        <img
+          src={`${import.meta.env.BASE_URL}show-me-on-the-booth.jpg?v=2`}
+          alt="Show me on the booth"
+          className="ending-image"
+        />
+        <div className="ending-actions">
+          <span className="ending-actions__or">or</span>
+          <button
+            type="button"
+            className="ending-btn ending-btn--primary"
+            onClick={reset}
+          >
+            Play again
+          </button>
+        </div>
       </div>
     )
   }

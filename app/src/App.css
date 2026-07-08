@@ -945,10 +945,67 @@
   text-align: center;
 }
 
+/* ── ending actions (two buttons + "or") ───────────── */
+
+.ending-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.ending-actions__or {
+  font-size: 14px;
+  color: var(--text-muted, #888);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.ending-btn {
+  min-height: 44px;
+  padding: 0 20px;
+  width: 100%;
+  max-width: 360px;
+  border: 1px solid transparent;
+  border-radius: 25px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, opacity 0.15s;
+}
+
+.ending-btn--primary {
+  background: var(--button-bg, #d6d6d6);
+  color: var(--text, #1a1a1a);
+  border-color: var(--button-border, #b8b8b8);
+}
+
+.ending-btn--primary:hover {
+  opacity: 0.85;
+}
+
+.ending-actions__or {
+  font-size: 14px;
+  color: var(--text-muted, #888);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.ending-image {
+  display: block;
+  max-width: 100%;
+  max-height: 360px;
+  margin: 0 auto;
+  border-radius: 12px;
+  object-fit: contain;
+}
+
 /* ────────────────────────────────────────────────────────────────────────── */
 /* Dialog for saved progress                                                  */
-/* ────────────────────────────────────────────────────────────────────────── */
-
 .dialog-overlay {
   position: fixed;
   top: 0;
