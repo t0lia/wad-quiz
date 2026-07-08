@@ -4,7 +4,8 @@ import { useMachine } from '@xstate/react'
 import { hydroMachine } from './machine1'
 import { sceneGroupId } from './machine/sceneGroup'
 import ChallengeScene from './scenes/ChallengeScene'
-import { formatEndingProfileLine, resolveEndingProfile } from './storyLogic'
+import ProgressBar from './components/ProgressBar'
+import { formatEndingProfileLine, resolveEndingProfile, categoryBackground } from './storyLogic'
 import './App.css'
 
 export { hydroMachine } from './machine1'
@@ -111,6 +112,7 @@ function MachineApp({ snapshot }: { snapshot: unknown }) {
   })
   const stateId = state.value as string
   const scene = Object.values(state.getMeta())[0]
+  const groupId = sceneGroupId(stateId)
 
   useEffect(() => {
     // persist snapshot whenever state changes
@@ -129,12 +131,16 @@ function MachineApp({ snapshot }: { snapshot: unknown }) {
     const endingProfile = resolveEndingProfile(state.context.score)
     return (
       <div className="ending fade-in">
+        <h2 className="scene-title ending-title">{scene?.title}</h2>
+        <div
+          className="ending-profile"
+          style={{ background: categoryBackground(endingProfile.category) }}
+        >
+          {formatEndingProfileLine(endingProfile)}
+        </div>
         <p style={{ whiteSpace: 'pre-line', fontSize: 20, lineHeight: '160%' }}>
           {scene?.text ?? 'The shift is over.'}
         </p>
-        <div className="ending-profile">
-          {formatEndingProfileLine(endingProfile)}
-        </div>
         <button className="restart-btn" onClick={reset}>Play Again</button>
       </div>
     )
@@ -145,8 +151,9 @@ function MachineApp({ snapshot }: { snapshot: unknown }) {
   return (
     <>
       <button className="restart-btn restart-btn--fixed" onClick={reset} aria-label="Restart">↺</button>
+      <ProgressBar currentState={stateId} routeChoice={state.context.route_choice} />
       <ChallengeScene
-        key={sceneGroupId(stateId)}
+        key={groupId}
         scene={scene}
         context={state.context as Record<string, unknown>}
         onComplete={(answer) => send({ type: 'NEXT', answer, rand })}

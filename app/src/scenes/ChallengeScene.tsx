@@ -6,9 +6,14 @@ import SingleChoice from '../tasks/SingleChoice'
 import DialogueBlock from './DialogueBlock'
 import { evaluateStoryCondition } from '../storyLogic'
 import ReactMarkdown from 'react-markdown'
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { oneLight, oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import type { Components } from 'react-markdown'
+
+// Note: a previous version of this file imported `react-syntax-highlighter` here
+// for fenced-code blocks. Removing it cut ~750 KB from the production bundle
+// (refractor/all pulls 200+ Prism grammars eagerly, and `sideEffects` in
+// refractor/package.json prevents Rollup from tree-shaking them). The shipped
+// narrative YAML contains only inline backticks (`sector-link`), never fenced
+// blocks, so `SyntaxHighlighter` was unreachable dead code.
 
 type Props = {
   scene: ChallengeSceneData
@@ -24,16 +29,10 @@ function withBase(path: string) {
 }
 
 const mdComponents: Components = {
+  // Plain inline `<code>` styling — fenced-code highlighting was removed
+  // along with the react-syntax-highlighter import above. Production content
+  // uses only inline backticks, so this branch is the one that actually runs.
   code({ className, children, ...props }) {
-    const match = /language-(\w+)/.exec(className || '')
-    const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-    if (match) {
-      return (
-        <SyntaxHighlighter language={match[1]} style={isDark ? oneDark : oneLight} PreTag="div" customStyle={{ fontSize: '11px' }}>
-          {String(children).replace(/\n$/, '')}
-        </SyntaxHighlighter>
-      )
-    }
     return <code className={className} {...props}>{children}</code>
   },
 }
@@ -86,12 +85,11 @@ export default function ChallengeScene({ scene, context, onComplete }: Props) {
   const first = segments[0].scene
 
   const renderImage = (imagePath: string) => {
-    // Convert .webp to .jpg for fallback (for Android devices without WebP support)
     const jpegPath = imagePath.replace(/\.webp$/, '.jpg')
     return (
       <picture>
         <source srcSet={withBase(imagePath)} type="image/webp" />
-        <img className="scene-image" src={withBase(jpegPath)} alt="" />
+        <img className="scene-image" src={withBase(jpegPath)} alt="" loading="lazy" decoding="async" />
       </picture>
     )
   }

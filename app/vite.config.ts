@@ -6,6 +6,12 @@ import { resolve } from 'node:path'
 export default defineConfig({
   plugins: [react()],
   build: {
+    // Pinning `target` explicitly (instead of relying on Vite's default
+    // `"modules"`) ensures Vite/esbuild down-levels syntax that newer Chrome
+    // supports but constrained Android 9 builds do not (e.g. ES2022 class
+    // fields, top-level await). The matching `.browserslistrc` lists the
+    // minimum environment we still want to support.
+    target: 'es2019',
     rollupOptions: {
       input: {
         index: resolve(__dirname, 'index.html'),

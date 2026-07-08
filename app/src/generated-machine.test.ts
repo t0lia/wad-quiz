@@ -22,7 +22,7 @@ test('resolveEndingProfile maps score bands to archetypes', () => {
   const profile = resolveEndingProfile({ technical: 3, dedication: 3, social: 3 })
   assert.equal(profile.category, 'Sapphire')
   assert.equal(profile.archetype, 'Trusted Stabilizer')
-  assert.match(profile.reading, /Delivers the fix/)
+  assert.match(profile.reading, /rare talent of fixing the problem/)
 })
 
 test('formatEndingProfileLine combines category archetype and reading', () => {
@@ -31,6 +31,6 @@ test('formatEndingProfileLine combines category archetype and reading', () => {
     archetype: 'Developing Contributor',
     reading: 'Mixed signals dominate.',
   })
-  assert.equal(line, 'Amber: Developing Contributor — Mixed signals dominate.')
+  assert.equal(line, 'Developing Contributor — Mixed signals dominate.')
 })
 
