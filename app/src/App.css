@@ -929,18 +929,17 @@
 }
 
 .ending-banner {
-  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   max-width: 40rem;
-  margin: 0 0 12px;
-  padding: 14px 18px;
-  border: 2px solid var(--border);
-  border-radius: 10px;
-  background: #111;
-  color: #fff;
-  font-size: 18px;
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  border-radius: 25px;
   font-weight: 600;
+  color: #ffffff;
   text-align: center;
-  box-sizing: border-box;
+  background: #7c3aed;
 }
 
 .ending-profile {

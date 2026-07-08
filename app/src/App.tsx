@@ -132,8 +132,7 @@ function MachineApp({ snapshot }: { snapshot: unknown }) {
     return (
       <div className="ending fade-in">
         <div className="ending-banner" role="note">
-          {/* KIRILL_BANNER_TEXT — replace with final copy from Kirill */}
-          [PLACEHOLDER: ending banner text]
+          Show this screen at Deutsche Bank booth to collect your prize
         </div>
         <h2 className="scene-title ending-title">{scene?.title}</h2>
         <div
