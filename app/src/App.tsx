@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { Snapshot } from 'xstate'
 import { useMachine } from '@xstate/react'
 import { hydroMachine } from './machine1'
@@ -7,7 +7,6 @@ import { reportProgress } from './progress'
 import ChallengeScene from './scenes/ChallengeScene'
 import ProgressBar from './components/ProgressBar'
 import { formatEndingProfileLine, resolveEndingProfile, categoryBackground } from './storyLogic'
-import { trackEndingReached, trackLevelEnd, trackLevelStart, trackTutorialBegin, trackTutorialComplete } from './analytics'
 import './App.css'
 
 export { hydroMachine } from './machine1'
@@ -123,25 +122,6 @@ function MachineApp({ snapshot }: { snapshot: unknown }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state])
 
-  const prevGroupRef = useRef<string | null>(null)
-  useEffect(() => {
-    if (state.status === 'done') return
-    if (prevGroupRef.current === groupId) return
-    if (prevGroupRef.current === 'section_1') trackTutorialComplete()
-    if (prevGroupRef.current !== null) trackLevelEnd(prevGroupRef.current)
-    if (groupId === 'section_1') trackTutorialBegin()
-    trackLevelStart(groupId)
-    prevGroupRef.current = groupId
-  }, [state.status, groupId])
-
-  const endingTrackedRef = useRef<string | null>(null)
-  useEffect(() => {
-    if (state.status !== 'done' || !scene) return
-    if (endingTrackedRef.current === scene.id) return
-    endingTrackedRef.current = scene.id
-    trackEndingReached(scene.id, scene.title, state.context.score)
-  }, [state.status, scene, state.context.score])
-
   function reset() {
     localStorage.removeItem(STORAGE_KEY)
     location.reload()
@@ -156,15 +136,16 @@ function MachineApp({ snapshot }: { snapshot: unknown }) {
     const endingProfile = resolveEndingProfile(state.context.score)
     return (
       <div className="ending fade-in">
-        <p style={{ whiteSpace: 'pre-line', fontSize: 20, lineHeight: '160%' }}>
-          {scene?.text ?? 'The shift is over.'}
-        </p>
+        <h2 className="scene-title ending-title">{scene?.title}</h2>
         <div
           className="ending-profile"
           style={{ background: categoryBackground(endingProfile.category) }}
         >
           {formatEndingProfileLine(endingProfile)}
         </div>
+        <p style={{ whiteSpace: 'pre-line', fontSize: 20, lineHeight: '160%' }}>
+          {scene?.text ?? 'The shift is over.'}
+        </p>
         <button className="restart-btn" onClick={reset}>Play Again</button>
       </div>
     )
