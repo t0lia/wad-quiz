@@ -11,17 +11,32 @@ type Props = {
 export default function ProgressBar({ currentState, routeChoice }: Props) {
   // routeChoice intentionally ignored — order is now graph-derived.
   void routeChoice
-  const dotRef = useRef<HTMLDivElement>(null)
+  const fillRef = useRef<HTMLDivElement>(null)
+  const prevProgress = useRef<number | null>(null)
 
   const { idx, total, progress } = useMemo(
     () => resolveProgress(hydroMachine as unknown as MachineConfigLike, currentState),
     [currentState],
   )
 
+  // On every progress change (after the first mount), the bar briefly
+  // swells from its resting 2px to 4px and eases back down.
   useEffect(() => {
-    if (dotRef.current) {
-      dotRef.current.style.left = `${progress * 100}%`
+    const el = fillRef.current
+    if (!el) return
+    if (prevProgress.current === null) {
+      prevProgress.current = progress
+      return
     }
+    if (prevProgress.current === progress) return
+    prevProgress.current = progress
+    el.style.height = '4px'
+    el.style.marginTop = '0px'
+    const t = window.setTimeout(() => {
+      el.style.height = ''
+      el.style.marginTop = ''
+    }, 250)
+    return () => window.clearTimeout(t)
   }, [progress])
 
   return (
@@ -30,7 +45,7 @@ export default function ProgressBar({ currentState, routeChoice }: Props) {
         className="progress-bar__track"
         style={{ '--progress': progress } as React.CSSProperties}
       >
-        <div className="progress-bar__fill" />
+        <div ref={fillRef} className="progress-bar__fill" />
       </div>
     </div>
   )
