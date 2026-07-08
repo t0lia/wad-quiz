@@ -168,7 +168,7 @@ function MachineApp({ snapshot }: { snapshot: unknown }) {
             onClick={() => setShowBooth(false)}
           >
             <img
-              src="/show-me-on-the-booth.jpg"
+              src={`${import.meta.env.BASE_URL}show-me-on-the-booth.jpg?v=2`}
               alt="Show me on the booth"
               className="booth-overlay__image"
               onClick={(e) => e.stopPropagation()}
