@@ -11,17 +11,23 @@ type Props = {
 export default function ProgressBar({ currentState, routeChoice }: Props) {
   // routeChoice intentionally ignored — order is now graph-derived.
   void routeChoice
-  const dotRef = useRef<HTMLDivElement>(null)
+  const fillRef = useRef<HTMLDivElement>(null)
 
   const { idx, total, progress } = useMemo(
     () => resolveProgress(hydroMachine as unknown as MachineConfigLike, currentState),
     [currentState],
   )
 
+  // Pulse halo on the leading edge every time progress advances.
+  // CSS handles the rest; we only flip the class for the animation.
   useEffect(() => {
-    if (dotRef.current) {
-      dotRef.current.style.left = `${progress * 100}%`
-    }
+    const el = fillRef.current
+    if (!el) return
+    el.classList.remove('is-moving')
+    // Force a reflow so the animation restarts even on rapid consecutive
+    // progress changes that the browser would otherwise coalesce.
+    void el.offsetWidth
+    el.classList.add('is-moving')
   }, [progress])
 
   return (
@@ -30,7 +36,7 @@ export default function ProgressBar({ currentState, routeChoice }: Props) {
         className="progress-bar__track"
         style={{ '--progress': progress } as React.CSSProperties}
       >
-        <div className="progress-bar__fill" />
+        <div ref={fillRef} className="progress-bar__fill" />
       </div>
     </div>
   )
