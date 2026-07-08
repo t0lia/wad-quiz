@@ -85,22 +85,18 @@ export default function ChallengeScene({ scene, context, onComplete }: Props) {
   const first = segments[0].scene
 
   const renderImage = (imagePath: string) => {
-    // Convert .webp to .jpg for fallback
     const jpegPath = imagePath.replace(/\.webp$/, '.jpg')
     return (
-      <div style={{ backgroundColor: '#333', color: '#fff', padding: '20px', textAlign: 'center' as const }}>
-        <p>Image: {imagePath}</p>
-        <picture>
-          <source srcSet={withBase(imagePath)} type="image/webp" />
-          <img className="scene-image" src={withBase(jpegPath)} alt="" loading="lazy" decoding="async" />
-        </picture>
-      </div>
+      <picture>
+        <source srcSet={withBase(imagePath)} type="image/webp" />
+        <img className="scene-image" src={withBase(jpegPath)} alt="" loading="lazy" decoding="async" />
+      </picture>
     )
   }
 
   return (
     <div className="scene fade-in">
-      {first.image ? renderImage(first.image) : <div>No image</div>}
+      {first.image ? renderImage(first.image) : null}
       {first.title && <h2 className="scene-title">{first.title}</h2>}
 
       {segments.map((seg, i) =>
