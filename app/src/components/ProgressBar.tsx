@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react'
+import { useMemo } from 'react'
 import { hydroMachine } from '../machine1'
 import { resolveProgress, type MachineConfigLike } from './progressGraph'
 
@@ -11,18 +11,11 @@ type Props = {
 export default function ProgressBar({ currentState, routeChoice }: Props) {
   // routeChoice intentionally ignored — order is now graph-derived.
   void routeChoice
-  const dotRef = useRef<HTMLDivElement>(null)
 
   const { idx, total, progress } = useMemo(
     () => resolveProgress(hydroMachine as unknown as MachineConfigLike, currentState),
     [currentState],
   )
-
-  useEffect(() => {
-    if (dotRef.current) {
-      dotRef.current.style.left = `${progress * 100}%`
-    }
-  }, [progress])
 
   return (
     <div className="progress-bar" data-state={currentState} data-idx={idx} data-pages={total}>

@@ -62,7 +62,7 @@
   min-height: 52px;
   padding: 14px 24px;
   border: 1.5px solid var(--accent-border);
-  border-radius: 999px;
+  border-radius: 25px;
   background: transparent;
   color: var(--text-h);
   font: inherit;
@@ -95,7 +95,7 @@
   min-height: 52px;
   padding: 0 24px;
   border: 1.5px solid var(--accent);
-  border-radius: 999px;
+  border-radius: 25px;
   background: var(--accent);
   color: #fff;
   font: inherit;
@@ -131,7 +131,7 @@
   justify-content: center;
   background: transparent;
   border: 1.5px solid var(--accent);
-  border-radius: 999px;
+  border-radius: 25px;
   font: inherit;
   font-size: 15px;
   font-weight: 600;
@@ -935,7 +935,7 @@
   max-width: 40rem;
   padding: 12px 16px;
   border: 1px solid var(--border);
-  border-radius: 999px;
+  border-radius: 25px;
   font-weight: 600;
   color: #ffffff;
   text-align: center;
@@ -1081,43 +1081,32 @@
 .progress-bar {
   position: fixed;
   top: 0;
+  bottom: 0;
   left: 0;
-  right: 0;
-  height: 8px;
+  width: 8px;
+  height: 100vh;
   z-index: 100;
   pointer-events: none;
   display: flex;
-  align-items: center;
+  justify-content: center;
 }
 
 .progress-bar__track {
-  /* position: relative; */
-  left: 0;
-  right: 0;
-  height: 4px;
-  /* transparent border removed per request */
+  position: relative;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  height: 100%;
   background: transparent;
 }
 
 .progress-bar__fill {
   position: absolute;
-  left: 0;
   top: 0;
-  bottom: 0;
-  width: calc(var(--progress, 0) * 100%);
-  background: var(--accent);
-  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.progress-bar__dot {
-  position: absolute;
-  top: 50%;
   left: 0;
-  transform: translate(-50%, -50%);
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
+  right: 0;
+  height: calc(var(--progress, 0) * 100%);
   background: var(--accent);
-  box-shadow: 0 0 8px var(--accent);
-  transition: left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 2px;
+  transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
