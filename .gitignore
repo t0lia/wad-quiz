@@ -35,5 +35,7 @@ machine1_artifacts/
 # app/raw2/World/ IS tracked: it ships as a default seed so the build
 # works on a fresh clone. Kirill replaces it (or stages it as needed)
 # when new authoring drops happen.
-app/public/locations/
+#
+# NOTE: We track *.jpg files in locations/ as fallback for WebP incompatibility on some Android devices
+app/public/locations/*.webp
 app/src/machine1/
