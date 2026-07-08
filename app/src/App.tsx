@@ -146,7 +146,14 @@ function MachineApp({ snapshot }: { snapshot: unknown }) {
     )
   }
 
-  if (!scene) return null
+  if (!scene) return (
+    <div style={{ padding: '40px', backgroundColor: '#f0f', color: '#fff', textAlign: 'center' as const }}>
+      <h1>DEBUG: No scene loaded</h1>
+      <p>stateId: {stateId}</p>
+      <p>state.status: {state.status}</p>
+      <p>state.value: {JSON.stringify(state.value)}</p>
+    </div>
+  )
 
   return (
     <>
