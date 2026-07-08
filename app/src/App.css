@@ -945,6 +945,61 @@
   text-align: center;
 }
 
+/* ── ending actions (two buttons + "or") ───────────── */
+
+.ending-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.ending-actions__or {
+  font-size: 14px;
+  color: var(--text-muted, #888);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.ending-btn {
+  min-height: 44px;
+  padding: 0 20px;
+  width: 100%;
+  max-width: 360px;
+  border: 1px solid transparent;
+  border-radius: 25px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, opacity 0.15s;
+}
+
+.ending-btn--primary {
+  background: var(--button-bg, #d6d6d6);
+  color: var(--text, #1a1a1a);
+  border-color: var(--button-border, #b8b8b8);
+}
+
+.ending-btn--primary:hover {
+  opacity: 0.85;
+}
+
+.ending-btn--inactive {
+  background: #d43232;
+  color: #ffffff;
+  border-color: #b82222;
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.ending-btn--inactive:hover {
+  opacity: 0.55;
+}
+
 /* ────────────────────────────────────────────────────────────────────────── */
 /* Dialog for saved progress                                                  */
 /* ────────────────────────────────────────────────────────────────────────── */

@@ -141,7 +141,24 @@ function MachineApp({ snapshot }: { snapshot: unknown }) {
         <p style={{ whiteSpace: 'pre-line', fontSize: 20, lineHeight: '160%' }}>
           {scene?.text ?? 'The shift is over.'}
         </p>
-        <button className="restart-btn" onClick={reset}>Play Again</button>
+        <div className="ending-actions">
+          <button
+            type="button"
+            className="ending-btn ending-btn--inactive"
+            disabled
+            aria-disabled="true"
+          >
+            Show pdge on booth and take merch
+          </button>
+          <span className="ending-actions__or">or</span>
+          <button
+            type="button"
+            className="ending-btn ending-btn--primary"
+            onClick={reset}
+          >
+            Play again
+          </button>
+        </div>
       </div>
     )
   }
