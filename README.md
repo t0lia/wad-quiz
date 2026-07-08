@@ -33,26 +33,27 @@ cp -R app/dist/. backend/public/
 gcloud run deploy wad-quiz \
   --source=backend \
   --region="europe-west10" \
-  --project="studentsworkshop2026" \
+  --project="ai-students-workshop" \
   --allow-unauthenticated
 ```
 
-https://wad-quiz-615341894974.europe-west10.run.app
-https://wad-quiz-615341894974.europe-west10.run.app
+## URL
+  
+  https://wad-quiz-585578549491.europe-west10.run.app
 
 
 ```
 # 1. Create a Serverless Network Endpoint Group (NEG) for your service
 gcloud compute network-endpoint-groups create wad-quiz-neg \
   --region="europe-west10" \
-  --project="studentsworkshop2026" \
+  --project="ai-students-workshop" \
   --network-endpoint-type=serverless \
   --cloud-run-service="wad-quiz"
 
 # 2. Create a Global Backend Service with Cloud CDN activated
 gcloud compute backend-services create wad-quiz-cdn-backend \
   --global \
-  --project="studentsworkshop2026" \
+  --project="ai-students-workshop" \
   --load-balancing-scheme=EXTERNAL_MANAGED \
   --enable-cdn \
   --cache-mode=CACHE_ALL_STATIC \
@@ -61,23 +62,23 @@ gcloud compute backend-services create wad-quiz-cdn-backend \
 # 3. Connect your Cloud Run NEG to the CDN Backend Service
 gcloud compute backend-services add-backend wad-quiz-cdn-backend \
   --global \
-  --project="studentsworkshop2026" \
+  --project="ai-students-workshop" \
   --network-endpoint-group=wad-quiz-neg \
   --network-endpoint-group-region="europe-west10"
 
 # 4. Create a URL Map to route load balancer requests to your backend
 gcloud compute url-maps create wad-quiz-url-map \
-  --project="studentsworkshop2026" \
+  --project="ai-students-workshop" \
   --default-service=wad-quiz-cdn-backend
 
 # 5. Create an HTTP target proxy to handle traffic routing
 gcloud compute target-http-proxies create wad-quiz-http-proxy \
-  --project="studentsworkshop2026" \
+  --project="ai-students-workshop" \
   --url-map=wad-quiz-url-map
 
 # 6. Create a Global Forwarding Rule to get your new CDN public IP address
 gcloud compute forwarding-rules create wad-quiz-cdn-frontend \
-  --project="studentsworkshop2026" \
+  --project="ai-students-workshop" \
   --load-balancing-scheme=EXTERNAL_MANAGED \
   --network-tier=PREMIUM \
   --target-http-proxy=wad-quiz-http-proxy \
