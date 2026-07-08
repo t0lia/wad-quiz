@@ -106,6 +106,7 @@ export default function App() {
 
 function MachineApp({ snapshot }: { snapshot: unknown }) {
   const [rand] = useState(() => Math.random())
+  const [showBooth, setShowBooth] = useState(false)
   const [state, send, actor] = useMachine(hydroMachine, {
     // cast snapshot to xstate Snapshot type
     snapshot: snapshot as unknown as Snapshot<unknown>,
@@ -145,8 +146,7 @@ function MachineApp({ snapshot }: { snapshot: unknown }) {
           <button
             type="button"
             className="ending-btn ending-btn--inactive"
-            disabled
-            aria-disabled="true"
+            onClick={() => setShowBooth(true)}
           >
             Show pdge on booth and take merch
           </button>
@@ -159,6 +159,30 @@ function MachineApp({ snapshot }: { snapshot: unknown }) {
             Play again
           </button>
         </div>
+        {showBooth && (
+          <div
+            className="booth-overlay"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Show me on the booth"
+            onClick={() => setShowBooth(false)}
+          >
+            <img
+              src="/show-me-on-the-booth.jpg"
+              alt="Show me on the booth"
+              className="booth-overlay__image"
+              onClick={(e) => e.stopPropagation()}
+            />
+            <button
+              type="button"
+              className="booth-overlay__close"
+              onClick={() => setShowBooth(false)}
+              aria-label="Close"
+            >
+              ×
+            </button>
+          </div>
+        )}
       </div>
     )
   }
