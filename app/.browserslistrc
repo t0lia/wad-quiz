@@ -1,0 +1,15 @@
+# Floor for the deployed quiz game. This is the oldest environment we still
+# want first-class support for after the bundle-size audit: a Xiaomi Mi Note 3
+# running Android 9 reports Chrome 138, but the device is constrained enough
+# that we should not assume anything beyond ES2019 + HTTP fetch baseline.
+#
+# Modern Chrome (>= 90) covers everything below ES2020, so `defaults` alone is
+# too generous — it ships ES2022+ regex / class fields. We deliberately do NOT
+# include `last 2 versions` so that a contributor bumping Vite's default
+# `build.target` does not silently start emitting syntax older Chrome cannot
+# parse on Android 9 WebView-derived runtimes.
+last 2 Chrome versions
+last 2 Safari versions
+last 2 Samsung versions
+Android >= 9
+not dead
