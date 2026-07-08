@@ -49,90 +49,90 @@ archetypes:
       technical_skills: ">= 2.5"
     archetype: Trusted Stabilizer
     category: sapphire
-    reading: You land the fix, steady the team, and keep the whole machine classy under pressure.
+    reading: Alex has shown the rare talent of fixing the problem, calming the humans, and making the whole incident look almost professional.
   - when:
       dedication: ">= 0.75"
       social_capital: ">= 0.75"
       technical_skills: ">= 2.5"
     archetype: Controlled Expert
     category: teal
-    reading: You make sharp technical calls and still feel like the calmest person near the blinking lights.
+    reading: Alex turned out to be the kind of engineer who makes sharp technical calls while the blinking lights politely fail to cause a panic.
   - when:
       dedication: ">= 2.5"
       social_capital: ">= 0.75"
       technical_skills: ">= 0.75"
     archetype: Steady Executor
     category: teal
-    reading: You keep the work moving with steady hands, practical judgment, and just enough style.
+    reading: Alex has shown steady hands, practical judgment, and the suspicious ability to keep a bad night moving in the right direction.
   - when:
       dedication: ">= 0.75"
       social_capital: ">= 2.5"
       technical_skills: "-0.74..2.49"
     archetype: Team-First Operator
     category: teal
-    reading: You make the team stronger, keep trust high, and help everyone move in the same direction.
+    reading: Alex turned out to be the person who keeps the team together, the trust intact, and the incident from becoming a group hobby.
   - when:
       dedication: ">= 0.75"
       social_capital: ">= 0.75"
       technical_skills: ">= 0.75"
     archetype: Balanced Contributor
     category: green
-    reading: You are the engineer people relax around because everything important keeps quietly working.
+    reading: Alex has shown the comforting habit of making important things work quietly, which is about as close to glamour as operations usually gets.
   - when:
       dedication: ">= 2.5"
       social_capital: "-0.74..0.74"
       technical_skills: ">= 0.75"
     archetype: Relentless Fixer
     category: green
-    reading: You chase the fix with excellent stamina, and your next power-up is bringing even more people with you.
+    reading: Alex turned out to be wonderfully hard to stop once the fix was in sight, and the next upgrade is letting a few more people into the hero shot.
   - when:
       dedication: "-0.74..0.74"
       social_capital: ">= 0.75"
       technical_skills: ">= 2.5"
     archetype: Technical Specialist
     category: green
-    reading: You speak fluent incident, and the system usually starts behaving once you give it a stern look.
+    reading: Alex has shown a fluent command of technical chaos, and the system seems to behave better once it realizes it is being judged.
   - when:
       dedication: "-0.74..0.74"
       social_capital: "-0.74..0.74"
       technical_skills: ">= 0.75"
     archetype: Narrow Optimizer
     category: amber
-    reading: You can absolutely produce results, and your next upgrade is turning that one strong lane into a full highway.
+    reading: Alex turned out to be very capable in a strong lane, and the next step is widening that lane until it stops looking like a tactical side quest.
   - when:
       dedication: ">= 0.75"
       social_capital: "<= -0.75"
       technical_skills: ">= 0.75"
     archetype: Lone Rescuer
     category: amber
-    reading: You are wonderfully effective in a pinch, and your next level is letting the rescue feel as good as it works.
+    reading: Alex has shown a real talent for pulling off the rescue, and the next level is making it feel slightly less like everyone else was dragged behind it.
   - when:
       dedication: "<= -0.75"
       social_capital: ">= 0.75"
       technical_skills: "-0.74..0.74"
     archetype: Careful Deferrer
     category: amber
-    reading: You bring welcome care and good instincts, and your momentum is ready for a little extra engine power.
+    reading: Alex turned out to have good instincts and welcome caution, and the next boost is trusting that caution to move a little faster.
   - when:
       dedication: "<= -2.5"
       technical_skills: "<= -0.75"
     archetype: Control Breach Risk
     category: slate
-    reading: You are discovering just how exciting operations can get, and a bit more structure will turn that energy into wins.
+    reading: Alex has shown that operations can become exciting very quickly, and a little more structure would help keep the excitement in the optional category.
   - when:
       social_capital: "<= -2.5"
     archetype: Trust Erosion Risk
     category: slate
-    reading: You move fast enough to leave sparks, and your brightest next step is making the people around you feel just as supported as the system.
+    reading: Alex turned out to move fast enough to leave sparks, and the next win is making the people nearby feel as supported as the machinery eventually does.
   - when:
       dedication: "<= -0.75"
       social_capital: "<= -0.75"
       technical_skills: "<= -0.75"
     archetype: Unsteady Operator
     category: slate
-    reading: You are at the start of a very dramatic growth arc, and every future version of you gets sharper from here.
+    reading: Alex has shown the opening chapter of a very dramatic growth arc, which is a generous way of saying the sequel should go much better.
   - when:
       default: true
     archetype: Developing Contributor
     category: amber
-    reading: You have real promise, and a few more steady reps will make your strengths much louder than the noise.
+    reading: Alex turned out to have real promise, and a few more steady reps should make the strengths louder than the general operational nonsense.
