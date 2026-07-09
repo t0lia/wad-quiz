@@ -17,6 +17,10 @@ import type { Components } from 'react-markdown'
 
 type Props = {
   scene: ChallengeSceneData
+  // image/title live on the scene-group's intro state; pass it in so
+  // mid-scene resumes (e.g. reload restoring a conclusion snapshot) still
+  // render the location art and title. Falls back to `scene` if absent.
+  introScene?: ChallengeSceneData
   context: Record<string, unknown>
   onComplete: (answer?: string) => void
 }
@@ -60,7 +64,7 @@ function buildTaskIntro(scene: ChallengeSceneData, context: Record<string, unkno
   return parts.join('\n\n')
 }
 
-export default function ChallengeScene({ scene, context, onComplete }: Props) {
+export default function ChallengeScene({ scene, introScene, context, onComplete }: Props) {
   const [segments, setSegments] = useState<Segment[]>(() => [{ scene }])
   const bottomRef = useRef<HTMLDivElement>(null)
 
@@ -83,6 +87,13 @@ export default function ChallengeScene({ scene, context, onComplete }: Props) {
   }
 
   const first = segments[0].scene
+  // image/title come from the scene-group's intro node. If the current
+  // `scene` is mid-scene (e.g. a task or conclusion node restored from a
+  // reload snapshot) and lacks image/title, prefer the explicitly passed
+  // `introScene` so the layout doesn't render as a blank block.
+  const chrome: ChallengeSceneData = introScene ?? first
+  const chromeHasImage = !!chrome.image
+  const chromeHasTitle = !!chrome.title
 
   const renderImage = (imagePath: string) => {
     const jpegPath = imagePath.replace(/\.webp$/, '.jpg')
@@ -96,8 +107,8 @@ export default function ChallengeScene({ scene, context, onComplete }: Props) {
 
   return (
     <div className="scene fade-in">
-      {first.image ? renderImage(first.image) : null}
-      {first.title && <h2 className="scene-title">{first.title}</h2>}
+      {chromeHasImage ? renderImage(chrome.image!) : null}
+      {chromeHasTitle && <h2 className="scene-title">{chrome.title}</h2>}
 
       {segments.map((seg, i) =>
         i === segments.length - 1 ? (

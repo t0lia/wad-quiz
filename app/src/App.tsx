@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import type { Snapshot } from 'xstate'
 import { useMachine } from '@xstate/react'
-import { hydroMachine } from './machine1'
+import { hydroMachine, allMachineStates } from './machine1'
 import { sceneGroupId } from './machine/sceneGroup'
 import { reportProgress } from './progress'
 import ChallengeScene from './scenes/ChallengeScene'
@@ -114,6 +114,12 @@ function MachineApp({ snapshot }: { snapshot: unknown }) {
   const stateId = state.value as string
   const scene = Object.values(state.getMeta())[0]
   const groupId = sceneGroupId(stateId)
+  // image/title live on the scene-group's intro state, not on every node
+  // (conclusion/task nodes carry only text + task). On a reload that
+  // resumes mid-scene, `scene` is the current node and would be missing
+  // them — fall back to the intro meta so the layout still renders.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const introScene = (allMachineStates as any)[groupId]?.meta as typeof scene | undefined
 
   useEffect(() => {
     // persist snapshot whenever state changes
@@ -171,6 +177,7 @@ function MachineApp({ snapshot }: { snapshot: unknown }) {
       <ChallengeScene
         key={groupId}
         scene={scene}
+        introScene={introScene}
         context={state.context as Record<string, unknown>}
         onComplete={(answer) => send({ type: 'NEXT', answer, rand })}
       />
