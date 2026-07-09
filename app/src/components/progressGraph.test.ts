@@ -8,9 +8,8 @@ const machine = hydroMachine as unknown as MachineConfigLike
 test('buildSceneOrder starts at the configured initial state', () => {
   const order = buildSceneOrder(machine)
   assert.ok(order.length > 0, 'order should not be empty')
-  // initial state must be in the visited set, but only the visible
-  // ones are recorded into `order`; section_1 has meta, so it does.
-  assert.equal(order[0], 'section_1')
+  // socks world initial state is `intro`, which has meta, so it shows up first.
+  assert.equal(order[0], 'intro')
 })
 
 test('buildSceneOrder records every visible leaf exactly once', () => {
@@ -28,8 +27,8 @@ test('buildSceneOrder records every visible leaf exactly once', () => {
 })
 
 test('resolveProgress returns idx in [0, total-1]', () => {
-  const { total } = resolveProgress(machine, 'section_1')
-  for (const id of ['section_1', 'section_3', 'ending_3', 'section_10_debt_conclusion_clean']) {
+  const { total } = resolveProgress(machine, 'intro')
+  for (const id of ['intro', 'task_1', 'task_2_hot_streak', 'ending_111']) {
     const { idx, progress, total: t } = resolveProgress(machine, id)
     assert.ok(idx >= 0 && idx < t, `idx ${idx} for ${id} should be in [0, ${t})`)
     assert.ok(progress >= 0 && progress <= 1, `progress ${progress} should be in [0, 1]`)
@@ -40,7 +39,7 @@ test('resolveProgress returns idx in [0, total-1]', () => {
 test('progress is monotonically non-decreasing along a sample path', () => {
   const order = buildSceneOrder(machine)
   const indexOf = (id: string) => order.indexOf(id)
-  const path = ['section_1', 'section_2_standard_intro', 'section_3', 'ending_3']
+  const path = ['intro', 'task_1_intro', 'task_3_perfect_intro', 'ending_111'] // socks-world sample path
   let prev = -1
   for (const id of path) {
     const { idx } = resolveProgress(machine, id)

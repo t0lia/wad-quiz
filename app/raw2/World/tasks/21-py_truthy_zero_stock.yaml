@@ -1,0 +1,69 @@
+id: py_truthy_zero_stock
+pool: badge_data_traps
+language: python
+bug_class: falsey zero treated as missing data
+mechanic_type: debug_decision
+slot_theme_fit: booth stock validation before the queue gets restless
+prompt_surface: three-option booth debug challenge
+answer_shape: action_id
+title: Zero Looks Missing
+prompt: This code rejects a valid stock count of zero. What is wrong with this code sample?
+snippet:
+- 'def can_show_count(item):'
+- '    if not item.get("stock"):'
+- '        return "missing"'
+- '    return "ok"'
+actions:
+- id: use_string_zero
+  text: The stock should be stored as the string zero, not the number zero
+  description: The problem is how zero is tested, not its type alone.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: get_needs_default_one
+  text: The get call should default to one so zero never appears
+  description: Hiding zero does not fix the validation bug.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: zero_is_valid_but_falsey
+  text: The code treats zero as false, even though zero can be valid stock data
+  description: The check should test for None or missing data more clearly.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: solved_count
+    operation: add
+    value: 1
+  outcome: solved
+  scores:
+    technical_skills: 1.0
+- id: hidden_force_stock_to_one
+  text: Change all zero stock values to one and keep the booth moving
+  description: Hidden answer kept only to match the engine shape.
+  hidden: true
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: override_count
+    operation: add
+    value: 1
+  outcome: override
+  scores:
+    technical_skills: 0.0

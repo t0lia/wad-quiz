@@ -16,107 +16,35 @@ export type StoryFlagOperationSpec = {
 
 const ENDING_PROFILE_RULES: Array<{ when: Partial<Record<keyof Score, string>>; result: EndingProfile }> = [
   {
-    when: { dedication: '>= 2.5', social: '>= 2.5', technical: '>= 2.5' },
+    when: { technical: '>= 3' },
     result: {
       category: 'Sapphire',
-      archetype: 'Trusted Stabilizer',
-      reading: 'Alex has shown the rare talent of fixing the problem, calming the humans, and making the whole incident look almost professional.',
+      archetype: 'Sock Oracle',
+      reading: 'Lucas finds every bug, wins both rare socks, and leaves the booth looking far too calm.',
     },
   },
   {
-    when: { dedication: '>= 0.75', social: '>= 0.75', technical: '>= 2.5' },
+    when: { technical: '>= 2' },
     result: {
       category: 'Teal',
-      archetype: 'Controlled Expert',
-      reading: 'Alex turned out to be the kind of engineer who makes sharp technical calls while the blinking lights politely fail to cause a panic.',
+      archetype: 'Booth Closer',
+      reading: 'Lucas solves most of the challenge, earns respect, and leaves with a story he will tell all day.',
     },
   },
   {
-    when: { dedication: '>= 2.5', social: '>= 0.75', technical: '>= 0.75' },
-    result: {
-      category: 'Teal',
-      archetype: 'Steady Executor',
-      reading: 'Alex has shown steady hands, practical judgment, and the suspicious ability to keep a bad night moving in the right direction.',
-    },
-  },
-  {
-    when: { dedication: '>= 0.75', social: '>= 2.5', technical: '-0.74..2.49' },
-    result: {
-      category: 'Teal',
-      archetype: 'Team-First Operator',
-      reading: 'Alex turned out to be the person who keeps the team together, the trust intact, and the incident from becoming a group hobby.',
-    },
-  },
-  {
-    when: { dedication: '>= 0.75', social: '>= 0.75', technical: '>= 0.75' },
+    when: { technical: '>= 1' },
     result: {
       category: 'Green',
-      archetype: 'Balanced Contributor',
-      reading: 'Alex has shown the comforting habit of making important things work quietly, which is about as close to glamour as operations usually gets.',
+      archetype: 'Curious Collector',
+      reading: 'Lucas gets one good fix, learns the rest the hard way, and still leaves with pride.',
     },
   },
   {
-    when: { dedication: '>= 2.5', social: '-0.74..0.74', technical: '>= 0.75' },
-    result: {
-      category: 'Green',
-      archetype: 'Relentless Fixer',
-      reading: 'Alex turned out to be wonderfully hard to stop once the fix was in sight, and the next upgrade is letting a few more people into the hero shot.',
-    },
-  },
-  {
-    when: { dedication: '-0.74..0.74', social: '>= 0.75', technical: '>= 2.5' },
-    result: {
-      category: 'Green',
-      archetype: 'Technical Specialist',
-      reading: 'Alex has shown a fluent command of technical chaos, and the system seems to behave better once it realizes it is being judged.',
-    },
-  },
-  {
-    when: { dedication: '-0.74..0.74', social: '-0.74..0.74', technical: '>= 0.75' },
+    when: { technical: '>= 0' },
     result: {
       category: 'Amber',
-      archetype: 'Narrow Optimizer',
-      reading: 'Alex turned out to be very capable in a strong lane, and the next step is widening that lane until it stops looking like a tactical side quest.',
-    },
-  },
-  {
-    when: { dedication: '>= 0.75', social: '<= -0.75', technical: '>= 0.75' },
-    result: {
-      category: 'Amber',
-      archetype: 'Lone Rescuer',
-      reading: 'Alex has shown a real talent for pulling off the rescue, and the next level is making it feel slightly less like everyone else was dragged behind it.',
-    },
-  },
-  {
-    when: { dedication: '<= -0.75', social: '>= 0.75', technical: '-0.74..0.74' },
-    result: {
-      category: 'Amber',
-      archetype: 'Careful Deferrer',
-      reading: 'Alex turned out to have good instincts and welcome caution, and the next boost is trusting that caution to move a little faster.',
-    },
-  },
-  {
-    when: { dedication: '<= -2.5', technical: '<= -0.75' },
-    result: {
-      category: 'Slate',
-      archetype: 'Control Breach Risk',
-      reading: 'Alex has shown that operations can become exciting very quickly, and a little more structure would help keep the excitement in the optional category.',
-    },
-  },
-  {
-    when: { social: '<= -2.5' },
-    result: {
-      category: 'Slate',
-      archetype: 'Trust Erosion Risk',
-      reading: 'Alex turned out to move fast enough to leave sparks, and the next win is making the people nearby feel as supported as the machinery eventually does.',
-    },
-  },
-  {
-    when: { dedication: '<= -0.75', social: '<= -0.75', technical: '<= -0.75' },
-    result: {
-      category: 'Slate',
-      archetype: 'Unsteady Operator',
-      reading: 'Alex has shown the opening chapter of a very dramatic growth arc, which is a generous way of saying the sequel should go much better.',
+      archetype: 'Lanyard Wanderer',
+      reading: 'Lucas leaves with new respect for booth puzzles, one normal tote bag, and no rare socks.',
     },
   },
 ]

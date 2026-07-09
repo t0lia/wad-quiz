@@ -1,0 +1,68 @@
+id: py_missing_lock_cache
+pool: booth_queue_faults
+language: python
+bug_class: shared cache changed without lock
+mechanic_type: debug_decision
+slot_theme_fit: booth startup work under queue pressure
+prompt_surface: three-option booth debug challenge
+answer_shape: action_id
+title: Cache With No Lock
+prompt: This code changes a shared scanner cache from many threads. What is wrong with this code sample?
+snippet:
+- 'def cache_result(shared, key, value):'
+- '    if key not in shared:'
+- '        shared[key] = value'
+actions:
+- id: use_list_for_cache
+  text: The cache should be a list because lists are safer in threads
+  description: The type is not the main issue here.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: missing_lock_or_atomic_op
+  text: The shared cache is changed without a lock or atomic step, so threads can race here
+  description: The read and write happen without protection.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: solved_count
+    operation: add
+    value: 1
+  outcome: solved
+  scores:
+    technical_skills: 1.0
+- id: rename_shared_to_cache
+  text: The variable should be renamed so other threads understand it better
+  description: A better name does not fix the race.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: hidden_allow_overwrite
+  text: Let all threads overwrite the value and hope the last one is right
+  description: Hidden answer kept only to match the engine shape.
+  hidden: true
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: override_count
+    operation: add
+    value: 1
+  outcome: override
+  scores:
+    technical_skills: 0.0

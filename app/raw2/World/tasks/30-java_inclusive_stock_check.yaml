@@ -1,0 +1,68 @@
+id: java_inclusive_stock_check
+pool: badge_data_traps
+language: java
+bug_class: wrong inclusive boundary check
+mechanic_type: debug_decision
+slot_theme_fit: booth stock validation before the queue gets restless
+prompt_surface: three-option booth debug challenge
+answer_shape: action_id
+title: Last Item Lost
+prompt: This code rejects the last available prize item. What is wrong with this code sample?
+snippet:
+- boolean canReserve(int stock) {
+- '  return stock > 1;'
+- '}'
+actions:
+- id: stock_should_be_float
+  text: The stock should be float so one item is handled more gently
+  description: The issue is the boundary check, not the number type.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: reserve_method_should_be_void
+  text: The method should be void because booleans are too simple for stock checks
+  description: The return type is not the bug.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: wrong_inclusive_boundary
+  text: The check uses the wrong boundary, so stock of one is rejected by mistake
+  description: One item left should still be reservable.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: solved_count
+    operation: add
+    value: 1
+  outcome: solved
+  scores:
+    technical_skills: 1.0
+- id: hidden_negative_stock_ok
+  text: Allow negative stock too and trust the booth spirit
+  description: Hidden answer kept only to match the engine shape.
+  hidden: true
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: override_count
+    operation: add
+    value: 1
+  outcome: override
+  scores:
+    technical_skills: 0.0

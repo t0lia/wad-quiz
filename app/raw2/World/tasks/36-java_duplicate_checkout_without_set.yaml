@@ -1,0 +1,70 @@
+id: java_duplicate_checkout_without_set
+pool: finale_checkout_failures
+language: java
+bug_class: duplicate detection done after side effect
+mechanic_type: debug_decision
+slot_theme_fit: prize desk totals under closing pressure
+prompt_surface: three-option booth debug challenge
+answer_shape: action_id
+title: Checked Out Twice
+prompt: This code can hand out the same prize twice. What is wrong with this code sample?
+snippet:
+- void givePrize(String id) {
+- '  handedOut.add(id);'
+- '  if (handedOut.contains(id)) return;'
+- '  printSlip(id);'
+- '}'
+actions:
+- id: duplicate_check_after_add
+  text: The duplicate check happens after the id is already added, so the logic is wrong
+  description: The state changes before the duplicate test.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: solved_count
+    operation: add
+    value: 1
+  outcome: solved
+  scores:
+    technical_skills: 1.0
+- id: handedout_should_be_array
+  text: The handedOut collection should be an array because add works faster there
+  description: The bug is the order of operations, not the container speed.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: print_before_check
+  text: The slip should print before any duplicate check so the desk stays fast
+  description: That makes the side effect happen even earlier.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: hidden_allow_second_prize
+  text: Allow the second prize too and call it customer delight
+  description: Hidden answer kept only to match the engine shape.
+  hidden: true
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: override_count
+    operation: add
+    value: 1
+  outcome: override
+  scores:
+    technical_skills: 0.0

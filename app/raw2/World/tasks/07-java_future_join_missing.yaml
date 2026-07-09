@@ -1,0 +1,71 @@
+id: java_future_join_missing
+pool: booth_queue_faults
+language: java
+bug_class: future result used before completion
+mechanic_type: debug_decision
+slot_theme_fit: booth startup work under queue pressure
+prompt_surface: three-option booth debug challenge
+answer_shape: action_id
+title: Result Too Early
+prompt: This code reads the scanner result before the background task is done. What is wrong with this code sample?
+snippet:
+- void loadScanner() {
+- '  Future<Status> future = pool.submit(this::bootScanner);'
+- '  if (future.getNow(Status.FAIL).ok()) {'
+- '    kiosk.showReady();'
+- '  }'
+- '}'
+actions:
+- id: move_show_ready_elsewhere
+  text: Move kiosk.showReady into another method
+  description: Moving the line does not wait for the task to finish.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: make_future_static
+  text: Make the Future static so all threads can see it
+  description: Sharing the same Future does not fix early use of its result.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: wait_for_future_result
+  text: The code uses the Future result too early and must wait for completion first
+  description: The scanner should be marked ready only after the task really finishes.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: solved_count
+    operation: add
+    value: 1
+  outcome: solved
+  scores:
+    technical_skills: 1.0
+- id: hidden_force_ready_screen
+  text: Show ready at once and hope the scanner catches up
+  description: Hidden answer kept only to match the engine shape.
+  hidden: true
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: override_count
+    operation: add
+    value: 1
+  outcome: override
+  scores:
+    technical_skills: 0.0

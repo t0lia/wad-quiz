@@ -1,0 +1,71 @@
+id: java_iterator_skip_next
+pool: finale_checkout_failures
+language: java
+bug_class: iterator advanced twice in one loop
+mechanic_type: debug_decision
+slot_theme_fit: prize desk cleanup under closing pressure
+prompt_surface: three-option booth debug challenge
+answer_shape: action_id
+title: Skipping Items By Accident
+prompt: This cleanup code skips some items in the prize list. What is wrong with this code sample?
+snippet:
+- void clean(Iterator<String> it) {
+- '  while (it.hasNext()) {'
+- '    String sock = it.next();'
+- '    if (sock.endsWith("-demo")) it.next();'
+- '  }'
+- '}'
+actions:
+- id: iterator_advanced_twice
+  text: The iterator moves forward twice, so one item can be skipped by mistake
+  description: The loop consumes an extra item inside the condition.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: solved_count
+    operation: add
+    value: 1
+  outcome: solved
+  scores:
+    technical_skills: 1.0
+- id: endswith_should_be_contains
+  text: The code should use contains instead of endsWith for demo items
+  description: The extra next call is the real issue.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: iterator_should_be_list
+  text: The iterator should be replaced with a List because lists cannot skip items
+  description: The bug is in how the iterator is used.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: hidden_remove_demo_suffix
+  text: Keep all items and just strip the demo suffix from the text
+  description: Hidden answer kept only to match the engine shape.
+  hidden: true
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: override_count
+    operation: add
+    value: 1
+  outcome: override
+  scores:
+    technical_skills: 0.0

@@ -1,131 +1,51 @@
 format: StageNavigationV1
-source_world: hydroworld
-start_stage: section_1
+source_world: socks
+start_stage: intro
 stages:
-- id: section_1
+- id: intro
   next_by_action:
-    choose_standard: section_2_standard
-    choose_unsigned: section_2_unsigned
-- id: section_2_standard
+    start_hunt: task_1
+- id: task_1
   next_by_outcome:
-    incorrect: section_3
-    solved: section_3
-    override: section_3
-- id: section_2_unsigned
+    incorrect: task_2_recovery
+    solved: task_2_hot_streak
+    override: task_2_recovery
+- id: task_2_hot_streak
   next_by_outcome:
-    incorrect: section_3
-    solved: section_3
-    override: section_3
-- id: section_3
-  next_by_action:
-    take_cargo_route: section_4_cargo
-    take_medical_route: section_4_medical
-- id: section_4_cargo
+    incorrect: task_3_split_from_hot
+    solved: task_3_perfect
+    override: task_3_split_from_hot
+- id: task_2_recovery
   next_by_outcome:
-    incorrect: section_5_cargo_fallout
-    solved: section_5_cargo
-    override: section_5_cargo_fallout
-- id: section_5_cargo
-  next_by_action:
-    patch_drone: section_6_cargo
-    override_drone: section_6_cargo
-- id: section_5_cargo_fallout
-  next_by_action:
-    patch_drone: section_6_cargo
-    override_drone: section_6_cargo
-- id: section_6_cargo
+    incorrect: task_3_last_chance
+    solved: task_3_split_from_recovery
+    override: task_3_last_chance
+- id: task_3_perfect
   next_by_outcome:
-    incorrect: section_7
-    solved: section_7
-    override: section_7
-- id: section_4_medical
+    incorrect: ending_110
+    solved: ending_111
+    override: ending_110
+- id: task_3_split_from_hot
   next_by_outcome:
-    incorrect: section_5_medical_fallout
-    solved: section_5_medical
-    override: section_5_medical_fallout
-- id: section_5_medical
-  next_by_action:
-    patch_drone: section_6_medical
-    override_drone: section_6_medical
-- id: section_5_medical_fallout
-  next_by_action:
-    patch_drone: section_6_medical
-    override_drone: section_6_medical
-- id: section_6_medical
+    incorrect: ending_100
+    solved: ending_101
+    override: ending_100
+- id: task_3_split_from_recovery
   next_by_outcome:
-    incorrect: section_7
-    solved: section_7
-    override: section_7
-- id: section_7
-  next_by_action:
-    team_eva:
-    - if: route_cargo >= 1
-      value: section_7_exit_cargo
-    - else: section_7_exit_medical
-    solo_eva:
-    - if: route_cargo >= 1
-      value: section_7_exit_cargo
-    - else: section_7_exit_medical
-- id: section_7_exit_cargo
-  next_by_action:
-    stop_after_7: ending_1
-    continue_after_7:
-    - if: debt_count >= 2
-      value: section_8_debt
-    - else: section_8_clean
-- id: section_7_exit_medical
-  next_by_action:
-    stop_after_7: ending_1
-    continue_after_7:
-    - if: debt_count >= 2
-      value: section_8_debt
-    - else: section_8_clean
-- id: section_8_clean
+    incorrect: ending_010
+    solved: ending_011
+    override: ending_010
+- id: task_3_last_chance
   next_by_outcome:
-    incorrect: section_8_exit_clean
-    solved: section_8_exit_clean
-    override: section_8_exit_clean
-- id: section_8_debt
-  next_by_outcome:
-    incorrect: section_8_exit_debt
-    solved: section_8_exit_debt
-    override: section_8_exit_debt
-- id: section_8_exit_clean
-  next_by_action:
-    stop_after_8: ending_2
-    continue_after_8: section_9
-- id: section_8_exit_debt
-  next_by_action:
-    stop_after_8: ending_2
-    continue_after_8: section_9
-- id: section_9
-  next_by_action:
-    hot_swap: section_9_exit
-    full_drain: section_9_exit
-- id: section_9_exit
-  next_by_action:
-    stop_after_9: ending_3
-    continue_after_9:
-    - if: debt_count >= 2
-      value: section_10_debt
-    - else: section_10_clean
-- id: section_10_clean
-  next_by_outcome:
-    incorrect: section_10_exit
-    solved: section_10_exit
-    override: section_10_exit
-- id: section_10_debt
-  next_by_outcome:
-    incorrect: section_10_exit
-    solved: section_10_exit
-    override: section_10_exit
-- id: section_10_exit
-  next_by_action:
-    stop_after_10: ending_4
-    continue_after_10: ending_5
+    incorrect: ending_000
+    solved: ending_001
+    override: ending_000
 terminal_stages:
-- ending_1
-- ending_2
-- ending_3
-- ending_4
-- ending_5
+- ending_111
+- ending_110
+- ending_101
+- ending_100
+- ending_011
+- ending_010
+- ending_001
+- ending_000

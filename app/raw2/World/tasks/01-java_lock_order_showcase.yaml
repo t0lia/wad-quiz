@@ -1,0 +1,69 @@
+id: java_lock_order_showcase
+pool: booth_queue_faults
+language: java
+bug_class: inconsistent lock order deadlock
+mechanic_type: debug_decision
+slot_theme_fit: booth tablet sync under queue pressure
+prompt_surface: three-option booth debug challenge
+answer_shape: action_id
+title: Opposite Lock Order
+prompt: This code sometimes freezes both booth scanners during check-in. What is wrong with this code sample?
+snippet:
+- class BoothSync {
+- '  void syncLeft() { synchronized (leftSock) { synchronized (rightSock) { refresh(); } } }'
+- '  void syncRight() { synchronized (rightSock) { synchronized (leftSock) { refresh(); } } }'
+- '}'
+actions:
+- id: lock_order_inversion
+  text: The two methods lock the same objects in different order, so two threads can deadlock
+  description: Both methods use the same locks, but the order is reversed.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: solved_count
+    operation: add
+    value: 1
+  outcome: solved
+  scores:
+    technical_skills: 1.0
+- id: ui_refresh_too_slow
+  text: The refresh call is too slow, and that is the real problem
+  description: This blames screen speed instead of the lock problem.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: add_volatile_to_locks
+  text: The locks need volatile so other threads can see them better
+  description: Volatile does not fix this deadlock.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: hidden_force_unlock
+  text: Force one scanner to move and hope the line keeps going
+  description: Hidden answer kept only to match the engine shape.
+  hidden: true
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: override_count
+    operation: add
+    value: 1
+  outcome: override
+  scores:
+    technical_skills: 0.0

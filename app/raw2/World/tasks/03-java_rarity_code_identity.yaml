@@ -1,0 +1,68 @@
+id: java_rarity_code_identity
+pool: badge_data_traps
+language: java
+bug_class: string identity comparison
+mechanic_type: debug_decision
+slot_theme_fit: badge rarity check at the booth
+prompt_surface: three-option booth debug challenge
+answer_shape: action_id
+title: Legendary by Reference
+prompt: This code rejects some valid legendary entries even when the text looks correct. What is wrong with this code sample?
+snippet:
+- boolean allowPrize(SockEntry sock) {
+- '    return sock.getRarityCode() == "LEGENDARY";'
+- '}'
+actions:
+- id: use_trim_first
+  text: The code must trim the string before comparing it
+  description: Trimming may help, but it does not explain this comparison bug.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: compare_ignore_case_only
+  text: The check fails because it must always use equalsIgnoreCase
+  description: Case may matter, but that is not the main bug here.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: use_equals_for_content
+  text: The code uses == for String text, so it compares objects, not text
+  description: Java String text checks should use equals.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: solved_count
+    operation: add
+    value: 1
+  outcome: solved
+  scores:
+    technical_skills: 1.0
+- id: hidden_manual_whitelist
+  text: Hardcode this attendee into the legendary list and move on
+  description: Hidden answer kept only to match the engine shape.
+  hidden: true
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: override_count
+    operation: add
+    value: 1
+  outcome: override
+  scores:
+    technical_skills: 0.0

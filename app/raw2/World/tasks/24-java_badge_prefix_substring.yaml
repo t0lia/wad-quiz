@@ -1,0 +1,68 @@
+id: java_badge_prefix_substring
+pool: badge_data_traps
+language: java
+bug_class: substring index used without length guard
+mechanic_type: debug_decision
+slot_theme_fit: booth input validation before the queue gets restless
+prompt_surface: three-option booth debug challenge
+answer_shape: action_id
+title: Prefix From A Short String
+prompt: This code can crash on short badge ids. What is wrong with this code sample?
+snippet:
+- boolean dbBadge(String badgeId) {
+- '  return badgeId.substring(0, 3).equals("DB-");'
+- '}'
+actions:
+- id: use_lowercase_prefix
+  text: The prefix should be db- in lowercase
+  description: Letter case is not the main crash risk here.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: trim_badgeid_first
+  text: The badge id should be trimmed before the substring call
+  description: Trimming does not protect against short strings.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: substring_without_length_check
+  text: The code takes a substring without checking the badge id length first
+  description: Short values can fail before the comparison happens.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: solved_count
+    operation: add
+    value: 1
+  outcome: solved
+  scores:
+    technical_skills: 1.0
+- id: hidden_pad_all_ids
+  text: Pad every short id with extra letters and keep going
+  description: Hidden answer kept only to match the engine shape.
+  hidden: true
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: override_count
+    operation: add
+    value: 1
+  outcome: override
+  scores:
+    technical_skills: 0.0

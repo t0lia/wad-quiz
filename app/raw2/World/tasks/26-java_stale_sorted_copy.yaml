@@ -1,0 +1,70 @@
+id: java_stale_sorted_copy
+pool: badge_data_traps
+language: java
+bug_class: sorted copy created but ignored
+mechanic_type: debug_decision
+slot_theme_fit: booth input validation before the queue gets restless
+prompt_surface: three-option booth debug challenge
+answer_shape: action_id
+title: Sorted And Forgotten
+prompt: This code sorts a copy of the ids but then validates the old list. What is wrong with this code sample?
+snippet:
+- boolean ordered(List<String> ids) {
+- '  List<String> sorted = new ArrayList<>(ids);'
+- '  Collections.sort(sorted);'
+- '  return ids.equals(EXPECTED);'
+- '}'
+actions:
+- id: sorted_copy_not_used
+  text: The code sorts a copy but still compares the original list
+  description: The sorted result is created and then ignored.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: solved_count
+    operation: add
+    value: 1
+  outcome: solved
+  scores:
+    technical_skills: 1.0
+- id: sort_should_be_reverse
+  text: The list should be sorted in reverse order instead
+  description: The issue is not which order is used, but which list is checked.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: expected_should_be_set
+  text: EXPECTED should be a Set so list order stops mattering
+  description: Changing the data type avoids the question but misses the bug.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: hidden_trust_original_order
+  text: Trust the original order and stop sorting anything
+  description: Hidden answer kept only to match the engine shape.
+  hidden: true
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: override_count
+    operation: add
+    value: 1
+  outcome: override
+  scores:
+    technical_skills: 0.0

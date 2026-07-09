@@ -1,0 +1,68 @@
+id: java_badge_null_order
+pool: finale_checkout_failures
+language: java
+bug_class: null check after dereference
+mechanic_type: debug_decision
+slot_theme_fit: fast-lane prize check at the end
+prompt_surface: three-option booth debug challenge
+answer_shape: action_id
+title: Null Check Too Late
+prompt: This fast-lane check sometimes throws before it can reject the badge. What is wrong with this code sample?
+snippet:
+- boolean allowFastLane(Badge badge) {
+- '    return badge.getTier().equals("VIP") && badge != null;'
+- '}'
+actions:
+- id: use_parallel_stream
+  text: The check should run in parallel because badge validation is too slow
+  description: Speed is not the reason this code throws.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: null_check_must_happen_first
+  text: The code uses badge before checking for null, so the null check is in the wrong place
+  description: The object must be checked before calling getTier.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: solved_count
+    operation: add
+    value: 1
+  outcome: solved
+  scores:
+    technical_skills: 1.0
+- id: equals_should_be_double_equals
+  text: The equals call is wrong because Java strings should use ==
+  description: This says the opposite of the real Java String rule.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: hidden_skip_badge_validation
+  text: Treat null badges as VIP and continue
+  description: Hidden answer kept only to match the engine shape.
+  hidden: true
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: override_count
+    operation: add
+    value: 1
+  outcome: override
+  scores:
+    technical_skills: 0.0

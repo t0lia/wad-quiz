@@ -1,0 +1,68 @@
+id: py_shared_default_batch
+pool: booth_queue_faults
+language: python
+bug_class: mutable default argument reused across calls
+mechanic_type: debug_decision
+slot_theme_fit: booth startup work under queue pressure
+prompt_surface: three-option booth debug challenge
+answer_shape: action_id
+title: Shared Retry List
+prompt: This code keeps old scanner ids between calls. What is wrong with this code sample?
+snippet:
+- 'def collect_failed(scanner_id, failed=[]):'
+- '    failed.append(scanner_id)'
+- '    return failed'
+actions:
+- id: mutable_default_reused
+  text: The default list is shared between calls, so old values stay there
+  description: A new list should be created inside the function.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: solved_count
+    operation: add
+    value: 1
+  outcome: solved
+  scores:
+    technical_skills: 1.0
+- id: scanner_id_should_be_global
+  text: The scanner id should be global so the list can stay clean
+  description: Making the id global does not fix the shared default list.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: append_should_be_extend
+  text: The code should use extend instead of append for one scanner id
+  description: extend is not the real issue here.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: hidden_clear_list_each_call
+  text: Clear the list at the start and pretend that is a good design
+  description: Hidden answer kept only to match the engine shape.
+  hidden: true
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: override_count
+    operation: add
+    value: 1
+  outcome: override
+  scores:
+    technical_skills: 0.0

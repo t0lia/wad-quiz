@@ -1,0 +1,69 @@
+id: java_local_copy_not_written_back
+pool: finale_checkout_failures
+language: java
+bug_class: local copy changed but model not updated
+mechanic_type: debug_decision
+slot_theme_fit: prize desk totals under closing pressure
+prompt_surface: three-option booth debug challenge
+answer_shape: action_id
+title: Changed The Copy, Not The Order
+prompt: This code updates a local copy but not the real order object. What is wrong with this code sample?
+snippet:
+- void markPaid(Order order) {
+- '  boolean paid = order.paid;'
+- '  paid = true;'
+- '}'
+actions:
+- id: local_flag_not_written_back
+  text: The local variable changes, but order.paid is never updated
+  description: The real order object stays unchanged.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: solved_count
+    operation: add
+    value: 1
+  outcome: solved
+  scores:
+    technical_skills: 1.0
+- id: paid_should_be_string
+  text: The paid field should be a string for receipt systems
+  description: The bug is the missing write back to the order.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: order_should_be_final
+  text: The order parameter should be final so the local value becomes real
+  description: final does not copy a local change back into the object.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: hidden_assume_paid_elsewhere
+  text: Assume another service marked it paid and stop checking here
+  description: Hidden answer kept only to match the engine shape.
+  hidden: true
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: override_count
+    operation: add
+    value: 1
+  outcome: override
+  scores:
+    technical_skills: 0.0

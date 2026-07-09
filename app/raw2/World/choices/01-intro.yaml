@@ -1,0 +1,14 @@
+id: intro
+kind: branch_choice
+title: Enter the DB Booth
+prompt: Lucas has found the booth tablet, and three engineers are already waiting. Tap when you are ready for the first question.
+actions:
+- id: start_hunt
+  text: Start the sock hunt
+  description: Step up to the booth and accept the three-question debug challenge.
+  conclusion: Lucas puts his hands on the tablet stand. The booth app opens the first question.
+  flag_modifications: []
+  scores:
+    technical_skills: 0.0
+    dedication: 0.0
+    social_capital: 0.0

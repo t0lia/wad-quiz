@@ -1,0 +1,70 @@
+id: java_executor_shutdown_early
+pool: booth_queue_faults
+language: java
+bug_class: executor shut down before queued work finishes
+mechanic_type: debug_decision
+slot_theme_fit: booth startup work under queue pressure
+prompt_surface: three-option booth debug challenge
+answer_shape: action_id
+title: Pool Closed Too Soon
+prompt: This code shuts down the thread pool before startup work is finished. What is wrong with this code sample?
+snippet:
+- void bootAll() {
+- '  pool.submit(this::bootScanner);'
+- '  pool.submit(this::bootPrinter);'
+- '  pool.shutdownNow();'
+- '}'
+actions:
+- id: boot_methods_should_be_static
+  text: The boot methods should be static before they run in a pool
+  description: Static methods do not solve the early shutdown.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: pool_needs_more_threads
+  text: The pool just needs more threads so shutdownNow is safe
+  description: More threads do not make forced shutdown safe.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: shutdown_happens_too_early
+  text: The pool is shut down too early, so queued startup work can be interrupted
+  description: Shutdown must happen after the startup tasks finish.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: solved_count
+    operation: add
+    value: 1
+  outcome: solved
+  scores:
+    technical_skills: 1.0
+- id: hidden_run_without_pool
+  text: Remove the pool and hope the main thread is fast enough
+  description: Hidden answer kept only to match the engine shape.
+  hidden: true
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: override_count
+    operation: add
+    value: 1
+  outcome: override
+  scores:
+    technical_skills: 0.0

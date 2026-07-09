@@ -1,0 +1,67 @@
+id: py_none_membership_check
+pool: finale_checkout_failures
+language: python
+bug_class: membership test on possible None
+mechanic_type: debug_decision
+slot_theme_fit: prize desk cleanup under closing pressure
+prompt_surface: three-option booth debug challenge
+answer_shape: action_id
+title: None Is Not A List
+prompt: This code can crash when the prize tags are missing. What is wrong with this code sample?
+snippet:
+- 'def is_demo(item):'
+- '    return "demo" in item.get("tags")'
+actions:
+- id: use_startswith_demo
+  text: The code should use startswith instead of in for demo tags
+  description: The main problem is the missing tags value.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: membership_on_possible_none
+  text: The code checks membership on a value that may be None, so it can fail
+  description: Missing tags need a safe default or a guard first.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: solved_count
+    operation: add
+    value: 1
+  outcome: solved
+  scores:
+    technical_skills: 1.0
+- id: tags_should_be_tuple
+  text: The tags should be a tuple so membership checks become safer
+  description: A tuple does not fix missing tags.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: hidden_assume_no_tags_is_demo
+  text: Treat missing tags as demo items and keep moving
+  description: Hidden answer kept only to match the engine shape.
+  hidden: true
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: override_count
+    operation: add
+    value: 1
+  outcome: override
+  scores:
+    technical_skills: 0.0

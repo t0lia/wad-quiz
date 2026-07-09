@@ -19,10 +19,10 @@ test('generated machine1 output exists', () => {
 })
 
 test('resolveEndingProfile maps score bands to archetypes', () => {
-  const profile = resolveEndingProfile({ technical: 3, dedication: 3, social: 3 })
+  const profile = resolveEndingProfile({ technical: 3, dedication: 0, social: 0 })
   assert.equal(profile.category, 'Sapphire')
-  assert.equal(profile.archetype, 'Trusted Stabilizer')
-  assert.match(profile.reading, /rare talent of fixing the problem/)
+  assert.equal(profile.archetype, 'Sock Oracle')
+  assert.match(profile.reading, /Lucas finds every bug/)
 })
 
 test('formatEndingProfileLine combines category archetype and reading', () => {

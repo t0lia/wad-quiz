@@ -1,0 +1,70 @@
+id: java_reused_mutable_request
+pool: booth_queue_faults
+language: java
+bug_class: same mutable request reused across async tasks
+mechanic_type: debug_decision
+slot_theme_fit: booth startup work under queue pressure
+prompt_surface: three-option booth debug challenge
+answer_shape: action_id
+title: One Request, Two Tasks
+prompt: This code sends the wrong scanner id to one of the async tasks. What is wrong with this code sample?
+snippet:
+- void bootBoth() {
+- '  Request req = new Request();'
+- '  req.id = "left"; pool.submit(() -> boot(req));'
+- '  req.id = "right"; pool.submit(() -> boot(req));'
+- '}'
+actions:
+- id: request_should_be_static
+  text: The Request object should be static so both tasks read it safely
+  description: Static does not make shared mutable state safe.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: submit_order_is_wrong
+  text: The submit calls are just in the wrong order
+  description: Reordering does not fix reuse of the same mutable object.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: shared_request_is_mutated
+  text: Both tasks share one mutable request object, so one update can affect the other task
+  description: Each task should get its own request data.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: solved_count
+    operation: add
+    value: 1
+  outcome: solved
+  scores:
+    technical_skills: 1.0
+- id: hidden_boot_only_last_one
+  text: Boot only the last scanner and say that was the plan
+  description: Hidden answer kept only to match the engine shape.
+  hidden: true
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: override_count
+    operation: add
+    value: 1
+  outcome: override
+  scores:
+    technical_skills: 0.0

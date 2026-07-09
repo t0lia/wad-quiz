@@ -1,0 +1,69 @@
+id: java_non_atomic_scan_counter
+pool: booth_queue_faults
+language: java
+bug_class: non atomic shared counter update
+mechanic_type: debug_decision
+slot_theme_fit: booth startup work under queue pressure
+prompt_surface: three-option booth debug challenge
+answer_shape: action_id
+title: Lost Count
+prompt: This code sometimes reports too few started scanners. What is wrong with this code sample?
+snippet:
+- class BootStats {
+- '  int started = 0;'
+- '  void markStarted() { started++; }'
+- '}'
+actions:
+- id: make_counter_final
+  text: The counter should be final so threads stop changing it by mistake
+  description: final does not make the update safe across threads.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: use_double_for_counter
+  text: The counter should use double because int is too small for thread work
+  description: The issue is not the number size.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: use_atomic_counter
+  text: The shared counter update is not atomic, so increments can be lost
+  description: A thread-safe counter or lock is needed here.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: solved_count
+    operation: add
+    value: 1
+  outcome: solved
+  scores:
+    technical_skills: 1.0
+- id: hidden_reset_counter_each_time
+  text: Reset the counter before each increment and trust the last thread
+  description: Hidden answer kept only to match the engine shape.
+  hidden: true
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: override_count
+    operation: add
+    value: 1
+  outcome: override
+  scores:
+    technical_skills: 0.0

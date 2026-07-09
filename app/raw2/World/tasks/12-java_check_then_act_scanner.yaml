@@ -1,0 +1,71 @@
+id: java_check_then_act_scanner
+pool: booth_queue_faults
+language: java
+bug_class: check then act race on shared map
+mechanic_type: debug_decision
+slot_theme_fit: booth startup work under queue pressure
+prompt_surface: three-option booth debug challenge
+answer_shape: action_id
+title: Scanner Added Twice
+prompt: This code can create two scanners for the same booth id under load. What is wrong with this code sample?
+snippet:
+- Scanner getOrCreate(String id) {
+- '  if (!cache.containsKey(id)) {'
+- '    cache.put(id, new Scanner(id));'
+- '  }'
+- '  return cache.get(id);'
+- '}'
+actions:
+- id: use_longer_id
+  text: The booth id should be longer so cache keys do not collide
+  description: Key length is not the issue here.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: check_then_put_race
+  text: The containsKey and put steps are not atomic, so two threads can both create a scanner
+  description: This needs synchronization or an atomic map operation.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: solved_count
+    operation: add
+    value: 1
+  outcome: solved
+  scores:
+    technical_skills: 1.0
+- id: return_null_on_miss
+  text: The method should return null when the id is missing
+  description: Returning null does not fix the race.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: hidden_allow_duplicate_scanners
+  text: Let both scanners exist and use whichever answers first
+  description: Hidden answer kept only to match the engine shape.
+  hidden: true
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: override_count
+    operation: add
+    value: 1
+  outcome: override
+  scores:
+    technical_skills: 0.0

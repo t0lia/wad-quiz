@@ -1,0 +1,68 @@
+id: py_wrong_queue_polled
+pool: booth_queue_faults
+language: python
+bug_class: result read from wrong queue
+mechanic_type: debug_decision
+slot_theme_fit: booth startup work under queue pressure
+prompt_surface: three-option booth debug challenge
+answer_shape: action_id
+title: Polling The Wrong Queue
+prompt: This code waits on the wrong queue, so the booth never sees the scanner result. What is wrong with this code sample?
+snippet:
+- 'def wait_for_result(ready_q, error_q):'
+- '    result = error_q.get()'
+- '    return result'
+actions:
+- id: wrong_queue_used
+  text: The code reads from error_q instead of ready_q, so it waits on the wrong channel
+  description: The result is taken from the wrong queue.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: solved_count
+    operation: add
+    value: 1
+  outcome: solved
+  scores:
+    technical_skills: 1.0
+- id: queue_should_be_tuple
+  text: The queues should be merged into one tuple before reading
+  description: A tuple does not fix the wrong queue read.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: get_should_be_pop
+  text: The code should use pop because get is too slow here
+  description: The method choice is not the main bug.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: hidden_ignore_queue_result
+  text: Ignore the queue and mark the scanner ready anyway
+  description: Hidden answer kept only to match the engine shape.
+  hidden: true
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: override_count
+    operation: add
+    value: 1
+  outcome: override
+  scores:
+    technical_skills: 0.0

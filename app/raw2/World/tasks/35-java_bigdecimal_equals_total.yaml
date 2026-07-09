@@ -1,0 +1,68 @@
+id: java_bigdecimal_equals_total
+pool: finale_checkout_failures
+language: java
+bug_class: BigDecimal equals used for numeric equality
+mechanic_type: debug_decision
+slot_theme_fit: prize desk totals under closing pressure
+prompt_surface: three-option booth debug challenge
+answer_shape: action_id
+title: Same Number, Different Scale
+prompt: This code says two equal totals are different. What is wrong with this code sample?
+snippet:
+- boolean match(BigDecimal a, BigDecimal b) {
+- '  return a.equals(b);'
+- '}'
+actions:
+- id: convert_to_double_first
+  text: Convert both values to double first because BigDecimal is too exact
+  description: That can lose precision and is not the right fix here.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: use_toString_compare
+  text: Compare the text values because numbers are already strings inside
+  description: Text compare keeps the same scale problem.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: bigdecimal_equals_checks_scale
+  text: BigDecimal.equals also checks scale, so equal numeric values can still compare false
+  description: Numeric equality should use compareTo here.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: solved_count
+    operation: add
+    value: 1
+  outcome: solved
+  scores:
+    technical_skills: 1.0
+- id: hidden_round_everything_down
+  text: Round all totals down to whole numbers and call that close enough
+  description: Hidden answer kept only to match the engine shape.
+  hidden: true
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: override_count
+    operation: add
+    value: 1
+  outcome: override
+  scores:
+    technical_skills: 0.0

@@ -1,0 +1,71 @@
+id: java_check_then_remove_queue
+pool: finale_checkout_failures
+language: java
+bug_class: check then remove race on shared queue
+mechanic_type: debug_decision
+slot_theme_fit: prize desk cleanup under closing pressure
+prompt_surface: three-option booth debug challenge
+answer_shape: action_id
+title: Queue Empties Between Steps
+prompt: This code can fail even after it checks that the queue is not empty. What is wrong with this code sample?
+snippet:
+- String nextSlip() {
+- '  if (!slips.isEmpty()) {'
+- '    return slips.remove();'
+- '  }'
+- '  return null;'
+- '}'
+actions:
+- id: remove_should_be_peek
+  text: The method should use peek because remove is too strong here
+  description: The bigger issue is the unsafe check-then-remove pattern.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: check_then_remove_is_racy
+  text: Another thread can empty the queue after the check and before remove runs
+  description: The empty check and remove are not one safe step.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: solved_count
+    operation: add
+    value: 1
+  outcome: solved
+  scores:
+    technical_skills: 1.0
+- id: slips_should_be_stack
+  text: The slips container should be a stack because stacks are safer than queues
+  description: The type change does not fix the race.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: hidden_return_old_slip
+  text: Return the last printed slip if the queue is empty and hope nobody minds
+  description: Hidden answer kept only to match the engine shape.
+  hidden: true
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: override_count
+    operation: add
+    value: 1
+  outcome: override
+  scores:
+    technical_skills: 0.0

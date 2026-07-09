@@ -1,0 +1,69 @@
+id: java_reversed_fee_condition
+pool: finale_checkout_failures
+language: java
+bug_class: reversed condition applies fee to wrong orders
+mechanic_type: debug_decision
+slot_theme_fit: prize desk totals under closing pressure
+prompt_surface: three-option booth debug challenge
+answer_shape: action_id
+title: Fee On The Wrong Orders
+prompt: This code applies the rush fee to the wrong orders. What is wrong with this code sample?
+snippet:
+- int total(boolean rush, int base) {
+- '  if (!rush) return base + 5;'
+- '  return base;'
+- '}'
+actions:
+- id: base_should_be_long
+  text: The base value should be long because fees may grow later
+  description: The bug is not the number size.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: rush_condition_is_reversed
+  text: The condition is reversed, so the fee is added when rush is false
+  description: The branch logic is backwards.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: solved_count
+    operation: add
+    value: 1
+  outcome: solved
+  scores:
+    technical_skills: 1.0
+- id: total_should_be_float
+  text: The total should be float because fees are not whole numbers in spirit
+  description: The bug is in the condition, not the number type.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: hidden_charge_fee_to_all
+  text: Charge the fee to every order and call it fairness
+  description: Hidden answer kept only to match the engine shape.
+  hidden: true
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: override_count
+    operation: add
+    value: 1
+  outcome: override
+  scores:
+    technical_skills: 0.0

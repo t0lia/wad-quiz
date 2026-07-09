@@ -1,46 +1,58 @@
 task_pools:
-  boot_terminal_concurrency:
-    title: Experimental terminal boot under pressure
-    slot_theme: boot-time system initialization under pressure
+  booth_queue_faults:
+    title: Booth queue bugs under pressure
+    slot_theme: fixing the first booth problem while the line keeps growing
     task_ids:
-    - js_start_barrier_missing
-    - py_readiness_gather_missing
+    - java_lock_order_showcase
+    - py_scanner_tasks_not_awaited
     - java_future_join_missing
-    - js_registry_race
-    - java_readiness_flag_premature
-  access_gate_integrity:
-    title: Gate access validation under pressure
-    slot_theme: emergency access checks under operational pressure
+    - java_latch_early_ready
+    - py_timeout_units_mixup
+    - java_non_atomic_scan_counter
+    - java_ready_flag_race
+    - java_check_then_act_scanner
+    - java_executor_shutdown_early
+    - py_shared_default_batch
+    - java_barrier_parties_mismatch
+    - java_reused_mutable_request
+    - py_wrong_queue_polled
+    - py_missing_lock_cache
+    - java_notify_before_state
+  badge_data_traps:
+    title: Badge and stock data bugs
+    slot_theme: checking booth input data before the queue gets restless
     task_ids:
-    - java_access_level_compare
-    - java_waiver_field_alignment
-    - java_badge_case_normalization
-    - js_waiver_scope_array
-    - java_escort_null_fallback
-  drone_profile_payloads:
-    title: Drone profile activation under EVA pressure
-    slot_theme: payload activation for EVA support systems
+    - java_rarity_code_identity
+    - py_payload_key_mismatch
+    - java_nullable_badge_chain
+    - py_truthy_zero_stock
+    - java_wrong_field_from_record
+    - java_equals_possible_null
+    - java_badge_prefix_substring
+    - py_missing_return_after_reject
+    - java_stale_sorted_copy
+    - java_long_equals_id
+    - java_enum_name_mismatch
+    - py_nested_path_wrong_key
+    - java_inclusive_stock_check
+    - java_blank_parse_int
+    - py_mutates_shared_template
+  finale_checkout_failures:
+    title: Final prize desk bugs
+    slot_theme: last-step bugs when the prize desk is almost ready to give the socks away
     task_ids:
-    - js_clamp_boolean_payload
-    - java_shell_field_alignment
-    - java_profile_merge_reset
-    - js_beacon_nested_field
-    - java_mode_suffix_alignment
-  network_route_boundaries:
-    title: Hull route boundary recovery
-    slot_theme: network boundary repair under incident pressure
-    task_ids:
-    - py_farm_prefix_boundary
-    - java_route_scope_boundary
-    - java_gateway_host_route_boundary
-    - py_hull_vlan_prefix_overlap
-    - js_tunnel_prefix_fallback
-  distributor_lock_order:
-    title: Distributor concurrency stabilization
-    slot_theme: lock-order recovery under final-stage load
-    task_ids:
-    - java_lock_order_deadlock
-    - java_emergency_lock_reversal
-    - java_audit_lock_inversion
-    - java_callback_lock_reentry
-    - java_batch_commit_lock_order
+    - java_badge_null_order
+    - java_demo_list_mutation
+    - java_iterator_skip_next
+    - py_none_membership_check
+    - java_bigdecimal_equals_total
+    - java_duplicate_checkout_without_set
+    - py_shallow_copy_line_items
+    - java_stream_count_ignored
+    - py_local_total_only
+    - java_check_then_remove_queue
+    - java_reversed_fee_condition
+    - java_local_copy_not_written_back
+    - py_alias_reserved_and_cart
+    - java_map_put_wrong_key
+    - py_slice_copy_not_saved

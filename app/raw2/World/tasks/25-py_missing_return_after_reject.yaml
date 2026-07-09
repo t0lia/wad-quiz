@@ -1,0 +1,69 @@
+id: py_missing_return_after_reject
+pool: badge_data_traps
+language: python
+bug_class: missing return after rejection path
+mechanic_type: debug_decision
+slot_theme_fit: booth input validation before the queue gets restless
+prompt_surface: three-option booth debug challenge
+answer_shape: action_id
+title: Reject But Keep Going
+prompt: This code rejects bad input but still keeps working with it. What is wrong with this code sample?
+snippet:
+- 'def reserve(item):'
+- '    if item.get("stock") < 0:'
+- '        return "bad stock"'
+- '    process(item)'
+actions:
+- id: negative_check_should_be_zero
+  text: The code should reject zero too because zero is worse than negative stock
+  description: The direct bug is not the comparison value.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: process_should_be_else
+  text: The processing line should be in a clear else path so rejected data does not continue
+  description: The good path should not run after bad input is handled.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: solved_count
+    operation: add
+    value: 1
+  outcome: solved
+  scores:
+    technical_skills: 1.0
+- id: reserve_should_be_async
+  text: The function should be async so the reject path is faster
+  description: Async does not fix the bad control flow.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: hidden_ignore_negative_stock
+  text: Ignore negative stock and hope inventory catches up later
+  description: Hidden answer kept only to match the engine shape.
+  hidden: true
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: override_count
+    operation: add
+    value: 1
+  outcome: override
+  scores:
+    technical_skills: 0.0

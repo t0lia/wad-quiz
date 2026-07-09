@@ -1,0 +1,67 @@
+id: py_nested_path_wrong_key
+pool: badge_data_traps
+language: python
+bug_class: nested payload key mismatch
+mechanic_type: debug_decision
+slot_theme_fit: booth input validation before the queue gets restless
+prompt_surface: three-option booth debug challenge
+answer_shape: action_id
+title: Wrong Key Deep Inside
+prompt: This code fails even though the nested payload has the prize data. What is wrong with this code sample?
+snippet:
+- 'def prize_code(payload):'
+- '    return payload["prize"]["meta"]["rareCode"]'
+actions:
+- id: payload_should_be_flat
+  text: The payload should be flat because nested dicts are too risky
+  description: Flat data is not required to fix a wrong key.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: nested_key_name_is_wrong
+  text: The nested key name is wrong, so the code looks in the right place with the wrong label
+  description: The bug is in the payload field name, not the path depth.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: solved_count
+    operation: add
+    value: 1
+  outcome: solved
+  scores:
+    technical_skills: 1.0
+- id: meta_should_be_list
+  text: The meta field should be a list so rareCode can be found faster
+  description: A list does not fix the wrong key name.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: hidden_guess_key_names
+  text: Try random key names until one works and call that robust
+  description: Hidden answer kept only to match the engine shape.
+  hidden: true
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: override_count
+    operation: add
+    value: 1
+  outcome: override
+  scores:
+    technical_skills: 0.0

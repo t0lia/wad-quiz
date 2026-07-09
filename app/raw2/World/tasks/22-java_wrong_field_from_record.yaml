@@ -1,0 +1,68 @@
+id: java_wrong_field_from_record
+pool: badge_data_traps
+language: java
+bug_class: wrong field used from input record
+mechanic_type: debug_decision
+slot_theme_fit: booth input validation before the queue gets restless
+prompt_surface: three-option booth debug challenge
+answer_shape: action_id
+title: Wrong Field Read
+prompt: This code reads the wrong field from the attendee record. What is wrong with this code sample?
+snippet:
+- boolean canClaim(Attendee a) {
+- '  return a.badgeId().equals(LEGENDARY_CODE);'
+- '}'
+actions:
+- id: wrong_record_field_used
+  text: The code checks badgeId, but it should check the rarity code field instead
+  description: It compares the wrong piece of attendee data.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: solved_count
+    operation: add
+    value: 1
+  outcome: solved
+  scores:
+    technical_skills: 1.0
+- id: badgeid_should_be_int
+  text: The badge id should be an int before it is compared
+  description: The bigger problem is that the wrong field is used.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: legendary_code_should_be_lowercase
+  text: The legendary code should be lowercase for all comparisons
+  description: Case rules do not explain reading the wrong field.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: hidden_compare_name_only
+  text: Ignore the record fields and compare only the attendee name
+  description: Hidden answer kept only to match the engine shape.
+  hidden: true
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: override_count
+    operation: add
+    value: 1
+  outcome: override
+  scores:
+    technical_skills: 0.0

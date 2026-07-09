@@ -1,0 +1,69 @@
+id: py_scanner_tasks_not_awaited
+pool: booth_queue_faults
+language: python
+bug_class: coroutines created but never awaited
+mechanic_type: debug_decision
+slot_theme_fit: async booth scanner startup under queue pressure
+prompt_surface: three-option booth debug challenge
+answer_shape: action_id
+title: Ready Too Early
+prompt: This code reports the booth as ready before the scanners actually finish booting. What is wrong with this code sample?
+snippet:
+- async def warm_up(scanners):
+- '    tasks = [boot(scanner) for scanner in scanners]'
+- '    announce("ready")'
+- '    return tasks'
+actions:
+- id: use_map_instead
+  text: The list should use map so startup happens in the right order
+  description: Changing the list syntax does not wait for the work to finish.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: await_created_coroutines
+  text: The code creates coroutines but never awaits them, so it says ready too early
+  description: The function should wait for the boot tasks before it says ready.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: solved_count
+    operation: add
+    value: 1
+  outcome: solved
+  scores:
+    technical_skills: 1.0
+- id: return_none_only
+  text: Returning the task list is wrong because async functions should only return None
+  description: Async functions can return values. The real bug is the missing await.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: hidden_skip_boot_checks
+  text: Skip scanner boot and mark the booth ready at once
+  description: Hidden answer kept only to match the engine shape.
+  hidden: true
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: override_count
+    operation: add
+    value: 1
+  outcome: override
+  scores:
+    technical_skills: 0.0

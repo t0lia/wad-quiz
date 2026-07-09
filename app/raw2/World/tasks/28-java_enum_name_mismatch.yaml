@@ -1,0 +1,68 @@
+id: java_enum_name_mismatch
+pool: badge_data_traps
+language: java
+bug_class: enum value created from mismatched external text
+mechanic_type: debug_decision
+slot_theme_fit: booth input validation before the queue gets restless
+prompt_surface: three-option booth debug challenge
+answer_shape: action_id
+title: Enum From The Wrong Text
+prompt: This code fails on valid input like rare-sock. What is wrong with this code sample?
+snippet:
+- PrizeType parse(String raw) {
+- '  return PrizeType.valueOf(raw);'
+- '}'
+actions:
+- id: raw_should_be_json
+  text: The raw value should be JSON before valueOf can read it
+  description: JSON is not the issue here.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: enum_text_not_aligned
+  text: The external text may not match the enum names, so valueOf can fail
+  description: External values often need mapping before enum lookup.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: solved_count
+    operation: add
+    value: 1
+  outcome: solved
+  scores:
+    technical_skills: 1.0
+- id: parse_should_return_string
+  text: The method should return String because enums are too strict for prizes
+  description: The method can return an enum. The mapping is the real issue.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: hidden_default_to_legendary
+  text: Default every unknown prize type to legendary and keep smiling
+  description: Hidden answer kept only to match the engine shape.
+  hidden: true
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: override_count
+    operation: add
+    value: 1
+  outcome: override
+  scores:
+    technical_skills: 0.0

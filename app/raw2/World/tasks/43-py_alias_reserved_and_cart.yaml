@@ -1,0 +1,70 @@
+id: py_alias_reserved_and_cart
+pool: finale_checkout_failures
+language: python
+bug_class: two names point to same mutable list
+mechanic_type: debug_decision
+slot_theme_fit: prize desk cleanup under closing pressure
+prompt_surface: three-option booth debug challenge
+answer_shape: action_id
+title: Reserved And Cart Are The Same List
+prompt: This code removes an item from the cart and also loses it from reserved stock. What is wrong with this code sample?
+snippet:
+- 'def release(order):'
+- '    reserved = order["items"]'
+- '    cart = reserved'
+- '    cart.pop()'
+- '    return reserved'
+actions:
+- id: lists_are_aliased
+  text: cart and reserved point to the same list, so one change affects both names
+  description: Both variables reference the same mutable object.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: solved_count
+    operation: add
+    value: 1
+  outcome: solved
+  scores:
+    technical_skills: 1.0
+- id: pop_should_be_remove_zero
+  text: The code should use remove(0) because pop changes too much state
+  description: The main bug is the shared list reference.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: reserved_should_be_tuple
+  text: reserved should be a tuple so carts stay safer by default
+  description: The issue is aliasing, not just the outer type.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: hidden_pop_twice_for_safety
+  text: Pop two items so both lists stay equally wrong
+  description: Hidden answer kept only to match the engine shape.
+  hidden: true
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: override_count
+    operation: add
+    value: 1
+  outcome: override
+  scores:
+    technical_skills: 0.0

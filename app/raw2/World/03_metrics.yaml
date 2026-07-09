@@ -1,138 +1,41 @@
 axes:
-  dedication: how much a player keeps doing the right thing despite pressure, fatigue, and tempting shortcuts.
-  social_capital: how much a player considers teammates, handoffs, operational safety, and the people around the decision.
-  technical_skills: how well a player solves the actual technical problem.
-
-delta_range: [-1.0, 1.0]
+  technical_skills: how well Lucas finds the real bug before the booth app and the queue lose patience.
 
 categories:
   sapphire:
     label: Exceptional
-    meaning: Strong delivery, sound judgment, and low-regret tradeoffs.
+    meaning: Lucas understands the room, the code, and the prize table very fast.
   teal:
     label: Strong
-    meaning: Dependable performance with one narrow blind spot.
+    meaning: Lucas looks very ready and solves problems well.
   green:
     label: Sound
-    meaning: Credible recovery under pressure with visible limits.
+    meaning: Lucas gets good results with only a little chaos.
   amber:
     label: Mixed
-    meaning: Useful instincts, but not yet consistently reliable.
+    meaning: Lucas learns fast, but the socks are not fully impressed.
   slate:
     label: Limited
-    meaning: Early-stage performance that needs support and supervision.
-
-bands:
-  signature_strength:
-    min: 2.5
-    meaning: The player repeatedly demonstrates this trait across the run.
-  reliable_positive:
-    min: 0.75
-    max: 2.49
-    meaning: The trait is visible and generally helpful.
-  mixed:
-    min: -0.74
-    max: 0.74
-    meaning: No strong pattern; behavior depends on context.
-  strained:
-    min: -2.49
-    max: -0.75
-    meaning: The player repeatedly undercuts this trait.
-  eroding:
-    max: -2.5
-    meaning: The player actively damages this trait across the run.
+    meaning: The booth staff now knows Lucas mainly as a warning story.
 
 archetypes:
   - when:
-      dedication: ">= 2.5"
-      social_capital: ">= 2.5"
-      technical_skills: ">= 2.5"
-    archetype: Trusted Stabilizer
+      technical_skills: ">= 3.0"
+    archetype: Sock Oracle
     category: sapphire
-    reading: Alex has shown the rare talent of fixing the problem, calming the humans, and making the whole incident look almost professional.
+    reading: Lucas finds every bug, wins both rare socks, and leaves the booth looking far too calm.
   - when:
-      dedication: ">= 0.75"
-      social_capital: ">= 0.75"
-      technical_skills: ">= 2.5"
-    archetype: Controlled Expert
+      technical_skills: ">= 2.0"
+    archetype: Booth Closer
     category: teal
-    reading: Alex turned out to be the kind of engineer who makes sharp technical calls while the blinking lights politely fail to cause a panic.
+    reading: Lucas solves most of the challenge, earns respect, and leaves with a story he will tell all day.
   - when:
-      dedication: ">= 2.5"
-      social_capital: ">= 0.75"
-      technical_skills: ">= 0.75"
-    archetype: Steady Executor
-    category: teal
-    reading: Alex has shown steady hands, practical judgment, and the suspicious ability to keep a bad night moving in the right direction.
-  - when:
-      dedication: ">= 0.75"
-      social_capital: ">= 2.5"
-      technical_skills: "-0.74..2.49"
-    archetype: Team-First Operator
-    category: teal
-    reading: Alex turned out to be the person who keeps the team together, the trust intact, and the incident from becoming a group hobby.
-  - when:
-      dedication: ">= 0.75"
-      social_capital: ">= 0.75"
-      technical_skills: ">= 0.75"
-    archetype: Balanced Contributor
+      technical_skills: ">= 1.0"
+    archetype: Curious Collector
     category: green
-    reading: Alex has shown the comforting habit of making important things work quietly, which is about as close to glamour as operations usually gets.
-  - when:
-      dedication: ">= 2.5"
-      social_capital: "-0.74..0.74"
-      technical_skills: ">= 0.75"
-    archetype: Relentless Fixer
-    category: green
-    reading: Alex turned out to be wonderfully hard to stop once the fix was in sight, and the next upgrade is letting a few more people into the hero shot.
-  - when:
-      dedication: "-0.74..0.74"
-      social_capital: ">= 0.75"
-      technical_skills: ">= 2.5"
-    archetype: Technical Specialist
-    category: green
-    reading: Alex has shown a fluent command of technical chaos, and the system seems to behave better once it realizes it is being judged.
-  - when:
-      dedication: "-0.74..0.74"
-      social_capital: "-0.74..0.74"
-      technical_skills: ">= 0.75"
-    archetype: Narrow Optimizer
-    category: amber
-    reading: Alex turned out to be very capable in a strong lane, and the next step is widening that lane until it stops looking like a tactical side quest.
-  - when:
-      dedication: ">= 0.75"
-      social_capital: "<= -0.75"
-      technical_skills: ">= 0.75"
-    archetype: Lone Rescuer
-    category: amber
-    reading: Alex has shown a real talent for pulling off the rescue, and the next level is making it feel slightly less like everyone else was dragged behind it.
-  - when:
-      dedication: "<= -0.75"
-      social_capital: ">= 0.75"
-      technical_skills: "-0.74..0.74"
-    archetype: Careful Deferrer
-    category: amber
-    reading: Alex turned out to have good instincts and welcome caution, and the next boost is trusting that caution to move a little faster.
-  - when:
-      dedication: "<= -2.5"
-      technical_skills: "<= -0.75"
-    archetype: Control Breach Risk
-    category: slate
-    reading: Alex has shown that operations can become exciting very quickly, and a little more structure would help keep the excitement in the optional category.
-  - when:
-      social_capital: "<= -2.5"
-    archetype: Trust Erosion Risk
-    category: slate
-    reading: Alex turned out to move fast enough to leave sparks, and the next win is making the people nearby feel as supported as the machinery eventually does.
-  - when:
-      dedication: "<= -0.75"
-      social_capital: "<= -0.75"
-      technical_skills: "<= -0.75"
-    archetype: Unsteady Operator
-    category: slate
-    reading: Alex has shown the opening chapter of a very dramatic growth arc, which is a generous way of saying the sequel should go much better.
+    reading: Lucas gets one good fix, learns the rest the hard way, and still leaves with pride.
   - when:
       default: true
-    archetype: Developing Contributor
+    archetype: Lanyard Wanderer
     category: amber
-    reading: Alex turned out to have real promise, and a few more steady reps should make the strengths louder than the general operational nonsense.
+    reading: Lucas leaves with new respect for booth puzzles, one normal tote bag, and no rare socks.

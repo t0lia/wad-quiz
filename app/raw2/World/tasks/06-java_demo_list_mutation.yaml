@@ -1,0 +1,72 @@
+id: java_demo_list_mutation
+pool: finale_checkout_failures
+language: java
+bug_class: mutating a list during enhanced for iteration
+mechanic_type: debug_decision
+slot_theme_fit: prize desk cleanup under closing pressure
+prompt_surface: three-option booth debug challenge
+answer_shape: action_id
+title: Cleanup Crash
+prompt: This cleanup code crashes while removing demo socks from the prize list. What is wrong with this code sample?
+snippet:
+- void clean(List<String> held) {
+- '    for (String sock : held) {'
+- '        if (sock.endsWith("-demo")) {'
+- '            held.remove(sock);'
+- '        }'
+- '    }'
+- '}'
+actions:
+- id: endswith_is_too_slow
+  text: The suffix check is too slow, so the loop times out
+  description: Speed is not what causes the crash here.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: list_should_be_set
+  text: The list type is wrong because removals only work safely on a Set
+  description: A Set changes the data type but does not explain this loop bug.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: remove_during_enhanced_for
+  text: The code changes the list inside an enhanced for loop, which can throw ConcurrentModificationException
+  description: Removal should use an iterator or a new filtered list.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: solved_count
+    operation: add
+    value: 1
+  outcome: solved
+  scores:
+    technical_skills: 1.0
+- id: hidden_replace_list_on_the_fly
+  text: Replace the list in the middle of the loop and hope nobody sees it
+  description: Hidden answer kept only to match the engine shape.
+  hidden: true
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: override_count
+    operation: add
+    value: 1
+  outcome: override
+  scores:
+    technical_skills: 0.0

@@ -1,0 +1,69 @@
+id: py_local_total_only
+pool: finale_checkout_failures
+language: python
+bug_class: local variable updated but shared total not written back
+mechanic_type: debug_decision
+slot_theme_fit: prize desk totals under closing pressure
+prompt_surface: three-option booth debug challenge
+answer_shape: action_id
+title: Total Changes Only In Memory
+prompt: This code updates a local total but not the real order total. What is wrong with this code sample?
+snippet:
+- 'def add_fee(order):'
+- '    total = order["total"]'
+- '    total += 5'
+- '    return order'
+actions:
+- id: local_total_not_written_back
+  text: The local total changes, but the new value is never written back into order
+  description: The real order data stays unchanged.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: solved_count
+    operation: add
+    value: 1
+  outcome: solved
+  scores:
+    technical_skills: 1.0
+- id: fee_should_be_string
+  text: The fee should be a string because totals are text on receipts
+  description: The bug is the missing write back, not the fee type.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: return_total_only
+  text: The function should return only total so the dict is not confusing
+  description: Returning less data does not fix the missing update.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: hidden_ignore_fee_change
+  text: Ignore the fee and say checkout math is flexible today
+  description: Hidden answer kept only to match the engine shape.
+  hidden: true
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: override_count
+    operation: add
+    value: 1
+  outcome: override
+  scores:
+    technical_skills: 0.0

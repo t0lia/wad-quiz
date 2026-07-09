@@ -1,0 +1,69 @@
+id: java_stream_count_ignored
+pool: finale_checkout_failures
+language: java
+bug_class: stream result ignored and wrong source reused
+mechanic_type: debug_decision
+slot_theme_fit: prize desk totals under closing pressure
+prompt_surface: three-option booth debug challenge
+answer_shape: action_id
+title: Count Computed, Then Ignored
+prompt: This code counts demo items but still checks the full list size. What is wrong with this code sample?
+snippet:
+- boolean tooMany(List<String> items) {
+- '  long demoCount = items.stream().filter(i -> i.endsWith("-demo")).count();'
+- '  return items.size() > 2;'
+- '}'
+actions:
+- id: stream_should_be_parallel
+  text: The stream should be parallel so the count affects the result
+  description: Parallel work does not fix the ignored value.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: count_should_be_int
+  text: The count should be int because long is too large for prizes
+  description: The bug is not the count type.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: computed_count_is_ignored
+  text: The code computes demoCount but then ignores it and checks the wrong thing
+  description: The validation uses items.size instead of the counted value.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: solved_count
+    operation: add
+    value: 1
+  outcome: solved
+  scores:
+    technical_skills: 1.0
+- id: hidden_remove_demo_suffix_first
+  text: Remove the demo suffix from every item and call the count fixed
+  description: Hidden answer kept only to match the engine shape.
+  hidden: true
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: override_count
+    operation: add
+    value: 1
+  outcome: override
+  scores:
+    technical_skills: 0.0

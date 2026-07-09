@@ -1,0 +1,68 @@
+id: java_nullable_badge_chain
+pool: badge_data_traps
+language: java
+bug_class: null dereference in validation chain
+mechanic_type: debug_decision
+slot_theme_fit: booth input validation before the queue gets restless
+prompt_surface: three-option booth debug challenge
+answer_shape: action_id
+title: Null In The Chain
+prompt: This code can throw when badge data is missing. What is wrong with this code sample?
+snippet:
+- boolean canEnter(Badge badge) {
+- '  return badge.getOwner().getTeam().startsWith("db-");'
+- '}'
+actions:
+- id: startswith_should_be_contains
+  text: The code should use contains instead of startsWith for team names
+  description: The main bug is the unsafe chain, not the string method.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: team_check_needs_null_guards
+  text: The code calls methods on nested values without null checks, so missing data can throw
+  description: The badge chain is used without checking that each part exists.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: solved_count
+    operation: add
+    value: 1
+  outcome: solved
+  scores:
+    technical_skills: 1.0
+- id: badge_should_be_static
+  text: The badge object should be static so null values happen less often
+  description: Static data does not fix the null dereference.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: hidden_assume_missing_is_valid
+  text: Treat missing badge fields as valid and move the line faster
+  description: Hidden answer kept only to match the engine shape.
+  hidden: true
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: override_count
+    operation: add
+    value: 1
+  outcome: override
+  scores:
+    technical_skills: 0.0

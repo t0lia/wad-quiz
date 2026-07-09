@@ -1,0 +1,68 @@
+id: java_equals_possible_null
+pool: badge_data_traps
+language: java
+bug_class: equals called on possible null value
+mechanic_type: debug_decision
+slot_theme_fit: booth input validation before the queue gets restless
+prompt_surface: three-option booth debug challenge
+answer_shape: action_id
+title: Equals On Maybe Null
+prompt: This code can throw when the rarity field is missing. What is wrong with this code sample?
+snippet:
+- boolean rare(Item item) {
+- '  return item.getRarity().equals("legendary");'
+- '}'
+actions:
+- id: compare_with_double_equals
+  text: The code should use == because equals is too strict for strings
+  description: This says the opposite of the correct Java rule.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: equals_called_on_possible_null
+  text: The code calls equals on a value that may be null, so it can throw
+  description: Use a null-safe comparison or check for null first.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: solved_count
+    operation: add
+    value: 1
+  outcome: solved
+  scores:
+    technical_skills: 1.0
+- id: make_item_global
+  text: The item should be global so the rarity value does not disappear
+  description: Scope does not fix the null bug.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: hidden_treat_null_as_legendary
+  text: Treat missing rarity as legendary and let the line move on
+  description: Hidden answer kept only to match the engine shape.
+  hidden: true
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: override_count
+    operation: add
+    value: 1
+  outcome: override
+  scores:
+    technical_skills: 0.0

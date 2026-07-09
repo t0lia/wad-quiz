@@ -1,0 +1,69 @@
+id: py_timeout_units_mixup
+pool: booth_queue_faults
+language: python
+bug_class: timeout units mismatch
+mechanic_type: debug_decision
+slot_theme_fit: booth startup work under queue pressure
+prompt_surface: three-option booth debug challenge
+answer_shape: action_id
+title: Timeout In The Wrong Units
+prompt: This retry loop waits far too long before it tries the scanner again. What is wrong with this code sample?
+snippet:
+- 'def wait_for_scanner(client):'
+- '    timeout_ms = 5_000'
+- '    time.sleep(timeout_ms)'
+- '    return client.ping()'
+actions:
+- id: use_asyncio_sleep_only
+  text: The bug is only that this should always use asyncio.sleep
+  description: The bigger problem here is the wrong time unit.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: convert_ms_to_seconds
+  text: The timeout is in milliseconds, but time.sleep expects seconds
+  description: The code sleeps much longer than planned.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: solved_count
+    operation: add
+    value: 1
+  outcome: solved
+  scores:
+    technical_skills: 1.0
+- id: convert_timeout_to_string
+  text: The timeout should be a string so sleep can read it safely
+  description: sleep does not need a string, and that would not fix the unit bug.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: hidden_skip_retry_wait
+  text: Skip the wait and hope the scanner is ready on the next line
+  description: Hidden answer kept only to match the engine shape.
+  hidden: true
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: override_count
+    operation: add
+    value: 1
+  outcome: override
+  scores:
+    technical_skills: 0.0

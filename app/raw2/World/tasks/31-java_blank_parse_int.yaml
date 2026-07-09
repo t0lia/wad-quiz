@@ -1,0 +1,68 @@
+id: java_blank_parse_int
+pool: badge_data_traps
+language: java
+bug_class: blank string parsed as number without guard
+mechanic_type: debug_decision
+slot_theme_fit: booth input validation before the queue gets restless
+prompt_surface: three-option booth debug challenge
+answer_shape: action_id
+title: Empty Number Field
+prompt: This code can fail when the stock field is blank. What is wrong with this code sample?
+snippet:
+- int stock(Map<String, String> row) {
+- '  return Integer.parseInt(row.get("stock"));'
+- '}'
+actions:
+- id: parse_blank_without_check
+  text: The code parses the stock field without checking for blank or missing text first
+  description: Blank text can fail before a number is created.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: solved_count
+    operation: add
+    value: 1
+  outcome: solved
+  scores:
+    technical_skills: 1.0
+- id: stock_should_be_long
+  text: The field should be parsed as long because int is too small for prizes
+  description: Size is not the main bug here.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: row_should_be_jsonnode
+  text: The row should be a JsonNode so parseInt becomes safer
+  description: A new type does not fix missing input checks.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: hidden_default_blank_to_ten
+  text: Turn blank stock into ten and keep the queue moving
+  description: Hidden answer kept only to match the engine shape.
+  hidden: true
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: override_count
+    operation: add
+    value: 1
+  outcome: override
+  scores:
+    technical_skills: 0.0

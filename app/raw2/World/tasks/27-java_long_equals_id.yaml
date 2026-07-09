@@ -1,0 +1,68 @@
+id: java_long_equals_id
+pool: badge_data_traps
+language: java
+bug_class: boxed long compared by reference
+mechanic_type: debug_decision
+slot_theme_fit: booth input validation before the queue gets restless
+prompt_surface: three-option booth debug challenge
+answer_shape: action_id
+title: Boxed Id Trap
+prompt: This code rejects some matching prize ids. What is wrong with this code sample?
+snippet:
+- boolean samePrize(Long left, Long right) {
+- '  return left == right;'
+- '}'
+actions:
+- id: use_primitive_long_only
+  text: The code must use primitive long everywhere because objects cannot be compared
+  description: Objects can be compared, but not like this.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: make_both_ids_static
+  text: Both ids should be static so Java keeps one shared value
+  description: Static does not fix reference comparison.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: boxed_values_compared_by_reference
+  text: The code uses == on boxed Long values, so it compares references instead of value
+  description: Value comparison should use equals or unboxed longs.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: solved_count
+    operation: add
+    value: 1
+  outcome: solved
+  scores:
+    technical_skills: 1.0
+- id: hidden_cast_everything_to_string
+  text: Cast both ids to strings and trust the result more
+  description: Hidden answer kept only to match the engine shape.
+  hidden: true
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: override_count
+    operation: add
+    value: 1
+  outcome: override
+  scores:
+    technical_skills: 0.0

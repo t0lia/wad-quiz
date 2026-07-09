@@ -1,0 +1,69 @@
+id: py_shallow_copy_line_items
+pool: finale_checkout_failures
+language: python
+bug_class: shallow copy shares nested line items
+mechanic_type: debug_decision
+slot_theme_fit: prize desk totals under closing pressure
+prompt_surface: three-option booth debug challenge
+answer_shape: action_id
+title: Copy That Still Shares
+prompt: This code changes the original order when it edits the copy. What is wrong with this code sample?
+snippet:
+- 'def clone_order(order):'
+- '    copied = dict(order)'
+- '    copied["items"][0]["qty"] = 2'
+- '    return copied'
+actions:
+- id: dict_copy_is_shallow
+  text: dict(order) makes only a shallow copy, so nested items are still shared
+  description: The inner list and dict values still point to the same objects.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: solved_count
+    operation: add
+    value: 1
+  outcome: solved
+  scores:
+    technical_skills: 1.0
+- id: copied_should_be_tuple
+  text: The copy should be a tuple so nested values cannot change
+  description: The issue is not the outer type alone.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: qty_should_be_string
+  text: The quantity should be a string before it is changed
+  description: The problem is the shared nested object.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: hidden_edit_original_on_purpose
+  text: Edit the original order on purpose and call the copy a mirror
+  description: Hidden answer kept only to match the engine shape.
+  hidden: true
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: override_count
+    operation: add
+    value: 1
+  outcome: override
+  scores:
+    technical_skills: 0.0

@@ -1,0 +1,70 @@
+id: java_ready_flag_race
+pool: booth_queue_faults
+language: java
+bug_class: readiness flag set before real initialization
+mechanic_type: debug_decision
+slot_theme_fit: booth startup work under queue pressure
+prompt_surface: three-option booth debug challenge
+answer_shape: action_id
+title: Ready Before Boot
+prompt: This code marks the booth ready before the scanner object exists. What is wrong with this code sample?
+snippet:
+- class BoothState {
+- '  boolean ready;'
+- '  Scanner scanner;'
+- '  void init() { ready = true; scanner = connect(); }'
+- '}'
+actions:
+- id: ready_set_too_early
+  text: The code sets ready before scanner is initialized, so other code can read a false state
+  description: The flag should be set only after setup is complete.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: solved_count
+    operation: add
+    value: 1
+  outcome: solved
+  scores:
+    technical_skills: 1.0
+- id: scanner_should_be_public
+  text: The scanner field should be public so the state is visible everywhere
+  description: Visibility does not fix the wrong order.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: rename_ready_flag
+  text: The bug is only that the flag name should be active instead of ready
+  description: A better name does not fix the race.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: hidden_ignore_ready_flag
+  text: Stop checking the flag and trust that init will finish in time
+  description: Hidden answer kept only to match the engine shape.
+  hidden: true
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: override_count
+    operation: add
+    value: 1
+  outcome: override
+  scores:
+    technical_skills: 0.0

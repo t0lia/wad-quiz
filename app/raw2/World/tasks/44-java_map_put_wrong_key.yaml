@@ -1,0 +1,69 @@
+id: java_map_put_wrong_key
+pool: finale_checkout_failures
+language: java
+bug_class: data written back under wrong key
+mechanic_type: debug_decision
+slot_theme_fit: prize desk cleanup under closing pressure
+prompt_surface: three-option booth debug challenge
+answer_shape: action_id
+title: Written Back Under Another Key
+prompt: This code updates the total but stores it under the wrong key. What is wrong with this code sample?
+snippet:
+- void update(Map<String, Integer> row) {
+- '  int total = row.get("total") + 5;'
+- '  row.put("subtotal", total);'
+- '}'
+actions:
+- id: row_should_be_record
+  text: The row should be a record because maps are too loose for totals
+  description: The real issue is the wrong output key.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: put_should_use_total_key
+  text: The new value is written back under subtotal, so the real total field is never updated
+  description: The calculation is stored under the wrong key.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: solved_count
+    operation: add
+    value: 1
+  outcome: solved
+  scores:
+    technical_skills: 1.0
+- id: total_should_be_long
+  text: The total should be long so the map key starts working
+  description: Number size does not change the wrong key name.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: hidden_delete_old_total
+  text: Delete the old total and trust subtotal to take over
+  description: Hidden answer kept only to match the engine shape.
+  hidden: true
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: override_count
+    operation: add
+    value: 1
+  outcome: override
+  scores:
+    technical_skills: 0.0

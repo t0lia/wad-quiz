@@ -1,0 +1,71 @@
+id: java_latch_early_ready
+pool: booth_queue_faults
+language: java
+bug_class: count down latch not awaited
+mechanic_type: debug_decision
+slot_theme_fit: booth startup work under queue pressure
+prompt_surface: three-option booth debug challenge
+answer_shape: action_id
+title: Latch Ignored
+prompt: This code says the booth is ready before all startup work reaches the latch. What is wrong with this code sample?
+snippet:
+- void prepare() throws Exception {
+- '  CountDownLatch latch = new CountDownLatch(2);'
+- '  pool.submit(() -> { loadBadgeReader(); latch.countDown(); });'
+- '  pool.submit(() -> { loadPrinter(); latch.countDown(); });'
+- '  screen.showReady();'
+- '}'
+actions:
+- id: missing_latch_await
+  text: The code never waits on the latch, so it can show ready too early
+  description: Startup should wait until both tasks count down.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: solved_count
+    operation: add
+    value: 1
+  outcome: solved
+  scores:
+    technical_skills: 1.0
+- id: use_atomicinteger_instead
+  text: The latch should be replaced with AtomicInteger because latches are too slow
+  description: The bug is not the latch type but the missing wait.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: move_show_ready_to_constructor
+  text: The ready message should be moved into the class constructor
+  description: A constructor does not solve the missing startup wait.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: hidden_skip_printer_boot
+  text: Skip printer startup and show ready now
+  description: Hidden answer kept only to match the engine shape.
+  hidden: true
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: override_count
+    operation: add
+    value: 1
+  outcome: override
+  scores:
+    technical_skills: 0.0

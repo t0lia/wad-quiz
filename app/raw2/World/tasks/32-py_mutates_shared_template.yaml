@@ -1,0 +1,70 @@
+id: py_mutates_shared_template
+pool: badge_data_traps
+language: python
+bug_class: shared template dict mutated across requests
+mechanic_type: debug_decision
+slot_theme_fit: booth input validation before the queue gets restless
+prompt_surface: three-option booth debug challenge
+answer_shape: action_id
+title: Template Keeps Old Data
+prompt: This code leaks data from one attendee into the next payload. What is wrong with this code sample?
+snippet:
+- 'TEMPLATE = {"tier": "normal"}'
+- 'def build(name):'
+- '    payload = TEMPLATE'
+- '    payload["name"] = name'
+- '    return payload'
+actions:
+- id: name_should_be_tuple
+  text: The name should be a tuple so the template stays clean
+  description: The real issue is the shared dict object.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: build_should_be_classmethod
+  text: The function should be a classmethod so template updates are safer
+  description: Method style does not fix shared mutation.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: incorrect_count
+    operation: add
+    value: 1
+  outcome: incorrect
+  scores:
+    technical_skills: 0.0
+- id: template_is_mutated_directly
+  text: The code reuses and mutates one shared template dict, so old data leaks into later payloads
+  description: A copy should be made before changing request data.
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: solved_count
+    operation: add
+    value: 1
+  outcome: solved
+  scores:
+    technical_skills: 1.0
+- id: hidden_clear_name_after_return
+  text: Delete the name later and hope nobody notices the leak
+  description: Hidden answer kept only to match the engine shape.
+  hidden: true
+  flag_modifications:
+  - flag: completed_tasks
+    operation: add
+    value: 1
+  - flag: override_count
+    operation: add
+    value: 1
+  outcome: override
+  scores:
+    technical_skills: 0.0
