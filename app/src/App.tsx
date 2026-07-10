@@ -46,10 +46,6 @@ function ContinueDialog({ onContinue, onStartNew }: { onContinue: () => void; on
   return (
     <div className="dialog-overlay">
       <div className="dialog-modal">
-        <div className="dialog-media">
-          {/* use Vite base URL so the image works whether app is hosted at root or under a sub-path */}
-          <img src={`${import.meta.env.BASE_URL}locations/exterior_hull.webp`} alt="background" />
-        </div>
         <div className="dialog-content">
           <h2 className="dialog-title">Welcome back!</h2>
           <p className="dialog-message">You have a saved progress. Would you like to continue or start from the beginning?</p>
