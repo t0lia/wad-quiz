@@ -135,7 +135,7 @@ function MachineApp({ snapshot }: { snapshot: unknown }) {
           {formatEndingProfileLine(endingProfile)}
         </div>
         <img
-          src={`${import.meta.env.BASE_URL}show-me-on-the-booth.jpg?v=4`}
+          src={`${import.meta.env.BASE_URL}show-me-on-the-booth.jpg?v=5`}
           alt="Show me on the booth"
           className="ending-image"
         />
