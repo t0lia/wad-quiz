@@ -22,30 +22,27 @@ stages:
     override: task_3_last_chance
 - id: task_3_perfect
   next_by_outcome:
-    incorrect: ending_110
-    solved: ending_111
-    override: ending_110
+    incorrect: final_choice
+    solved: final_choice
+    override: final_choice
 - id: task_3_split_from_hot
   next_by_outcome:
-    incorrect: ending_100
-    solved: ending_101
-    override: ending_100
+    incorrect: final_choice
+    solved: final_choice
+    override: final_choice
 - id: task_3_split_from_recovery
   next_by_outcome:
-    incorrect: ending_010
-    solved: ending_011
-    override: ending_010
+    incorrect: final_choice
+    solved: final_choice
+    override: final_choice
 - id: task_3_last_chance
   next_by_outcome:
-    incorrect: ending_000
-    solved: ending_001
-    override: ending_000
+    incorrect: final_choice
+    solved: final_choice
+    override: final_choice
+- id: final_choice
+  next_by_action:
+    keep: the_end
+    sell: the_end
 terminal_stages:
-- ending_111
-- ending_110
-- ending_101
-- ending_100
-- ending_011
-- ending_010
-- ending_001
-- ending_000
+- the_end

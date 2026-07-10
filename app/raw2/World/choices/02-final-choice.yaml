@@ -1,0 +1,25 @@
+id: final_choice
+kind: branch_choice
+title: The Final Choice
+prompt: |
+  Lucas faces the last decision of the run. Whatever he picks, the show ends
+  here.
+actions:
+- id: keep
+  text: I will keep the socks for the future
+  description: Lucas keeps the rare socks. The booth calls it a collector move.
+  conclusion: Lucas nods and tucks the socks into his laptop bag. The host calls it a future collector's item. Lucas calls it his.
+  flag_modifications: []
+  scores:
+    technical_skills: 0.0
+    dedication: 0.0
+    social_capital: 0.0
+- id: sell
+  text: Sell the socks and become a millionaire
+  description: Lucas trades the socks for booth cash and a backstage pass.
+  conclusion: Lucas laughs, signs a small piece of paper, and walks off with the booth crew toward a side door marked VIP. The line never sees him again.
+  flag_modifications: []
+  scores:
+    technical_skills: 0.0
+    dedication: 0.0
+    social_capital: 0.0

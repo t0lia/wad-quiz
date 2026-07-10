@@ -132,3 +132,22 @@ stages:
   title: Tote Bag Ending
   image: intro_booth.webp
   text: Lucas misses the full challenge and gets a normal tote bag and stickers. He also learns that rare socks are protected by real bugs.
+- id: final_choice
+  stage_type: choice
+  title: The Show
+  image: intro_booth.webp
+  location_id: conference_hall
+  intro_narrative: |
+    The DB Booth crew asks Lucas to step in front of a small camera. A host with a headset and a too-bright smile starts the interview.
+
+    Host: "So — three questions, three debug challenges, and now you are holding rare socks in a congress full of engineers. How does that feel?"
+
+    Lucas: *smiles carefully* "Honestly? Like passing a code review I did not expect to pass."
+
+    Host: "Final question, and this is the real one. What will you do with the socks?"
+  choice_id: final_choice
+- id: the_end
+  stage_type: conclusion
+  title: The End
+  image: intro_booth.webp
+  text: The booth lights dim, the host wraps the segment, and Lucas walks back into the crowd with his socks, his story, and a small sticker that says "DB Booth MVP".
