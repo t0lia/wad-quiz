@@ -3,6 +3,7 @@ import type { Snapshot } from 'xstate'
 import { useMachine } from '@xstate/react'
 import { hydroMachine } from './machine1'
 import { sceneGroupId } from './machine/sceneGroup'
+import { reportProgress } from './progress'
 import ChallengeScene from './scenes/ChallengeScene'
 import ProgressBar from './components/ProgressBar'
 import { formatEndingProfileLine, resolveEndingProfile, categoryBackground } from './storyLogic'
@@ -125,6 +126,10 @@ function MachineApp({ snapshot }: { snapshot: unknown }) {
     localStorage.removeItem(STORAGE_KEY)
     location.reload()
   }
+
+  useEffect(() => {
+    void reportProgress(stateId)
+  }, [stateId])
 
   // ── Final (ending) states ──────────────────────────────────────────────────
   if (state.status === 'done') {
